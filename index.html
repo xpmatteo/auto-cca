@@ -10,51 +10,8 @@
         <!-- Hexagons will be inserted here -->
     </div>
 
-    <script>
-      // Constants for the hexagon dimensions
-      const hexWidth = 50;
-      const hexHeight = Math.sqrt(3)/2 * hexWidth;  // for pointy top hexagons
-      
-      // Canvas setup
-      const canvas = document.createElement('canvas');
-      document.body.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
-
-      // Set canvas dimensions
-      canvas.width = 1800; 
-      canvas.height = 1200;
-      
-      function drawCircle(x, y, radius) {
-          ctx.beginPath();
-          ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-          ctx.fillStyle = 'red';
-          ctx.fill();
-          ctx.closePath();
-      }
-      
-      function hexToPixel(hex, size) {
-          const x = size * (Math.sqrt(3) * hex.x + Math.sqrt(3)/2 * hex.z);
-          const y = size * (3./2 * hex.z) - size;
-          return { x: x, y: y };
-      }
-      
-
-      let img = new Image();
-      img.onload = draw;
-      img.src = 'images/cca_map_hq.jpg';      
-      function draw() {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        let hexCoordinate = { x: 0, y: 0, z: 0 }; // Your 3D hex coordinates
-        let size = 50; // Size of hexagon
-
-        let pixelCoordinate = hexToPixel(hexCoordinate, size);
-        console.log(pixelCoordinate)
-
-        drawCircle(pixelCoordinate.x, pixelCoordinate.y, 5); // 5 is the radius of the circle    
-        drawCircle(10, 10, 5); // 5 is the radius of the circle    
-      }
-      
-    </script>
+    <script src="src/hexlib.js"></script>
+    <script src="src/graphics.js"></script>
+    <script src="src/main.js"></script>
 </body>
 </html>
