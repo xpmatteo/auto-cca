@@ -64,6 +64,32 @@ function hex_to_pixel(layout, hex) {
     return new Point(x + layout.origin.x, y + layout.origin.y);
 }
 
+function pixel_to_hex(layout, p) {
+    const M = layout.orientation;
+    let pt = new Point((p.x - layout.origin.x) / layout.size.x, 
+                        (p.y - layout.origin.y) / layout.size.y);
+    let q = M.b0 * pt.x + M.b1 * pt.y;
+    let r = M.b2 * pt.x + M.b3 * pt.y;
+    return hex_round(q, r, -q - r);
+}
+
+function hex_round(fracq, fracr, fracs) {
+    let q = int(round(fracq));
+    let r = int(round(fracr));
+    let s = int(round(fracs));
+    let q_diff = abs(q - fracq);
+    let r_diff = abs(r - fracr);
+    let s_diff = abs(s - fracs);
+    if (q_diff > r_diff && q_diff > s_diff) {
+        q = -r - s;
+    } else if (r_diff > s_diff) {
+        r = -q - s;
+    } else {
+        s = -q - r;
+    }
+    return new Hex(q, r, s);
+}
+
 const sqrt = Math.sqrt;
 
 const layout_pointy
@@ -71,6 +97,7 @@ const layout_pointy
                 sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0,
                 0.5);
 
+assertEquals(0, 1, "next: print pixel_to_hex for mouse click");
 
 const test_layout = new Layout(layout_pointy, new Point(50, 50), new Point(100, 100));
 assertDeepEquals(layout_pointy, test_layout.orientation);
