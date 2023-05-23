@@ -28,7 +28,6 @@ function assertDeepEquals(expected, actual, message = "Assertion failed") {
 
 class Orientation {
     // start_angle is in multiples of 60°
-    f0; f1; f2; f3; b0; b1; b2; b3; start_angle;
     constructor(f0_, f1_, f2_, f3_, b0_, b1_, b2_, b3_, start_angle_) {
         this.f0 = f0_; 
         this.f1 = f1_; 
@@ -50,8 +49,7 @@ class Point {
     }
 }
 
-class Layout {
-    orientation; size; origin;
+class Layout {    
     constructor(orientation, size, origin) {
         this.orientation = orientation;
         this.size = size;
@@ -77,4 +75,4 @@ const layout_pointy
 const test_layout = new Layout(layout_pointy, new Point(50, 50), new Point(100, 100));
 assertDeepEquals(layout_pointy, test_layout.orientation);
 assertDeepEquals(hex_to_pixel(test_layout, new Hex(0, 0, 0)), new Point(100, 100));
-// assertEquals(0, new Hex(1, -1, 0).s());
+assertEquals(0, new Hex(1, -1, 0).s());
