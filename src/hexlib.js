@@ -64,12 +64,12 @@ function pixel_to_hex(layout, p) {
 }
 
 function hex_round(fracq, fracr, fracs) {
-    let q = int(round(fracq));
-    let r = int(round(fracr));
-    let s = int(round(fracs));
-    let q_diff = abs(q - fracq);
-    let r_diff = abs(r - fracr);
-    let s_diff = abs(s - fracs);
+    let q = Math.round(fracq);
+    let r = Math.round(fracr);
+    let s = Math.round(fracs);
+    let q_diff = Math.abs(q - fracq);
+    let r_diff = Math.abs(r - fracr);
+    let s_diff = Math.abs(s - fracs);
     if (q_diff > r_diff && q_diff > s_diff) {
         q = -r - s;
     } else if (r_diff > s_diff) {
@@ -100,8 +100,6 @@ function assertDeepEquals(expected, actual, message = "Assertion failed") {
     }
 }
 
-                
-assertEquals(0, 1, "next: print pixel_to_hex for mouse click");
 
 const test_layout = new Layout(layout_pointy, new Point(50, 60), new Point(10, 100));
 assertDeepEquals(layout_pointy, test_layout.orientation);
