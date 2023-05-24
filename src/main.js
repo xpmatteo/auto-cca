@@ -23,7 +23,7 @@ function even(n) {
 }
 
 const MAP = {
-    "foreach_hex": function (f) {
+    foreach_hex: function (f) {
         for (let r=0; r<=8; r++) {
             let col_start = -Math.trunc(r/2);
             let num_cols = even(r) ? 13 : 12;
@@ -33,6 +33,15 @@ const MAP = {
             }
         }
     }
+}
+
+function draw_unit(hex, unit) {
+    let pixelCoordinate = hex_to_pixel(layout, hex);
+    let img = new Image();
+    img.src = `images/units/${unit}.png`;      
+    img.onload = function () {
+        ctx.drawImage(img, pixelCoordinate.x-30, pixelCoordinate.y-30, 60, 60);
+    };
 }
 
 function draw() {
@@ -51,6 +60,7 @@ function draw() {
     }
     // MAP.foreach_hex(draw_circle_in_center);
     MAP.foreach_hex(draw_coordinates);
+    draw_unit(new Hex(0, 0), 'rom_inf_hv');
 }
 
 // track mouse movement
