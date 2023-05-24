@@ -35,33 +35,47 @@ const MAP = {
     }
 }
 
-function draw_unit(hex, unit) {
+function draw_unit(hex, unit, size) {
     let pixelCoordinate = hex_to_pixel(layout, hex);
-    let img = new Image();
+    let img = new Image();    
     img.src = `images/units/${unit}.png`;      
     img.onload = function () {
-        ctx.drawImage(img, pixelCoordinate.x-30, pixelCoordinate.y-30, 60, 60);
+        ctx.drawImage(img, pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);
+        ctx.font = "16pt Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("4", pixelCoordinate.x+18, pixelCoordinate.y+size.y/2-10);
+
+        // surround bitmap with a black border
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 5;
+        ctx.strokeRect(pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);        
     };
 }
 
 function draw() {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    function draw_circle_in_center(hex) {
+    function draw_circle_in_top_vertex(hex) {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        drawCircle(ctx, pixelCoordinate.x, pixelCoordinate.y, 5);
+        drawCircle(ctx, pixelCoordinate.x, pixelCoordinate.y-hexHeight, 5);
     }
 
-    function draw_coordinates(hex) {
         ctx.font = "12pt Arial";
         ctx.fillStyle = "black";
         let pixelCoordinate = hex_to_pixel(layout, hex);
         ctx.fillText(`${hex.q}, ${hex.r}`, pixelCoordinate.x-12, pixelCoordinate.y-20);        
     }
-    // MAP.foreach_hex(draw_circle_in_center);
+    MAP.foreach_hex(draw_circle_in_top_vertex);
     MAP.foreach_hex(draw_coordinates);
-    draw_unit(new Hex(0, 0), 'rom_inf_hv');
+    draw_unit(new Hex(0, 0), 'rom_inf_hv', new Point(90, 90));
 }
+
+// execute after a delay
+canvas.addEventListener('click', function (event) {
+    console.log('click');
+    let u = document.getElementById('the-unit');
+    u.style.transform = "translateX(100px)";
+});
 
 // track mouse movement
 const info_box = document.getElementById('info');
