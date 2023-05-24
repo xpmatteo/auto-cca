@@ -46,11 +46,14 @@ function draw_unit(hex, unit, size) {
         ctx.fillText("4", pixelCoordinate.x+18, pixelCoordinate.y+size.y/2-10);
 
         // surround bitmap with a black border
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 5;
-        ctx.strokeRect(pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);        
+        // ctx.strokeStyle = 'black';
+        // ctx.lineWidth = 5;
+        // ctx.strokeRect(pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);        
     };
+    return img;
 }
+
+let unit;
 
 function draw() {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -60,6 +63,7 @@ function draw() {
         drawCircle(ctx, pixelCoordinate.x, pixelCoordinate.y-hexHeight, 5);
     }
 
+    function draw_coordinates(hex) {
         ctx.font = "12pt Arial";
         ctx.fillStyle = "black";
         let pixelCoordinate = hex_to_pixel(layout, hex);
@@ -67,14 +71,16 @@ function draw() {
     }
     MAP.foreach_hex(draw_circle_in_top_vertex);
     MAP.foreach_hex(draw_coordinates);
-    draw_unit(new Hex(0, 0), 'rom_inf_hv', new Point(90, 90));
+    unit = draw_unit(new Hex(0, 0), 'rom_inf_hv', new Point(90, 90));
 }
 
 // execute after a delay
 canvas.addEventListener('click', function (event) {
     console.log('click');
-    let u = document.getElementById('the-unit');
-    u.style.transform = "translateX(100px)";
+    unit.style.transform = "translateX(100px)";
+    window.requestAnimationFrame(function () {
+        unit.style.display = "none";
+    });
 });
 
 // track mouse movement
