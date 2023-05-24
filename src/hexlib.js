@@ -3,28 +3,18 @@
 // thanks https://www.redblobgames.com/grids/hexagons/#coordinates
 
 class Hex {
-    constructor(q, r, s) {
+    constructor(q, r, s=undefined) {
+        if (s === undefined) {
+            s = -q - r;
+        }
         assertEquals(0, q + r + s, "q + r + s must be 0");
         this.q = q;
         this.r = r;
     }
 
-    q() { return this.q }
-    r() { return this.r }
-    s() { return - this.q - this.r }
+    get s() { return - this.q - this.r }
 };
 
-function assertEquals(expected, actual, message = "Assertion failed") {
-    if (expected != actual) {
-        throw new Error(message + ": expected " + expected + ", got " + actual);
-    }
-}
-
-function assertDeepEquals(expected, actual, message = "Assertion failed") {
-    if (JSON.stringify(expected) != JSON.stringify(actual)) {
-        throw new Error(message + ": expected " + expected + ", got " + actual);
-    }
-}
 
 class Orientation {
     // start_angle is in multiples of 60°
@@ -97,9 +87,24 @@ const layout_pointy
                 sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0,
                 0.5);
 
+
+function assertEquals(expected, actual, message = "Assertion failed") {
+    if (expected != actual) {
+        throw new Error(message + ": expected " + expected + ", got " + actual);
+    }
+}
+
+function assertDeepEquals(expected, actual, message = "Assertion failed") {
+    if (JSON.stringify(expected) != JSON.stringify(actual)) {
+        throw new Error(message + ": expected " + expected + ", got " + actual);
+    }
+}
+
+                
 assertEquals(0, 1, "next: print pixel_to_hex for mouse click");
 
-const test_layout = new Layout(layout_pointy, new Point(50, 50), new Point(100, 100));
+const test_layout = new Layout(layout_pointy, new Point(50, 60), new Point(10, 100));
 assertDeepEquals(layout_pointy, test_layout.orientation);
-assertDeepEquals(hex_to_pixel(test_layout, new Hex(0, 0, 0)), new Point(100, 100));
-assertEquals(0, new Hex(1, -1, 0).s());
+assertDeepEquals(hex_to_pixel(test_layout, new Hex(0, 0, 0)), new Point(10, 100));
+assertEquals(  0, new Hex(1,  -1, 0).s);
+assertEquals(-30, new Hex(10, 20)   .s);
