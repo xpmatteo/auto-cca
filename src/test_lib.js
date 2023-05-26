@@ -3,13 +3,16 @@
 
 'use strict';
 
-export function assert(isTrue, message='Assertion failed') {
+export function assertTrue(isTrue, message='Assertion failed') {
     if (!isTrue) {
         throw new Error(message);
     }
 }
 
-export function assert_equals(expected, actual, message='Assertion failed') {
+export function assertEquals(expected, actual, message=undefined) {
+    if (message === undefined) {
+        message = `Expected ${expected} but got ${actual}`;
+    }
     if (expected !== actual) {
         throw new Error(message);
     }
