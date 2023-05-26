@@ -3,25 +3,25 @@
 
 'use strict';
 
-function assert(isTrue, message='Assertion failed') {
+export function assert(isTrue, message='Assertion failed') {
     if (!isTrue) {
         throw new Error(message);
     }
 }
 
-function assert_equals(expected, actual, message='Assertion failed') {
+export function assert_equals(expected, actual, message='Assertion failed') {
     if (expected !== actual) {
         throw new Error(message);
     }
 }
 
-function assert_deep_equals(expected, actual, message='Assertion failed') {
+export function assert_deep_equals(expected, actual, message='Assertion failed') {
     if (JSON.stringify(expected) !== JSON.stringify(actual)) {
         throw new Error(message);
     }
 }
 
-function it(desc, fn) {
+export function it(desc, fn) {
     try {
         fn();
         console.log('\x1b[32m%s\x1b[0m', '\u2714 ' + desc);
@@ -32,4 +32,4 @@ function it(desc, fn) {
     }
 }
 
-const test = it;
+export const test = it;

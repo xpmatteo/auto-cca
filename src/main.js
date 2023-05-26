@@ -1,5 +1,9 @@
 "use strict";
 
+import { Hex, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
+import { load_all_images, draw_unit, draw_circle } from "./graphics.js";
+
+
 // Constants for the hexagon dimensions
 const hexWidth = 76.4;
 const hexHeight = 77.4;
@@ -14,9 +18,14 @@ const ctx = canvas.getContext('2d');
 canvas.width = 1800; 
 canvas.height = 1200;
 
-let img = new Image();
-img.src = 'images/cca_map_hq.jpg';      
-img.onload = draw;
+let images = [
+    'images/cca_map_hq.jpg',
+    'images/units/rom_inf_hv.png',
+    'images/units/rom_inf_lt.png',
+    'images/units/rom_inf_md.png',
+];
+
+load_all_images(images, draw);
 
 function even(n) {
     return n % 2 === 0;
@@ -33,34 +42,15 @@ const MAP = {
             }
         }
     }
-}
+};
 
-function draw_unit(hex, unit, size) {
-    let pixelCoordinate = hex_to_pixel(layout, hex);
-    let img = new Image();    
-    img.src = `images/units/${unit}.png`;      
-    img.onload = function () {
-        ctx.drawImage(img, pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);
-        ctx.font = "16pt Arial";
-        ctx.fillStyle = "black";
-        ctx.fillText("4", pixelCoordinate.x+18, pixelCoordinate.y+size.y/2-10);
-
-        // surround bitmap with a black border
-        // ctx.strokeStyle = 'black';
-        // ctx.lineWidth = 5;
-        // ctx.strokeRect(pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);        
-    };
-    return img;
-}
-
-let unit;
-
-function draw() {
+function draw(images) {
+    let img = images['images/cca_map_hq.jpg'];
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
     function draw_circle_in_top_vertex(hex) {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        drawCircle(ctx, pixelCoordinate.x, pixelCoordinate.y-hexHeight, 5);
+        draw_circle(ctx, pixelCoordinate.x, pixelCoordinate.y-hexHeight, 5);
     }
 
     function draw_coordinates(hex) {
@@ -71,16 +61,13 @@ function draw() {
     }
     MAP.foreach_hex(draw_circle_in_top_vertex);
     MAP.foreach_hex(draw_coordinates);
-    unit = draw_unit(new Hex(0, 0), 'rom_inf_hv', new Point(90, 90));
+    let pixelCoordinate = hex_to_pixel(layout, new Hex(6, 0));
+    draw_unit(ctx, pixelCoordinate, 'rom_inf_hv', new Point(90, 90));
 }
 
-// execute after a delay
+// track mouse clicks
 canvas.addEventListener('click', function (event) {
     console.log('click');
-    unit.style.transform = "translateX(100px)";
-    window.requestAnimationFrame(function () {
-        unit.style.display = "none";
-    });
 });
 
 // track mouse movement

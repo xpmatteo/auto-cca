@@ -2,7 +2,7 @@
 
 // thanks https://www.redblobgames.com/grids/hexagons/#coordinates
 
-class Hex {
+export class Hex {
     constructor(q, r, s=undefined) {
         if (s === undefined) {
             s = -q - r;
@@ -31,7 +31,7 @@ class Orientation {
     }
 };
 
-class Point {
+export class Point {
     x; y;
     constructor(x, y) {
         this.x = x;
@@ -39,7 +39,7 @@ class Point {
     }
 }
 
-class Layout {    
+export class Layout {    
     constructor(orientation, size, origin) {
         this.orientation = orientation;
         this.size = size;
@@ -47,14 +47,14 @@ class Layout {
     }
 }
 
-function hex_to_pixel(layout, hex) {
+export function hex_to_pixel(layout, hex) {
     let M = layout.orientation;
     let x = (M.f0 * hex.q + M.f1 * hex.r) * layout.size.x;
     let y = (M.f2 * hex.q + M.f3 * hex.r) * layout.size.y;
     return new Point(x + layout.origin.x, y + layout.origin.y);
 }
 
-function pixel_to_hex(layout, p) {
+export function pixel_to_hex(layout, p) {
     const M = layout.orientation;
     let pt = new Point((p.x - layout.origin.x) / layout.size.x, 
                         (p.y - layout.origin.y) / layout.size.y);
@@ -82,7 +82,7 @@ function hex_round(fracq, fracr, fracs) {
 
 const sqrt = Math.sqrt;
 
-const layout_pointy
+export const layout_pointy
   = new Orientation(sqrt(3.0), sqrt(3.0) / 2.0, 0.0, 3.0 / 2.0,
                 sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0,
                 0.5);
