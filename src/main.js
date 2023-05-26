@@ -63,6 +63,13 @@ function draw(images) {
     MAP.foreach_hex(draw_coordinates);
     let pixelCoordinate = hex_to_pixel(layout, new Hex(6, 0));
     draw_unit(ctx, pixelCoordinate, 'rom_inf_hv', new Point(90, 90));
+
+    resizeCanvas();
+}
+
+// scale canvas to fit window
+function resizeCanvas() {
+    canvas.style.height = (window.innerHeight - 100) + 'px' ;
 }
 
 // track mouse clicks
