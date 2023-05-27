@@ -10,7 +10,7 @@ export class Game {
     }
 
     click(hex) {
-        this.units[0].isSelected = !this.units[0].isSelected;
+        this.unitAt(hex).toggleSelected();
     }
 
     foreachUnit(f) {
@@ -33,6 +33,10 @@ export class Side {
 
 export class Unit {
     #isSelected = false;
+
+    toggleSelected() {
+        this.#isSelected = !this.#isSelected;
+    }
 
     get imageName() {
         return '';

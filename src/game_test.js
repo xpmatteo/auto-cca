@@ -19,23 +19,25 @@ test('add units', function () {
 });
 
 
-xtest('click and select unit', function () {
+test('click and select unit', function () {
     let game = new Game();
-    game.addUnit(new Hex(0, 0), new RomanHeavyInfantry());
-    assertFalse(game.units[0].isSelected, "should not be selected at start");
+    let unit = new RomanHeavyInfantry();
+    game.addUnit(new Hex(0, 0), unit);
+    assertFalse(unit.isSelected, "should not be selected at start");
 
     game.click(new Hex(0, 0));
 
-    assertTrue(game.units[0].isSelected, "should be selected");
+    assertTrue(unit.isSelected, "should be selected");
 });
 
-xtest('click and deselect unit', function () {
+test('click and deselect unit', function () {
     let game = new Game();
-    game.addUnit(new Hex(0, 0), new RomanHeavyInfantry());
+    let unit = new RomanHeavyInfantry();
+    game.addUnit(new Hex(0, 0), unit);
 
     game.click(new Hex(0, 0));
     game.click(new Hex(0, 0));
 
-    assertFalse(game.units[0].isSelected, "should not be selected");
+    assertFalse(unit.isSelected, "should not be selected");
 });
 
