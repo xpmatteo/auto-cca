@@ -1,7 +1,7 @@
 
 export class Game {
 
-    #units = [];
+    #units = {};
 
     addUnit(unit) {
         this.#units.push(unit);
@@ -11,8 +11,8 @@ export class Game {
         this.units[0].isSelected = !this.units[0].isSelected;
     }
 
-    get units() {
-        return this.#units;
+    foreachUnit(f) {
+
     }
 }
 
@@ -24,21 +24,20 @@ export class Side {
 }
 
 export class Unit {
-    
-        #isSelected = false;
-    
-        get imageName() {
-            return '';
-        }
-    
-        get allegiance() {
-            return Side.ROMAN;
-        }
-    
-        get isSelected() {
-            return this.#isSelected;
-        }
+    #isSelected = false;
+
+    get imageName() {
+        return '';
     }
+
+    get allegiance() {
+        return Side.ROMAN;
+    }
+
+    get isSelected() {
+        return this.#isSelected;
+    }
+}
 
 export class RomanHeavyInfantry extends Unit {
 

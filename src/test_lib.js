@@ -30,7 +30,7 @@ export function assert_deep_equals(expected, actual, message='Assertion failed')
     }
 }
 
-export function it(desc, fn) {
+export function test(desc, fn) {
     try {
         fn();
         console.log('\x1b[32m%s\x1b[0m', '\u2714 ' + desc);
@@ -41,4 +41,4 @@ export function it(desc, fn) {
     }
 }
 
-export const test = it;
+export function xtest(desc, fn) {}

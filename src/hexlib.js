@@ -13,6 +13,10 @@ export class Hex {
     }
 
     get s() { return - this.q - this.r }
+
+    toString() {
+        return `[${this.q},${this.r}]`;
+    }
 };
 
 
