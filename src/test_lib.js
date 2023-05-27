@@ -3,15 +3,26 @@
 
 'use strict';
 
+export class AssertionFailed extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'AssertionFailed';
+    }
+}
+
+export function fail(message='Assertion failed') {
+    throw new AssertionFailed(message);
+}
+
 export function assertTrue(isTrue, message='Assertion failed') {
     if (!isTrue) {
-        throw new Error(message);
+        throw new AssertionFailed(message);
     }
 }
 
 export function assertFalse(isTrue, message='Assertion failed') {
     if (isTrue) {
-        throw new Error(message);
+        throw new AssertionFailed(message);
     }
 }
 
@@ -20,13 +31,13 @@ export function assertEquals(expected, actual, message=undefined) {
         message = `Expected ${expected} but got ${actual}`;
     }
     if (expected !== actual) {
-        throw new Error(message);
+        throw new AssertionFailed(message);
     }
 }
 
 export function assert_deep_equals(expected, actual, message='Assertion failed') {
     if (JSON.stringify(expected) !== JSON.stringify(actual)) {
-        throw new Error(message);
+        throw new AssertionFailed(message);
     }
 }
 
