@@ -66,8 +66,8 @@ function redraw() {
 }
 
 function findHexFromPixel(screenX, screenY) {
-    let x = screenX - canvas.offsetLeft;
-    let y = screenY - canvas.offsetTop;
+    let x = screenX - canvas.offsetLeft + window.scrollX;
+    let y = screenY - canvas.offsetTop + window.scrollY;
     return pixel_to_hex(layout, new Point(x, y));
 }
 
@@ -88,6 +88,7 @@ canvas.addEventListener('click', function (event) {
 const info_box = document.getElementById('info');
 function handleMouseMove(event) {
     let hex = findHexFromPixel(event.clientX, event.clientY);
-    info_box.innerHTML = `${event.clientX},${event.clientY}: ${hex.q}, ${hex.r}`;
+    let message = `${event.clientX},${event.clientY}: ${hex.q}, ${hex.r}`;
+    console.log(message);
 }
-document.addEventListener('mousemove', handleMouseMove);
+//document.addEventListener('mousemove', handleMouseMove);
