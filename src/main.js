@@ -18,24 +18,33 @@ const ctx = canvas.getContext('2d');
 canvas.width = 1800; 
 canvas.height = 1200;
 
-let images = [
+let game = new Game();
+game.addUnit(new Hex(1, 5), new RomanHeavyInfantry());
+game.addUnit(new Hex(2, 5), new RomanHeavyInfantry());
+game.addUnit(new Hex(3, 5), new RomanHeavyInfantry());
+game.addUnit(new Hex(4, 5), new RomanHeavyInfantry());
+game.addUnit(new Hex(5, 5), new RomanHeavyInfantry());
+
+let mapImage;
+
+let imageUrls = [
     'images/cca_map_hq.jpg',
     'images/units/rom_inf_hv.png',
     'images/units/rom_inf_lt.png',
     'images/units/rom_inf_md.png',
 ];
 
-load_all_images(images, draw);
+load_all_images(imageUrls, onAllImagesLoaded);
 
-function draw(images) {
-    let game = new Game();
-    game.addUnit(new Hex(1, 5), new RomanHeavyInfantry());
-    game.addUnit(new Hex(2, 5), new RomanHeavyInfantry());
-    game.addUnit(new Hex(3, 5), new RomanHeavyInfantry());
-    game.addUnit(new Hex(4, 5), new RomanHeavyInfantry());
-    game.addUnit(new Hex(5, 5), new RomanHeavyInfantry());
-    let img = images['images/cca_map_hq.jpg'];
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+function onAllImagesLoaded(images) {
+    mapImage = images['images/cca_map_hq.jpg'];
+    redraw();
+    resizeCanvas();
+}
+
+
+function redraw() {
+    ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
 
     function draw_circle_in_top_vertex(hex) {
         let pixelCoordinate = hex_to_pixel(layout, hex);
@@ -52,28 +61,33 @@ function draw(images) {
     game.foreachHex(draw_coordinates);
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        draw_unit(ctx, pixelCoordinate, unit.imageName, new Point(90, 90));
+        draw_unit(ctx, pixelCoordinate, unit);
     });
+}
 
-    resizeCanvas();
+function findHexFromPixel(screenX, screenY) {
+    let x = screenX - canvas.offsetLeft;
+    let y = screenY - canvas.offsetTop;
+    return pixel_to_hex(layout, new Point(x, y));
 }
 
 // scale canvas to fit window
 function resizeCanvas() {
-    canvas.style.height = (window.innerHeight - 100) + 'px' ;
+   //canvas.style.height = (window.innerHeight - 100) + 'px' ;
 }
 
 // track mouse clicks
 canvas.addEventListener('click', function (event) {
-    console.log('click');
+    let hex = findHexFromPixel(event.clientX, event.clientY);
+    console.log(`clicked on ${event.clientX},${event.clientY}: Hex ${hex.q}, ${hex.r}`);
+    game.click(hex);
+    redraw();
 });
 
 // track mouse movement
 const info_box = document.getElementById('info');
 function handleMouseMove(event) {
-    let x = event.clientX - canvas.offsetLeft;
-    let y = event.clientY - canvas.offsetTop;
-    let hex = pixel_to_hex(layout, new Point(x, y));
-    info_box.innerHTML = `${hex.q}, ${hex.r}, ${hex.s}`;
+    let hex = findHexFromPixel(event.clientX, event.clientY);
+    info_box.innerHTML = `${event.clientX},${event.clientY}: ${hex.q}, ${hex.r}`;
 }
 document.addEventListener('mousemove', handleMouseMove);

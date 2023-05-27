@@ -26,19 +26,20 @@ export function draw_circle(ctx, x, y, radius) {
     ctx.closePath();
 }
 
-export function draw_unit(ctx, pixelCoordinate, imageName, size) {    
-    let url = `images/units/${imageName}`;      
+export function draw_unit(ctx, pixelCoordinate, unit) {    
+    let url = `images/units/${unit.imageName}`;      
     let img = IMAGES[url];
     if (!img) {
         throw new Error(`Image ${url} not found`);
     }
-    ctx.drawImage(img, pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);
+    ctx.drawImage(img, pixelCoordinate.x-img.width/2, pixelCoordinate.y-img.height/2, img.width, img.height);
     ctx.font = "16pt Arial";
     ctx.fillStyle = "black";
-    ctx.fillText("4", pixelCoordinate.x+18, pixelCoordinate.y+size.y/2-10);
+    ctx.fillText("4", pixelCoordinate.x+18, pixelCoordinate.y+img.height/2-10);
 
-    // surround bitmap with a black border
-    // ctx.strokeStyle = 'black';
-    // ctx.lineWidth = 5;
-    // ctx.strokeRect(pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);        
+    if (unit.isSelected) {
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 5;
+        ctx.strokeRect(pixelCoordinate.x-img.width/2, pixelCoordinate.y-img.height/2, img.width, img.height);        
+    }
 }

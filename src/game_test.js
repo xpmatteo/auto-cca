@@ -92,3 +92,16 @@ test('click and deselect unit', function () {
     assertFalse(unit.isSelected, "should not be selected");
 });
 
+// test('', () => {});
+
+test('click nowhere', () => {
+    let game = new Game();
+    let unit = new RomanHeavyInfantry();
+    game.addUnit(new Hex(0, 0), unit);
+
+    game.click(new Hex(0, 0));
+    assertTrue(unit.isSelected, "should be selected");
+    
+    game.click(new Hex(1, 0));
+    assertFalse(unit.isSelected, "should not be selected");
+});

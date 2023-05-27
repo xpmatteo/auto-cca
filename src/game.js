@@ -39,7 +39,18 @@ export class Game {
     }
 
     click(hex) {
-        this.unitAt(hex).toggleSelected();
+        let unit = this.unitAt(hex);
+        if (unit) {
+            unit.toggleSelected();
+        } else {
+            this.deselectAll();
+        }
+    }
+
+    deselectAll() {
+        this.foreachUnit((unit, hex) => {
+            unit.deselect();
+        });
     }
 
     foreachUnit(f) {
@@ -83,6 +94,10 @@ export class Unit {
 
     get isSelected() {
         return this.#isSelected;
+    }
+
+    deselect() {
+        this.#isSelected = false;
     }
 }
 
