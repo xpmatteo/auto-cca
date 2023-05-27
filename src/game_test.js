@@ -3,19 +3,19 @@ import { assertEquals, assertTrue, assertFalse, test, xtest } from './test_lib.j
 import { Game, RomanHeavyInfantry } from './game.js';
 import { Hex } from './hexlib.js';
 
-xtest('add units', function () {
+test('add units', function () {
     let game = new Game();
     let unit0 = new RomanHeavyInfantry();
     let unit1 = new RomanHeavyInfantry();
 
     game.addUnit(new Hex(0, 0), unit0);
-    game.addUnit(new Hex(0, 0), unit1);
+    game.addUnit(new Hex(0, 1), unit1);
 
     let count = 0;
     game.foreachUnit((unit, hex) => { count++; });
     assertEquals(2, count);
     assertEquals(unit0, game.unitAt(new Hex(0, 0)));
-    assertEquals(unit0, game.unitAt(new Hex(0, 0)));
+    assertEquals(unit1, game.unitAt(new Hex(0, 1)));
 });
 
 

@@ -2,9 +2,11 @@
 export class Game {
 
     #units = {};
+    #hexes = {};
 
-    addUnit(unit) {
-        this.#units.push(unit);
+    addUnit(hex, unit) {
+        this.#hexes[hex.toString()] = hex;
+        this.#units[hex.toString()] = unit;
     }
 
     click(hex) {
@@ -12,7 +14,13 @@ export class Game {
     }
 
     foreachUnit(f) {
+        for (let hex in this.#units) {
+            f(this.#units[hex], this.#hexes[hex]);
+        }
+    }
 
+    unitAt(hex) {
+        return this.#units[hex.toString()];
     }
 }
 

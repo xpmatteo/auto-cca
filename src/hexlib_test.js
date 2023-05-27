@@ -7,3 +7,4 @@ test('hex to string', function () {
     assertEquals('[1,2]', hex.toString());
 });
 
+
