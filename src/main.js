@@ -2,7 +2,7 @@
 
 import { Hex, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
 import { load_all_images, draw_unit, draw_circle } from "./graphics.js";
-
+import { Game, RomanHeavyInfantry } from "./game.js";
 
 // Constants for the hexagon dimensions
 const hexWidth = 76.4;
@@ -27,24 +27,13 @@ let images = [
 
 load_all_images(images, draw);
 
-function even(n) {
-    return n % 2 === 0;
-}
-
-const MAP = {
-    foreach_hex: function (f) {
-        for (let r=0; r<=8; r++) {
-            let col_start = -Math.trunc(r/2);
-            let num_cols = even(r) ? 13 : 12;
-            for (let q=col_start; q < col_start + num_cols; q++) {
-                let hex = new Hex(q, r);
-                f(hex);
-            }
-        }
-    }
-};
-
 function draw(images) {
+    let game = new Game();
+    game.addUnit(new Hex(1, 5), new RomanHeavyInfantry());
+    game.addUnit(new Hex(2, 5), new RomanHeavyInfantry());
+    game.addUnit(new Hex(3, 5), new RomanHeavyInfantry());
+    game.addUnit(new Hex(4, 5), new RomanHeavyInfantry());
+    game.addUnit(new Hex(5, 5), new RomanHeavyInfantry());
     let img = images['images/cca_map_hq.jpg'];
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
@@ -59,10 +48,12 @@ function draw(images) {
         let pixelCoordinate = hex_to_pixel(layout, hex);
         ctx.fillText(`${hex.q}, ${hex.r}`, pixelCoordinate.x-12, pixelCoordinate.y-20);        
     }
-    MAP.foreach_hex(draw_circle_in_top_vertex);
-    MAP.foreach_hex(draw_coordinates);
-    let pixelCoordinate = hex_to_pixel(layout, new Hex(6, 0));
-    draw_unit(ctx, pixelCoordinate, 'rom_inf_hv', new Point(90, 90));
+    //game.foreachHex(draw_circle_in_top_vertex);
+    game.foreachHex(draw_coordinates);
+    game.foreachUnit((unit, hex) => {
+        let pixelCoordinate = hex_to_pixel(layout, hex);
+        draw_unit(ctx, pixelCoordinate, unit.imageName, new Point(90, 90));
+    });
 
     resizeCanvas();
 }

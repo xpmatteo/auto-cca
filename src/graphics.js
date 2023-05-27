@@ -26,9 +26,12 @@ export function draw_circle(ctx, x, y, radius) {
     ctx.closePath();
 }
 
-export function draw_unit(ctx, pixelCoordinate, unit, size) {    
-    let url = `images/units/${unit}.png`;      
+export function draw_unit(ctx, pixelCoordinate, imageName, size) {    
+    let url = `images/units/${imageName}`;      
     let img = IMAGES[url];
+    if (!img) {
+        throw new Error(`Image ${url} not found`);
+    }
     ctx.drawImage(img, pixelCoordinate.x-size.x/2, pixelCoordinate.y-size.y/2, size.x, size.y);
     ctx.font = "16pt Arial";
     ctx.fillStyle = "black";
