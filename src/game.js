@@ -129,3 +129,11 @@ export class RomanHeavyInfantry extends Unit {
     }
 
 }
+
+export class CarthaginianHeavyInfantry extends Unit {
+
+    get imageName() {
+        return 'car_inf_hv.png';
+    }
+
+}
