@@ -5,10 +5,10 @@ function even(n) {
 }
 
 function enumerateHexes(f) {
-    for (let r=0; r<=8; r++) {
-        let col_start = -Math.trunc(r/2);
+    for (let r = 0; r <= 8; r++) {
+        let col_start = -Math.trunc(r / 2);
         let num_cols = even(r) ? 13 : 12;
-        for (let q=col_start; q < col_start + num_cols; q++) {
+        for (let q = col_start; q < col_start + num_cols; q++) {
             let hex = new Hex(q, r);
             f(hex);
         }
@@ -19,7 +19,7 @@ export class Game {
     #units = {};
     #hexes = {};
 
-    constructor(hexes = {} ) {
+    constructor(hexes = {}) {
         enumerateHexes(hex => {
             this.#hexes[hex.toString()] = hex;
         });
@@ -38,10 +38,31 @@ export class Game {
         this.#units[hex.toString()] = unit;
     }
 
+    moveUnit(to, from) {
+        if (!this.#units[from.toString()]) {
+            throw new Error(`No unit at ${from.toString()}`);
+        }
+        if (this.#units[to.toString()]) {
+            throw new Error(`Unit already exists at ${to.toString()}`);
+        }
+        this.#units[to.toString()] = this.#units[from.toString()];
+        delete this.#units[from.toString()];
+    }
+
     click(hex) {
         let unit = this.unitAt(hex);
+        let selectedUnit, selectedHex;
+        this.foreachUnit((unit, hex) => {
+            if (unit.isSelected) {
+                selectedUnit = unit;
+                selectedHex = hex;
+            }
+        });
         if (unit) {
             unit.toggleSelected();
+        } else if (selectedUnit && hex.distance(selectedHex) === 1) {
+            this.moveUnit(hex, selectedHex);
+            this.deselectAll();
         } else {
             this.deselectAll();
         }

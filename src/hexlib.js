@@ -1,5 +1,10 @@
 "use strict";
 
+const sqrt = Math.sqrt;
+const abs = Math.abs;
+const round = Math.round;
+const trunc = Math.trunc;
+
 // thanks https://www.redblobgames.com/grids/hexagons/#coordinates
 
 export class Hex {
@@ -16,6 +21,10 @@ export class Hex {
 
     toString() {
         return `[${this.q},${this.r}]`;
+    }
+
+    distance(other) {
+        return hex_length(hex_subtract(this, other));
     }
 };
 
@@ -68,12 +77,12 @@ export function pixel_to_hex(layout, p) {
 }
 
 function hex_round(fracq, fracr, fracs) {
-    let q = Math.round(fracq);
-    let r = Math.round(fracr);
-    let s = Math.round(fracs);
-    let q_diff = Math.abs(q - fracq);
-    let r_diff = Math.abs(r - fracr);
-    let s_diff = Math.abs(s - fracs);
+    let q = round(fracq);
+    let r = round(fracr);
+    let s = round(fracs);
+    let q_diff = abs(q - fracq);
+    let r_diff = abs(r - fracr);
+    let s_diff = abs(s - fracs);
     if (q_diff > r_diff && q_diff > s_diff) {
         q = -r - s;
     } else if (r_diff > s_diff) {
@@ -84,7 +93,13 @@ function hex_round(fracq, fracr, fracs) {
     return new Hex(q, r, s);
 }
 
-const sqrt = Math.sqrt;
+function hex_subtract(a, b) {
+    return new Hex(a.q - b.q, a.r - b.r, a.s - b.s);
+}
+
+function hex_length(hex) {
+    return trunc((abs(hex.q) + abs(hex.r) + abs(hex.s)) / 2);
+}
 
 export const layout_pointy
   = new Orientation(sqrt(3.0), sqrt(3.0) / 2.0, 0.0, 3.0 / 2.0,

@@ -8,3 +8,8 @@ test('hex to string', function () {
 });
 
 
+test('hex distance', function () {
+    assertEquals(0, new Hex(0, 0).distance(new Hex(0, 0)));
+    assertEquals(1, new Hex(0, 0).distance(new Hex(0, 1)));
+    assertEquals(5, new Hex(1, 0).distance(new Hex(4, 2)));
+});
