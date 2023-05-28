@@ -17,6 +17,7 @@ const ctx = canvas.getContext('2d');
 // Set canvas dimensions
 canvas.width = 1800; 
 canvas.height = 1200;
+let canvasScale = 1;
 
 let game = new Game();
 game.addUnit(new Hex(1, 5), new RomanHeavyInfantry());
@@ -100,15 +101,17 @@ function redraw() {
     highlight_hex(ctx, layout, hex_to_pixel(layout, new Hex(0, 0)));
 }
 
-function findHexFromPixel(screenX, screenY) {
-    let x = screenX - canvas.offsetLeft + window.scrollX;
-    let y = screenY - canvas.offsetTop + window.scrollY;
-    return pixel_to_hex(layout, new Point(x, y));
-}
-
 // scale canvas to fit window
 function resizeCanvas() {
-   //canvas.style.height = (window.innerHeight - 100) + 'px' ;
+    let newHeight = window.innerHeight - 100;
+    canvas.style.height = newHeight + 'px' ;
+    canvasScale = newHeight / canvas.height;
+}
+
+function findHexFromPixel(screenX, screenY) {
+    let x = (screenX - canvas.offsetLeft + window.scrollX) / canvasScale;
+    let y = (screenY - canvas.offsetTop + window.scrollY) / canvasScale;
+    return pixel_to_hex(layout, new Point(x, y));
 }
 
 // track mouse clicks
@@ -124,6 +127,6 @@ const info_box = document.getElementById('info');
 function handleMouseMove(event) {
     let hex = findHexFromPixel(event.clientX, event.clientY);
     let message = `${event.clientX},${event.clientY}: ${hex.q}, ${hex.r}`;
-    console.log(message);
+    info_box.innerHTML = message;
 }
-//document.addEventListener('mousemove', handleMouseMove);
+document.addEventListener('mousemove', handleMouseMove);
