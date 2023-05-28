@@ -1,7 +1,7 @@
 "use strict";
 
 import { Hex, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
-import { load_all_images, draw_unit, draw_circle } from "./graphics.js";
+import { load_all_images, draw_unit, draw_circle, highlight_hex } from "./graphics.js";
 import { Game, RomanHeavyInfantry } from "./game.js";
 
 // Constants for the hexagon dimensions
@@ -63,6 +63,8 @@ function redraw() {
         let pixelCoordinate = hex_to_pixel(layout, hex);
         draw_unit(ctx, pixelCoordinate, unit);
     });
+
+    highlight_hex(ctx, layout, hex_to_pixel(layout, new Hex(0, 0)));
 }
 
 function findHexFromPixel(screenX, screenY) {
