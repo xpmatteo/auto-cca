@@ -1,14 +1,17 @@
 import * as t from './test_lib.js';
 import * as game from './game.js';
 import { hexOf } from './hexlib.js';
+import { Turn } from './turn.js';
 
 t.test('generate moves for one unit', function () {
     let g = new game.Game();
+    let turn = new Turn(g);
+
     t.assertEquals(game.Side.ROMAN, g.currentSide);
     g.addUnit(hexOf(1, 1), new game.RomanHeavyInfantry());
     g.addUnit(hexOf(3, 3), new game.CarthaginianHeavyInfantry());
     
-    let moves = g.generateMoves();
+    let moves = turn.generateMoves();
 
     t.assertEquals(6, moves.length);
     let expected = [
@@ -31,11 +34,12 @@ t.test('generate moves for one unit', function () {
 
 t.test('generate moves for two units, avoiding collisions', function () {
     let g = new game.Game();
+    let turn = new Turn(g);
     t.assertEquals(game.Side.ROMAN, g.currentSide);
     g.addUnit(hexOf(2, 5), new game.RomanHeavyInfantry());
     g.addUnit(hexOf(3, 5), new game.RomanHeavyInfantry());    
     
-    let moves = g.generateMoves();
+    let moves = turn.generateMoves();
 
     t.assertEquals(10, moves.length);
     let expected = [
@@ -47,6 +51,30 @@ t.test('generate moves for two units, avoiding collisions', function () {
 
         new game.MoveCommand(hexOf(3, 4), hexOf(3, 5)),
         new game.MoveCommand(hexOf(4, 4), hexOf(3, 5)),
+        new game.MoveCommand(hexOf(4, 5), hexOf(3, 5)),
+        new game.MoveCommand(hexOf(2, 6), hexOf(3, 5)),
+        new game.MoveCommand(hexOf(3, 6), hexOf(3, 5)),
+    ];
+    t.assertEqualsInAnyOrder(expected, moves);
+});
+
+t.test('play move then spent', function () {
+    let g = new game.Game();
+    let turn = new Turn(g);
+    let unit0 = new game.RomanHeavyInfantry();
+    let unit1 = new game.RomanHeavyInfantry();
+    g.addUnit(hexOf(2, 5), unit0);
+    g.addUnit(hexOf(3, 5), unit1);        
+
+    turn.play(new game.MoveCommand(hexOf(1, 5), hexOf(2, 5)));
+
+    t.assertEquals(unit0, g.unitAt(hexOf(1, 5)));
+    let moves = turn.generateMoves();
+    t.assertEquals(6, moves.length);
+    let expected = [
+        new game.MoveCommand(hexOf(3, 4), hexOf(3, 5)),
+        new game.MoveCommand(hexOf(4, 4), hexOf(3, 5)),
+        new game.MoveCommand(hexOf(2, 5), hexOf(3, 5)),
         new game.MoveCommand(hexOf(4, 5), hexOf(3, 5)),
         new game.MoveCommand(hexOf(2, 6), hexOf(3, 5)),
         new game.MoveCommand(hexOf(3, 6), hexOf(3, 5)),

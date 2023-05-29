@@ -94,16 +94,8 @@ export class Game {
         return this.#currentSide;
     }
 
-    generateMoves() {
-        let moves = [];
-        this.foreachUnitOfCurrentSide((unit, hex) => {
-            let hexes = this.subtractOffMap(hex.neighbors());
-            hexes = this.subtractOccupiedHexes(hexes);
-            hexes.forEach(to => {
-                moves.push(new MoveCommand(to, hex));
-            });
-        });
-        return moves;
+    play(move) {
+        move.execute(this);
     }
 }
 
@@ -114,6 +106,9 @@ export class MoveCommand {
     }
     toString() {
         return `Move ${this.from} to ${this.to}`;
+    }
+    execute(game) {
+        game.moveUnit(this.to, this.from);
     }
 }
 
