@@ -55,17 +55,29 @@ export class Game {
         let unit = this.unitAt(hex);
         if (unit && unit !== this.selectedUnit()) {
             this.#selectedUnit = unit;
-        } else if (this.selectedUnit() && hex.distance(this.selectedHex()) === 1) {
+        } else if (this.selectedUnit() && this.selectedUnitCanMoveTo(hex)) {
             this.moveUnit(hex, this.selectedHex());
             this.#selectedUnit = undefined;
         } else {
             this.#selectedUnit = undefined;
         }
         if (this.selectedUnit()) {
-            this.#hilightedHexes = subtractOccupiedHexes(hex.neighbors(), Object.keys(this.#units));
+            this.#hilightedHexes = this.eligibleHexesForSelectedUnit();
         } else {
             this.#hilightedHexes = [];
         }
+    }
+
+    eligibleHexesForSelectedUnit() {
+        return this.subtractOffMap(subtractOccupiedHexes(this.selectedHex().neighbors(), Object.keys(this.#units)));
+    }
+
+    subtractOffMap(hexes) {
+        return hexes.filter(hex => this.#hexes[hex.toString()]);
+    }
+
+    selectedUnitCanMoveTo(hex) {
+        return this.eligibleHexesForSelectedUnit().map(h => h.toString()).includes(hex.toString());
     }
 
     selectedHex() {

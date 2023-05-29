@@ -130,6 +130,19 @@ test('click nowhere and deselect', () => {
     assertEquals(undefined, game.selectedUnit(), "should not be selected");
 });
 
+test('click outside map does not move off-board', () => {
+    let game = new Game();
+    let unit = new RomanHeavyInfantry();
+    game.addUnit(new Hex(0, 0), unit);
+
+    game.click(new Hex(0, 0));
+    assertEquals(unit, game.selectedUnit(), "unit should be selected");
+    
+    game.click(new Hex(0, -1));
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+    assertEquals(unit, game.unitAt(new Hex(0, 0)));
+});
+
 /*
      1,4   2,4    3,4
         1,5   2,5    3,5
