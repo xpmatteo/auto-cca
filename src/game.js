@@ -28,6 +28,7 @@ function getByValue(map, searchValue) {
 
 export class Game {
     #units = new Map();
+    #currentSide = Side.ROMAN;
 
     addUnit(hex, unit) {
         if (this.unitIsPresent(unit)) {
@@ -65,6 +66,14 @@ export class Game {
         this.#units.forEach(f);
     }
 
+    foreachUnitOfCurrentSide(f) {
+        this.#units.forEach((unit, hex) => {
+            if (unit.side === this.#currentSide) {
+                f(unit, hex);
+            }
+        });
+    }
+
     foreachHex(f) {
         MAP.forEach(f);
     }
@@ -80,7 +89,34 @@ export class Game {
     unitIsPresent(unit) {
         return Array.from(this.#units.values()).includes(unit);
     }
+
+    get currentSide() {
+        return this.#currentSide;
+    }
+
+    generateMoves() {
+        let moves = [];
+        this.foreachUnitOfCurrentSide((unit, hex) => {
+            let hexes = this.subtractOffMap(hex.neighbors());
+            hexes = this.subtractOccupiedHexes(hexes);
+            hexes.forEach(to => {
+                moves.push(new MoveCommand(to, hex));
+            });
+        });
+        return moves;
+    }
 }
+
+export class MoveCommand {
+    constructor(to, from) {
+        this.to = to;
+        this.from = from;
+    }
+    toString() {
+        return `Move ${this.from} to ${this.to}`;
+    }
+}
+
 
 export class Side {
     static ROMAN = new Side('Roman');
