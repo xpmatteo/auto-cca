@@ -1,7 +1,8 @@
 
 import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from './test_lib.js';
-import { InteractiveGame, Game, RomanHeavyInfantry } from './game.js';
 import { Hex } from './hexlib.js';
+import { Game, RomanHeavyInfantry } from './game.js';
+import { InteractiveGame } from "./interactive_game.js";
 
 function otherUnit() {
     return new RomanHeavyInfantry();

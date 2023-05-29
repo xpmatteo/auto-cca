@@ -1,7 +1,7 @@
 
 import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from './test_lib.js';
-import { Game, RomanHeavyInfantry } from './game.js';
 import { Hex } from './hexlib.js';
+import { Game, RomanHeavyInfantry } from './game.js';
 
 function makeGame() {
     return new Game();

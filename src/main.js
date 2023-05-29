@@ -2,7 +2,8 @@
 
 import { Hex, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
 import { load_all_images, redraw } from "./graphics.js";
-import { InteractiveGame, Game, CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./game.js";
+import { Game, CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./game.js";
+import { InteractiveGame } from "./interactive_game.js";
 
 const hexWidth = 76.4;
 const hexHeight = 77.4;

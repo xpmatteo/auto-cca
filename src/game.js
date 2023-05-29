@@ -18,8 +18,6 @@ function enumerateHexes(f) {
 export class Game {
     #units = {};
     #hexes = {};
-    #hilightedHexes = [];
-    #selectedUnit = undefined;
 
     constructor(hexes = {}) {
         enumerateHexes(hex => {
@@ -51,37 +49,12 @@ export class Game {
         delete this.#units[from.toString()];
     }
 
-    click(hex) {
-        let unit = this.unitAt(hex);
-        if (unit && unit !== this.selectedUnit()) {
-            this.#selectedUnit = unit;
-        } else if (this.selectedUnit() && this.selectedUnitCanMoveTo(hex)) {
-            this.moveUnit(hex, this.selectedHex());
-            this.#selectedUnit = undefined;
-        } else {
-            this.#selectedUnit = undefined;
-        }
-        if (this.selectedUnit()) {
-            this.#hilightedHexes = this.eligibleHexesForSelectedUnit();
-        } else {
-            this.#hilightedHexes = [];
-        }
-    }
-
-    eligibleHexesForSelectedUnit() {
-        return this.subtractOffMap(subtractOccupiedHexes(this.selectedHex().neighbors(), Object.keys(this.#units)));
-    }
-
     subtractOffMap(hexes) {
         return hexes.filter(hex => this.#hexes[hex.toString()]);
     }
 
-    selectedUnitCanMoveTo(hex) {
-        return this.eligibleHexesForSelectedUnit().map(h => h.toString()).includes(hex.toString());
-    }
-
-    selectedHex() {
-        return this.#hexes[Object.keys(this.#units).find(hex => this.#units[hex] === this.#selectedUnit)];
+    subtractOccupiedHexes(hexes) {
+        return hexes.filter(hex => !this.#units[hex.toString()]);
     }
 
     foreachUnit(f) {
@@ -100,64 +73,13 @@ export class Game {
         return this.#units[hex.toString()];
     }
 
-    get hilightedHexes() {
-        return this.#hilightedHexes;
+    hexOfUnit(unit) {
+        return this.#hexes[Object.keys(this.#units).find(hex => this.#units[hex] === unit)];
     }
 
-    selectedUnit() {
-        return this.#selectedUnit;
+    subtractOccupiedHexes(hexes) {
+        return hexes.filter(hex => !this.#units[hex.toString()]);
     }
-}
-
-export class InteractiveGame {
-    #game;
-    constructor(game) {
-        this.#game = game;
-    }
-
-    addUnit(hex, unit) {
-        this.#game.addUnit(hex, unit);
-    }
-
-    click(hex) {
-        this.#game.click(hex);
-    }
-
-    foreachUnit(f) {
-        this.#game.foreachUnit(f);
-    }
-
-    foreachHex(f) {
-        this.#game.foreachHex(f);
-    }
-
-    unitAt(hex) {
-        return this.#game.unitAt(hex);
-    }
-
-    get hilightedHexes() {
-        return this.#game.hilightedHexes;
-    }
-
-    selectedUnit() {
-        return this.#game.selectedUnit();
-    }
-
-    selectedHex() {
-        return this.#game.selectedHex();
-    }
-
-    get units() {
-        return this.#game.units;
-    }
-
-    get hexes() {
-        return this.#game.hexes;
-    }
-}
-
-function subtractOccupiedHexes(hexes, occupiedHexes) {
-    return hexes.filter(hex => !occupiedHexes.includes(hex.toString()));
 }
 
 export class Side {
