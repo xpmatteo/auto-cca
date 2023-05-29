@@ -20,7 +20,8 @@ canvas.width = MAP_WIDTH;
 canvas.height = MAP_HEIGHT;
 let canvasScale = 1;
 
-let game = new InteractiveGame(new Game());
+let nakedGame = new Game();
+let game = new InteractiveGame(nakedGame);
 game.addUnit(hexOf(1, 5), new RomanHeavyInfantry());
 game.addUnit(hexOf(2, 5), new RomanHeavyInfantry());
 game.addUnit(hexOf(3, 5), new RomanHeavyInfantry());
@@ -103,3 +104,11 @@ function handleMouseMove(event) {
     info_box.innerHTML = message;
 }
 document.addEventListener('mousemove', handleMouseMove);
+
+import { Autoplay } from "./autoplay.js";
+import { Turn } from "./turn.js";
+const autoplay = new Autoplay(new Turn(nakedGame));
+document.getElementById('autoplay').addEventListener('click', function (event) {
+    autoplay.play();
+    redraw(ctx, layout, game);
+});
