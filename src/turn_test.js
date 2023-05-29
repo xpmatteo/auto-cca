@@ -1,13 +1,13 @@
 import * as t from './test_lib.js';
 import * as game from './game.js';
 import { hexOf } from './hexlib.js';
-import { Turn } from './turn.js';
+import { Turn, EndOfTurn } from './turn.js';
 
 t.test('generate moves for one unit', function () {
     let g = new game.Game();
     let turn = new Turn(g);
 
-    t.assertEquals(game.Side.ROMAN, g.currentSide);
+    t.assertEquals(game.Side.ROMAN, turn.currentSide);
     g.addUnit(hexOf(1, 1), new game.RomanHeavyInfantry());
     g.addUnit(hexOf(3, 3), new game.CarthaginianHeavyInfantry());
     
@@ -35,7 +35,6 @@ t.test('generate moves for one unit', function () {
 t.test('generate moves for two units, avoiding collisions', function () {
     let g = new game.Game();
     let turn = new Turn(g);
-    t.assertEquals(game.Side.ROMAN, g.currentSide);
     g.addUnit(hexOf(2, 5), new game.RomanHeavyInfantry());
     g.addUnit(hexOf(3, 5), new game.RomanHeavyInfantry());    
     
@@ -81,3 +80,30 @@ t.test('play move then spent', function () {
     ];
     t.assertEqualsInAnyOrder(expected, moves);
 });
+
+t.test('eventually switch side', function () {
+    let g = new game.Game();
+    let turn = new Turn(g);
+    g.addUnit(hexOf(1, 1), new game.RomanHeavyInfantry());
+    
+    turn.play(new game.MoveCommand(hexOf(1, 0), hexOf(1, 1)));
+
+    t.assertEquals("End of turn", turn.generateMoves().toString());
+});
+
+t.test('switch side', function () {
+    let g = new game.Game();
+    let turn = new Turn(g);
+    let unit = new game.RomanHeavyInfantry();
+    g.addUnit(hexOf(1, 1), unit);
+    turn.play(new game.MoveCommand(hexOf(0, 1), hexOf(1, 1)));
+    t.assertEquals(1, turn.spentUnits.length);
+
+    turn.play(new EndOfTurn());
+
+    t.assertEquals(game.Side.CARTHAGINIAN, turn.currentSide);
+    t.assertEquals(0, turn.spentUnits.length, "spent units should be reset");
+});
+
+
+

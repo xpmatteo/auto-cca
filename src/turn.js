@@ -1,8 +1,10 @@
 
-import { MoveCommand } from "./game.js";
+import { MoveCommand, Side } from "./game.js";
+
 
 export class Turn {
     #spentUnits = [];
+    #currentSide = Side.ROMAN;
     #game;
 
     constructor(game) {
@@ -11,8 +13,11 @@ export class Turn {
 
     generateMoves() {
         let moves = [];
-        this.#game.foreachUnitOfCurrentSide((unit, hex) => {
+        this.#game.foreachUnit((unit, hex) => {
             if (this.#spentUnits.includes(unit)) {
+                return;
+            }
+            if (unit.side !== this.#currentSide) {
                 return;
             }
             let hexes = this.#game.subtractOffMap(hex.neighbors());
@@ -21,11 +26,50 @@ export class Turn {
                 moves.push(new MoveCommand(to, hex));
             });
         });
+        if (moves.length === 0) {
+            moves.push(new EndOfTurn());
+        }
         return moves;
     }
 
     play(move) {
-        this.#game.play(move);
-        this.#spentUnits.push(this.#game.unitAt(move.to));
+        move.play(this);        
+    }
+
+    get currentSide() {        
+        return this.#currentSide;
+    }
+
+    get spentUnits() {
+        return this.#spentUnits;
+    }
+
+    switchSide() {
+        this.#currentSide = this.#currentSide === Side.ROMAN ? Side.CARTHAGINIAN : Side.ROMAN;
+        this.#spentUnits = [];
+        console.log(`Switching side to ${this.#currentSide}`)
+    }
+
+    markUnitSpent(unit) {
+        this.#spentUnits.push(unit);
+    }
+
+    // --- delegate to game ---
+    moveUnit(to, from) {
+        this.#game.moveUnit(to, from);
+    }
+
+    unitAt(hex) {
+        return this.#game.unitAt(hex);
+    }
+}
+
+export class EndOfTurn {
+    play(turn) {
+        turn.switchSide();
+    }
+
+    toString() {
+        return "End of turn";
     }
 }
