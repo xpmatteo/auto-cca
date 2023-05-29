@@ -1,4 +1,4 @@
-import { Hex } from './hexlib.js';
+import { hexOf } from './hexlib.js';
 
 function even(n) {
     return n % 2 === 0;
@@ -9,7 +9,7 @@ function enumerateHexes(f) {
         let col_start = -Math.trunc(r / 2);
         let num_cols = even(r) ? 13 : 12;
         for (let q = col_start; q < col_start + num_cols; q++) {
-            let hex = new Hex(q, r);
+            let hex = hexOf(q, r);
             f(hex);
         }
     }

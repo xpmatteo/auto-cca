@@ -7,7 +7,7 @@ const trunc = Math.trunc;
 
 // thanks https://www.redblobgames.com/grids/hexagons/implementation.html
 
-export class Hex {
+class Hex {
     constructor(q, r, s=undefined) {
         if (s === undefined) {
             s = -q - r;
@@ -32,9 +32,17 @@ export class Hex {
     }
 };
 
+const hexes = Object.create(null);
+export function hexOf(q, r) {
+    if (hexes[[q, r]] === undefined) {
+        hexes[[q, r]] = new Hex(q, r);   
+    }
+    return hexes[[q, r]];
+}
+
 const hex_directions = [
-    new Hex(1, 0, -1), new Hex(1, -1, 0), new Hex(0, -1, 1), 
-    new Hex(-1, 0, 1), new Hex(-1, 1, 0), new Hex(0, 1, -1)
+    hexOf(1, 0, -1), hexOf(1, -1, 0), hexOf(0, -1, 1), 
+    hexOf(-1, 0, 1), hexOf(-1, 1, 0), hexOf(0, 1, -1)
 ];
 
 class Orientation {
@@ -98,15 +106,15 @@ function hex_round(fracq, fracr, fracs) {
     } else {
         s = -q - r;
     }
-    return new Hex(q, r, s);
+    return hexOf(q, r, s);
 }
 
 function hex_add(a, b) {
-    return new Hex(a.q + b.q, a.r + b.r, a.s + b.s);
+    return hexOf(a.q + b.q, a.r + b.r, a.s + b.s);
 }
 
 function hex_subtract(a, b) {
-    return new Hex(a.q - b.q, a.r - b.r, a.s - b.s);
+    return hexOf(a.q - b.q, a.r - b.r, a.s - b.s);
 }
 
 function hex_length(hex) {
@@ -134,6 +142,6 @@ function assertDeepEquals(expected, actual, message = "Assertion failed") {
 
 const test_layout = new Layout(layout_pointy, new Point(50, 60), new Point(10, 100));
 assertDeepEquals(layout_pointy, test_layout.orientation);
-assertDeepEquals(hex_to_pixel(test_layout, new Hex(0, 0, 0)), new Point(10, 100));
-assertEquals(  0, new Hex(1,  -1, 0).s);
-assertEquals(-30, new Hex(10, 20)   .s);
+assertDeepEquals(hex_to_pixel(test_layout, hexOf(0, 0, 0)), new Point(10, 100));
+assertEquals(  0, hexOf(1,  -1, 0).s);
+assertEquals(-30, hexOf(10, 20)   .s);

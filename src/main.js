@@ -1,6 +1,6 @@
 "use strict";
 
-import { Hex, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
+import { hexOf, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
 import { load_all_images, redraw } from "./graphics.js";
 import { Game, CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./game.js";
 import { InteractiveGame } from "./interactive_game.js";
@@ -18,15 +18,15 @@ canvas.height = 1200;
 let canvasScale = 1;
 
 let game = new InteractiveGame(new Game());
-game.addUnit(new Hex(1, 5), new RomanHeavyInfantry());
-game.addUnit(new Hex(2, 5), new RomanHeavyInfantry());
-game.addUnit(new Hex(3, 5), new RomanHeavyInfantry());
-game.addUnit(new Hex(4, 5), new RomanHeavyInfantry());
-game.addUnit(new Hex(5, 5), new RomanHeavyInfantry());
+game.addUnit(hexOf(1, 5), new RomanHeavyInfantry());
+game.addUnit(hexOf(2, 5), new RomanHeavyInfantry());
+game.addUnit(hexOf(3, 5), new RomanHeavyInfantry());
+game.addUnit(hexOf(4, 5), new RomanHeavyInfantry());
+game.addUnit(hexOf(5, 5), new RomanHeavyInfantry());
 
-game.addUnit(new Hex(2, 3), new CarthaginianHeavyInfantry());
-game.addUnit(new Hex(2, 2), new CarthaginianHeavyInfantry());
-game.addUnit(new Hex(3, 2), new CarthaginianHeavyInfantry());
+game.addUnit(hexOf(2, 3), new CarthaginianHeavyInfantry());
+game.addUnit(hexOf(2, 2), new CarthaginianHeavyInfantry());
+game.addUnit(hexOf(3, 2), new CarthaginianHeavyInfantry());
 
 let imageUrls = [
     'images/cca_map_hq.jpg',
