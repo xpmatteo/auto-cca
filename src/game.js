@@ -84,33 +84,39 @@ export class Game {
 
 export class Side {
     static ROMAN = new Side('Roman');
+    static CARTHAGINIAN = new Side('Carthaginian');
     constructor(name) {
         this.name = name;
     }
 }
 
 export class Unit {
-    get imageName() {
-        return '';
+    #imageName;
+    #side;
+
+    constructor(imageName, side) {
+        this.#imageName = imageName;
+        this.#side = side;
     }
 
-    get allegiance() {
-        return Side.ROMAN;
+    get imageName() {
+        return this.#imageName;
+    }
+
+    get side() {
+        return this.#side;
     }
 }
 
+
 export class RomanHeavyInfantry extends Unit {
-
-    get imageName() {
-        return 'rom_inf_hv.png';
+    constructor() {
+        super('rom_inf_hv.png', Side.ROMAN);
     }
-
 }
 
 export class CarthaginianHeavyInfantry extends Unit {
-
-    get imageName() {
-        return 'car_inf_hv.png';
+    constructor() {
+        super('car_inf_hv.png', Side.CARTHAGINIAN);
     }
-
 }
