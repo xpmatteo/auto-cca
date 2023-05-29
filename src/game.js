@@ -109,6 +109,53 @@ export class Game {
     }
 }
 
+export class InteractiveGame {
+    #game;
+    constructor(game) {
+        this.#game = game;
+    }
+
+    addUnit(hex, unit) {
+        this.#game.addUnit(hex, unit);
+    }
+
+    click(hex) {
+        this.#game.click(hex);
+    }
+
+    foreachUnit(f) {
+        this.#game.foreachUnit(f);
+    }
+
+    foreachHex(f) {
+        this.#game.foreachHex(f);
+    }
+
+    unitAt(hex) {
+        return this.#game.unitAt(hex);
+    }
+
+    get hilightedHexes() {
+        return this.#game.hilightedHexes;
+    }
+
+    selectedUnit() {
+        return this.#game.selectedUnit();
+    }
+
+    selectedHex() {
+        return this.#game.selectedHex();
+    }
+
+    get units() {
+        return this.#game.units;
+    }
+
+    get hexes() {
+        return this.#game.hexes;
+    }
+}
+
 function subtractOccupiedHexes(hexes, occupiedHexes) {
     return hexes.filter(hex => !occupiedHexes.includes(hex.toString()));
 }
