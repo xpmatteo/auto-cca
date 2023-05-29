@@ -28,7 +28,7 @@ export function draw_circle(ctx, x, y, radius) {
     ctx.closePath();
 }
 
-export function draw_unit(ctx, pixelCoordinate, unit) {
+export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
     let url = `images/units/${unit.imageName}`;
     let img = IMAGES[url];
     if (!img) {
@@ -39,7 +39,7 @@ export function draw_unit(ctx, pixelCoordinate, unit) {
     ctx.fillStyle = "black";
     ctx.fillText("4", pixelCoordinate.x + 18, pixelCoordinate.y + img.height / 2 - 10);
 
-    if (unit.isSelected) {
+    if (isSelected) {
         ctx.strokeStyle = 'red';
         ctx.lineWidth = 5;
         ctx.strokeRect(pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
@@ -92,7 +92,7 @@ export function redraw(ctx, layout, game) {
     
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        draw_unit(ctx, pixelCoordinate, unit);
+        draw_unit(ctx, pixelCoordinate, unit, unit === game.selectedUnit());
     });
 
     game.hilightedHexes.forEach(highlight);

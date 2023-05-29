@@ -84,11 +84,23 @@ test('click and select unit', function () {
 
     game.click(new Hex(1, 1));
 
-    assertTrue(unit.isSelected, "should be selected");
     assertEquals(unit, game.selectedUnit(), "selected unit");
     assertDeepEquals(new Hex(1, 1), game.selectedHex());
     let expectedHilightedHexes = [new Hex(0,1), new Hex(1,0), new Hex(0,2), new Hex(1,2), new Hex(2, 0)];
     assertEqualsInAnyOrder(expectedHilightedHexes, game.hilightedHexes);
+});
+
+test('click on other unit', function () {
+    let game = new Game();
+    let unit0 = new RomanHeavyInfantry();
+    let unit1 = new RomanHeavyInfantry();
+    game.addUnit(new Hex(0, 0), unit0);
+    game.addUnit(new Hex(0, 1), unit1);
+
+    game.click(new Hex(0, 0));
+    game.click(new Hex(0, 1));
+
+    assertEquals(unit1, game.selectedUnit(), "new unit should be selected");
 });
 
 test('click and deselect unit', function () {
@@ -99,9 +111,10 @@ test('click and deselect unit', function () {
     game.click(new Hex(0, 0));
     game.click(new Hex(0, 0));
 
-    assertFalse(unit.isSelected, "should not be selected");
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
     assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes");
 });
+
 
 // test('', () => {});
 
@@ -111,10 +124,10 @@ test('click nowhere and deselect', () => {
     game.addUnit(new Hex(0, 0), unit);
 
     game.click(new Hex(0, 0));
-    assertTrue(unit.isSelected, "should be selected");
+    assertEquals(unit, game.selectedUnit(), "unit should be selected");
     
     game.click(new Hex(100, 0));
-    assertFalse(unit.isSelected, "should not be selected");
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
 });
 
 /*
@@ -127,11 +140,10 @@ test('click and move one unit', () => {
     let game = new Game();
     let unit = new RomanHeavyInfantry();
     game.addUnit(new Hex(1,5), unit);
-    game.click(new Hex(1, 5));
-    assertTrue(unit.isSelected, "should be selected");
+    game.click(new Hex(1, 5)); 
     
     game.click(new Hex(2, 5));
-    assertFalse(unit.isSelected, "should not be selected");
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
     assertEquals(unit, game.unitAt(new Hex(2, 5)));
 });
 

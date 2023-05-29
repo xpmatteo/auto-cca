@@ -19,6 +19,7 @@ export class Game {
     #units = {};
     #hexes = {};
     #hilightedHexes = [];
+    #selectedUnit = undefined;
 
     constructor(hexes = {}) {
         enumerateHexes(hex => {
@@ -52,13 +53,13 @@ export class Game {
 
     click(hex) {
         let unit = this.unitAt(hex);
-        if (unit) {
-            unit.toggleSelected();            
+        if (unit && unit !== this.selectedUnit()) {
+            this.#selectedUnit = unit;
         } else if (this.selectedUnit() && hex.distance(this.selectedHex()) === 1) {
             this.moveUnit(hex, this.selectedHex());
-            this.deselectAll();
+            this.#selectedUnit = undefined;
         } else {
-            this.deselectAll();
+            this.#selectedUnit = undefined;
         }
         if (this.selectedUnit()) {
             this.#hilightedHexes = subtractOccupiedHexes(hex.neighbors(), Object.keys(this.#units));
@@ -67,18 +68,8 @@ export class Game {
         }
     }
 
-    selectedUnit() {
-        return this.#units[Object.keys(this.#units).find(hex => this.#units[hex].isSelected)];
-    }
-
     selectedHex() {
-        return this.#hexes[Object.keys(this.#units).find(hex => this.#units[hex].isSelected)];
-    }
-
-    deselectAll() {
-        this.foreachUnit((unit, hex) => {
-            unit.deselect();
-        });
+        return this.#hexes[Object.keys(this.#units).find(hex => this.#units[hex] === this.#selectedUnit)];
     }
 
     foreachUnit(f) {
@@ -100,6 +91,10 @@ export class Game {
     get hilightedHexes() {
         return this.#hilightedHexes;
     }
+
+    selectedUnit() {
+        return this.#selectedUnit;
+    }
 }
 
 function subtractOccupiedHexes(hexes, occupiedHexes) {
@@ -114,26 +109,12 @@ export class Side {
 }
 
 export class Unit {
-    #isSelected = false;
-
-    toggleSelected() {
-        this.#isSelected = !this.#isSelected;
-    }
-
     get imageName() {
         return '';
     }
 
     get allegiance() {
         return Side.ROMAN;
-    }
-
-    get isSelected() {
-        return this.#isSelected;
-    }
-
-    deselect() {
-        this.#isSelected = false;
     }
 }
 
