@@ -15,70 +15,77 @@ function enumerateHexes(f) {
     }
 }
 
-export class Game {
-    #units = {};
-    #hexes = {};
+function getByValue(map, searchValue) {
+    for (let [key, value] of map.entries()) {
+        if (value === searchValue)
+            return key;
+    }
+}
 
-    constructor(hexes = {}) {
+export class Game {
+    #units = new Map();
+    #hexes = [];
+
+    constructor() {
         enumerateHexes(hex => {
-            this.#hexes[hex.toString()] = hex;
+            this.#hexes.push(hex);
         });
     }
 
     addUnit(hex, unit) {
-        if (Object.values(this.#units).includes(unit)) {
+        if (this.unitIsPresent(unit)) {
             throw new Error(`Unit added twice`);
         }
-        if (this.#units[hex.toString()]) {
-            throw new Error(`Unit already exists at ${hex.toString()}`);
+        if (this.#units.has(hex)) {
+            throw new Error(`Unit already exists at ${hex}`);
         }
-        if (!this.#hexes[hex.toString()]) {
-            throw new Error(`Hex ${hex.toString()} outside of map`);
+        if (!this.#hexes.includes(hex)) {
+            throw new Error(`Hex ${hex} outside of map`);
         }
-        this.#units[hex.toString()] = unit;
+        this.#units.set(hex, unit);
     }
 
     moveUnit(to, from) {
-        if (!this.#units[from.toString()]) {
-            throw new Error(`No unit at ${from.toString()}`);
+        if (!this.#units.has(from)) {
+            throw new Error(`No unit at ${from}`);
         }
-        if (this.#units[to.toString()]) {
-            throw new Error(`Unit already exists at ${to.toString()}`);
+        if (this.#units.has(to)) {
+            throw new Error(`Unit already exists at ${to}`);
         }
-        this.#units[to.toString()] = this.#units[from.toString()];
-        delete this.#units[from.toString()];
+        this.#units.set(to, this.#units.get(from));
+        this.#units.delete(from);
     }
 
     subtractOffMap(hexes) {
-        return hexes.filter(hex => this.#hexes[hex.toString()]);
+        return hexes.filter(hex => this.#hexes.includes(hex));
     }
 
     subtractOccupiedHexes(hexes) {
-        return hexes.filter(hex => !this.#units[hex.toString()]);
+        return hexes.filter(hex => !this.#units.has(hex));
     }
 
     foreachUnit(f) {
-        for (let hex in this.#units) {
-            f(this.#units[hex], this.#hexes[hex]);
-        }
+        this.#units.forEach(f);
     }
 
     foreachHex(f) {
-        for (let hex in this.#hexes) {
-            f(this.#hexes[hex]);
-        }
+        this.#hexes.forEach(f);
     }
 
     unitAt(hex) {
-        return this.#units[hex.toString()];
+        return this.#units.get(hex);
     }
 
     hexOfUnit(unit) {
-        return this.#hexes[Object.keys(this.#units).find(hex => this.#units[hex] === unit)];
+        return getByValue(this.#units, unit);
     }
 
     subtractOccupiedHexes(hexes) {
-        return hexes.filter(hex => !this.#units[hex.toString()]);
+        return hexes.filter(hex => !this.#units.has(hex));
+    }
+
+    unitIsPresent(unit) {
+        return Array.from(this.#units.values()).includes(unit);
     }
 }
 

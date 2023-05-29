@@ -61,8 +61,7 @@ test('adding same unit in two places?', () => {
     }
 });
 
-
-test('map', function () {
+test('map size', function () {
     let game = makeGame();
     let count = 0;
 

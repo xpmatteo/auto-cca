@@ -13,8 +13,11 @@ const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
 const ctx = canvas.getContext('2d');
 
-canvas.width = 1800; 
-canvas.height = 1200;
+const MAP_WIDTH = 1800;
+const MAP_HEIGHT = 1200;
+
+canvas.width = MAP_WIDTH;
+canvas.height = MAP_HEIGHT;
 let canvasScale = 1;
 
 let game = new InteractiveGame(new Game());
