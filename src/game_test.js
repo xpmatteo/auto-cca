@@ -1,8 +1,11 @@
 
-import { assertEquals, assertTrue, assertFalse, test, xtest, fail } from './test_lib.js';
+import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from './test_lib.js';
 import { Game, RomanHeavyInfantry } from './game.js';
 import { Hex } from './hexlib.js';
 
+function otherUnit() {
+    return new RomanHeavyInfantry();
+}
 
 test('add units', function () {
     let game = new Game();
@@ -73,12 +76,19 @@ test('map', function () {
 test('click and select unit', function () {
     let game = new Game();
     let unit = new RomanHeavyInfantry();
-    game.addUnit(new Hex(0, 0), unit);
+    game.addUnit(new Hex(1, 1), unit);
+    game.addUnit(new Hex(2, 1), otherUnit());
     assertFalse(unit.isSelected, "should not be selected at start");
+    assertEquals(undefined, game.selectedUnit(), "no selected unit at start");
+    assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes at start");
 
-    game.click(new Hex(0, 0));
+    game.click(new Hex(1, 1));
 
     assertTrue(unit.isSelected, "should be selected");
+    assertEquals(unit, game.selectedUnit(), "selected unit");
+    assertDeepEquals(new Hex(1, 1), game.selectedHex());
+    let expectedHilightedHexes = [new Hex(0,1), new Hex(1,0), new Hex(0,2), new Hex(1,2), new Hex(2, 0)];
+    assertEqualsInAnyOrder(expectedHilightedHexes, game.hilightedHexes);
 });
 
 test('click and deselect unit', function () {
@@ -90,6 +100,7 @@ test('click and deselect unit', function () {
     game.click(new Hex(0, 0));
 
     assertFalse(unit.isSelected, "should not be selected");
+    assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes");
 });
 
 // test('', () => {});

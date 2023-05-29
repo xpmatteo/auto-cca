@@ -18,6 +18,7 @@ function enumerateHexes(f) {
 export class Game {
     #units = {};
     #hexes = {};
+    #hilightedHexes = [];
 
     constructor(hexes = {}) {
         enumerateHexes(hex => {
@@ -51,21 +52,27 @@ export class Game {
 
     click(hex) {
         let unit = this.unitAt(hex);
-        let selectedUnit, selectedHex;
-        this.foreachUnit((unit, hex) => {
-            if (unit.isSelected) {
-                selectedUnit = unit;
-                selectedHex = hex;
-            }
-        });
         if (unit) {
-            unit.toggleSelected();
-        } else if (selectedUnit && hex.distance(selectedHex) === 1) {
-            this.moveUnit(hex, selectedHex);
+            unit.toggleSelected();            
+        } else if (this.selectedUnit() && hex.distance(this.selectedHex()) === 1) {
+            this.moveUnit(hex, this.selectedHex());
             this.deselectAll();
         } else {
             this.deselectAll();
         }
+        if (this.selectedUnit()) {
+            this.#hilightedHexes = subtractOccupiedHexes(hex.neighbors(), Object.keys(this.#units));
+        } else {
+            this.#hilightedHexes = [];
+        }
+    }
+
+    selectedUnit() {
+        return this.#units[Object.keys(this.#units).find(hex => this.#units[hex].isSelected)];
+    }
+
+    selectedHex() {
+        return this.#hexes[Object.keys(this.#units).find(hex => this.#units[hex].isSelected)];
     }
 
     deselectAll() {
@@ -89,6 +96,14 @@ export class Game {
     unitAt(hex) {
         return this.#units[hex.toString()];
     }
+
+    get hilightedHexes() {
+        return this.#hilightedHexes;
+    }
+}
+
+function subtractOccupiedHexes(hexes, occupiedHexes) {
+    return hexes.filter(hex => !occupiedHexes.includes(hex.toString()));
 }
 
 export class Side {

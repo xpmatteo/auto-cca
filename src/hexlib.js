@@ -5,7 +5,7 @@ const abs = Math.abs;
 const round = Math.round;
 const trunc = Math.trunc;
 
-// thanks https://www.redblobgames.com/grids/hexagons/#coordinates
+// thanks https://www.redblobgames.com/grids/hexagons/implementation.html
 
 export class Hex {
     constructor(q, r, s=undefined) {
@@ -26,8 +26,16 @@ export class Hex {
     distance(other) {
         return hex_length(hex_subtract(this, other));
     }
+
+    neighbors() {
+        return hex_directions.map((direction) => hex_add(this, direction));
+    }
 };
 
+const hex_directions = [
+    new Hex(1, 0, -1), new Hex(1, -1, 0), new Hex(0, -1, 1), 
+    new Hex(-1, 0, 1), new Hex(-1, 1, 0), new Hex(0, 1, -1)
+];
 
 class Orientation {
     // start_angle is in multiples of 60°
@@ -91,6 +99,10 @@ function hex_round(fracq, fracr, fracs) {
         s = -q - r;
     }
     return new Hex(q, r, s);
+}
+
+function hex_add(a, b) {
+    return new Hex(a.q + b.q, a.r + b.r, a.s + b.s);
 }
 
 function hex_subtract(a, b) {

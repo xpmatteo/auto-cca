@@ -35,8 +35,24 @@ export function assertEquals(expected, actual, message=undefined) {
     }
 }
 
-export function assert_deep_equals(expected, actual, message='Assertion failed') {
-    if (JSON.stringify(expected) !== JSON.stringify(actual)) {
+export function assertEqualsInAnyOrder(expected, actual, message=undefined) {
+    let a = JSON.stringify(expected.sort());
+    let b = JSON.stringify(actual.sort());
+    if (message === undefined) {
+        message = `Expected ${a} but got ${b}`;
+    }
+    if (a !== b) {
+        throw new AssertionFailed(message);
+    }
+}
+
+export function assertDeepEquals(expected, actual, message=undefined) {
+    let a = JSON.stringify(expected);
+    let b = JSON.stringify(actual);
+    if (message === undefined) {
+        message = `Expected ${a} but got ${b}`;
+    }
+    if (a !== b) {
         throw new AssertionFailed(message);
     }
 }
