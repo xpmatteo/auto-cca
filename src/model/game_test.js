@@ -1,23 +1,60 @@
-import { assertEquals, test, xtest } from "../lib/test_lib.js";
-import * as GameStatus from "./game_status.js";
-import { ScenarioRaceToOppositeSide } from "./scenarios.js";
+import { hexOf } from "../lib/hexlib.js";
+import { assertEquals, assertDeepEquals, test } from "../lib/test_lib.js";
 import { Cca } from "./game.js";
+import * as GameStatus from "./game_status.js";
+import * as units from "./units.js";
+import { Side } from "./side.js";
+import { EndOfTurn } from "./turn.js";
+
+class TestScenario {
+    get firstSide() {
+        return Side.CARTHAGINIAN;
+    }
+
+    placeUnitsOn(board) {
+        board.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
+    }
+
+    gameStatus(board) {
+        let status;
+        board.foreachUnit((unit, hex) => {
+            if (hex === hexOf(0, 5)) {
+                status = GameStatus.ROMAN_WIN;
+            }
+        });
+        return status || GameStatus.ONGOING;
+    }
+}
+
+const scenario = new TestScenario();
 
 test("game status", () => {
-    const scenario = new ScenarioRaceToOppositeSide();
     const cca = new Cca(scenario);
 
-    assertEquals(GameStatus.ONGOING, cca.gameStatus(cca.state));
+    assertEquals(GameStatus.ONGOING, cca.gameStatus());
 });
 
 test("validCommands", () => {
-    const scenario = new ScenarioRaceToOppositeSide();
     const cca = new Cca(scenario);
 
-    let validCommands = cca.validCommands(cca.state);
-    console.log(validCommands);
+    let validCommands = cca.validCommands();
 
-    assertEquals(22, validCommands.length);
+    // the only unit on board is Roman, first player is Carthaginian
+    assertDeepEquals([new EndOfTurn()], validCommands);
 });
 
+test("executeCommand", () => {
+    const cca = new Cca(scenario);
+
+    cca.executeCommand(new EndOfTurn());
+
+    assertEquals(Side.ROMAN, cca.currentSide);
+    assertEquals(6, cca.validCommands().length);
+});
+
+test("currentSide", () => {
+    const cca = new Cca(scenario);
+
+    assertEquals(Side.CARTHAGINIAN, cca.currentSide);
+});
 

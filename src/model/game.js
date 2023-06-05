@@ -13,27 +13,28 @@ export class Cca {
         this.scenario.placeUnitsOn(board);
         return {
             board: board,
-            turn: new Turn(board),
-            currentSide: this.scenario.firstSide,
+            turn: new Turn(board, this.scenario.firstSide),
             gameStatus: GameStatus.ONGOING,
         };
     }
 
-    validCommands(state) {
-        return state.turn.validCommands();
+    validCommands() {
+        return this.state.turn.validCommands();
     }
 
-    executeCommand(state, move) {
-        state.turn.executeCommand(move);
-        state.currentSide = this.turn.currentSide;
-        state.gameStatus = this.scenario.gameStatus(this.board);
+    executeCommand(command) {
+        this.state.turn.play(command);
     }
 
-    gameStatus(state) {
-        return state.gameStatus;
+    gameStatus() {
+        return this.state.gameStatus;
     }
 
-    isTerminal(state) {
-        return state.gameStatus !== GameStatus.ONGOING;
+    isTerminal() {
+        return this.state.gameStatus !== GameStatus.ONGOING;
+    }
+
+    get currentSide() {
+        return this.state.turn.currentSide;
     }
 }

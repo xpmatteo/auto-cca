@@ -7,8 +7,9 @@ export class Turn {
     #currentSide = Side.ROMAN;
     #board;
 
-    constructor(board) {
+    constructor(board, currentSide = Side.ROMAN) {
         this.#board = board;
+        this.#currentSide = currentSide;
     }
 
     validCommands() {
