@@ -1,10 +1,10 @@
 import * as t from './test_lib.js';
-import * as game from './game.js';
+import * as game from './board.js';
 import { hexOf } from './hexlib.js';
 import { Turn, EndOfTurn } from './turn.js';
 
 t.test('generate moves for one unit', function () {
-    let g = new game.Game();
+    let g = new game.Board();
     let turn = new Turn(g);
 
     t.assertEquals(game.Side.ROMAN, turn.currentSide);
@@ -33,7 +33,7 @@ t.test('generate moves for one unit', function () {
 */
 
 t.test('generate moves for two units, avoiding collisions', function () {
-    let g = new game.Game();
+    let g = new game.Board();
     let turn = new Turn(g);
     g.addUnit(hexOf(2, 5), new game.RomanHeavyInfantry());
     g.addUnit(hexOf(3, 5), new game.RomanHeavyInfantry());    
@@ -58,7 +58,7 @@ t.test('generate moves for two units, avoiding collisions', function () {
 });
 
 t.test('play move then spent', function () {
-    let g = new game.Game();
+    let g = new game.Board();
     let turn = new Turn(g);
     let unit0 = new game.RomanHeavyInfantry();
     let unit1 = new game.RomanHeavyInfantry();
@@ -82,7 +82,7 @@ t.test('play move then spent', function () {
 });
 
 t.test('eventually switch side', function () {
-    let g = new game.Game();
+    let g = new game.Board();
     let turn = new Turn(g);
     g.addUnit(hexOf(1, 1), new game.RomanHeavyInfantry());
     
@@ -92,7 +92,7 @@ t.test('eventually switch side', function () {
 });
 
 t.test('switch side', function () {
-    let g = new game.Game();
+    let g = new game.Board();
     let turn = new Turn(g);
     let unit = new game.RomanHeavyInfantry();
     g.addUnit(hexOf(1, 1), unit);

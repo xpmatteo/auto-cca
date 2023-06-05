@@ -1,5 +1,5 @@
 
-import { MoveCommand, Side } from "./game.js";
+import { MoveCommand, Side } from "./board.js";
 
 
 export class Turn {

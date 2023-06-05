@@ -1,10 +1,10 @@
 
 import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from './test_lib.js';
 import { hexOf } from './hexlib.js';
-import { Game, RomanHeavyInfantry } from './game.js';
+import { Board, RomanHeavyInfantry } from './board.js';
 
 function makeGame() {
-    return new Game();
+    return new Board();
 }
 
 test('add units', function () {

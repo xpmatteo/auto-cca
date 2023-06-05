@@ -2,7 +2,7 @@
 
 import { hexOf, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
 import { load_all_images, redraw } from "./graphics.js";
-import { Game, CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./game.js";
+import { Board, CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./board.js";
 import { InteractiveGame } from "./interactive_game.js";
 
 const hexWidth = 76.4;
@@ -20,8 +20,8 @@ canvas.width = MAP_WIDTH;
 canvas.height = MAP_HEIGHT;
 let canvasScale = 1;
 
-let nakedGame = new Game();
-let game = new InteractiveGame(nakedGame);
+let board = new Board();
+let game = new InteractiveGame(board);
 game.addUnit(hexOf(1, 5), new RomanHeavyInfantry());
 game.addUnit(hexOf(2, 5), new RomanHeavyInfantry());
 game.addUnit(hexOf(3, 5), new RomanHeavyInfantry());
@@ -107,7 +107,7 @@ document.addEventListener('mousemove', handleMouseMove);
 
 import { Autoplay } from "./autoplay.js";
 import { Turn } from "./turn.js";
-const autoplay = new Autoplay(new Turn(nakedGame));
+const autoplay = new Autoplay(new Turn(board));
 document.getElementById('autoplay').addEventListener('click', function (event) {
     autoplay.play();
     redraw(ctx, layout, game);

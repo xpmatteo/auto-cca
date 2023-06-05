@@ -26,7 +26,7 @@ function getByValue(map, searchValue) {
     }
 }
 
-export class Game {
+export class Board {
     #units = new Map();
 
     addUnit(hex, unit) {

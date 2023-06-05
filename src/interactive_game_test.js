@@ -1,7 +1,7 @@
 
 import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from './test_lib.js';
 import { hexOf } from './hexlib.js';
-import { Game, RomanHeavyInfantry } from './game.js';
+import { Board, RomanHeavyInfantry } from './board.js';
 import { InteractiveGame } from "./interactive_game.js";
 
 function otherUnit() {
@@ -9,7 +9,7 @@ function otherUnit() {
 }
 
 function makeGame() {
-    return new InteractiveGame(new Game());
+    return new InteractiveGame(new Board());
 }
 
 test('click and select unit', function () {
