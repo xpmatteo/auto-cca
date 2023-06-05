@@ -3,31 +3,31 @@ import { Turn } from "./turn.js";
 import * as GameStatus from "./game_status.js";
 
 export class Cca {
-    constructor(scenario) {
+    constructor(scenario, board, turn) {
         this.scenario = scenario;
-        this.state = this.getInitialState();
+        this.board = board;
+        this.turn = turn;
     }
 
-    getInitialState() {
-        const board = new Board();
-        this.scenario.placeUnitsOn(board);
-        return {
-            board: board,
-            turn: new Turn(board, this.scenario.firstSide),
-        };
+    initialize() {
+        this.board = new Board();
+        this.turn = new Turn(this.board, this.scenario.firstSide);
+        this.scenario.placeUnitsOn(this.board);
     }
 
     validCommands() {
         if (this.isTerminal()) return [];
-        return this.state.turn.validCommands();
+        return this.turn.validCommands();
     }
 
     executeCommand(command) {
-        this.state.turn.play(command);
+        if (this.isTerminal()) 
+            throw new Error("Cannot execute commands: game is over");
+        this.turn.play(command);
     }
 
     get gameStatus() {
-        return this.scenario.gameStatus(this.state.board);
+        return this.scenario.gameStatus(this.board);
     }
 
     isTerminal() {
@@ -35,6 +35,6 @@ export class Cca {
     }
 
     get currentSide() {
-        return this.state.turn.currentSide;
+        return this.turn.currentSide;
     }        
 }

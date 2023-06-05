@@ -31,6 +31,7 @@ const scenario = new TestScenario();
 
 test("game status", () => {
     const cca = new Cca(scenario);
+    cca.initialize();
 
     assertEquals(GameStatus.ONGOING, cca.gameStatus);
     assertFalse(cca.isTerminal(), "game is not terminal?!?")
@@ -38,6 +39,7 @@ test("game status", () => {
 
 test("validCommands", () => {
     const cca = new Cca(scenario);
+    cca.initialize();
 
     let validCommands = cca.validCommands();
 
@@ -47,6 +49,7 @@ test("validCommands", () => {
 
 test("executeCommand", () => {
     const cca = new Cca(scenario);
+    cca.initialize();
 
     cca.executeCommand(new EndOfTurn());
 
@@ -57,6 +60,7 @@ test("executeCommand", () => {
 
 test("executeCommand - game over", () => {
     const cca = new Cca(scenario);
+    cca.initialize();
 
     cca.executeCommand(new EndOfTurn());
     cca.executeCommand(new MoveCommand(hexOf(0, 5), hexOf(1, 5)));
@@ -68,7 +72,8 @@ test("executeCommand - game over", () => {
 
 test("currentSide", () => {
     const cca = new Cca(scenario);
-
+    cca.initialize();
+    
     assertEquals(Side.CARTHAGINIAN, cca.currentSide);
 });
 
