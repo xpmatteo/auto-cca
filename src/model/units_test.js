@@ -1,6 +1,8 @@
 
-import { assertEquals, assertTrue, assertFalse, test } from './test_lib.js';
-import { Side, RomanHeavyInfantry } from './board.js';
+import { assertEquals, assertTrue, assertFalse, test } from '../test_lib.js';
+import { Side } from './side.js';
+import { RomanHeavyInfantry } from './units.js';
+
 
 test('units', function () {
     let unit0 = new RomanHeavyInfantry();

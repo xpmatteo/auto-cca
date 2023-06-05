@@ -2,7 +2,8 @@
 
 import { hexOf, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
 import { load_all_images, redraw } from "./graphics.js";
-import { Board, CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./board.js";
+import { Board } from "./model/board.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from './model/units.js';
 import { InteractiveGame } from "./interactive_game.js";
 
 const hexWidth = 76.4;
@@ -106,7 +107,7 @@ function handleMouseMove(event) {
 document.addEventListener('mousemove', handleMouseMove);
 
 import { Autoplay } from "./autoplay.js";
-import { Turn } from "./turn.js";
+import { Turn } from "./model/turn.js";
 const autoplay = new Autoplay(new Turn(board));
 document.getElementById('autoplay').addEventListener('click', function (event) {
     autoplay.play();

@@ -1,4 +1,4 @@
-import { hexOf } from './hexlib.js';
+import { hexOf } from '../hexlib.js';
 
 
 function makeMap() {
@@ -86,65 +86,3 @@ export class Board {
     }
 }
 
-export class MoveCommand {
-    constructor(to, from) {
-        this.to = to;
-        this.from = from;
-    }
-    toString() {
-        return `Move ${this.from} to ${this.to}`;
-    }
-    play(game) {
-        game.moveUnit(this.to, this.from);
-        game.markUnitSpent(game.unitAt(this.to));
-    }
-}
-
-
-export class Side {
-    static ROMAN = new Side('Roman');
-    static CARTHAGINIAN = new Side('Carthaginian');
-    constructor(name) {
-        this.name = name;
-    }
-
-    toString() {
-        return `Side: ${this.name}`;
-    }
-}
-
-export class Unit {
-    #imageName;
-    #side;
-
-    constructor(imageName, side) {
-        this.#imageName = imageName;
-        this.#side = side;
-    }
-
-    get imageName() {
-        return this.#imageName;
-    }
-
-    get side() {
-        return this.#side;
-    }
-
-    movementDestinations(fromHex, board) {
-        let hexes = board.subtractOffMap(fromHex.neighbors());
-        return board.subtractOccupiedHexes(hexes);
-    }
-}
-
-
-export class RomanHeavyInfantry extends Unit {
-    constructor() {
-        super('rom_inf_hv.png', Side.ROMAN);
-    }
-}
-
-export class CarthaginianHeavyInfantry extends Unit {
-    constructor() {
-        super('car_inf_hv.png', Side.CARTHAGINIAN);
-    }
-}

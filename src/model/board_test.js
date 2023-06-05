@@ -1,7 +1,8 @@
 
-import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from './test_lib.js';
-import { hexOf } from './hexlib.js';
-import { Board, RomanHeavyInfantry } from './board.js';
+import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from '../test_lib.js';
+import { hexOf } from '../hexlib.js';
+import { Board } from './board.js';
+import { RomanHeavyInfantry } from './units.js';
 
 function makeGame() {
     return new Board();
