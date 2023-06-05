@@ -2,7 +2,6 @@
 import { Side } from "./side.js";
 import { MoveCommand } from "./commands.js";
 
-
 export class Turn {
     #spentUnits = [];
     #currentSide = Side.ROMAN;
@@ -12,8 +11,8 @@ export class Turn {
         this.#board = board;
     }
 
-    generateMoves() {
-        let moves = [];
+    generateCommands() {
+        let commands = [];
         this.#board.foreachUnit((unit, hex) => {
             if (this.#spentUnits.includes(unit)) {
                 return;
@@ -22,17 +21,17 @@ export class Turn {
                 return;
             }
             unit.movementDestinations(hex, this.#board).forEach(to => {
-                moves.push(new MoveCommand(to, hex));
+                commands.push(new MoveCommand(to, hex));
             });
         });
-        if (moves.length === 0) {
-            moves.push(new EndOfTurn());
+        if (commands.length === 0) {
+            commands.push(new EndOfTurn());
         }
-        return moves;
+        return commands;
     }
 
-    play(move) {
-        move.play(this);        
+    play(command) {
+        command.play(this);        
     }
 
     get currentSide() {        

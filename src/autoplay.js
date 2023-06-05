@@ -5,12 +5,11 @@ export class Autoplay {
     }
 
     play() {
-        let moves = this.game.generateMoves();
-        if (moves.length === 0) {
-            return false;
+        let commands = this.game.generateCommands();
+        if (commands.length === 0) {
+            return ;
         }
-        let move = moves[Math.floor(Math.random() * moves.length)];
-        this.game.play(move);
-        return true;
+        let command = commands[Math.floor(Math.random() * commands.length)];
+        this.game.play(command);
     }
 }

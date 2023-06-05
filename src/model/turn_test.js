@@ -7,14 +7,14 @@ import * as units from './units.js';
 import { MoveCommand } from './commands.js';
 
 t.test('generate moves for one unit', function () {
-    let g = new Board();
-    let turn = new Turn(g);
+    let board = new Board();
+    let turn = new Turn(board);
 
     t.assertEquals(Side.ROMAN, turn.currentSide);
-    g.addUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
-    g.addUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
+    board.addUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    board.addUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
     
-    let moves = turn.generateMoves();
+    let moves = turn.generateCommands();
 
     t.assertEquals(6, moves.length);
     let expected = [
@@ -35,15 +35,15 @@ t.test('generate moves for one unit', function () {
      0,6   1,6    2,6   3,6   
 */
 
-t.test('generate moves for two units, avoiding collisions', function () {
+t.test('generate commands for two units, avoiding collisions', function () {
     let g = new Board();
     let turn = new Turn(g);
     g.addUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
     g.addUnit(hexOf(3, 5), new units.RomanHeavyInfantry());    
     
-    let moves = turn.generateMoves();
+    let commands = turn.generateCommands();
 
-    t.assertEquals(10, moves.length);
+    t.assertEquals(10, commands.length);
     let expected = [
         new MoveCommand(hexOf(3, 4), hexOf(2, 5)),
         new MoveCommand(hexOf(2, 4), hexOf(2, 5)),
@@ -57,7 +57,7 @@ t.test('generate moves for two units, avoiding collisions', function () {
         new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
         new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
     ];
-    t.assertEqualsInAnyOrder(expected, moves);
+    t.assertEqualsInAnyOrder(expected, commands);
 });
 
 t.test('play move then spent', function () {
@@ -71,8 +71,8 @@ t.test('play move then spent', function () {
     turn.play(new MoveCommand(hexOf(1, 5), hexOf(2, 5)));
 
     t.assertEquals(unit0, g.unitAt(hexOf(1, 5)));
-    let moves = turn.generateMoves();
-    t.assertEquals(6, moves.length);
+    let commands = turn.generateCommands();
+    t.assertEquals(6, commands.length);
     let expected = [
         new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
         new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
@@ -81,7 +81,7 @@ t.test('play move then spent', function () {
         new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
         new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
     ];
-    t.assertEqualsInAnyOrder(expected, moves);
+    t.assertEqualsInAnyOrder(expected, commands);
 });
 
 t.test('eventually switch side', function () {
@@ -91,7 +91,7 @@ t.test('eventually switch side', function () {
     
     turn.play(new MoveCommand(hexOf(1, 0), hexOf(1, 1)));
 
-    t.assertEquals("End of turn", turn.generateMoves().toString());
+    t.assertEquals("End of turn", turn.generateCommands().toString());
 });
 
 t.test('switch side', function () {
