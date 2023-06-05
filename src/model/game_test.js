@@ -10,13 +10,14 @@ test("game status", () => {
     assertEquals(GameStatus.ONGOING, cca.gameStatus(cca.state));
 });
 
-
-xtest("validCommands", () => {
+test("validCommands", () => {
     const scenario = new ScenarioRaceToOppositeSide();
     const cca = new Cca(scenario);
 
     let validCommands = cca.validCommands(cca.state);
     console.log(validCommands);
 
-    assertEquals(6, validCommands.length);
+    assertEquals(22, validCommands.length);
 });
+
+

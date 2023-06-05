@@ -10,6 +10,7 @@ export class Cca {
 
     getInitialState() {
         const board = new Board();
+        this.scenario.placeUnitsOn(board);
         return {
             board: board,
             turn: new Turn(board),
