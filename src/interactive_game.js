@@ -20,7 +20,7 @@ export class InteractiveGame {
             this.#selectedUnit = undefined;
         }
         if (this.selectedUnit()) {
-            this.#hilightedHexes = this.eligibleHexesForSelectedUnit();
+            this.#hilightedHexes = this.selectedUnit().validDestinations(this.selectedHex(), this.#game);
         } else {
             this.#hilightedHexes = [];
         }

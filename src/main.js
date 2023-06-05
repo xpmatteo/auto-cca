@@ -5,8 +5,10 @@ import { InteractiveGame } from "./interactive_game.js";
 import { Layout, Point, layout_pointy, pixel_to_hex } from "./lib/hexlib.js";
 import { Board } from "./model/board.js";
 import { ScenarioRaceToOppositeSide } from "./model/scenarios.js";
-import { Turn } from "./model/turn.js";
+import { EndOfTurn, Turn } from "./model/turn.js";
 import { load_all_images, redraw } from "./view/graphics.js";
+import { Cca } from "./model/game.js";
+
 
 const hexWidth = 76.4;
 const hexHeight = 77.4;
@@ -23,10 +25,11 @@ canvas.width = MAP_WIDTH;
 canvas.height = MAP_HEIGHT;
 let canvasScale = 1;
 
-let board = new Board();
-let game = new InteractiveGame(board);
 let scenario = new ScenarioRaceToOppositeSide();
-scenario.placeUnitsOn(board);
+let cca = new Cca(scenario);
+cca.initialize();
+
+let interactiveGame = new InteractiveGame(cca);
 
 let imageUrls = [
     'images/cca_map_hq.jpg',
@@ -67,7 +70,7 @@ let imageUrls = [
 load_all_images(imageUrls, onAllImagesLoaded);
 
 function onAllImagesLoaded() {
-    redraw(ctx, layout, game);
+    redraw(ctx, layout, interactiveGame);
     resizeCanvas();
 }
 
@@ -88,8 +91,8 @@ function findHexFromPixel(screenX, screenY) {
 canvas.addEventListener('click', function (event) {
     let hex = findHexFromPixel(event.clientX, event.clientY);
     console.log(`clicked on ${event.clientX},${event.clientY}: Hex ${hex.q}, ${hex.r}`);
-    game.click(hex);
-    redraw(ctx, layout, game);
+    interactiveGame.click(hex);
+    redraw(ctx, layout, interactiveGame);
 });
 
 // track mouse movement
@@ -99,10 +102,12 @@ function handleMouseMove(event) {
     let message = `${event.clientX},${event.clientY}: ${hex.q}, ${hex.r}`;
     info_box.innerHTML = message;
 }
-document.addEventListener('mousemove', handleMouseMove);
+//document.addEventListener('mousemove', handleMouseMove);
 
-const autoplay = new Autoplay(new Turn(board));
-document.getElementById('autoplay').addEventListener('click', function (event) {
+const autoplay = new Autoplay(cca);
+
+document.getElementById('end-turn').addEventListener('click', function (event) {
+    cca.executeCommand(new EndOfTurn());
     autoplay.play();
-    redraw(ctx, layout, game);
+    redraw(ctx, layout, interactiveGame);
 });

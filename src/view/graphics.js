@@ -96,4 +96,15 @@ export function redraw(ctx, layout, game) {
     });
 
     game.hilightedHexes.forEach(highlight);
+
+    updateInfoMessage(game);
+}
+
+function updateInfoMessage(game) {
+    let info = document.getElementById("info");
+    if (game.isTerminal) {
+        info.innerHTML = `Game over. ${game.gameStatus}`;    
+    } else {
+        info.innerHTML = `${game.currentSide} to move`;
+    }
 }

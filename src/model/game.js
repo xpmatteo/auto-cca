@@ -37,4 +37,30 @@ export class Cca {
     get currentSide() {
         return this.turn.currentSide;
     }        
+
+    // ---- delegate to board ----
+    foreachHex(f) {
+        return this.board.foreachHex(f);
+    }
+
+    foreachUnit(f) {
+        return this.board.foreachUnit(f);
+    }
+
+    unitAt(hex) {
+        return this.board.unitAt(hex);
+    }
+
+    hexOfUnit(unit) {
+        return this.board.hexOfUnit(unit);
+    }
+
+    subtractOffMap(hexes) {
+        return this.board.subtractOffMap(hexes);
+    }
+
+    subtractOccupiedHexes(hexes) {
+        return this.board.subtractOccupiedHexes(hexes);
+    }
+
 }
