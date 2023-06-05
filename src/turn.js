@@ -20,9 +20,7 @@ export class Turn {
             if (unit.side !== this.#currentSide) {
                 return;
             }
-            let hexes = this.#board.subtractOffMap(hex.neighbors());
-            hexes = this.#board.subtractOccupiedHexes(hexes);
-            hexes.forEach(to => {
+            unit.movementDestinations(hex, this.#board).forEach(to => {
                 moves.push(new MoveCommand(to, hex));
             });
         });

@@ -129,6 +129,11 @@ export class Unit {
     get side() {
         return this.#side;
     }
+
+    movementDestinations(fromHex, board) {
+        let hexes = board.subtractOffMap(fromHex.neighbors());
+        return board.subtractOccupiedHexes(hexes);
+    }
 }
 
 
