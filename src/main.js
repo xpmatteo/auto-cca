@@ -1,6 +1,6 @@
 "use strict";
 
-import { hexOf, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./hexlib.js";
+import { hexOf, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./lib/hexlib.js";
 import { load_all_images, redraw } from "./graphics.js";
 import { Board } from "./model/board.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from './model/units.js';

@@ -1,6 +1,6 @@
 import * as t from '../test_lib.js';
 import { Board } from './board.js';
-import { hexOf } from '../hexlib.js';
+import { hexOf } from '../lib/hexlib.js';
 import { Turn, EndOfTurn } from './turn.js';
 import { Side } from './side.js';
 import * as units from './units.js';

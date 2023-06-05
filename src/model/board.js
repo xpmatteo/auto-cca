@@ -1,4 +1,4 @@
-import { hexOf } from '../hexlib.js';
+import { hexOf } from '../lib/hexlib.js';
 
 
 function makeMap() {

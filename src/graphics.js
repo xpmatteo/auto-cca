@@ -1,6 +1,6 @@
 'use strict';
 
-import { hex_to_pixel } from "./hexlib.js";
+import { hex_to_pixel } from "./lib/hexlib.js";
 
 const IMAGES = {}
 

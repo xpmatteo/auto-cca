@@ -1,5 +1,5 @@
 
-import { assertEquals, assertDeepEquals, assertTrue, assertFalse, test, assertEqualsInAnyOrder } from './test_lib.js';
+import { assertEquals, assertDeepEquals, assertTrue, assertFalse, test, assertEqualsInAnyOrder } from '../test_lib.js';
 import { hexOf } from './hexlib.js';
 
 test('hex to string', function () {

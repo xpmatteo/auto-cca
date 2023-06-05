@@ -1,6 +1,6 @@
 
 import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from '../test_lib.js';
-import { hexOf } from '../hexlib.js';
+import { hexOf } from '../lib/hexlib.js';
 import { Board } from './board.js';
 import { RomanHeavyInfantry } from './units.js';
 
