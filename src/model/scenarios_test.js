@@ -38,3 +38,13 @@ test("ongoing", () => {
 
     assertEquals(GameStatus.ONGOING, scenario.gameStatus(board));
 });
+
+test("place units on board", () => {
+    const scenario = new ScenarioRaceToOppositeSide();
+    const board = new Board();
+
+    scenario.placeUnitsOn(board);
+
+    assertEquals(5, board.unitsOfSide(Side.ROMAN).length);
+    assertEquals(3, board.unitsOfSide(Side.CARTHAGINIAN).length);
+});

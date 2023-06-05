@@ -84,5 +84,9 @@ export class Board {
     play(move) {
         move.execute(this);
     }
+
+    unitsOfSide(side) {
+        return Array.from(this.#units.values()).filter(unit => unit.side === side);
+    }
 }
 
