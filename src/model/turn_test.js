@@ -1,4 +1,4 @@
-import * as t from '../test_lib.js';
+import * as t from '../lib/test_lib.js';
 import { Board } from './board.js';
 import { hexOf } from '../lib/hexlib.js';
 import { Turn, EndOfTurn } from './turn.js';

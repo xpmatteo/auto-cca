@@ -1,5 +1,5 @@
 
-import {test, assertTrue, assertEquals } from './test_lib.js';
+import {test, assertTrue, assertEquals } from './lib/test_lib.js';
 import {load_all_images} from './graphics.js';
 
 test('load images', function () {

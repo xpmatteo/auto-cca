@@ -1,5 +1,5 @@
 
-import { assertEquals, assertTrue, assertFalse, test } from '../test_lib.js';
+import { assertEquals, assertTrue, assertFalse, test } from '../lib/test_lib.js';
 import { Side } from './side.js';
 import { RomanHeavyInfantry } from './units.js';
 
