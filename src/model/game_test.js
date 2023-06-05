@@ -1,10 +1,11 @@
 import { hexOf } from "../lib/hexlib.js";
-import { assertEquals, assertDeepEquals, test } from "../lib/test_lib.js";
+import { assertEquals, assertFalse, assertTrue, assertDeepEquals, test } from "../lib/test_lib.js";
 import { Cca } from "./game.js";
 import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import { Side } from "./side.js";
 import { EndOfTurn } from "./turn.js";
+import { MoveCommand } from "./commands.js";
 
 class TestScenario {
     get firstSide() {
@@ -31,7 +32,8 @@ const scenario = new TestScenario();
 test("game status", () => {
     const cca = new Cca(scenario);
 
-    assertEquals(GameStatus.ONGOING, cca.gameStatus());
+    assertEquals(GameStatus.ONGOING, cca.gameStatus);
+    assertFalse(cca.isTerminal(), "game is not terminal?!?")
 });
 
 test("validCommands", () => {
@@ -49,7 +51,19 @@ test("executeCommand", () => {
     cca.executeCommand(new EndOfTurn());
 
     assertEquals(Side.ROMAN, cca.currentSide);
+    assertEquals(GameStatus.ONGOING, cca.gameStatus);
     assertEquals(6, cca.validCommands().length);
+});
+
+test("executeCommand - game over", () => {
+    const cca = new Cca(scenario);
+
+    cca.executeCommand(new EndOfTurn());
+    cca.executeCommand(new MoveCommand(hexOf(0, 5), hexOf(1, 5)));
+
+    assertEquals(GameStatus.ROMAN_WIN, cca.gameStatus);
+    assertTrue(cca.isTerminal(), "game is not terminal?!?");
+    assertEquals(0, cca.validCommands().length);
 });
 
 test("currentSide", () => {

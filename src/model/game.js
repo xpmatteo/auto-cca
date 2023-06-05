@@ -14,11 +14,11 @@ export class Cca {
         return {
             board: board,
             turn: new Turn(board, this.scenario.firstSide),
-            gameStatus: GameStatus.ONGOING,
         };
     }
 
     validCommands() {
+        if (this.isTerminal()) return [];
         return this.state.turn.validCommands();
     }
 
@@ -26,15 +26,15 @@ export class Cca {
         this.state.turn.play(command);
     }
 
-    gameStatus() {
-        return this.state.gameStatus;
+    get gameStatus() {
+        return this.scenario.gameStatus(this.state.board);
     }
 
     isTerminal() {
-        return this.state.gameStatus !== GameStatus.ONGOING;
+        return this.gameStatus !== GameStatus.ONGOING;
     }
 
     get currentSide() {
         return this.state.turn.currentSide;
-    }
+    }        
 }
