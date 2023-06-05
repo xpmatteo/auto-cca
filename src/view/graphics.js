@@ -98,11 +98,20 @@ export function redraw(ctx, layout, game) {
     game.hilightedHexes.forEach(highlight);
 
     updateInfoMessage(game);
+    enableButtons(game);
+}
+
+function enableButtons(game) {
+    let endTurnButton = document.getElementById("end-turn");
+    endTurnButton.disabled = game.isTerminal();
+
+    let newGameButton = document.getElementById("new-game");
+    newGameButton.disabled = !game.isTerminal();
 }
 
 function updateInfoMessage(game) {
-    let info = document.getElementById("info");
-    if (game.isTerminal) {
+    let info = document.getElementById("info");    
+    if (game.isTerminal()) {
         info.innerHTML = `Game over. ${game.gameStatus}`;    
     } else {
         info.innerHTML = `${game.currentSide} to move`;

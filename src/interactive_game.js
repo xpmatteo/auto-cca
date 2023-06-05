@@ -1,4 +1,5 @@
 
+import { MoveCommand } from "./model/commands.js";
 
 export class InteractiveGame {
     #game;
@@ -10,11 +11,13 @@ export class InteractiveGame {
     }
 
     click(hex) {
+        if (this.isTerminal()) 
+            return;
         let unit = this.unitAt(hex);
         if (unit && unit !== this.selectedUnit()) {
             this.#selectedUnit = unit;
         } else if (this.selectedUnit() && this.selectedUnitCanMoveTo(hex)) {
-            this.#game.moveUnit(hex, this.selectedHex());
+            this.#game.executeCommand(new MoveCommand(hex, this.selectedHex()));
             this.#selectedUnit = undefined;
         } else {
             this.#selectedUnit = undefined;
@@ -26,12 +29,8 @@ export class InteractiveGame {
         }
     }
 
-    eligibleHexesForSelectedUnit() {
-        return this.#game.subtractOffMap(this.#game.subtractOccupiedHexes(this.selectedHex().neighbors()));
-    }
-
     selectedUnitCanMoveTo(hex) {
-        return this.eligibleHexesForSelectedUnit().map(h => h.toString()).includes(hex.toString());
+        return this.selectedUnit().validDestinations(this.selectedHex(), this.#game).includes(hex);
     }
 
     get hilightedHexes() {
@@ -70,5 +69,26 @@ export class InteractiveGame {
 
     placeUnit(hex, unit) {
         this.#game.placeUnit(hex, unit);
+    }
+
+    get gameStatus() {
+        console.log(`gameStatus: ${this.#game}`);
+        return this.#game.gameStatus;
+    }
+
+    executeCommand(command) {
+        this.#game.executeCommand(command);
+    }
+
+    moveUnit(hex, fromHex) {
+        this.#game.executeCommand(new MoveCommand(hex, fromHex));
+    }
+
+    isTerminal() {
+        return this.#game.isTerminal();
+    }
+
+    get currentSide() {
+        return this.#game.currentSide;
     }
 }
