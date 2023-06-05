@@ -5,23 +5,23 @@ import { MoveCommand, Side } from "./board.js";
 export class Turn {
     #spentUnits = [];
     #currentSide = Side.ROMAN;
-    #game;
+    #board;
 
-    constructor(game) {
-        this.#game = game;
+    constructor(board) {
+        this.#board = board;
     }
 
     generateMoves() {
         let moves = [];
-        this.#game.foreachUnit((unit, hex) => {
+        this.#board.foreachUnit((unit, hex) => {
             if (this.#spentUnits.includes(unit)) {
                 return;
             }
             if (unit.side !== this.#currentSide) {
                 return;
             }
-            let hexes = this.#game.subtractOffMap(hex.neighbors());
-            hexes = this.#game.subtractOccupiedHexes(hexes);
+            let hexes = this.#board.subtractOffMap(hex.neighbors());
+            hexes = this.#board.subtractOccupiedHexes(hexes);
             hexes.forEach(to => {
                 moves.push(new MoveCommand(to, hex));
             });
@@ -56,11 +56,11 @@ export class Turn {
 
     // --- delegate to game ---
     moveUnit(to, from) {
-        this.#game.moveUnit(to, from);
+        this.#board.moveUnit(to, from);
     }
 
     unitAt(hex) {
-        return this.#game.unitAt(hex);
+        return this.#board.unitAt(hex);
     }
 }
 
