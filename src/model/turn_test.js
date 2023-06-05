@@ -14,7 +14,7 @@ t.test('generate moves for one unit', function () {
     board.addUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     board.addUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
     
-    let moves = turn.generateCommands();
+    let moves = turn.validCommands();
 
     t.assertEquals(6, moves.length);
     let expected = [
@@ -41,7 +41,7 @@ t.test('generate commands for two units, avoiding collisions', function () {
     g.addUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
     g.addUnit(hexOf(3, 5), new units.RomanHeavyInfantry());    
     
-    let commands = turn.generateCommands();
+    let commands = turn.validCommands();
 
     t.assertEquals(10, commands.length);
     let expected = [
@@ -71,7 +71,7 @@ t.test('play move then spent', function () {
     turn.play(new MoveCommand(hexOf(1, 5), hexOf(2, 5)));
 
     t.assertEquals(unit0, g.unitAt(hexOf(1, 5)));
-    let commands = turn.generateCommands();
+    let commands = turn.validCommands();
     t.assertEquals(6, commands.length);
     let expected = [
         new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
@@ -91,7 +91,7 @@ t.test('eventually switch side', function () {
     
     turn.play(new MoveCommand(hexOf(1, 0), hexOf(1, 1)));
 
-    t.assertEquals("End of turn", turn.generateCommands().toString());
+    t.assertEquals("End of turn", turn.validCommands().toString());
 });
 
 t.test('switch side', function () {

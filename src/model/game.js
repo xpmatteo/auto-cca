@@ -1,10 +1,11 @@
 import { Board } from "./board.js";
 import { Turn } from "./turn.js";
+import * as GameStatus from "./game_status.js";
 
 export class Cca {
     constructor(scenario) {
-        this.state = this.getInitialState();
         this.scenario = scenario;
+        this.state = this.getInitialState();
     }
 
     getInitialState() {
@@ -13,12 +14,12 @@ export class Cca {
             board: board,
             turn: new Turn(board),
             currentSide: this.scenario.firstSide,
-            gameStatus: GAME_ONGOING
+            gameStatus: GameStatus.ONGOING,
         };
     }
 
     validCommands(state) {
-        return state.turn.generateMoves();
+        return state.turn.validCommands();
     }
 
     executeCommand(state, move) {
@@ -32,6 +33,6 @@ export class Cca {
     }
 
     isTerminal(state) {
-        return state.gameStatus !== STATUS_ONGOING;
+        return state.gameStatus !== GameStatus.ONGOING;
     }
 }

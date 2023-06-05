@@ -5,7 +5,7 @@ export class Autoplay {
     }
 
     play() {
-        let commands = this.game.generateCommands();
+        let commands = this.game.validCommands();
         if (commands.length === 0) {
             return ;
         }

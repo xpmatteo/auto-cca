@@ -3,9 +3,14 @@ import { hexOf } from "../lib/hexlib.js";
 import { Board } from "./board.js";
 import * as units from "./units.js";
 import * as GameStatus from "./game_status.js";
+import { Side } from "./side.js";
 import { ScenarioRaceToOppositeSide } from "./scenarios.js";
 
 const scenario = new ScenarioRaceToOppositeSide();
+
+test ("first side", () => {
+    assertEquals(Side.ROMAN, scenario.firstSide);
+});
 
 test("roman win", () => {
     let board = new Board();

@@ -11,7 +11,7 @@ export class Turn {
         this.#board = board;
     }
 
-    generateCommands() {
+    validCommands() {
         let commands = [];
         this.#board.foreachUnit((unit, hex) => {
             if (this.#spentUnits.includes(unit)) {
@@ -20,7 +20,7 @@ export class Turn {
             if (unit.side !== this.#currentSide) {
                 return;
             }
-            unit.movementDestinations(hex, this.#board).forEach(to => {
+            unit.validDestinations(hex, this.#board).forEach(to => {
                 commands.push(new MoveCommand(to, hex));
             });
         });

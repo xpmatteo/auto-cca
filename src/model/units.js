@@ -17,7 +17,7 @@ export class Unit {
         return this.#side;
     }
 
-    movementDestinations(fromHex, board) {
+    validDestinations(fromHex, board) {
         let hexes = board.subtractOffMap(fromHex.neighbors());
         return board.subtractOccupiedHexes(hexes);
     }
