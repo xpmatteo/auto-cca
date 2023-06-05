@@ -68,7 +68,7 @@ export class InteractiveGame {
         return this.#game.hexes;
     }
 
-    addUnit(hex, unit) {
-        this.#game.addUnit(hex, unit);
+    placeUnit(hex, unit) {
+        this.#game.placeUnit(hex, unit);
     }
 }

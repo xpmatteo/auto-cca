@@ -10,14 +10,14 @@ export class ScenarioRaceToOppositeSide {
     }
 
     placeUnitsOn(board) {
-        board.addUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
-        board.addUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
-        board.addUnit(hexOf(3, 5), new units.RomanHeavyInfantry());
-        board.addUnit(hexOf(4, 5), new units.RomanHeavyInfantry());
-        board.addUnit(hexOf(5, 5), new units.RomanHeavyInfantry());        
-        board.addUnit(hexOf(2, 3), new units.CarthaginianHeavyInfantry());
-        board.addUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
-        board.addUnit(hexOf(3, 2), new units.CarthaginianHeavyInfantry());        
+        board.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(3, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(4, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(5, 5), new units.RomanHeavyInfantry());        
+        board.placeUnit(hexOf(2, 3), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(3, 2), new units.CarthaginianHeavyInfantry());        
     }
 
     gameStatus(board) {

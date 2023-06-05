@@ -13,8 +13,8 @@ test('add units', function () {
     let unit0 = new RomanHeavyInfantry();
     let unit1 = new RomanHeavyInfantry();
 
-    game.addUnit(hexOf(0, 0), unit0);
-    game.addUnit(hexOf(0, 1), unit1);
+    game.placeUnit(hexOf(0, 0), unit0);
+    game.placeUnit(hexOf(0, 1), unit1);
 
     let count = 0;
     game.foreachUnit((unit, hex) => { count++; });
@@ -28,7 +28,7 @@ test('add unit outside map', () => {
     let unit = new RomanHeavyInfantry();
 
     try {
-        game.addUnit(hexOf(1000, 0), unit);
+        game.placeUnit(hexOf(1000, 0), unit);
         fail("should have thrown exception");
     } catch (err) {
         assertEquals('Error: Hex [1000,0] outside of map', err.toString());
@@ -39,10 +39,10 @@ test('stacking not allowed', () => {
     let game = makeGame();
     let unit0 = new RomanHeavyInfantry();
     let unit1 = new RomanHeavyInfantry();
-    game.addUnit(hexOf(0, 0), unit0);
+    game.placeUnit(hexOf(0, 0), unit0);
 
     try {
-        game.addUnit(hexOf(0, 0), unit1);
+        game.placeUnit(hexOf(0, 0), unit1);
         fail("should have thrown exception");
     } catch (err) {
         assertEquals('Error: Unit already exists at [0,0]', err.toString());
@@ -52,10 +52,10 @@ test('stacking not allowed', () => {
 test('adding same unit in two places?', () => {
     let game = makeGame();
     let unit = new RomanHeavyInfantry();
-    game.addUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(0, 0), unit);
 
     try {
-        game.addUnit(hexOf(0, 1), unit);
+        game.placeUnit(hexOf(0, 1), unit);
         fail("should have thrown exception");
     } catch (err) {
         assertEquals('Error: Unit added twice', err.toString());

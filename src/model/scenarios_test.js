@@ -15,8 +15,8 @@ test ("first side", () => {
 test("roman win", () => {
     let board = new Board();
 
-    board.addUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
-    board.addUnit(hexOf(1, 0), new units.RomanHeavyInfantry());
+    board.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    board.placeUnit(hexOf(1, 0), new units.RomanHeavyInfantry());
 
     assertEquals(GameStatus.ROMAN_WIN, scenario.gameStatus(board));
 });
@@ -24,8 +24,8 @@ test("roman win", () => {
 test("carthaginian win", () => {
     let board = new Board();
 
-    board.addUnit(hexOf(1, 7), new units.CarthaginianHeavyInfantry());
-    board.addUnit(hexOf(1, 8), new units.CarthaginianHeavyInfantry());
+    board.placeUnit(hexOf(1, 7), new units.CarthaginianHeavyInfantry());
+    board.placeUnit(hexOf(1, 8), new units.CarthaginianHeavyInfantry());
 
     assertEquals(GameStatus.CARTHAGINIAN_WIN, scenario.gameStatus(board));
 });
@@ -33,8 +33,8 @@ test("carthaginian win", () => {
 test("ongoing", () => {
     let board = new Board();
 
-    board.addUnit(hexOf(1, 0), new units.CarthaginianHeavyInfantry());
-    board.addUnit(hexOf(1, 8), new units.RomanHeavyInfantry());
+    board.placeUnit(hexOf(1, 0), new units.CarthaginianHeavyInfantry());
+    board.placeUnit(hexOf(1, 8), new units.RomanHeavyInfantry());
 
     assertEquals(GameStatus.ONGOING, scenario.gameStatus(board));
 });

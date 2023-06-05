@@ -11,8 +11,8 @@ t.test('generate moves for one unit', function () {
     let turn = new Turn(board);
 
     t.assertEquals(Side.ROMAN, turn.currentSide);
-    board.addUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
-    board.addUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
+    board.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    board.placeUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
     
     let moves = turn.validCommands();
 
@@ -38,8 +38,8 @@ t.test('generate moves for one unit', function () {
 t.test('generate commands for two units, avoiding collisions', function () {
     let g = new Board();
     let turn = new Turn(g);
-    g.addUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
-    g.addUnit(hexOf(3, 5), new units.RomanHeavyInfantry());    
+    g.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
+    g.placeUnit(hexOf(3, 5), new units.RomanHeavyInfantry());    
     
     let commands = turn.validCommands();
 
@@ -65,8 +65,8 @@ t.test('play move then spent', function () {
     let turn = new Turn(g);
     let unit0 = new units.RomanHeavyInfantry();
     let unit1 = new units.RomanHeavyInfantry();
-    g.addUnit(hexOf(2, 5), unit0);
-    g.addUnit(hexOf(3, 5), unit1);        
+    g.placeUnit(hexOf(2, 5), unit0);
+    g.placeUnit(hexOf(3, 5), unit1);        
 
     turn.play(new MoveCommand(hexOf(1, 5), hexOf(2, 5)));
 
@@ -87,7 +87,7 @@ t.test('play move then spent', function () {
 t.test('eventually switch side', function () {
     let g = new Board();
     let turn = new Turn(g);
-    g.addUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    g.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     
     turn.play(new MoveCommand(hexOf(1, 0), hexOf(1, 1)));
 
@@ -98,7 +98,7 @@ t.test('switch side', function () {
     let g = new Board();
     let turn = new Turn(g);
     let unit = new units.RomanHeavyInfantry();
-    g.addUnit(hexOf(1, 1), unit);
+    g.placeUnit(hexOf(1, 1), unit);
     turn.play(new MoveCommand(hexOf(0, 1), hexOf(1, 1)));
     t.assertEquals(1, turn.spentUnits.length);
 

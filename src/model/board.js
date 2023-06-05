@@ -29,7 +29,7 @@ function getByValue(map, searchValue) {
 export class Board {
     #units = new Map();
 
-    addUnit(hex, unit) {
+   placeUnit(hex, unit) {
         if (this.unitIsPresent(unit)) {
             throw new Error(`Unit added twice`);
         }

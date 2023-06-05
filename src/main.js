@@ -1,10 +1,12 @@
 "use strict";
 
-import { hexOf, Layout, Point, hex_to_pixel, pixel_to_hex, layout_pointy } from "./lib/hexlib.js";
-import { load_all_images, redraw } from "./view/graphics.js";
-import { Board } from "./model/board.js";
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from './model/units.js';
+import { Autoplay } from "./autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
+import { Layout, Point, layout_pointy, pixel_to_hex } from "./lib/hexlib.js";
+import { Board } from "./model/board.js";
+import { ScenarioRaceToOppositeSide } from "./model/scenarios.js";
+import { Turn } from "./model/turn.js";
+import { load_all_images, redraw } from "./view/graphics.js";
 
 const hexWidth = 76.4;
 const hexHeight = 77.4;
@@ -23,15 +25,8 @@ let canvasScale = 1;
 
 let board = new Board();
 let game = new InteractiveGame(board);
-game.addUnit(hexOf(1, 5), new RomanHeavyInfantry());
-game.addUnit(hexOf(2, 5), new RomanHeavyInfantry());
-game.addUnit(hexOf(3, 5), new RomanHeavyInfantry());
-game.addUnit(hexOf(4, 5), new RomanHeavyInfantry());
-game.addUnit(hexOf(5, 5), new RomanHeavyInfantry());
-
-game.addUnit(hexOf(2, 3), new CarthaginianHeavyInfantry());
-game.addUnit(hexOf(2, 2), new CarthaginianHeavyInfantry());
-game.addUnit(hexOf(3, 2), new CarthaginianHeavyInfantry());
+let scenario = new ScenarioRaceToOppositeSide();
+scenario.placeUnitsOn(board);
 
 let imageUrls = [
     'images/cca_map_hq.jpg',
@@ -106,8 +101,6 @@ function handleMouseMove(event) {
 }
 document.addEventListener('mousemove', handleMouseMove);
 
-import { Autoplay } from "./autoplay.js";
-import { Turn } from "./model/turn.js";
 const autoplay = new Autoplay(new Turn(board));
 document.getElementById('autoplay').addEventListener('click', function (event) {
     autoplay.play();

@@ -16,8 +16,8 @@ function makeGame() {
 test('click and select unit', function () {
     let game = makeGame();
     let unit = new RomanHeavyInfantry();
-    game.addUnit(hexOf(1, 1), unit);
-    game.addUnit(hexOf(2, 1), otherUnit());
+    game.placeUnit(hexOf(1, 1), unit);
+    game.placeUnit(hexOf(2, 1), otherUnit());
     assertFalse(unit.isSelected, "should not be selected at start");
     assertEquals(undefined, game.selectedUnit(), "no selected unit at start");
     assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes at start");
@@ -34,8 +34,8 @@ test('click on other unit', function () {
     let game = makeGame();
     let unit0 = new RomanHeavyInfantry();
     let unit1 = new RomanHeavyInfantry();
-    game.addUnit(hexOf(0, 0), unit0);
-    game.addUnit(hexOf(0, 1), unit1);
+    game.placeUnit(hexOf(0, 0), unit0);
+    game.placeUnit(hexOf(0, 1), unit1);
 
     game.click(hexOf(0, 0));
     game.click(hexOf(0, 1));
@@ -46,7 +46,7 @@ test('click on other unit', function () {
 test('click and deselect unit', function () {
     let game = makeGame();
     let unit = new RomanHeavyInfantry();
-    game.addUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(0, 0), unit);
 
     game.click(hexOf(0, 0));
     game.click(hexOf(0, 0));
@@ -61,7 +61,7 @@ test('click and deselect unit', function () {
 test('click nowhere and deselect', () => {
     let game = makeGame();
     let unit = new RomanHeavyInfantry();
-    game.addUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(0, 0), unit);
 
     game.click(hexOf(0, 0));
     assertEquals(unit, game.selectedUnit(), "unit should be selected");
@@ -73,7 +73,7 @@ test('click nowhere and deselect', () => {
 test('click outside map does not move off-board', () => {
     let game = makeGame();
     let unit = new RomanHeavyInfantry();
-    game.addUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(0, 0), unit);
 
     game.click(hexOf(0, 0));
     assertEquals(unit, game.selectedUnit(), "unit should be selected");
@@ -92,7 +92,7 @@ test('click outside map does not move off-board', () => {
 test('click and move one unit', () => {
     let game = makeGame();
     let unit = new RomanHeavyInfantry();
-    game.addUnit(hexOf(1,5), unit);
+    game.placeUnit(hexOf(1,5), unit);
     game.click(hexOf(1, 5)); 
     
     game.click(hexOf(2, 5));
