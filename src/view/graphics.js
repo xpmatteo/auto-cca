@@ -1,10 +1,11 @@
 'use strict';
 
-import { hex_to_pixel } from "../lib/hexlib.js";
+
+import { hexOf, hex_to_pixel } from "../lib/hexlib.js";
 import { IMAGES } from "./load_all_images.js";
 import { layout } from "./map.js";
 
-export function draw_circle(ctx, x, y, color='red') {
+export function draw_circle(ctx, x, y, radius=5, color='red') {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2, false);
     ctx.fillStyle = color;
@@ -13,8 +14,21 @@ export function draw_circle(ctx, x, y, color='red') {
 }
 
 function drawMovementTrail(ctx, layout, hexFrom, hexTo) {
+    const TRAIL_COLOR = 'darkgray';
+    let pixelFrom = hex_to_pixel(layout, hexFrom);
+    let pixelTo = hex_to_pixel(layout, hexTo);
+    
     ctx.save();
-
+    draw_circle(ctx, pixelFrom.x, pixelFrom.y, 10, TRAIL_COLOR);
+    
+    // draw thick gray line from hexFrom to hexTo
+    ctx.strokeStyle = TRAIL_COLOR;
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(pixelFrom.x, pixelFrom.y);
+    ctx.lineTo(pixelTo.x, pixelTo.y);
+    ctx.stroke();
+    ctx.closePath();    
 
     ctx.restore();
 }
@@ -80,7 +94,9 @@ export function redraw(ctx, game) {
 
     //game.foreachHex(draw_circle_in_top_vertex);
     game.foreachHex(draw_coordinates);
-    
+
+    drawMovementTrail(ctx, layout, hexOf(1, 6), hexOf(1, 5));
+
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
         draw_unit(ctx, pixelCoordinate, unit, unit === game.selectedUnit());
