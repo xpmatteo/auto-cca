@@ -1,31 +1,21 @@
 'use strict';
 
 import { hex_to_pixel } from "../lib/hexlib.js";
+import { IMAGES } from "./load_all_images.js";
 
-const IMAGES = {}
-
-export function load_all_images(list_of_image_urls, continuation) {
-    let num_images = list_of_image_urls.length;
-    let num_loaded = 0;
-    list_of_image_urls.forEach(function (url) {
-        let img = new Image();
-        img.src = url;
-        img.onload = function () {
-            num_loaded++;
-            if (num_loaded === num_images) {
-                continuation(IMAGES);
-            }
-        };
-        IMAGES[url] = img;
-    });
-}
-
-export function draw_circle(ctx, x, y, radius) {
+export function draw_circle(ctx, x, y, color='red') {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = color;
     ctx.fill();
     ctx.closePath();
+}
+
+function drawMovementTrail(ctx, layout, hexFrom, hexTo) {
+    ctx.save();
+
+
+    ctx.restore();
 }
 
 export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
@@ -72,7 +62,7 @@ export function redraw(ctx, layout, game) {
 
     function draw_circle_in_top_vertex(hex) {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        draw_circle(ctx, pixelCoordinate.x, pixelCoordinate.y-hexHeight, 5);
+        draw_circle(ctx, pixelCoordinate.x, pixelCoordinate.y-hexHeight);
     }
 
     function draw_coordinates(hex) {

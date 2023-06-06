@@ -20,6 +20,9 @@ UI: uses game
 
 # TODO
 
- - Move move generation to unit
- - Implement fighting
- - Revamp UI to use move generation
+ - Rename turn to "CardMoveAllFightNone"
+ - Implement Round 
+ - Implement Deck
+ - Restrict clicks to moving own unspent units 
+ - fighting
+ 

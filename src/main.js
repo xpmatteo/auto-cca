@@ -3,11 +3,11 @@
 import { Autoplay } from "./autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import { Layout, Point, layout_pointy, pixel_to_hex } from "./lib/hexlib.js";
-import { Board } from "./model/board.js";
-import { ScenarioRaceToOppositeSide } from "./model/scenarios.js";
-import { EndOfTurn, Turn } from "./model/turn.js";
-import { load_all_images, redraw } from "./view/graphics.js";
 import { Cca } from "./model/game.js";
+import { ScenarioRaceToOppositeSide } from "./model/scenarios.js";
+import { EndOfTurn } from "./model/turn.js";
+import { redraw } from "./view/graphics.js";
+import loadAllImagesThen from "./view/load_all_images.js";
 
 
 const hexWidth = 76.4;
@@ -31,43 +31,7 @@ cca.initialize();
 
 let interactiveGame = new InteractiveGame(cca);
 
-let imageUrls = [
-    'images/cca_map_hq.jpg',
-    
-    'images/units/rom_aux.png',
-    'images/units/rom_cav_hv.png',
-    'images/units/rom_cav_lt.png',
-    'images/units/rom_cav_md.png',
-    'images/units/rom_char.png',
-    'images/units/rom_elephant.png',
-    'images/units/rom_inf_hv.png',
-    'images/units/rom_inf_lt.png',
-    'images/units/rom_inf_lt_bow.png',
-    'images/units/rom_inf_lt_sling.png',
-    'images/units/rom_inf_md.png',
-    'images/units/rom_inf_war.png',
-    'images/units/rom_leader.png',
-    'images/units/rom_leader_grey.png',
-    'images/units/rom_leader_grey_rectangular.png',
-    'images/units/rom_ship.png',
-    'images/units/rom_warmachine.png',
-
-    'images/units/car_aux.png',
-    'images/units/car_cav_hv.png',
-    'images/units/car_cav_lt.png',
-    'images/units/car_cav_md.png',
-    'images/units/car_char.png',
-    'images/units/car_elephant.png',
-    'images/units/car_inf_hv.png',
-    'images/units/car_inf_lt.png',
-    'images/units/car_inf_lt_bow.png',
-    'images/units/car_inf_lt_slings.png',
-    'images/units/car_inf_md.png',
-    'images/units/car_inf_wa.png',
-    'images/units/car_leader.png',
-];
-
-load_all_images(imageUrls, onAllImagesLoaded);
+loadAllImagesThen(onAllImagesLoaded);
 
 function onAllImagesLoaded() {
     redraw(ctx, layout, interactiveGame);
