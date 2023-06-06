@@ -2,6 +2,12 @@ import { Board } from "./board.js";
 import { Turn } from "./turn.js";
 import * as GameStatus from "./game_status.js";
 
+export default function makeGame(scenario) {
+    let game = new Cca(scenario);
+    game.initialize();
+    return game;
+}
+
 export class Cca {
     constructor(scenario, board, turn) {
         this.scenario = scenario;
@@ -61,6 +67,10 @@ export class Cca {
 
     subtractOccupiedHexes(hexes) {
         return this.board.subtractOccupiedHexes(hexes);
+    }
+
+    placeUnit(hex, unit) {
+        this.board.placeUnit(hex, unit);
     }
 
 }

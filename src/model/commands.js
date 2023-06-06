@@ -1,5 +1,5 @@
 export class MoveCommand {
-    constructor(to, from) {
+constructor(to, from) {
         this.to = to;
         this.from = from;
     }

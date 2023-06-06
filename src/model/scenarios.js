@@ -4,6 +4,19 @@ import { hexOf } from "../lib/hexlib.js";
 import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 
+export class NullScenario {
+    get firstSide() {
+        return Side.ROMAN;
+    }
+
+    placeUnitsOn(board) {
+    }
+
+    gameStatus(board) {
+        return GameStatus.ONGOING;
+    }
+}
+
 export class ScenarioRaceToOppositeSide {
     get firstSide() {
         return Side.ROMAN;

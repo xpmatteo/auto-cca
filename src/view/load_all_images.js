@@ -1,5 +1,5 @@
 
-let imageUrls = [
+const IMAGE_URLS = [
     'images/cca_map_hq.jpg',
     
     'images/units/rom_aux.png',
@@ -37,7 +37,7 @@ let imageUrls = [
 
 export const IMAGES = {}
 
-export default function loadAllImagesThen(continuation) {
+export default function loadAllImagesThen(continuation, imageUrls = IMAGE_URLS) {
     let num_images = imageUrls.length;
     let num_loaded = 0;
     imageUrls.forEach(function (url) {
