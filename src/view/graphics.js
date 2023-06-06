@@ -2,6 +2,7 @@
 
 import { hex_to_pixel } from "../lib/hexlib.js";
 import { IMAGES } from "./load_all_images.js";
+import { layout } from "./map.js";
 
 export function draw_circle(ctx, x, y, color='red') {
     ctx.beginPath();
@@ -56,7 +57,7 @@ export function highlight_hex(ctx, layout, pixelCoordinate) {
     ctx.restore();
 }
 
-export function redraw(ctx, layout, game) {
+export function redraw(ctx, game) {
     let mapImage = IMAGES['images/cca_map_hq.jpg'];
     ctx.drawImage(mapImage, 0, 0, mapImage.width, mapImage.height);
 
