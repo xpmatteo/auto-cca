@@ -106,6 +106,7 @@ t.test('switch side', function () {
 
     t.assertEquals(Side.CARTHAGINIAN, turn.currentSide);
     t.assertEquals(0, turn.spentUnits.length, "spent units should be reset");
+    t.assertEquals(0, turn.movementTrails.length, "movement trails should be reset");
 });
 
 

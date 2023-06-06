@@ -95,7 +95,7 @@ export function redraw(ctx, game) {
     //game.foreachHex(draw_circle_in_top_vertex);
     game.foreachHex(draw_coordinates);
 
-    drawMovementTrail(ctx, layout, hexOf(1, 6), hexOf(1, 5));
+    drawMovementTrails(ctx, layout, game);
 
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
@@ -106,6 +106,12 @@ export function redraw(ctx, game) {
 
     updateInfoMessage(game);
     enableButtons(game);
+}
+
+function drawMovementTrails(ctx, layout, game) {
+    game.movementTrails.forEach(trail => {
+        drawMovementTrail(ctx, layout, trail.from, trail.to);
+    });
 }
 
 function enableButtons(game) {

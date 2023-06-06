@@ -20,6 +20,7 @@ UI: uses game
 
 # TODO
 
+ - Rename "play" to "execute"
  - Rename turn to "CardMoveAllFightNone"
  - Implement Round 
  - Implement Deck

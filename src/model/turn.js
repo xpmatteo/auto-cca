@@ -4,6 +4,7 @@ import { MoveCommand } from "./commands.js";
 
 export class Turn {
     #spentUnits = [];
+    #movementTrails = [];
     #currentSide = Side.ROMAN;
     #board;
 
@@ -46,6 +47,7 @@ export class Turn {
     switchSide() {
         this.#currentSide = this.#currentSide === Side.ROMAN ? Side.CARTHAGINIAN : Side.ROMAN;
         this.#spentUnits = [];
+        this.#movementTrails = [];
         console.log(`Switching side to ${this.#currentSide}`)
     }
 
@@ -61,6 +63,14 @@ export class Turn {
     unitAt(hex) {
         return this.#board.unitAt(hex);
     }
+
+    get movementTrails() {
+        return this.#movementTrails;
+    }
+
+    addMovementTrail(hexTo, hexFrom) {
+        this.#movementTrails.push(new MovementTrail(hexTo, hexFrom));
+    }
 }
 
 export class EndOfTurn {
@@ -70,5 +80,16 @@ export class EndOfTurn {
 
     toString() {
         return "End of turn";
+    }
+}
+
+export class MovementTrail {
+    constructor(to, from) {
+        this.from = from;
+        this.to = to;
+    }
+
+    toString() {
+        return `MovementTrail(${this.from}, ${this.to})`;
     }
 }

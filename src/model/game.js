@@ -73,4 +73,15 @@ class Cca {
         this.board.placeUnit(hex, unit);
     }
 
+    get spentUnits() {
+        return this.turn.spentUnits;
+    }
+
+    get movementTrails() {
+        return this.turn.movementTrails;
+    }
+
+    addMovementTrail(hexTo, hexFrom) {
+        this.turn.addMovementTrail(hexTo, hexFrom);
+    }
 }

@@ -91,4 +91,8 @@ export class InteractiveGame {
     get currentSide() {
         return this.#game.currentSide;
     }
+
+    get movementTrails() {
+        return this.#game.movementTrails;
+    }
 }
