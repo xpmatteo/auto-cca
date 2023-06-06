@@ -2,7 +2,7 @@
 
 import { Autoplay } from "./autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
-import { Cca } from "./model/game.js";
+import makeGame from "./model/game.js";
 import { ScenarioRaceToOppositeSide } from "./model/scenarios.js";
 import { EndOfTurn } from "./model/turn.js";
 import { redraw } from "./view/graphics.js";
@@ -18,8 +18,7 @@ const ctx = canvas.getContext('2d');
 
 // create game
 let scenario = new ScenarioRaceToOppositeSide();
-let cca = new Cca(scenario);
-cca.initialize();
+let cca = makeGame(scenario);
 let interactiveGame = new InteractiveGame(cca);
 
 // draw initial map

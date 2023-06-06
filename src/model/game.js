@@ -8,7 +8,7 @@ export default function makeGame(scenario) {
     return game;
 }
 
-export class Cca {
+class Cca {
     constructor(scenario, board, turn) {
         this.scenario = scenario;
         this.board = board;

@@ -1,6 +1,6 @@
 import { hexOf } from "../lib/hexlib.js";
 import { assertEquals, assertFalse, assertTrue, assertDeepEquals, test } from "../lib/test_lib.js";
-import { Cca } from "./game.js";
+import makeGame from "./game.js";
 import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import { Side } from "./side.js";
@@ -30,7 +30,7 @@ class TestScenario {
 const scenario = new TestScenario();
 
 test("game status", () => {
-    const cca = new Cca(scenario);
+    const cca = makeGame(scenario);
     cca.initialize();
 
     assertEquals(GameStatus.ONGOING, cca.gameStatus);
@@ -38,7 +38,7 @@ test("game status", () => {
 });
 
 test("validCommands", () => {
-    const cca = new Cca(scenario);
+    const cca = makeGame(scenario);
     cca.initialize();
 
     let validCommands = cca.validCommands();
@@ -48,7 +48,7 @@ test("validCommands", () => {
 });
 
 test("executeCommand", () => {
-    const cca = new Cca(scenario);
+    const cca = makeGame(scenario);
     cca.initialize();
 
     cca.executeCommand(new EndOfTurn());
@@ -59,7 +59,7 @@ test("executeCommand", () => {
 });
 
 test("executeCommand - game over", () => {
-    const cca = new Cca(scenario);
+    const cca = makeGame(scenario);
     cca.initialize();
 
     cca.executeCommand(new EndOfTurn());
@@ -71,7 +71,7 @@ test("executeCommand - game over", () => {
 });
 
 test("currentSide", () => {
-    const cca = new Cca(scenario);
+    const cca = makeGame(scenario);
     cca.initialize();
     
     assertEquals(Side.CARTHAGINIAN, cca.currentSide);
