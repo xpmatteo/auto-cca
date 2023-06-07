@@ -21,5 +21,14 @@
   <script src="./src/interactive_game_test.js" type="module"></script>
   <script src="./src/model/scenarios_test.js" type="module"></script>
   <script src="./src/model/commands_test.js" type="module"></script>
+
+  <script type="module">
+    import { failures } from "./src/lib/test_lib.js";
+    if (failures > 0) {
+      document.body.style.backgroundColor = "pink";
+    } else {
+      document.body.style.backgroundColor = "lightgreen";
+    }
+  </script>
 </body>
 </html>

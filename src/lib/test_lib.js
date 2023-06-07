@@ -3,10 +3,13 @@
 
 'use strict';
 
+export let failures = 0;
+
 export class AssertionFailed extends Error {
     constructor(message) {
         super(message);
         this.name = 'AssertionFailed';
+        failures++;
     }
 }
 
