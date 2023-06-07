@@ -14,3 +14,13 @@ export class MoveCommand {
         game.addMovementTrail(this.to, this.from);
     }
 }
+
+export class EndPhaseCommand {
+    toString() {
+        return `End phase`;
+    }
+
+    play(game) {
+        game.switchSide();
+    }
+}

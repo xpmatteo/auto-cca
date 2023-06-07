@@ -21,7 +21,7 @@ UI: uses game
 # TODO
 
  - Rename "play" to "execute"
- - Rename turn to "CardMoveAllFightNone"
+ - Rename turn to "CardActivateAll"
  - Implement Round 
  - Implement Deck
  - Restrict clicks to moving own unspent units 

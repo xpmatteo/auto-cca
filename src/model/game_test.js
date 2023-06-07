@@ -4,8 +4,7 @@ import makeGame from "./game.js";
 import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import { Side } from "./side.js";
-import { EndOfTurn } from "./turn.js";
-import { MoveCommand } from "./commands.js";
+import { MoveCommand, EndPhaseCommand } from "./commands.js";
 
 class TestScenario {
     get firstSide() {
@@ -44,14 +43,14 @@ test("validCommands", () => {
     let validCommands = cca.validCommands();
 
     // the only unit on board is Roman, first player is Carthaginian
-    assertDeepEquals([new EndOfTurn()], validCommands);
+    assertDeepEquals([new EndPhaseCommand()], validCommands);
 });
 
 test("executeCommand", () => {
     const cca = makeGame(scenario);
     cca.initialize();
 
-    cca.executeCommand(new EndOfTurn());
+    cca.executeCommand(new EndPhaseCommand());
 
     assertEquals(Side.ROMAN, cca.currentSide);
     assertEquals(GameStatus.ONGOING, cca.gameStatus);
@@ -62,7 +61,7 @@ test("executeCommand - game over", () => {
     const cca = makeGame(scenario);
     cca.initialize();
 
-    cca.executeCommand(new EndOfTurn());
+    cca.executeCommand(new EndPhaseCommand());
     cca.executeCommand(new MoveCommand(hexOf(0, 5), hexOf(1, 5)));
 
     assertEquals(GameStatus.ROMAN_WIN, cca.gameStatus);

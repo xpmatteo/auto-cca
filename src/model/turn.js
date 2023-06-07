@@ -1,6 +1,7 @@
 
 import { Side } from "./side.js";
 import { MoveCommand } from "./commands.js";
+import { EndPhaseCommand } from "./EndPhaseCommand.js";
 
 export class Turn {
     #spentUnits = [];
@@ -27,7 +28,7 @@ export class Turn {
             });
         });
         if (commands.length === 0) {
-            commands.push(new EndOfTurn());
+            commands.push(new EndPhaseCommand());
         }
         return commands;
     }
@@ -70,16 +71,6 @@ export class Turn {
 
     addMovementTrail(hexTo, hexFrom) {
         this.#movementTrails.push(new MovementTrail(hexTo, hexFrom));
-    }
-}
-
-export class EndOfTurn {
-    play(turn) {
-        turn.switchSide();
-    }
-
-    toString() {
-        return "End of turn";
     }
 }
 

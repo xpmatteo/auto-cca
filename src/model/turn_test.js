@@ -1,10 +1,11 @@
 import * as t from '../lib/test_lib.js';
 import { Board } from './board.js';
 import { hexOf } from '../lib/hexlib.js';
-import { Turn, EndOfTurn } from './turn.js';
+import { EndPhaseCommand } from './commands.js';
 import { Side } from './side.js';
 import * as units from './units.js';
 import { MoveCommand } from './commands.js';
+import { Turn } from './turn.js';
 
 t.test('generate moves for one unit', function () {
     let board = new Board();
@@ -102,7 +103,7 @@ t.test('switch side', function () {
     turn.play(new MoveCommand(hexOf(0, 1), hexOf(1, 1)));
     t.assertEquals(1, turn.spentUnits.length);
 
-    turn.play(new EndOfTurn());
+    turn.play(new EndPhaseCommand());
 
     t.assertEquals(Side.CARTHAGINIAN, turn.currentSide);
     t.assertEquals(0, turn.spentUnits.length, "spent units should be reset");

@@ -4,7 +4,7 @@ import { Autoplay } from "./autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
 import { ScenarioRaceToOppositeSide } from "./model/scenarios.js";
-import { EndOfTurn } from "./model/turn.js";
+import { EndPhaseCommand } from "./model/commands.js";
 import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas } from "./view/map.js";
@@ -49,7 +49,7 @@ function handleMouseMove(event) {
 const autoplay = new Autoplay(cca);
 
 document.getElementById('end-turn').addEventListener('click', function (event) {
-    cca.executeCommand(new EndOfTurn());
+    cca.executeCommand(new EndPhaseCommand());
     autoplay.play();
     redraw(ctx, interactiveGame);
 });
