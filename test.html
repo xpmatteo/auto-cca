@@ -21,8 +21,15 @@
   <script src="./src/interactive_game_test.js" type="module"></script>
   <script src="./src/model/scenarios_test.js" type="module"></script>
   <script src="./src/model/commands_test.js" type="module"></script>
+  <script src="./src/model/dice_test.js" type="module"></script>
 
   <script type="module">
+    // catch any exception thrown above
+    window.onError = function(message, source, lineno, colno, error) {
+      console.log("ERROR: " + message);
+      failures++;
+    }
+
     import { failures } from "./src/lib/test_lib.js";
     if (failures > 0) {
       document.body.style.backgroundColor = "pink";

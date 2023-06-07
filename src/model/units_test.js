@@ -1,7 +1,7 @@
 
-import { assertEquals, assertTrue, assertFalse, test } from '../lib/test_lib.js';
+import { assertEquals, assertTrue, assertFalse, test, xtest } from '../lib/test_lib.js';
 import { Side } from './side.js';
-import { RomanHeavyInfantry } from './units.js';
+import { RomanHeavyInfantry, CarthaginianHeavyInfantry } from './units.js';
 
 
 test('units', function () {
@@ -12,3 +12,12 @@ test('units', function () {
 });
 
 
+xtest('unit attack', function () {
+    let attacker = new RomanHeavyInfantry();
+    let defender = new CarthaginianHeavyInfantry();
+    let dice = { roll: function () { return 1; } };
+
+    attacker.attack(defender, dice);
+
+
+});
