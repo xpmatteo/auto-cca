@@ -1,8 +1,10 @@
 import { Side } from './side.js';
+import * as dice from './dice.js';
 
 export class Unit {
     #imageName;
     #side;
+    #strength = 4;
 
     constructor(imageName, side) {
         this.#imageName = imageName;
@@ -17,9 +19,25 @@ export class Unit {
         return this.#side;
     }
 
+    get strength() {
+        return this.#strength;
+    }
+
     validDestinations(fromHex, board) {
         let hexes = board.subtractOffMap(fromHex.neighbors());
         return board.subtractOccupiedHexes(hexes);
+    }
+
+    diceCount() {
+        return 5;
+    }
+
+    takeDamage(diceResults) {
+        const damage = diceResults.
+            filter(r => r === dice.RESULT_HEAVY || r === dice.RESULT_SWORDS).
+            length;
+        this.#strength -= damage;
+        return damage;
     }
 }
 

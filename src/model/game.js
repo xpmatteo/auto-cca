@@ -1,16 +1,19 @@
 import { Board } from "./board.js";
 import { Turn } from "./turn.js";
 import * as GameStatus from "./game_status.js";
+import { Dice } from "./dice.js";
 
-export default function makeGame(scenario) {
-    let game = new Cca(scenario);
+export default function makeGame(scenario, dice = new Dice()) {
+    let game = new Game(scenario, dice);
     game.initialize();
+
     return game;
 }
 
-class Cca {
-    constructor(scenario, board, turn) {
+class Game {
+    constructor(scenario, dice, board, turn) {
         this.scenario = scenario;
+        this.dice = dice;
         this.board = board;
         this.turn = turn;
     }
@@ -29,20 +32,45 @@ class Cca {
     executeCommand(command) {
         if (this.isTerminal()) 
             throw new Error("Cannot execute commands: game is over");
-        this.turn.play(command);
-    }
-
-    get gameStatus() {
-        return this.scenario.gameStatus(this.board);
+        return command.play(this);
     }
 
     isTerminal() {
         return this.gameStatus !== GameStatus.ONGOING;
     }
 
+    attack(hexTo, hexFrom) {
+    }
+
+    // ---- delegate to turn ----
+
+    moveUnit(hexTo, hexFrom) {
+        this.turn.moveUnit(hexTo, hexFrom);
+    }
+
+    markUnitSpent(unit) {
+        this.turn.markUnitSpent(unit);
+    }
+
+    switchSide() {
+        this.turn.switchSide();
+    }
+
     get currentSide() {
         return this.turn.currentSide;
-    }        
+    }     
+    
+    // ---- delegate to dice ----
+
+    roll(diceCount) {
+        return this.dice.roll(diceCount);
+    }
+
+    // ---- delegate to scenario ----
+    
+    get gameStatus() {
+        return this.scenario.gameStatus(this.board);
+    }
 
     // ---- delegate to board ----
     foreachHex(f) {

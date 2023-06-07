@@ -11,13 +11,3 @@ test('units', function () {
     assertEquals(Side.ROMAN, unit0.side);
 });
 
-
-xtest('unit attack', function () {
-    let attacker = new RomanHeavyInfantry();
-    let defender = new CarthaginianHeavyInfantry();
-    let dice = { roll: function () { return 1; } };
-
-    attacker.attack(defender, dice);
-
-
-});
