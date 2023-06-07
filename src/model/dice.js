@@ -41,3 +41,21 @@ export class Die {
         return this.#value;
     }
 }
+
+export class Dice {
+    #random;
+
+    constructor(random = Math.random) {
+        this.#random = random;
+    }
+
+    roll(count) {
+        let results = [];
+        let die = new Die(this.#random);
+        for (let i = 0; i < count; i++) {
+            die.roll();
+            results.push(die.value);
+        }
+        return results;
+    }
+}
