@@ -48,7 +48,7 @@ function handleMouseMove(event) {
 
 const autoplay = new Autoplay(cca);
 
-document.getElementById('end-turn').addEventListener('click', function (event) {
+document.getElementById('end-phase').addEventListener('click', function (event) {
     cca.executeCommand(new EndPhaseCommand());
     autoplay.play();
     redraw(ctx, interactiveGame);

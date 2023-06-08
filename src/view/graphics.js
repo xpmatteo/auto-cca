@@ -115,7 +115,7 @@ function drawMovementTrails(ctx, layout, game) {
 }
 
 function enableButtons(game) {
-    let endTurnButton = document.getElementById("end-turn");
+    let endTurnButton = document.getElementById("end-phase");
     endTurnButton.disabled = game.isTerminal();
 
     let newGameButton = document.getElementById("new-game");

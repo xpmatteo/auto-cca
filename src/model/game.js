@@ -42,6 +42,10 @@ class Game {
     attack(hexTo, hexFrom) {
     }
 
+    endPhase() {
+        this.turn.endPhase();
+    }
+
     // ---- delegate to turn ----
 
     moveUnit(hexTo, hexFrom) {
@@ -58,7 +62,11 @@ class Game {
 
     get currentSide() {
         return this.turn.currentSide;
-    }     
+    }
+
+    get currentPhaseName() {
+        return this.turn.currentPhaseName;
+    }
     
     // ---- delegate to dice ----
 

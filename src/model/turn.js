@@ -41,8 +41,16 @@ export class Turn {
         return this.#currentSide;
     }
 
+    get currentPhaseName() {
+        return "movement phase";
+    }
+
     get spentUnits() {
         return this.#spentUnits;
+    }
+
+    endPhase() {
+        this.switchSide();
     }
 
     switchSide() {
