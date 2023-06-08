@@ -27,14 +27,14 @@ export class EndPhaseCommand {
     }
 }
 
-export class AttackCommand {
+export class CloseCombatCommand {
     constructor(toHex, fromHex) {
         this.toHex = toHex;
         this.fromHex = fromHex;
     }
 
     toString() {
-        return `Attack from ${this.fromHex} to ${this.toHex}`;
+        return `Close Combat from ${this.fromHex} to ${this.toHex}`;
     }
 
     play(game) {
@@ -53,7 +53,7 @@ export class AttackCommand {
             throw new Error(`Cannot attack self at ${this.toHex}`);
         }
         if (this.toHex.distance(this.fromHex) > 1) {
-            throw new Error(`Cannot attack unit at ${this.toHex} from ${this.fromHex} (too far)`);
+            throw new Error(`Cannot Close Combat with unit at ${this.toHex} from ${this.fromHex} (too far)`);
         }
         const diceResults = game.roll(attackingUnit.diceCount());
         const damage = defendingUnit.takeDamage(diceResults);

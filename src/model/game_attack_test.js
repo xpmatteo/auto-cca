@@ -2,7 +2,7 @@ import { hexOf } from "../lib/hexlib.js";
 import { assertEquals, assertFalse, assertTrue, assertDeepEquals, test } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as units from "./units.js";
-import { AttackCommand } from "./commands.js";
+import { CloseCombatCommand } from "./commands.js";
 import { NullScenario } from "./scenarios.js";
 import * as dice from "./dice.js";
 import { DamageEvent, BattleBackEvent } from "./events.js";
@@ -26,7 +26,7 @@ test("execute Attack then battle back", () => {
     game.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(1, 4), defendingUnit);
 
-    let actual = game.executeCommand(new AttackCommand(hexOf(1, 4), hexOf(1, 5)));
+    let actual = game.executeCommand(new CloseCombatCommand(hexOf(1, 4), hexOf(1, 5)));
 
     const expected = [
         new DamageEvent(hexOf(1, 4), 2, diceResults),
