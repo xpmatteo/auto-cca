@@ -39,7 +39,12 @@ export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
     if (!img) {
         throw new Error(`Image ${url} not found`);
     }
+    let shift = 2;
     ctx.drawImage(img, pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
+    ctx.font = "20pt Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText(unit.strength, pixelCoordinate.x + 18 -shift, pixelCoordinate.y + img.height / 2 - 10 +shift);
+
     ctx.font = "16pt Arial";
     ctx.fillStyle = "black";
     ctx.fillText(unit.strength, pixelCoordinate.x + 18, pixelCoordinate.y + img.height / 2 - 10);
