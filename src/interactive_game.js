@@ -47,6 +47,10 @@ export class InteractiveGame {
 
     // --- delegate to game ---
 
+    validCommands() {
+        return this.#game.validCommands();
+    }
+
     foreachUnit(f) {
         this.#game.foreachUnit(f);
     }

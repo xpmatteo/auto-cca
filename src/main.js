@@ -46,10 +46,9 @@ function handleMouseMove(event) {
 }
 //document.addEventListener('mousemove', handleMouseMove);
 
-const autoplay = new Autoplay(cca);
+const autoplay = new Autoplay(interactiveGame);
 
 document.getElementById('end-phase').addEventListener('click', function (event) {
     cca.executeCommand(new EndPhaseCommand());
-    autoplay.play();
-    redraw(ctx, interactiveGame);
+    autoplay.play(ctx);    
 });
