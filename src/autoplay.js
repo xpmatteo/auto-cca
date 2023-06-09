@@ -7,7 +7,7 @@ const AUTOPLAY_DELAY = 800;
 const textBox = document.getElementById("messages");
 function displayEvents(events) {    
     events.forEach(event => {
-        textBox.innerHTML += `<p>${event}</p>`;
+        textBox.innerHTML += `${event}<br/>`;
         textBox.scrollTop = textBox.scrollHeight;
     });
 }

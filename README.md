@@ -20,10 +20,16 @@ UI: uses game
 
 # TODO
 
+ - rename trails to "decorations"
+ - move logic for decorations in the decoration class
+ - deal with dead units
+ - execute battleback
+ - UI must close in to nearest enemy
+
+ - move click handling in Phase?
+ 
+
  - Rename "play" to "execute"
- - Rename turn to "CardActivateAll"
- - Implement Round 
- - Implement Deck
  - Restrict clicks to moving own unspent units 
  - fighting
  

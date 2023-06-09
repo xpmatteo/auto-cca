@@ -59,6 +59,7 @@ export class CloseCombatCommand {
         }
         const diceResults = game.roll(attackingUnit.diceCount());
         const damage = defendingUnit.takeDamage(diceResults);
+        game.markUnitSpent(attackingUnit);
         return [
             new DamageEvent(this.toHex, damage, diceResults),
             new BattleBackEvent(this.fromHex, this.toHex, defendingUnit.diceCount())
