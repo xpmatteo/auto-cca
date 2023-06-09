@@ -28,6 +28,18 @@ export class Unit {
         return board.subtractOccupiedHexes(hexes);
     }
 
+    validCloseCombatTargets(fromHex, board) {
+        let targets = [];
+        let hexes = board.subtractOffMap(fromHex.neighbors());
+        hexes.forEach(hex => {
+            let unit = board.unitAt(hex);
+            if (unit && unit.side !== this.side) {
+                targets.push(hex);
+            }
+        });
+        return targets;
+    }
+
     diceCount() {
         return 5;
     }

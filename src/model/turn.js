@@ -1,6 +1,6 @@
 
 import { Side } from "./side.js";
-import { MoveCommand } from "./commands.js";
+import { CloseCombatCommand, MoveCommand } from "./commands.js";
 import { EndPhaseCommand } from "./EndPhaseCommand.js";
 
 export class Phase {
@@ -11,10 +11,21 @@ export class Phase {
     toString() {
         return this.#name;
     }
-    validCommands(turn) {
-        return [
-            new EndPhaseCommand(),
-        ];
+    validCommands(turn, board) {
+        let commands = [];
+        board.foreachUnit((unit, hex) => {
+            if (turn.spentUnits.includes(unit)) {
+                return;
+            }
+            if (unit.side !== turn.currentSide) {
+                return;
+            }
+            unit.validCloseCombatTargets(hex, board).forEach(to => {
+                commands.push(new CloseCombatCommand(to, hex));
+            });
+        });
+        commands.push(new EndPhaseCommand());
+        return commands;
     }
 }
 

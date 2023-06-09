@@ -1,7 +1,7 @@
 import * as t from '../lib/test_lib.js';
 import { Board } from './board.js';
 import { hexOf } from '../lib/hexlib.js';
-import { EndPhaseCommand } from './commands.js';
+import { CloseCombatCommand, EndPhaseCommand } from './commands.js';
 import { Side } from './side.js';
 import * as units from './units.js';
 import { MoveCommand } from './commands.js';
@@ -97,6 +97,55 @@ t.test('eventually switch side', function () {
     t.assertEquals("End of turn", turn.validCommands().toString());
 });
 
+t.test('generate no close combat commands for out of range', function () {
+    let board = new Board();
+    let turn = new Turn(board);
+    board.placeUnit(hexOf(0, 0), new units.RomanHeavyInfantry());
+    board.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
+    turn.endPhase();
+    
+    let moves = turn.validCommands();
+
+    let expected = [
+        new EndPhaseCommand(),        
+    ];
+    t.assertEqualsInAnyOrder(expected, moves);
+});
+
+
+t.test('generate close combat commands for one unit and one target', function () {
+    let board = new Board();
+    let turn = new Turn(board);
+    board.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    board.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
+    turn.endPhase();
+
+    let moves = turn.validCommands();
+
+    let expected = [
+        new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
+        new EndPhaseCommand(),        
+    ];
+    t.assertEqualsInAnyOrder(expected, moves);
+});
+
+t.test('generate close combat commands for one unit and two targets', function () {
+    let board = new Board();
+    let turn = new Turn(board);
+    board.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    board.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
+    board.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
+    turn.endPhase();
+    
+    let moves = turn.validCommands();
+
+    let expected = [
+        new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
+        new CloseCombatCommand(hexOf(1, 2), hexOf(1, 1)),
+        new EndPhaseCommand(),        
+    ];
+    t.assertEqualsInAnyOrder(expected, moves);
+});
 
 
 

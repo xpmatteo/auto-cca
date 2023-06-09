@@ -42,7 +42,7 @@ export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
     ctx.drawImage(img, pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
     ctx.font = "16pt Arial";
     ctx.fillStyle = "black";
-    ctx.fillText("4", pixelCoordinate.x + 18, pixelCoordinate.y + img.height / 2 - 10);
+    ctx.fillText(unit.strength, pixelCoordinate.x + 18, pixelCoordinate.y + img.height / 2 - 10);
 
     if (isSelected) {
         ctx.strokeStyle = 'red';
