@@ -17,7 +17,6 @@ t.test('generate moves for one unit', function () {
     
     let moves = turn.validCommands();
 
-    t.assertEquals(6, moves.length);
     let expected = [
         new MoveCommand(hexOf(1, 0), hexOf(1, 1)),
         new MoveCommand(hexOf(2, 0), hexOf(1, 1)),
@@ -25,6 +24,7 @@ t.test('generate moves for one unit', function () {
         new MoveCommand(hexOf(2, 1), hexOf(1, 1)),
         new MoveCommand(hexOf(0, 2), hexOf(1, 1)),
         new MoveCommand(hexOf(1, 2), hexOf(1, 1)),
+        new EndPhaseCommand(),        
     ];
     t.assertEqualsInAnyOrder(expected, moves);
 });
@@ -44,7 +44,6 @@ t.test('generate commands for two units, avoiding collisions', function () {
     
     let commands = turn.validCommands();
 
-    t.assertEquals(10, commands.length);
     let expected = [
         new MoveCommand(hexOf(3, 4), hexOf(2, 5)),
         new MoveCommand(hexOf(2, 4), hexOf(2, 5)),
@@ -57,6 +56,8 @@ t.test('generate commands for two units, avoiding collisions', function () {
         new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
         new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
         new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
+
+        new EndPhaseCommand(),
     ];
     t.assertEqualsInAnyOrder(expected, commands);
 });
@@ -73,7 +74,6 @@ t.test('play move then spent', function () {
 
     t.assertEquals(unit0, g.unitAt(hexOf(1, 5)));
     let commands = turn.validCommands();
-    t.assertEquals(6, commands.length);
     let expected = [
         new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
         new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
@@ -81,6 +81,8 @@ t.test('play move then spent', function () {
         new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
         new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
         new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
+
+        new EndPhaseCommand(),
     ];
     t.assertEqualsInAnyOrder(expected, commands);
 });

@@ -11,11 +11,33 @@ export class Phase {
     toString() {
         return this.#name;
     }
+    validCommands(turn) {
+        return [
+            new EndPhaseCommand(),
+        ];
+    }
 }
 
 class MovementPhase extends Phase {
     constructor() {
         super("movement");
+    }
+
+    validCommands(turn, board) {
+        let commands = [];
+        board.foreachUnit((unit, hex) => {
+            if (turn.spentUnits.includes(unit)) {
+                return;
+            }
+            if (unit.side !== turn.currentSide) {
+                return;
+            }
+            unit.validDestinations(hex, board).forEach(to => {
+                commands.push(new MoveCommand(to, hex));
+            });
+        });
+        commands.push(new EndPhaseCommand());
+        return commands;
     }
 }
 
@@ -44,22 +66,7 @@ export class Turn {
     }
 
     validCommands() {
-        let commands = [];
-        this.#board.foreachUnit((unit, hex) => {
-            if (this.#spentUnits.includes(unit)) {
-                return;
-            }
-            if (unit.side !== this.#currentSide) {
-                return;
-            }
-            unit.validDestinations(hex, this.#board).forEach(to => {
-                commands.push(new MoveCommand(to, hex));
-            });
-        });
-        if (commands.length === 0) {
-            commands.push(new EndPhaseCommand());
-        }
-        return commands;
+        return this.currentPhase.validCommands(this, this.#board);
     }
 
     play(command) {
