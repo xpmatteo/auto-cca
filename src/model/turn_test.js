@@ -95,20 +95,6 @@ t.test('eventually switch side', function () {
     t.assertEquals("End of turn", turn.validCommands().toString());
 });
 
-t.test('switch side', function () {
-    let g = new Board();
-    let turn = new Turn(g);
-    let unit = new units.RomanHeavyInfantry();
-    g.placeUnit(hexOf(1, 1), unit);
-    turn.play(new MoveCommand(hexOf(0, 1), hexOf(1, 1)));
-    t.assertEquals(1, turn.spentUnits.length);
-
-    turn.play(new EndPhaseCommand());
-
-    t.assertEquals(Side.CARTHAGINIAN, turn.currentSide);
-    t.assertEquals(0, turn.spentUnits.length, "spent units should be reset");
-    t.assertEquals(0, turn.movementTrails.length, "movement trails should be reset");
-});
 
 
 

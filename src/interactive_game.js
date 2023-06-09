@@ -51,6 +51,10 @@ export class InteractiveGame {
         return this.#game.validCommands();
     }
 
+    get currentPhaseName() {
+        return this.#game.currentPhaseName;
+    }
+
     foreachUnit(f) {
         this.#game.foreachUnit(f);
     }

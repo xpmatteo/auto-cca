@@ -127,6 +127,6 @@ function updateInfoMessage(game) {
     if (game.isTerminal()) {
         info.innerHTML = `Game over. ${game.gameStatus}`;    
     } else {
-        info.innerHTML = `${game.currentSide} to move`;
+        info.innerHTML = game.currentPhaseName;
     }
 }

@@ -3,10 +3,23 @@ import { Side } from "./side.js";
 import { MoveCommand } from "./commands.js";
 import { EndPhaseCommand } from "./EndPhaseCommand.js";
 
+export class Phase {
+    static MOVEMENT = new Phase("movement");
+    static BATTLE = new Phase("battle");
+    #name;
+    constructor(name) {
+        this.#name = name;
+    }
+    toString() {
+        return this.#name;
+    }
+}
+
 export class Turn {
     #spentUnits = [];
     #movementTrails = [];
     #currentSide = Side.ROMAN;
+    #currentPhase = Phase.MOVEMENT;
     #board;
 
     constructor(board, currentSide = Side.ROMAN) {
@@ -42,7 +55,7 @@ export class Turn {
     }
 
     get currentPhaseName() {
-        return "movement phase";
+        return `${this.#currentSide.name} ${this.#currentPhase}`;
     }
 
     get spentUnits() {
@@ -50,14 +63,19 @@ export class Turn {
     }
 
     endPhase() {
-        this.switchSide();
+        if (this.#currentPhase === Phase.MOVEMENT) {
+            this.#currentPhase = Phase.BATTLE;
+            this.#spentUnits = [];
+        } else {
+            this.switchSide();
+        }
     }
 
     switchSide() {
+        this.#currentPhase = Phase.MOVEMENT;
         this.#currentSide = this.#currentSide === Side.ROMAN ? Side.CARTHAGINIAN : Side.ROMAN;
         this.#spentUnits = [];
         this.#movementTrails = [];
-        console.log(`Switching side to ${this.#currentSide}`)
     }
 
     markUnitSpent(unit) {

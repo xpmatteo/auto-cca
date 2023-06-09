@@ -56,8 +56,8 @@ class Game {
         this.turn.markUnitSpent(unit);
     }
 
-    switchSide() {
-        this.turn.switchSide();
+    endPhase() {
+        this.turn.endPhase();
     }
 
     get currentSide() {

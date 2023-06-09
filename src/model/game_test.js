@@ -44,16 +44,6 @@ test("validCommands", () => {
     assertDeepEquals([new EndPhaseCommand()], validCommands);
 });
 
-test("executeCommand", () => {
-    const game = makeGame(scenario);
-    
-    game.executeCommand(new EndPhaseCommand());
-
-    assertEquals(Side.ROMAN, game.currentSide);
-    assertEquals(GameStatus.ONGOING, game.gameStatus);
-    assertEquals(6, game.validCommands().length);
-});
-
 test("executeCommand - game over", () => {
     const game = makeGame(scenario);
     

@@ -1,7 +1,7 @@
 
 export class EndPhaseCommand {
     play(turn) {
-        turn.switchSide();
+        turn.endPhase();
     }
 
     toString() {

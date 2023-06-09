@@ -23,7 +23,7 @@ export class EndPhaseCommand {
     }
 
     play(game) {
-        game.switchSide();
+        game.endPhase();
     }
 }
 
