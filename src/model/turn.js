@@ -4,8 +4,6 @@ import { MoveCommand } from "./commands.js";
 import { EndPhaseCommand } from "./EndPhaseCommand.js";
 
 export class Phase {
-    static MOVEMENT = new Phase("movement");
-    static BATTLE = new Phase("battle");
     #name;
     constructor(name) {
         this.#name = name;
@@ -15,16 +13,34 @@ export class Phase {
     }
 }
 
+class MovementPhase extends Phase {
+    constructor() {
+        super("movement");
+    }
+}
+
+class BattlePhase extends Phase {
+    constructor() {
+        super("battle");
+    }
+}
+
+const PHASES = [new MovementPhase(), new BattlePhase()];
+
 export class Turn {
     #spentUnits = [];
     #movementTrails = [];
-    #currentSide = Side.ROMAN;
-    #currentPhase = Phase.MOVEMENT;
+    #currentSide;
+    #phases = PHASES.slice();
     #board;
 
     constructor(board, currentSide = Side.ROMAN) {
         this.#board = board;
         this.#currentSide = currentSide;
+    }
+
+    get currentPhase() {
+        return this.#phases[0]
     }
 
     validCommands() {
@@ -55,7 +71,7 @@ export class Turn {
     }
 
     get currentPhaseName() {
-        return `${this.#currentSide.name} ${this.#currentPhase}`;
+        return `${this.#currentSide.name} ${this.currentPhase}`;
     }
 
     get spentUnits() {
@@ -63,16 +79,16 @@ export class Turn {
     }
 
     endPhase() {
-        if (this.#currentPhase === Phase.MOVEMENT) {
-            this.#currentPhase = Phase.BATTLE;
-            this.#spentUnits = [];
-        } else {
+        if (this.#phases.length === 1) {
             this.switchSide();
+        } else {
+            this.#phases.shift();
+            this.#spentUnits = [];
         }
     }
 
     switchSide() {
-        this.#currentPhase = Phase.MOVEMENT;
+        this.#phases = PHASES.slice();
         this.#currentSide = this.#currentSide === Side.ROMAN ? Side.CARTHAGINIAN : Side.ROMAN;
         this.#spentUnits = [];
         this.#movementTrails = [];
