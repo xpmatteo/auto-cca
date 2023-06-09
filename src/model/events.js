@@ -3,11 +3,12 @@ export class DamageEvent {
     constructor(hex, damage, diceResults) {
         this.hex = hex;
         this.damage = damage;
-        this.diceResults = diceResults;
+        this.diceResults = diceResults.slice();
     }
 
     toString() {
-        return `Damage ${this.damage} to ${this.hex}`;
+        this.diceResults.sort();
+        return `Damage ${this.hex} for ${this.damage} with ${this.diceResults}`;
     }
 }
 

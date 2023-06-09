@@ -2,6 +2,7 @@
 export class EndPhaseCommand {
     play(turn) {
         turn.endPhase();
+        return [];
     }
 
     toString() {

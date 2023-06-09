@@ -85,7 +85,7 @@ export class InteractiveGame {
     }
 
     executeCommand(command) {
-        this.#game.executeCommand(command);
+        return this.#game.executeCommand(command);
     }
 
     moveUnit(hex, fromHex) {

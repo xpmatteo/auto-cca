@@ -5,15 +5,34 @@
     <style>
     body {
         font-family: sans-serif;
-    }    
+    }  
+    .float-child {
+        float: left;
+        height: 100px;
+    }
+    canvas {
+        clear: both;
+    }
+    #messages {
+        width: 500px; 
+        background-color: lightgrey;
+        // add a vertical scrollbar
+        height: 100px;        
+        overflow-y: scroll;
+        // ensure it scrolls to the bottom
+        scroll-behavior: smooth;        
+    }
     </style>
 </head>
 <body>
-    <p id="info">&nbsp;</p>
-    <p>        
-        <button id="end-phase">End Phase</button>
-        <button id="new-game">New Game</button>
-    </p>
+    <div class="float-child" style="width: 200px">
+        <p id="info">&nbsp;</p>
+        <p>        
+            <button id="end-phase">End Phase</button>
+            <button id="new-game">New Game</button>
+        </p>    
+    </div>
+    <div id="messages" class="float-child"></div>    
 
     <script type="module" src="src/main.js"></script>
 </body>

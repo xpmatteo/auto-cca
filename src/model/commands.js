@@ -14,6 +14,7 @@ export class MoveCommand {
         game.moveUnit(this.to, this.from);
         game.markUnitSpent(game.unitAt(this.to));
         game.addMovementTrail(this.to, this.from);
+        return [];
     }
 }
 
@@ -24,6 +25,7 @@ export class EndPhaseCommand {
 
     play(game) {
         game.endPhase();
+        return [];
     }
 }
 
