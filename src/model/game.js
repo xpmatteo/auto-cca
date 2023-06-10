@@ -67,6 +67,12 @@ class Game {
     get currentPhaseName() {
         return this.turn.currentPhaseName;
     }
+
+    // ---- delegate to phase ----
+
+    onClick(hex, game) {
+        this.turn.currentPhase.onClick(hex, game);
+    }
     
     // ---- delegate to dice ----
 

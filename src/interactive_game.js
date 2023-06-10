@@ -11,22 +11,7 @@ export class InteractiveGame {
     }
 
     onClick(hex) {
-        if (this.isTerminal()) 
-            return;
-        let unit = this.unitAt(hex);
-        if (unit && unit !== this.selectedUnit()) {
-            this.#selectedUnit = unit;
-        } else if (this.selectedUnit() && this.selectedUnitCanMoveTo(hex)) {
-            this.#game.executeCommand(new MoveCommand(hex, this.selectedHex()));
-            this.#selectedUnit = undefined;
-        } else {
-            this.#selectedUnit = undefined;
-        }
-        if (this.selectedUnit()) {
-            this.#hilightedHexes = this.selectedUnit().validDestinations(this.selectedHex(), this.#game);
-        } else {
-            this.#hilightedHexes = [];
-        }
+        this.#game.onClick(hex, this);
     }
 
     selectedUnitCanMoveTo(hex) {
@@ -37,12 +22,24 @@ export class InteractiveGame {
         return this.#hilightedHexes;
     }
 
+    hilightHexes(hexes) {
+        this.#hilightedHexes = hexes;
+    }
+
     selectedHex() {
         return this.#game.hexOfUnit(this.selectedUnit());
     }
 
     selectedUnit() {
         return this.#selectedUnit;
+    }
+
+    selectUnit(unit) {
+        this.#selectedUnit = unit;
+    }
+
+    unselectUnit() {
+        this.#selectedUnit = undefined;
     }
 
     // --- delegate to game ---
@@ -93,6 +90,14 @@ export class InteractiveGame {
 
     isTerminal() {
         return this.#game.isTerminal();
+    }
+
+    subtractOffMap(hexes) {
+        return this.#game.subtractOffMap(hexes);
+    }
+
+    subtractOccupiedHexes(hexes) {
+        return this.#game.subtractOccupiedHexes(hexes);
     }
 
     get currentSide() {

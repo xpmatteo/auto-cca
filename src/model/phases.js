@@ -5,6 +5,9 @@ class Phase {
     #name;
     constructor(name) {
         this.#name = name;
+        if (new.target === Phase) {
+            throw new TypeError("Cannot construct Abstract instances directly");
+        }
     }
     toString() {
         return this.#name;
@@ -34,6 +37,25 @@ export class MovementPhase extends Phase {
         });
         commands.push(new EndPhaseCommand());
         return commands;
+    }
+
+    onClick(hex, game) {
+        if (game.isTerminal())
+            return;
+        let unit = game.unitAt(hex);
+        if (unit && unit !== game.selectedUnit()) {
+            game.selectUnit(unit);
+        } else if (game.selectedUnit() && game.selectedUnitCanMoveTo(hex)) {
+            game.executeCommand(new MoveCommand(hex, game.selectedHex()));
+            game.unselectUnit();
+        } else {
+            game.unselectUnit();
+        }
+        if (game.selectedUnit()) {
+            game.hilightHexes(game.selectedUnit().validDestinations(game.selectedHex(), game));
+        } else {
+            game.hilightHexes([]);
+        }
     }
 }
 
