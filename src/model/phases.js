@@ -40,6 +40,7 @@ export class MovementPhase extends Phase {
     }
 
     onClick(hex, game) {
+        let events = [];
         if (game.isTerminal())
             return;
         let unit = game.unitAt(hex);
@@ -56,6 +57,7 @@ export class MovementPhase extends Phase {
         } else {
             game.hilightHexes([]);
         }
+        return events;
     }
 }
 
@@ -82,13 +84,14 @@ export class BattlePhase extends Phase {
     }
 
     onClick(hex, game) {
+        let events = [];
         if (game.isTerminal())
             return;
         let unit = game.unitAt(hex);
         if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide) {
             game.selectUnit(unit);
         } else if (game.selectedUnit() && game.selectedUnitCanCloseCombatTo(hex)) {
-            game.executeCommand(new CloseCombatCommand(hex, game.selectedHex()));
+            events = game.executeCommand(new CloseCombatCommand(hex, game.selectedHex()));
             game.unselectUnit();
         } else {
             game.unselectUnit();
@@ -98,6 +101,7 @@ export class BattlePhase extends Phase {
         } else {
             game.hilightHexes([]);
         }
+        return events;
     }
 }
 

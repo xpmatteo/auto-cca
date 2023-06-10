@@ -11,7 +11,7 @@ export class InteractiveGame {
     }
 
     onClick(hex) {
-        this.#game.onClick(hex, this);
+        return this.#game.onClick(hex, this);
     }
 
     selectedUnitCanMoveTo(hex) {

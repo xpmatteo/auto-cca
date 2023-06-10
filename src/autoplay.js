@@ -5,7 +5,8 @@ import { redraw } from "./view/graphics.js";
 const AUTOPLAY_DELAY = 800;
 
 const textBox = document.getElementById("messages");
-function displayEvents(events) {    
+export function displayEvents(events) {    
+    console.log("Events:", events);
     events.forEach(event => {
         textBox.innerHTML += `${event}<br/>`;
         textBox.scrollTop = textBox.scrollHeight;

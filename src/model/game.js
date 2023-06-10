@@ -71,7 +71,7 @@ class Game {
     // ---- delegate to phase ----
 
     onClick(hex, game) {
-        this.turn.currentPhase.onClick(hex, game);
+        return this.turn.currentPhase.onClick(hex, game);
     }
     
     // ---- delegate to dice ----

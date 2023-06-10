@@ -1,6 +1,6 @@
 "use strict";
 
-import { Autoplay } from "./autoplay.js";
+import { Autoplay, displayEvents } from "./autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
 import { ScenarioRaceToOppositeSide } from "./model/scenarios.js";
@@ -33,7 +33,8 @@ loadAllImagesThen(() => {
 canvas.addEventListener('click', function (event) {
     let hex = findHexFromPixel(canvas, event.clientX, event.clientY);
     console.log(`clicked on ${event.clientX},${event.clientY}: Hex ${hex.q}, ${hex.r}`);
-    interactiveGame.onClick(hex);
+    let events = interactiveGame.onClick(hex);
+    displayEvents(events);
     redraw(ctx, interactiveGame);
 });
 
@@ -45,3 +46,4 @@ document.getElementById('end-phase').addEventListener('click', function (event) 
     autoplay.play(ctx);
     redraw(ctx, interactiveGame);
 });
+
