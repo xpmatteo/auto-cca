@@ -3,6 +3,7 @@
 import { hex_to_pixel } from "../lib/hexlib.js";
 import { IMAGES } from "./load_all_images.js";
 import { layout } from "./map.js";
+import { Point } from "../lib/hexlib.js";
 
 export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
     let url = `images/units/${unit.imageName}`;
@@ -66,10 +67,9 @@ export function redraw(ctx, graphics, game) {
     ctx.drawImage(mapImage, 0, 0, mapImage.width, mapImage.height);
 
     function draw_coordinates(hex) {
-        ctx.font = "12pt Arial";
-        ctx.fillStyle = "black";
-        let pixelCoordinate = hex_to_pixel(layout, hex);
-        ctx.fillText(`${hex.q}, ${hex.r}`, pixelCoordinate.x-12, pixelCoordinate.y-20);        
+        let pixelCoordinate = hex_to_pixel(layout, hex).add(new Point(5, -10));        
+        const text = `${hex.q}, ${hex.r}`;
+        graphics.writeText(text, pixelCoordinate);
     }
 
     function hilight(hex) {

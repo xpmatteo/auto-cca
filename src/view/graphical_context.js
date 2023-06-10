@@ -46,4 +46,12 @@ export class GraphicalContext {
         this.ctx.restore();
     }
 
+    writeText(text, pixelCoordinate, font="12pt Arial", color='black') {
+        this.ctx.save();
+        this.ctx.font = font;
+        this.ctx.fillStyle = color;
+        this.ctx.fillText(text, pixelCoordinate.x-12, pixelCoordinate.y-20);        
+        this.ctx.restore();
+    }
+
 }

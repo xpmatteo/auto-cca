@@ -66,6 +66,10 @@ export class Point {
         this.x = x;
         this.y = y;
     }
+
+    add(other) {
+        return new Point(this.x + other.x, this.y + other.y);
+    }
 }
 
 export class Layout {    
