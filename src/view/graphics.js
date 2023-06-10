@@ -36,26 +36,6 @@ export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
     }
 }
 
-export function highlight_hex(ctx, layout, pixelCoordinate) {
-    ctx.save();
-    ctx.globalAlpha = 0.5;
-    ctx.fillStyle = 'lightgreen';
-    ctx.beginPath();
-    let x = layout.size.x-10;
-    let y = layout.size.y-2;
-    ctx.moveTo(pixelCoordinate.x, pixelCoordinate.y);
-    ctx.lineTo(pixelCoordinate.x, pixelCoordinate.y - y);
-    ctx.lineTo(pixelCoordinate.x + x, pixelCoordinate.y - y / 2);
-    ctx.lineTo(pixelCoordinate.x + x, pixelCoordinate.y + y / 2);
-    ctx.lineTo(pixelCoordinate.x, pixelCoordinate.y + y);
-    ctx.lineTo(pixelCoordinate.x - x, pixelCoordinate.y + y / 2);
-    ctx.lineTo(pixelCoordinate.x - x, pixelCoordinate.y - y / 2);
-    ctx.lineTo(pixelCoordinate.x, pixelCoordinate.y - y);
-    ctx.fill();
-    ctx.closePath();
-    ctx.restore();
-}
-
 function drawMovementTrails(graphics, layout, game) {
     game.movementTrails.forEach(trail => {
         drawMovementTrail(graphics, layout, trail.from, trail.to);
@@ -106,9 +86,9 @@ export function redraw(ctx, graphics, game) {
         ctx.fillText(`${hex.q}, ${hex.r}`, pixelCoordinate.x-12, pixelCoordinate.y-20);        
     }
 
-    function highlight(hex) {
+    function hilight(hex) {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        highlight_hex(ctx, layout, pixelCoordinate);
+        graphics.hilightHex(layout.size, pixelCoordinate);
     }
 
     //game.foreachHex(draw_circle_in_top_vertex);
@@ -121,7 +101,7 @@ export function redraw(ctx, graphics, game) {
         draw_unit(ctx, pixelCoordinate, unit, unit === game.selectedUnit());
     });
 
-    game.hilightedHexes.forEach(highlight);
+    game.hilightedHexes.forEach(hilight);
 
     updateInfoMessage(game);
     enableButtons(game);

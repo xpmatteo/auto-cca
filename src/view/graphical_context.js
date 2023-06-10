@@ -24,6 +24,26 @@ export class GraphicalContext {
         this.ctx.stroke();
         this.ctx.closePath();    
         this.ctx.restore();
-    }    
+    }
+
+    hilightHex(size, pixelCoordinate) {
+        let x = size.x-10;
+        let y = size.y-2;
+        this.ctx.save();
+        this.ctx.globalAlpha = 0.5;
+        this.ctx.fillStyle = 'lightgreen';
+        this.ctx.beginPath();
+        this.ctx.moveTo(pixelCoordinate.x, pixelCoordinate.y);
+        this.ctx.lineTo(pixelCoordinate.x, pixelCoordinate.y - y);
+        this.ctx.lineTo(pixelCoordinate.x + x, pixelCoordinate.y - y / 2);
+        this.ctx.lineTo(pixelCoordinate.x + x, pixelCoordinate.y + y / 2);
+        this.ctx.lineTo(pixelCoordinate.x, pixelCoordinate.y + y);
+        this.ctx.lineTo(pixelCoordinate.x - x, pixelCoordinate.y + y / 2);
+        this.ctx.lineTo(pixelCoordinate.x - x, pixelCoordinate.y - y / 2);
+        this.ctx.lineTo(pixelCoordinate.x, pixelCoordinate.y - y);
+        this.ctx.fill();
+        this.ctx.closePath();
+        this.ctx.restore();
+    }
 
 }
