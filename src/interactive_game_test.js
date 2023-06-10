@@ -42,6 +42,23 @@ test('click and select unit', function () {
     assertEqualsInAnyOrder(expectedHilightedHexes, game.hilightedHexes);
 });
 
+test('cannot select a spent unit', function () {
+    let game = makeInteractiveGame();
+    let unit = new RomanHeavyInfantry();
+    game.placeUnit(hexOf(1, 1), unit);
+
+    game.onClick(hexOf(1, 1));
+    game.onClick(hexOf(1, 2));
+
+    assertEquals(unit, game.unitAt(hexOf(1, 2)), "unit has moved");
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+    assertTrue(game.isSpent(unit), "unit should be spent");
+
+    game.onClick(hexOf(1, 2));
+    assertEquals(undefined, game.selectedUnit(), "should not be able to select a spent unit");
+});
+
+
 test('click on other unit', function () {
     let game = makeInteractiveGame();
     let unit0 = new RomanHeavyInfantry();

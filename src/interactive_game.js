@@ -56,6 +56,14 @@ export class InteractiveGame {
 
     // --- delegate to game ---
 
+    markUnitSpent(unit) {
+        this.#game.markUnitSpent(unit);
+    }
+
+    isSpent(unit) {
+        return this.#game.isSpent(unit);
+    }
+
     validCommands() {
         return this.#game.validCommands();
     }

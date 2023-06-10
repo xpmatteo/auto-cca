@@ -40,6 +40,10 @@ export class Turn {
         return this.#spentUnits;
     }
 
+    isSpent(unit) {
+        return this.#spentUnits.includes(unit);
+    }
+
     endPhase() {
         if (this.#phases.length === 1) {
             this.switchSide();

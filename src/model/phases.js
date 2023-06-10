@@ -44,7 +44,7 @@ export class MovementPhase extends Phase {
         if (game.isTerminal())
             return;
         let unit = game.unitAt(hex);
-        if (unit && unit !== game.selectedUnit()) {
+        if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide && !game.isSpent(unit)) {
             game.selectUnit(unit);
         } else if (game.selectedUnit() && game.selectedUnitCanMoveTo(hex)) {
             game.executeCommand(new MoveCommand(hex, game.selectedHex()));
@@ -88,7 +88,7 @@ export class BattlePhase extends Phase {
         if (game.isTerminal())
             return;
         let unit = game.unitAt(hex);
-        if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide) {
+        if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide && !game.isSpent(unit)) {
             game.selectUnit(unit);
         } else if (game.selectedUnit() && game.selectedUnitCanCloseCombatTo(hex)) {
             events = game.executeCommand(new CloseCombatCommand(hex, game.selectedHex()));

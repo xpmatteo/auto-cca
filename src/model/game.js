@@ -52,10 +52,6 @@ class Game {
         this.turn.moveUnit(hexTo, hexFrom);
     }
 
-    markUnitSpent(unit) {
-        this.turn.markUnitSpent(unit);
-    }
-
     endPhase() {
         this.turn.endPhase();
     }
@@ -66,6 +62,14 @@ class Game {
 
     get currentPhaseName() {
         return this.turn.currentPhaseName;
+    }
+
+    isSpent(unit) {
+        return this.turn.isSpent(unit);
+    }
+
+    markUnitSpent(unit) {
+        this.turn.markUnitSpent(unit);
     }
 
     // ---- delegate to phase ----

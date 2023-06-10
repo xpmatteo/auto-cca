@@ -32,7 +32,6 @@ loadAllImagesThen(() => {
 // track mouse clicks
 canvas.addEventListener('click', function (event) {
     let hex = findHexFromPixel(canvas, event.clientX, event.clientY);
-    console.log(`clicked on ${event.clientX},${event.clientY}: Hex ${hex.q}, ${hex.r}`);
     let events = interactiveGame.onClick(hex);
     displayEvents(events);
     redraw(ctx, interactiveGame);
