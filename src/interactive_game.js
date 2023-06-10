@@ -10,7 +10,7 @@ export class InteractiveGame {
         this.#game = game;
     }
 
-    click(hex) {
+    onClick(hex) {
         if (this.isTerminal()) 
             return;
         let unit = this.unitAt(hex);
@@ -80,7 +80,6 @@ export class InteractiveGame {
     }
 
     get gameStatus() {
-        console.log(`gameStatus: ${this.#game}`);
         return this.#game.gameStatus;
     }
 
