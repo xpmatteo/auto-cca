@@ -1,7 +1,6 @@
 
 import { Side } from "./side.js";
-import { CloseCombatCommand, MoveCommand } from "./commands.js";
-import { EndPhaseCommand } from "./EndPhaseCommand.js";
+import { CloseCombatCommand, MoveCommand, EndPhaseCommand } from "./commands.js";
 
 export class Phase {
     #name;
