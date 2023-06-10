@@ -13,17 +13,6 @@ export function draw_circle(ctx, x, y, radius=5, color='red') {
     ctx.closePath();
 }
 
-function drawMovementTrail(graphics, layout, hexFrom, hexTo) {
-    const TRAIL_COLOR = 'darkgray';
-    let pixelFrom = hex_to_pixel(layout, hexFrom);
-    let pixelTo = hex_to_pixel(layout, hexTo);
-        
-    graphics.drawCircle(pixelFrom, 10, TRAIL_COLOR);
-    
-    // draw thick gray line from hexFrom to hexTo
-    graphics.drawLine(pixelFrom, pixelTo, 10, TRAIL_COLOR);
-}
-
 export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
     let url = `images/units/${unit.imageName}`;
     let img = IMAGES[url];
@@ -67,6 +56,40 @@ export function highlight_hex(ctx, layout, pixelCoordinate) {
     ctx.restore();
 }
 
+function drawMovementTrails(graphics, layout, game) {
+    game.movementTrails.forEach(trail => {
+        drawMovementTrail(graphics, layout, trail.from, trail.to);
+    });
+}
+
+function drawMovementTrail(graphics, layout, hexFrom, hexTo) {
+    const TRAIL_COLOR = 'darkgray';
+    let pixelFrom = hex_to_pixel(layout, hexFrom);
+    let pixelTo = hex_to_pixel(layout, hexTo);
+        
+    graphics.drawCircle(pixelFrom, 10, TRAIL_COLOR);
+    
+    // draw thick gray line from hexFrom to hexTo
+    graphics.drawLine(pixelFrom, pixelTo, 10, TRAIL_COLOR);
+}
+
+function enableButtons(game) {
+    let endTurnButton = document.getElementById("end-phase");
+    endTurnButton.disabled = game.isTerminal();
+
+    let newGameButton = document.getElementById("new-game");
+    newGameButton.disabled = !game.isTerminal();
+}
+
+function updateInfoMessage(game) {
+    let info = document.getElementById("info");    
+    if (game.isTerminal()) {
+        info.innerHTML = `Game over. ${game.gameStatus}`;    
+    } else {
+        info.innerHTML = game.currentPhaseName;
+    }
+}
+
 export function redraw(ctx, graphics, game) {
     let mapImage = IMAGES['images/cca_map_hq.jpg'];
     ctx.drawImage(mapImage, 0, 0, mapImage.width, mapImage.height);
@@ -104,25 +127,3 @@ export function redraw(ctx, graphics, game) {
     enableButtons(game);
 }
 
-function drawMovementTrails(graphics, layout, game) {
-    game.movementTrails.forEach(trail => {
-        drawMovementTrail(graphics, layout, trail.from, trail.to);
-    });
-}
-
-function enableButtons(game) {
-    let endTurnButton = document.getElementById("end-phase");
-    endTurnButton.disabled = game.isTerminal();
-
-    let newGameButton = document.getElementById("new-game");
-    newGameButton.disabled = !game.isTerminal();
-}
-
-function updateInfoMessage(game) {
-    let info = document.getElementById("info");    
-    if (game.isTerminal()) {
-        info.innerHTML = `Game over. ${game.gameStatus}`;    
-    } else {
-        info.innerHTML = game.currentPhaseName;
-    }
-}
