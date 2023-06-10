@@ -15,6 +15,27 @@ class Phase {
     validCommands(turn, board) {
         return [];
     }
+
+    onClick(hex, game) {
+        let events = [];
+        if (game.isTerminal())
+            return;
+        let unit = game.unitAt(hex);
+        if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide && !game.isSpent(unit)) {
+            game.selectUnit(unit);
+        } else if (game.selectedUnit() && this.selectedUnitCanActOn(hex, game)) {
+            events = this.executeCommandOn(hex, game);
+            game.unselectUnit();
+        } else {
+            game.unselectUnit();
+        }
+        if (game.selectedUnit()) {
+            game.hilightHexes(this.hexesToHilight(game));
+        } else {
+            game.hilightHexes([]);
+        }
+        return events;
+    }
 }
 
 export class MovementPhase extends Phase {
@@ -39,25 +60,16 @@ export class MovementPhase extends Phase {
         return commands;
     }
 
-    onClick(hex, game) {
-        let events = [];
-        if (game.isTerminal())
-            return;
-        let unit = game.unitAt(hex);
-        if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide && !game.isSpent(unit)) {
-            game.selectUnit(unit);
-        } else if (game.selectedUnit() && game.selectedUnitCanMoveTo(hex)) {
-            game.executeCommand(new MoveCommand(hex, game.selectedHex()));
-            game.unselectUnit();
-        } else {
-            game.unselectUnit();
-        }
-        if (game.selectedUnit()) {
-            game.hilightHexes(game.selectedUnit().validDestinations(game.selectedHex(), game));
-        } else {
-            game.hilightHexes([]);
-        }
-        return events;
+    selectedUnitCanActOn(hex, game) {
+        return game.selectedUnitCanMoveTo(hex);
+    }
+
+    executeCommandOn(hex, game) {
+        return game.executeCommand(new MoveCommand(hex, game.selectedHex()));
+    }
+
+    hexesToHilight(game) {
+        return game.selectedUnit().validDestinations(game.selectedHex(), game);
     }
 }
 
@@ -83,25 +95,17 @@ export class BattlePhase extends Phase {
         return commands;
     }
 
-    onClick(hex, game) {
-        let events = [];
-        if (game.isTerminal())
-            return;
-        let unit = game.unitAt(hex);
-        if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide && !game.isSpent(unit)) {
-            game.selectUnit(unit);
-        } else if (game.selectedUnit() && game.selectedUnitCanCloseCombatTo(hex)) {
-            events = game.executeCommand(new CloseCombatCommand(hex, game.selectedHex()));
-            game.unselectUnit();
-        } else {
-            game.unselectUnit();
-        }
-        if (game.selectedUnit()) {
-            game.hilightHexes(game.selectedUnit().validCloseCombatTargets(game.selectedHex(), game));
-        } else {
-            game.hilightHexes([]);
-        }
-        return events;
+    selectedUnitCanActOn(hex, game) {
+        return game.selectedUnitCanCloseCombatTo(hex);
     }
+
+    executeCommandOn(hex, game) {
+        return game.executeCommand(new CloseCombatCommand(hex, game.selectedHex()));
+    }
+
+    hexesToHilight(game) {
+        return game.selectedUnit().validCloseCombatTargets(game.selectedHex(), game);
+    }
+
 }
 
