@@ -18,6 +18,10 @@ export class InteractiveGame {
         return this.selectedUnit().validDestinations(this.selectedHex(), this.#game).includes(hex);
     }
 
+    selectedUnitCanCloseCombatTo(hex) {
+        return this.selectedUnit().validCloseCombatTargets(this.selectedHex(), this.#game).includes(hex);
+    }
+
     get hilightedHexes() {
         return this.#hilightedHexes;
     }
@@ -40,6 +44,14 @@ export class InteractiveGame {
 
     unselectUnit() {
         this.#selectedUnit = undefined;
+    }
+
+    get currentSide() {
+        return this.#game.currentSide;
+    }
+
+    get movementTrails() {
+        return this.#game.movementTrails;
     }
 
     // --- delegate to game ---
@@ -100,11 +112,9 @@ export class InteractiveGame {
         return this.#game.subtractOccupiedHexes(hexes);
     }
 
-    get currentSide() {
-        return this.#game.currentSide;
-    }
-
-    get movementTrails() {
-        return this.#game.movementTrails;
+    endPhase() {
+        this.unselectUnit();
+        this.hilightHexes([]);
+        this.#game.endPhase();
     }
 }

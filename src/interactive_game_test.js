@@ -4,14 +4,25 @@ import { hexOf } from './lib/hexlib.js';
 import makeGame from './model/game.js';
 import { NullScenario } from './model/scenarios.js';
 import { InteractiveGame } from "./interactive_game.js";
-import { RomanHeavyInfantry } from './model/units.js';
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from './model/units.js';
+import { CloseCombatCommand } from './model/commands.js';
 
 function otherUnit() {
     return new RomanHeavyInfantry();
 }
 
+function enemyUnit() {
+    return new CarthaginianHeavyInfantry();
+}
+
 function makeInteractiveGame() {
     return new InteractiveGame(makeGame(new NullScenario()));
+}
+
+function makeGameInBattlePhase() {
+    let game = makeInteractiveGame();
+    game.endPhase();
+    return game;
 }
 
 test('click and select unit', function () {
@@ -56,9 +67,6 @@ test('click and deselect unit', function () {
     assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes");
 });
 
-
-// test('', () => {});
-
 test('click nowhere and deselect', () => {
     let game = makeInteractiveGame();
     let unit = new RomanHeavyInfantry();
@@ -101,3 +109,92 @@ test('click and move one unit', () => {
     assertEquals(unit, game.unitAt(hexOf(2, 5)));
 });
 
+// =========== battle tests =========== 
+
+test('click and select unit in battle phase', function () {
+    let game = makeGameInBattlePhase();
+    let unit = new RomanHeavyInfantry();
+    game.placeUnit(hexOf(1, 1), unit);
+    game.placeUnit(hexOf(2, 1), enemyUnit());
+    assertFalse(unit.isSelected, "should not be selected at start");
+    assertEquals(undefined, game.selectedUnit(), "no selected unit at start");
+    assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes at start");
+
+    game.onClick(hexOf(1, 1));
+
+    assertEquals(unit, game.selectedUnit(), "selected unit");
+    assertDeepEquals(hexOf(1, 1), game.selectedHex());
+    let expectedHilightedHexes = [hexOf(2,1)];
+    assertEqualsInAnyOrder(expectedHilightedHexes, game.hilightedHexes);
+});
+
+test('click on other unit in battle phase', function () {
+    let game = makeGameInBattlePhase();
+    let unit0 = new RomanHeavyInfantry();
+    let unit1 = new RomanHeavyInfantry();
+    game.placeUnit(hexOf(0, 0), unit0);
+    game.placeUnit(hexOf(1, 0), unit1);
+    game.placeUnit(hexOf(0, 1), enemyUnit());
+
+    game.onClick(hexOf(0, 0));
+    game.onClick(hexOf(1, 0));
+
+    assertEquals(unit1, game.selectedUnit(), "new unit should be selected");
+});
+
+test('click and deselect unit in battle phase', function () {
+    let game = makeGameInBattlePhase();
+    let unit = new RomanHeavyInfantry();
+    game.placeUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(0, 1), enemyUnit());
+
+    game.onClick(hexOf(0, 0));
+    game.onClick(hexOf(0, 0));
+
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+    assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes");
+});
+
+test('click nowhere and deselect in battle phase', () => {
+    let game = makeGameInBattlePhase();
+    let unit = new RomanHeavyInfantry();
+    game.placeUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(0, 1), enemyUnit());
+
+    game.onClick(hexOf(0, 0));
+    assertEquals(unit, game.selectedUnit(), "unit should be selected");
+    
+    game.onClick(hexOf(100, 0));
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+});
+
+test('click on enemy unit and deselect in battle phase', () => {
+    let game = makeGameInBattlePhase();
+    let unit = new RomanHeavyInfantry();
+    game.placeUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(0, 1), enemyUnit());
+
+    game.onClick(hexOf(0, 0));
+    assertEquals(unit, game.selectedUnit(), "unit should be selected");
+    
+    game.onClick(hexOf(0, 1));
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+});
+
+
+test('click and close combat one unit', () => {
+    let commandsExecuted = [];
+    let game = makeGameInBattlePhase();
+    let unit = new RomanHeavyInfantry();
+    game.placeUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(0, 1), enemyUnit());
+    game.executeCommand = function(command) {
+        commandsExecuted.push(command);
+    };
+
+    game.onClick(hexOf(0, 0));
+    game.onClick(hexOf(0, 1));
+
+    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+    assertDeepEquals([new CloseCombatCommand(hexOf(0, 1), hexOf(0, 0))], commandsExecuted);
+});

@@ -80,5 +80,24 @@ export class BattlePhase extends Phase {
         commands.push(new EndPhaseCommand());
         return commands;
     }
+
+    onClick(hex, game) {
+        if (game.isTerminal())
+            return;
+        let unit = game.unitAt(hex);
+        if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide) {
+            game.selectUnit(unit);
+        } else if (game.selectedUnit() && game.selectedUnitCanCloseCombatTo(hex)) {
+            game.executeCommand(new CloseCombatCommand(hex, game.selectedHex()));
+            game.unselectUnit();
+        } else {
+            game.unselectUnit();
+        }
+        if (game.selectedUnit()) {
+            game.hilightHexes(game.selectedUnit().validCloseCombatTargets(game.selectedHex(), game));
+        } else {
+            game.hilightHexes([]);
+        }
+    }
 }
 

@@ -41,6 +41,7 @@ canvas.addEventListener('click', function (event) {
 const autoplay = new Autoplay(interactiveGame);
 
 document.getElementById('end-phase').addEventListener('click', function (event) {
-    cca.executeCommand(new EndPhaseCommand());
-    autoplay.play(ctx);    
+    interactiveGame.endPhase();
+    autoplay.play(ctx);
+    redraw(ctx, interactiveGame);
 });
