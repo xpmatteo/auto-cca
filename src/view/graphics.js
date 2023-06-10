@@ -13,13 +13,11 @@ export function drawUnit(ctx, graphics, pixelCoordinate, unit, isSelected) {
     }
     let shift = 2;
     ctx.drawImage(img, pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
-    ctx.font = "20pt Arial";
-    ctx.fillStyle = "white";
-    ctx.fillText(unit.strength, pixelCoordinate.x + 18 - shift, pixelCoordinate.y + img.height / 2 - 10 + shift);
 
-    ctx.font = "16pt Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText(unit.strength, pixelCoordinate.x + 18, pixelCoordinate.y + img.height / 2 - 10);
+    const pixelStrength = pixelCoordinate.add(new Point(18, img.height / 2 - 10));
+    const pixelStrengthShadow = pixelStrength.add(new Point(-shift, shift));
+    graphics.writeText(unit.strength, pixelStrengthShadow, "20pt Arial", "white");
+    graphics.writeText(unit.strength, pixelStrength, "16pt Arial", "black");
 
     if (isSelected) {
         ctx.strokeStyle = 'red';
@@ -63,7 +61,7 @@ function updateInfoMessage(game) {
 }
 
 function drawCoordinates(graphics, hex) {
-    let pixelCoordinate = hex_to_pixel(layout, hex).add(new Point(5, -10));
+    let pixelCoordinate = hex_to_pixel(layout, hex).add(new Point(-12, -20));
     const text = `${hex.q}, ${hex.r}`;
     graphics.writeText(text, pixelCoordinate);
 }

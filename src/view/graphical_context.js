@@ -54,13 +54,16 @@ export class GraphicalContext {
         this.ctx.save();
         this.ctx.font = font;
         this.ctx.fillStyle = color;
-        this.ctx.fillText(text, pixelCoordinate.x-12, pixelCoordinate.y-20);        
+        this.ctx.fillText(text, pixelCoordinate.x, pixelCoordinate.y);        
         this.ctx.restore();
     }
 
     drawImage(url, pixelCoordinate) {
-        let mapImage = IMAGES[url];
-        this.ctx.drawImage(mapImage, pixelCoordinate.x, pixelCoordinate.y, mapImage.width, mapImage.height);
+        let img = IMAGES[url];
+        if (!img) {
+            throw new Error(`Image ${url} not found`);
+        }
+        this.ctx.drawImage(img, pixelCoordinate.x, pixelCoordinate.y, img.width, img.height);
     }    
 
 }
