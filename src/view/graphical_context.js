@@ -1,3 +1,7 @@
+"use strict";
+
+import { IMAGES } from "./load_all_images.js";
+
 
 export class GraphicalContext {
     constructor(ctx) {
@@ -53,5 +57,10 @@ export class GraphicalContext {
         this.ctx.fillText(text, pixelCoordinate.x-12, pixelCoordinate.y-20);        
         this.ctx.restore();
     }
+
+    drawImage(url, pixelCoordinate) {
+        let mapImage = IMAGES[url];
+        this.ctx.drawImage(mapImage, pixelCoordinate.x, pixelCoordinate.y, mapImage.width, mapImage.height);
+    }    
 
 }

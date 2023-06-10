@@ -5,7 +5,7 @@ import { IMAGES } from "./load_all_images.js";
 import { layout } from "./map.js";
 import { Point } from "../lib/hexlib.js";
 
-export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
+export function drawUnit(ctx, graphics, pixelCoordinate, unit, isSelected) {
     let url = `images/units/${unit.imageName}`;
     let img = IMAGES[url];
     if (!img) {
@@ -15,7 +15,7 @@ export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
     ctx.drawImage(img, pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
     ctx.font = "20pt Arial";
     ctx.fillStyle = "white";
-    ctx.fillText(unit.strength, pixelCoordinate.x + 18 -shift, pixelCoordinate.y + img.height / 2 - 10 +shift);
+    ctx.fillText(unit.strength, pixelCoordinate.x + 18 - shift, pixelCoordinate.y + img.height / 2 - 10 + shift);
 
     ctx.font = "16pt Arial";
     ctx.fillStyle = "black";
@@ -38,9 +38,9 @@ function drawMovementTrail(graphics, layout, hexFrom, hexTo) {
     const TRAIL_COLOR = 'darkgray';
     let pixelFrom = hex_to_pixel(layout, hexFrom);
     let pixelTo = hex_to_pixel(layout, hexTo);
-        
+
     graphics.drawCircle(pixelFrom, 10, TRAIL_COLOR);
-    
+
     // draw thick gray line from hexFrom to hexTo
     graphics.drawLine(pixelFrom, pixelTo, 10, TRAIL_COLOR);
 }
@@ -54,39 +54,36 @@ function enableButtons(game) {
 }
 
 function updateInfoMessage(game) {
-    let info = document.getElementById("info");    
+    let info = document.getElementById("info");
     if (game.isTerminal()) {
-        info.innerHTML = `Game over. ${game.gameStatus}`;    
+        info.innerHTML = `Game over. ${game.gameStatus}`;
     } else {
         info.innerHTML = game.currentPhaseName;
     }
 }
 
+function drawCoordinates(graphics, hex) {
+    let pixelCoordinate = hex_to_pixel(layout, hex).add(new Point(5, -10));
+    const text = `${hex.q}, ${hex.r}`;
+    graphics.writeText(text, pixelCoordinate);
+}
+
 export function redraw(ctx, graphics, game) {
-    let mapImage = IMAGES['images/cca_map_hq.jpg'];
-    ctx.drawImage(mapImage, 0, 0, mapImage.width, mapImage.height);
+    graphics.drawImage('images/cca_map_hq.jpg', new Point(0, 0));
 
-    function draw_coordinates(hex) {
-        let pixelCoordinate = hex_to_pixel(layout, hex).add(new Point(5, -10));        
-        const text = `${hex.q}, ${hex.r}`;
-        graphics.writeText(text, pixelCoordinate);
-    }
-
-    function hilight(hex) {
-        let pixelCoordinate = hex_to_pixel(layout, hex);
-        graphics.hilightHex(layout.size, pixelCoordinate);
-    }
-
-    game.foreachHex(draw_coordinates);
+    game.foreachHex(hex => drawCoordinates(graphics, hex));
 
     drawMovementTrails(graphics, layout, game);
 
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        draw_unit(ctx, pixelCoordinate, unit, unit === game.selectedUnit());
+        drawUnit(ctx, graphics, pixelCoordinate, unit, unit === game.selectedUnit());
     });
 
-    game.hilightedHexes.forEach(hilight);
+    game.hilightedHexes.forEach(hex => {
+        let pixelCoordinate = hex_to_pixel(layout, hex);
+        graphics.hilightHex(layout.size, pixelCoordinate);
+    });
 
     updateInfoMessage(game);
     enableButtons(game);
