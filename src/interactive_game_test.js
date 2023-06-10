@@ -23,7 +23,7 @@ test('click and select unit', function () {
     assertEquals(undefined, game.selectedUnit(), "no selected unit at start");
     assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes at start");
 
-    game.click(hexOf(1, 1));
+    game.onClick(hexOf(1, 1));
 
     assertEquals(unit, game.selectedUnit(), "selected unit");
     assertDeepEquals(hexOf(1, 1), game.selectedHex());
@@ -38,8 +38,8 @@ test('click on other unit', function () {
     game.placeUnit(hexOf(0, 0), unit0);
     game.placeUnit(hexOf(0, 1), unit1);
 
-    game.click(hexOf(0, 0));
-    game.click(hexOf(0, 1));
+    game.onClick(hexOf(0, 0));
+    game.onClick(hexOf(0, 1));
 
     assertEquals(unit1, game.selectedUnit(), "new unit should be selected");
 });
@@ -49,8 +49,8 @@ test('click and deselect unit', function () {
     let unit = new RomanHeavyInfantry();
     game.placeUnit(hexOf(0, 0), unit);
 
-    game.click(hexOf(0, 0));
-    game.click(hexOf(0, 0));
+    game.onClick(hexOf(0, 0));
+    game.onClick(hexOf(0, 0));
 
     assertEquals(undefined, game.selectedUnit(), "should not be selected");
     assertEqualsInAnyOrder([], game.hilightedHexes, "no hilighted hexes");
@@ -64,10 +64,10 @@ test('click nowhere and deselect', () => {
     let unit = new RomanHeavyInfantry();
     game.placeUnit(hexOf(0, 0), unit);
 
-    game.click(hexOf(0, 0));
+    game.onClick(hexOf(0, 0));
     assertEquals(unit, game.selectedUnit(), "unit should be selected");
     
-    game.click(hexOf(100, 0));
+    game.onClick(hexOf(100, 0));
     assertEquals(undefined, game.selectedUnit(), "should not be selected");
 });
 
@@ -76,10 +76,10 @@ test('click outside map does not move off-board', () => {
     let unit = new RomanHeavyInfantry();
     game.placeUnit(hexOf(0, 0), unit);
 
-    game.click(hexOf(0, 0));
+    game.onClick(hexOf(0, 0));
     assertEquals(unit, game.selectedUnit(), "unit should be selected");
     
-    game.click(hexOf(0, -1));
+    game.onClick(hexOf(0, -1));
     assertEquals(undefined, game.selectedUnit(), "should not be selected");
     assertEquals(unit, game.unitAt(hexOf(0, 0)));
 });
@@ -94,9 +94,9 @@ test('click and move one unit', () => {
     let game = makeInteractiveGame();
     let unit = new RomanHeavyInfantry();
     game.placeUnit(hexOf(1,5), unit);
-    game.click(hexOf(1, 5)); 
+    game.onClick(hexOf(1, 5)); 
     
-    game.click(hexOf(2, 5));
+    game.onClick(hexOf(2, 5));
     assertEquals(undefined, game.selectedUnit(), "should not be selected");
     assertEquals(unit, game.unitAt(hexOf(2, 5)));
 });

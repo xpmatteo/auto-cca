@@ -94,7 +94,7 @@ t.test('eventually switch side', function () {
     
     turn.play(new MoveCommand(hexOf(1, 0), hexOf(1, 1)));
 
-    t.assertEquals("End of turn", turn.validCommands().toString());
+    t.assertEquals("End phase", turn.validCommands().toString());
 });
 
 t.test('generate no close combat commands for out of range', function () {

@@ -10,6 +10,7 @@
 
   <p>Open the console to see test output</p>
   <p>Hit shift-command-R to ensure your changes are loaded</p>
+  <p id="failures"></p>
   <div id="selector"></div>
   
   <script src="./src/model/game_test.js" type="module"></script>
@@ -35,6 +36,7 @@
     import { failures } from "./src/lib/test_lib.js";
     if (failures > 0) {
       document.body.style.backgroundColor = "pink";
+      document.getElementById("failures").innerHTML = `${failures} failures`;
     } else {
       document.body.style.backgroundColor = "lightgreen";
     }

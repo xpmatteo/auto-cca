@@ -11,3 +11,9 @@ test('units', function () {
     assertEquals(Side.ROMAN, unit0.side);
 });
 
+test('units display strength', function () {
+    let unit0 = new RomanHeavyInfantry();
+
+    assertEquals('IV', unit0.displayStrength());
+});
+
