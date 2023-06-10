@@ -23,7 +23,7 @@ class Phase {
         let unit = game.unitAt(hex);
         if (unit && unit !== game.selectedUnit() && unit.side === game.currentSide && !game.isSpent(unit)) {
             game.selectUnit(unit);
-        } else if (game.selectedUnit() && this.selectedUnitCanActOn(hex, game)) {
+        } else if (game.selectedUnit() && this.hexesToHilight(game).includes(hex)) {
             events = this.executeCommandOn(hex, game);
             game.unselectUnit();
         } else {
@@ -60,10 +60,6 @@ export class MovementPhase extends Phase {
         return commands;
     }
 
-    selectedUnitCanActOn(hex, game) {
-        return game.selectedUnitCanMoveTo(hex);
-    }
-
     executeCommandOn(hex, game) {
         return game.executeCommand(new MoveCommand(hex, game.selectedHex()));
     }
@@ -93,10 +89,6 @@ export class BattlePhase extends Phase {
         });
         commands.push(new EndPhaseCommand());
         return commands;
-    }
-
-    selectedUnitCanActOn(hex, game) {
-        return game.selectedUnitCanCloseCombatTo(hex);
     }
 
     executeCommandOn(hex, game) {

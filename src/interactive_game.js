@@ -14,14 +14,6 @@ export class InteractiveGame {
         return this.#game.onClick(hex, this);
     }
 
-    selectedUnitCanMoveTo(hex) {
-        return this.selectedUnit().validDestinations(this.selectedHex(), this.#game).includes(hex);
-    }
-
-    selectedUnitCanCloseCombatTo(hex) {
-        return this.selectedUnit().validCloseCombatTargets(this.selectedHex(), this.#game).includes(hex);
-    }
-
     get hilightedHexes() {
         return this.#hilightedHexes;
     }
