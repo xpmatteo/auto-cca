@@ -1,17 +1,8 @@
 'use strict';
 
-
 import { hex_to_pixel } from "../lib/hexlib.js";
 import { IMAGES } from "./load_all_images.js";
 import { layout } from "./map.js";
-
-export function draw_circle(ctx, x, y, radius=5, color='red') {
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = color;
-    ctx.fill();
-    ctx.closePath();
-}
 
 export function draw_unit(ctx, pixelCoordinate, unit, isSelected) {
     let url = `images/units/${unit.imageName}`;
@@ -74,11 +65,6 @@ export function redraw(ctx, graphics, game) {
     let mapImage = IMAGES['images/cca_map_hq.jpg'];
     ctx.drawImage(mapImage, 0, 0, mapImage.width, mapImage.height);
 
-    function draw_circle_in_top_vertex(hex) {
-        let pixelCoordinate = hex_to_pixel(layout, hex);
-        draw_circle(ctx, pixelCoordinate.x, pixelCoordinate.y-hexHeight);
-    }
-
     function draw_coordinates(hex) {
         ctx.font = "12pt Arial";
         ctx.fillStyle = "black";
@@ -91,7 +77,6 @@ export function redraw(ctx, graphics, game) {
         graphics.hilightHex(layout.size, pixelCoordinate);
     }
 
-    //game.foreachHex(draw_circle_in_top_vertex);
     game.foreachHex(draw_coordinates);
 
     drawMovementTrails(graphics, layout, game);
