@@ -11,18 +11,17 @@ export function drawUnit(ctx, graphics, pixelCoordinate, unit, isSelected) {
     if (!img) {
         throw new Error(`Image ${url} not found`);
     }
-    let shift = 2;
     ctx.drawImage(img, pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
-
+    
+    let shift = 2;
     const pixelStrength = pixelCoordinate.add(new Point(18, img.height / 2 - 10));
     const pixelStrengthShadow = pixelStrength.add(new Point(-shift, shift));
     graphics.writeText(unit.strength, pixelStrengthShadow, "20pt Arial", "white");
     graphics.writeText(unit.strength, pixelStrength, "16pt Arial", "black");
 
     if (isSelected) {
-        ctx.strokeStyle = 'red';
-        ctx.lineWidth = 5;
-        ctx.strokeRect(pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
+        let pixelTopLeft = pixelCoordinate.add(new Point(-img.width / 2, -img.height / 2));
+        graphics.drawRect(pixelTopLeft, img.width, img.height, 5, 'red');
     }
 }
 

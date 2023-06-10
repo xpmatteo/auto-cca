@@ -1,6 +1,7 @@
 "use strict";
 
 import { IMAGES } from "./load_all_images.js";
+import { Point } from "../lib/hexlib.js";
 
 
 export class GraphicalContext {
@@ -64,6 +65,15 @@ export class GraphicalContext {
             throw new Error(`Image ${url} not found`);
         }
         this.ctx.drawImage(img, pixelCoordinate.x, pixelCoordinate.y, img.width, img.height);
+        return new Point(img.width, img.height);
     }    
+
+    drawRect(pixelCoordinate, width, height, lineWidth, color) {
+        this.ctx.save();
+        this.ctx.strokeStyle = color;
+        this.ctx.lineWidth = lineWidth;
+        this.ctx.strokeRect(pixelCoordinate.x, pixelCoordinate.y, width, height);
+        this.ctx.restore();
+    }
 
 }
