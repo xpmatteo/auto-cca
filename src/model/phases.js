@@ -1,0 +1,62 @@
+import { CloseCombatCommand, MoveCommand, EndPhaseCommand } from "./commands.js";
+
+
+class Phase {
+    #name;
+    constructor(name) {
+        this.#name = name;
+    }
+    toString() {
+        return this.#name;
+    }
+    validCommands(turn, board) {
+        return [];
+    }
+}
+
+export class MovementPhase extends Phase {
+    constructor() {
+        super("movement");
+    }
+
+    validCommands(turn, board) {
+        let commands = [];
+        board.foreachUnit((unit, hex) => {
+            if (turn.spentUnits.includes(unit)) {
+                return;
+            }
+            if (unit.side !== turn.currentSide) {
+                return;
+            }
+            unit.validDestinations(hex, board).forEach(to => {
+                commands.push(new MoveCommand(to, hex));
+            });
+        });
+        commands.push(new EndPhaseCommand());
+        return commands;
+    }
+}
+
+export class BattlePhase extends Phase {
+    constructor() {
+        super("battle");
+    }
+
+    validCommands(turn, board) {
+        let commands = [];
+        board.foreachUnit((unit, hex) => {
+            if (turn.spentUnits.includes(unit)) {
+                return;
+            }
+            if (unit.side !== turn.currentSide) {
+                return;
+            }
+            unit.validCloseCombatTargets(hex, board).forEach(to => {
+                commands.push(new CloseCombatCommand(to, hex));
+            });
+        });
+        commands.push(new EndPhaseCommand());
+        return commands;
+    }
+}
+
