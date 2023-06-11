@@ -17,7 +17,7 @@ export class Autoplay {
         this.game = game;
     }
 
-    async play(ctx) {
+    async play(ctx, graphics) {
         while (this.game.currentSide === Side.CARTHAGINIAN) {
             let commands = this.game.validCommands();
             if (commands.length === 0) {
@@ -27,7 +27,7 @@ export class Autoplay {
             console.log("Command:", command);
             let events = this.game.executeCommand(command);
             displayEvents(events);
-            redraw(ctx, this.game);
+            redraw(ctx,graphics, this.game);
             await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
         }
     }

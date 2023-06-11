@@ -38,12 +38,11 @@ canvas.addEventListener('click', function (event) {
     redraw(ctx, graphics, interactiveGame);
 });
 
-
 const autoplay = new Autoplay(interactiveGame);
 
 document.getElementById('end-phase').addEventListener('click', function (event) {
     interactiveGame.endPhase();
-    autoplay.play(ctx);
+    autoplay.play(ctx, graphics);
     redraw(ctx, graphics, interactiveGame);
 });
 

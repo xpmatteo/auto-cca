@@ -72,10 +72,10 @@ const GRAVEYARD_LABELS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 const GRAVEYARD_ADJUSTMENTS = [-7, -12, -18, -18, -12, -18];
 function drawGraveyardHex(ctx, graphics, game, index, hex) {
     const pixel = hex_to_pixel(layout, hex);
-    graphics.drawCircle(pixel, layout.size.x * 0.7, 'lightyellow');
+    graphics.drawCircle(pixel, layout.size.x * 0.7, 'darkgray');
     const adjustment = GRAVEYARD_ADJUSTMENTS[index];
     graphics.writeText(GRAVEYARD_LABELS[index], 
-        pixel.add(new Point(adjustment, 10)), "30pt Times", "black");
+        pixel.add(new Point(adjustment, 10)), "30pt Times", "white");
 
     //drawUnit(ctx, graphics, pixel, new RomanHeavyInfantry(), false);
 }
