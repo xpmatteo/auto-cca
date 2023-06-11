@@ -94,11 +94,8 @@ function drawGraveyard(ctx, graphics, game) {
     const graveyardSize = 3;
     for (let i = 0; i < graveyardSize; i++) {
         drawGraveyardHexLow(ctx, graphics, game, i);
-    }
-    for (let i = 0; i < graveyardSize; i++) {
         drawGraveyardHexHigh(ctx, graphics, game, i);
     }
-    
 }
 
 export function redraw(ctx, graphics, game) {
@@ -108,14 +105,14 @@ export function redraw(ctx, graphics, game) {
 
     drawMovementTrails(graphics, layout, game);
 
-    game.foreachUnit((unit, hex) => {
-        let pixelCoordinate = hex_to_pixel(layout, hex);
-        drawUnit(ctx, graphics, pixelCoordinate, unit, unit === game.selectedUnit());
-    });
-
     game.hilightedHexes.forEach(hex => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
         graphics.hilightHex(layout.size, pixelCoordinate);
+    });
+
+    game.foreachUnit((unit, hex) => {
+        let pixelCoordinate = hex_to_pixel(layout, hex);
+        drawUnit(ctx, graphics, pixelCoordinate, unit, unit === game.selectedUnit());
     });
 
     game.graveyard = [new RomanHeavyInfantry(), new RomanHeavyInfantry(), new RomanHeavyInfantry()];
