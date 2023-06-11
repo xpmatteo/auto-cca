@@ -1,9 +1,10 @@
 'use strict';
 
-import { hex_to_pixel } from "../lib/hexlib.js";
+import { hexOf, hex_to_pixel } from "../lib/hexlib.js";
 import { IMAGES } from "./load_all_images.js";
 import { layout } from "./map.js";
 import { Point } from "../lib/hexlib.js";
+import { RomanHeavyInfantry } from "../model/units.js";
 
 export function drawUnit(ctx, graphics, pixelCoordinate, unit, isSelected) {
     let url = `images/units/${unit.imageName}`;
@@ -65,6 +66,41 @@ function drawCoordinates(graphics, hex) {
     graphics.writeText(text, pixelCoordinate);
 }
 
+
+
+const GRAVEYARD_LABELS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+const GRAVEYARD_ADJUSTMENTS = [-7, -12, -18, -18, -12, -18];
+function drawGraveyardHex(ctx, graphics, game, index, hex) {
+    const pixel = hex_to_pixel(layout, hex);
+    graphics.drawCircle(pixel, layout.size.x * 0.7, 'lightyellow');
+    const adjustment = GRAVEYARD_ADJUSTMENTS[index];
+    graphics.writeText(GRAVEYARD_LABELS[index], 
+        pixel.add(new Point(adjustment, 10)), "30pt Times", "black");
+
+    //drawUnit(ctx, graphics, pixel, new RomanHeavyInfantry(), false);
+}
+
+function drawGraveyardHexLow(ctx, graphics, game, index) {
+    const hex = hexOf(-4 + index, 9)
+    drawGraveyardHex(ctx, graphics, game, index, hex);
+}
+
+function drawGraveyardHexHigh(ctx, graphics, game, index) {
+    const hex = hexOf(12 - index, -1)
+    drawGraveyardHex(ctx, graphics, game, index, hex);
+}
+
+function drawGraveyard(ctx, graphics, game) {    
+    const graveyardSize = 3;
+    for (let i = 0; i < graveyardSize; i++) {
+        drawGraveyardHexLow(ctx, graphics, game, i);
+    }
+    for (let i = 0; i < graveyardSize; i++) {
+        drawGraveyardHexHigh(ctx, graphics, game, i);
+    }
+    
+}
+
 export function redraw(ctx, graphics, game) {
     graphics.drawImage('images/cca_map_hq.jpg', new Point(0, 0));
 
@@ -81,6 +117,9 @@ export function redraw(ctx, graphics, game) {
         let pixelCoordinate = hex_to_pixel(layout, hex);
         graphics.hilightHex(layout.size, pixelCoordinate);
     });
+
+    game.graveyard = [new RomanHeavyInfantry(), new RomanHeavyInfantry(), new RomanHeavyInfantry()];
+    drawGraveyard(ctx, graphics, game);
 
     updateInfoMessage(game);
     enableButtons(game);

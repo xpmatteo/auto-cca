@@ -1,7 +1,7 @@
 .PHONY: arkit madge test server open
 
 server:
-	@python -m http.server
+	@python3 -m http.server
 
 open:
 	@open -a "Google Chrome" http://localhost:8000
