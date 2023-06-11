@@ -6,8 +6,7 @@ export class DamageEvent {
         this.diceResults = diceResults.slice();
     }
 
-    toString() {
-        this.diceResults.sort();
+    toString() {        
         return `Damage ${this.hex} for ${this.damage} with ${this.diceResults}`;
     }
 }

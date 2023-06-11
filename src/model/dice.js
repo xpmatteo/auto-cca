@@ -1,7 +1,8 @@
 
 class DiceResult {
-    constructor(name) {
+    constructor(name, value) {
         this.name = name;
+        this.value = value;
     }
 
     toString() {
@@ -9,12 +10,12 @@ class DiceResult {
     }
 }
 
-export const RESULT_LIGHT = new DiceResult('light');
-export const RESULT_MEDIUM = new DiceResult('medium');
-export const RESULT_HEAVY = new DiceResult('heavy');
-export const RESULT_FLAG = new DiceResult('flag');
-export const RESULT_SWORDS = new DiceResult('swords');
-export const RESULT_LEADER = new DiceResult('leader');
+export const RESULT_HEAVY  = new DiceResult('heavy', 0);
+export const RESULT_MEDIUM = new DiceResult('medium', 1);
+export const RESULT_LIGHT  = new DiceResult('light', 2);
+export const RESULT_SWORDS = new DiceResult('swords', 3);
+export const RESULT_LEADER = new DiceResult('leader', 4);
+export const RESULT_FLAG   = new DiceResult('flag', 5);
 
 const values = [
     RESULT_LIGHT,
@@ -56,6 +57,7 @@ export class Dice {
             die.roll();
             results.push(die.value);
         }
+        results.sort((a, b) => a.value - b.value);
         return results;
     }
 }
