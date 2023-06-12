@@ -1,4 +1,4 @@
-import { DamageEvent, BattleBackEvent } from "./events.js";
+import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
 
 export class MoveCommand {
     constructor(to, from) {
@@ -57,13 +57,16 @@ export class CloseCombatCommand {
         if (this.toHex.distance(this.fromHex) > 1) {
             throw new Error(`Cannot Close Combat with unit at ${this.toHex} from ${this.fromHex} (too far)`);
         }
+        let events = [];
         const diceResults = game.roll(attackingUnit.diceCount());
         const damage = defendingUnit.takeDamage(diceResults);
+        events.push(new DamageEvent(this.toHex, damage, diceResults));
         game.markUnitSpent(attackingUnit);
-        return [
-            new DamageEvent(this.toHex, damage, diceResults),
-            new BattleBackEvent(this.fromHex, this.toHex, defendingUnit.diceCount())
-        ]
+        if (defendingUnit.isDead()) {
+            game.killUnit(this.toHex);
+            events.push(new UnitKilledEvent(this.toHex, defendingUnit));
+        }
+        return events;
     }
 }
 

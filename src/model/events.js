@@ -22,3 +22,14 @@ export class BattleBackEvent {
         return `Battle back from ${this.hexFrom} to ${this.hexTo} for ${this.diceCount}`;
     }
 }
+
+export class UnitKilledEvent {
+    constructor(unit, hex) {
+        this.unit = unit;
+        this.hex = hex;
+    }
+
+    toString() {
+        return `Unit ${this.unit} killed at ${this.hex}`;
+    }
+}

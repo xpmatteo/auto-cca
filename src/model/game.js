@@ -2,6 +2,7 @@ import { Board } from "./board.js";
 import { Turn } from "./turn.js";
 import * as GameStatus from "./game_status.js";
 import { Dice } from "./dice.js";
+import { Graveyard } from "./graveyard.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -16,6 +17,7 @@ class Game {
         this.dice = dice;
         this.board = board;
         this.turn = turn;
+        this.graveyard = new Graveyard();
     }
 
     initialize() {
@@ -44,6 +46,11 @@ class Game {
 
     endPhase() {
         this.turn.endPhase();
+    }
+
+    killUnit(hex) {
+        this.graveyard.bury(this.board.unitAt(hex));
+        this.board.removeUnit(hex);
     }
 
     // ---- delegate to turn ----

@@ -52,6 +52,13 @@ export class Board {
         this.#units.delete(from);
     }
 
+    removeUnit(hex) {
+        if (!this.#units.has(hex)) {
+            throw new Error(`No unit at ${hex}`);
+        }
+        this.#units.delete(hex);
+    }
+
     subtractOffMap(hexes) {
         return hexes.filter(hex => MAP.includes(hex));
     }

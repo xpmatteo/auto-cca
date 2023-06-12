@@ -39,6 +39,10 @@ export class Unit {
         return this.#strength;
     }
 
+    isDead() {
+        return this.#strength <= 0;
+    }
+
     displayStrength() {
         return toRoman(this.#strength);
     }
