@@ -8,6 +8,7 @@ import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas } from "./view/map.js";
 import { GraphicalContext } from "./view/graphical_context.js";
+import { hexOf } from "./lib/hexlib.js";
 
 // create canvas
 const canvas = document.createElement('canvas');

@@ -18,9 +18,9 @@ export class NullScenario {
 }
 
 export class ScenarioRaceToOppositeSide {
-    get firstSide() {
-        return Side.ROMAN;
-    }
+    firstSide = Side.ROMAN;
+    sideNorth = Side.CARTHAGINIAN;
+    sideSouth = Side.ROMAN;
 
     placeUnitsOn(board) {
         board.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());

@@ -48,6 +48,14 @@ export class InteractiveGame {
 
     // --- delegate to game ---
 
+    get deadUnitsNorth() {
+        return this.#game.deadUnitsNorth;
+    }
+
+    get deadUnitsSouth() {
+        return this.#game.deadUnitsSouth;
+    }
+
     markUnitSpent(unit) {
         this.#game.markUnitSpent(unit);
     }

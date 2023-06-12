@@ -24,7 +24,7 @@ export class BattleBackEvent {
 }
 
 export class UnitKilledEvent {
-    constructor(unit, hex) {
+    constructor(hex, unit) {
         this.unit = unit;
         this.hex = hex;
     }

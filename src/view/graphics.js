@@ -70,31 +70,32 @@ function drawCoordinates(graphics, hex) {
 
 const GRAVEYARD_LABELS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 const GRAVEYARD_ADJUSTMENTS = [-7, -12, -18, -18, -12, -18];
-function drawGraveyardHex(ctx, graphics, game, index, hex) {
+function drawGraveyardHex(ctx, graphics, game, index, hex, unit) {
     const pixel = hex_to_pixel(layout, hex);
     graphics.drawCircle(pixel, layout.size.x * 0.7, 'darkgray');
     const adjustment = GRAVEYARD_ADJUSTMENTS[index];
     graphics.writeText(GRAVEYARD_LABELS[index], 
         pixel.add(new Point(adjustment, 10)), "30pt Times", "white");
-
-    //drawUnit(ctx, graphics, pixel, new RomanHeavyInfantry(), false);
+    if (unit) {
+        drawUnit(ctx, graphics, pixel, unit, false);
+    }
 }
 
-function drawGraveyardHexLow(ctx, graphics, game, index) {
+function drawGraveyardHexSouth(ctx, graphics, game, index, unit) {
     const hex = hexOf(-4 + index, 9)
-    drawGraveyardHex(ctx, graphics, game, index, hex);
+    drawGraveyardHex(ctx, graphics, game, index, hex, unit);
 }
 
-function drawGraveyardHexHigh(ctx, graphics, game, index) {
+function drawGraveyardHexNorth(ctx, graphics, game, index, unit) {
     const hex = hexOf(12 - index, -1)
-    drawGraveyardHex(ctx, graphics, game, index, hex);
+    drawGraveyardHex(ctx, graphics, game, index, hex, unit);
 }
 
 function drawGraveyard(ctx, graphics, game) {    
     const graveyardSize = 3;
     for (let i = 0; i < graveyardSize; i++) {
-        drawGraveyardHexLow(ctx, graphics, game, i);
-        drawGraveyardHexHigh(ctx, graphics, game, i);
+        drawGraveyardHexSouth(ctx, graphics, game, i, game.deadUnitsNorth[i]);
+        drawGraveyardHexNorth(ctx, graphics, game, i, game.deadUnitsSouth[i]);
     }
 }
 

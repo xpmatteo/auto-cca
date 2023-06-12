@@ -3,6 +3,7 @@ import { Turn } from "./turn.js";
 import * as GameStatus from "./game_status.js";
 import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
+import { Side } from "./side.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -51,6 +52,14 @@ class Game {
     killUnit(hex) {
         this.graveyard.bury(this.board.unitAt(hex));
         this.board.removeUnit(hex);
+    }
+
+    get deadUnitsNorth() {
+        return this.graveyard.unitsOf(this.scenario.sideNorth);
+    }
+
+    get deadUnitsSouth() {
+        return this.graveyard.unitsOf(this.scenario.sideSouth);
     }
 
     // ---- delegate to turn ----
