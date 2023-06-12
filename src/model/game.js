@@ -105,6 +105,10 @@ class Game {
     }
 
     // ---- delegate to scenario ----
+
+    get pointsToWin() {
+        return this.scenario.pointsToWin;
+    }
     
     get gameStatus() {
         return this.scenario.gameStatus(this);

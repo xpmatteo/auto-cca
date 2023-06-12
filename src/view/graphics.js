@@ -92,7 +92,7 @@ function drawGraveyardHexNorth(ctx, graphics, game, index, unit) {
 }
 
 function drawGraveyard(ctx, graphics, game) {    
-    const graveyardSize = 3;
+    const graveyardSize = game.pointsToWin;
     for (let i = 0; i < graveyardSize; i++) {
         drawGraveyardHexSouth(ctx, graphics, game, i, game.deadUnitsNorth[i]);
         drawGraveyardHexNorth(ctx, graphics, game, i, game.deadUnitsSouth[i]);
@@ -116,7 +116,6 @@ export function redraw(ctx, graphics, game) {
         drawUnit(ctx, graphics, pixelCoordinate, unit, unit === game.selectedUnit());
     });
 
-    game.graveyard = [new RomanHeavyInfantry(), new RomanHeavyInfantry(), new RomanHeavyInfantry()];
     drawGraveyard(ctx, graphics, game);
 
     updateInfoMessage(game);
