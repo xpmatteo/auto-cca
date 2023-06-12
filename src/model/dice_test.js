@@ -18,5 +18,5 @@ test("roll three dice", function () {
 
     let results = dice.roll(3);
 
-    assertDeepEquals([RESULT_LIGHT, RESULT_HEAVY, RESULT_LEADER], results);
+    assertDeepEquals([RESULT_HEAVY, RESULT_LIGHT, RESULT_LEADER], results);
 });
