@@ -3,7 +3,7 @@
 export class Graveyard {
     #units = [];
 
-    add(unit) {
+    bury(unit) {
         this.#units.push(unit);
     }
 

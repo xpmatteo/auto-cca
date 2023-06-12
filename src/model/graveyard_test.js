@@ -9,8 +9,8 @@ test("add unit to graveyard", function () {
     const romanUnit = { side: Side.ROMAN };
     const nonRomanUnit = { side: Side.CARTHAGINIAN };
 
-    graveyard.add(romanUnit);
-    graveyard.add(nonRomanUnit);
+    graveyard.bury(romanUnit);
+    graveyard.bury(nonRomanUnit);
 
     assertDeepEquals([romanUnit], graveyard.unitsOf(Side.ROMAN));
 });
