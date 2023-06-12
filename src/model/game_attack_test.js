@@ -52,8 +52,7 @@ test("execute Attack and kill defender", () => {
         new UnitKilledEvent(hexOf(1, 4), defendingUnit),
     ];
     assertDeepEquals(expected, actual);
-    assertFalse(game.unitAt(hexOf(1, 4)), "defending unit not on board");
-    console.log(game.graveyard);
+    assertFalse(game.unitAt(hexOf(1, 4)), "defending unit not on board");    
     assertDeepEquals([defendingUnit], game.graveyard.unitsOf(Side.CARTHAGINIAN));
 });
 

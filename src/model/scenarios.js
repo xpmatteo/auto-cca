@@ -21,6 +21,7 @@ export class ScenarioRaceToOppositeSide {
     firstSide = Side.ROMAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
+    pointsToWin = 3;
 
     placeUnitsOn(board) {
         board.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
@@ -33,16 +34,13 @@ export class ScenarioRaceToOppositeSide {
         board.placeUnit(hexOf(3, 2), new units.CarthaginianHeavyInfantry());        
     }
 
-    gameStatus(board) {
-        let status;
-        board.foreachUnit((unit, hex) => {
-            if (unit.side === Side.ROMAN && hex.r === 0) {
-                status = GameStatus.ROMAN_WIN;
-            }
-            if (unit.side === Side.CARTHAGINIAN && hex.r === 8) {
-                status = GameStatus.CARTHAGINIAN_WIN;
-            }
-        });
-        return status || GameStatus.ONGOING;
+    gameStatus(game) {
+        if (game.killedUnitsOfSide(Side.CARTHAGINIAN).length === this.pointsToWin) {
+            return GameStatus.ROMAN_WIN;
+        }
+        if (game.killedUnitsOfSide(Side.ROMAN).length === this.pointsToWin) {
+            return GameStatus.CARTHAGINIAN_WIN;
+        }
+        return GameStatus.ONGOING;
     }
 }

@@ -48,6 +48,10 @@ export class InteractiveGame {
 
     // --- delegate to game ---
 
+    killedUnitsOfSide(side) {
+        return this.#game.killedUnitsOfSide(side);
+    }
+
     get deadUnitsNorth() {
         return this.#game.deadUnitsNorth;
     }

@@ -62,6 +62,10 @@ class Game {
         return this.graveyard.unitsOf(this.scenario.sideSouth);
     }
 
+    killedUnitsOfSide(side) {
+        return this.graveyard.unitsOf(side);
+    }
+
     // ---- delegate to turn ----
 
     moveUnit(hexTo, hexFrom) {
@@ -103,7 +107,7 @@ class Game {
     // ---- delegate to scenario ----
     
     get gameStatus() {
-        return this.scenario.gameStatus(this.board);
+        return this.scenario.gameStatus(this);
     }
 
     // ---- delegate to board ----

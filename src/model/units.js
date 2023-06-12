@@ -75,6 +75,10 @@ export class Unit {
         this.#strength -= damage;
         return damage;
     }
+
+    toString() {
+        return `${this.side} heavy infantry`;
+    }
 }
 
 
