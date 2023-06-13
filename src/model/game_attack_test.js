@@ -8,9 +8,12 @@ import * as dice from "./dice.js";
 import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
 import { Side } from "./side.js";
 
-function diceReturning(results) {
+function diceReturning() {
+    let invocations = 0;
+    let successiveResults = Array.from(arguments);
     return {
         roll: function (count) {
+            const results = successiveResults[invocations++];
             if (count !== results.length) {
                 throw new Error(`Expected ${results.length} rolls, got ${count}`);
             }
@@ -20,21 +23,26 @@ function diceReturning(results) {
 }
 
 test("execute Attack then battle back", () => {
-    const diceResults = 
+    const attackDice = 
         [dice.RESULT_HEAVY, dice.RESULT_SWORDS, dice.RESULT_MEDIUM, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
-    const game = makeGame(new NullScenario(), diceReturning(diceResults));
+    const battleBackDice = Array(5).fill(dice.RESULT_HEAVY);
+    const game = makeGame(new NullScenario(), diceReturning(attackDice, battleBackDice));
     const defendingUnit = new units.CarthaginianHeavyInfantry();
-    game.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
+    const attackingUnit = new units.RomanHeavyInfantry();
+    game.placeUnit(hexOf(1, 5), attackingUnit);
     game.placeUnit(hexOf(1, 4), defendingUnit);
 
     let actual = game.executeCommand(new CloseCombatCommand(hexOf(1, 4), hexOf(1, 5)));
 
     const expected = [
-        new DamageEvent(hexOf(1, 4), 2, diceResults),
-        // new BattleBackEvent(hexOf(1, 5), hexOf(1, 4), 5)
+        new DamageEvent(hexOf(1, 4), 2, attackDice),
+        new BattleBackEvent(hexOf(1, 5), hexOf(1, 4), 5),
+        new DamageEvent(hexOf(1, 5), 5, battleBackDice),
+        new UnitKilledEvent(hexOf(1, 5), attackingUnit),
     ];
-    assertDeepEquals(expected, actual);
+    assertDeepEquals(expected.toString(), actual.toString());
     assertEquals(2, defendingUnit.strength);
+    assertTrue(attackingUnit.isDead());
 });
 
 // attack then killed

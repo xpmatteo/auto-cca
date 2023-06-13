@@ -93,6 +93,16 @@ export class CloseCombatCommand {
         if (defendingUnit.isDead()) {
             game.killUnit(this.toHex);
             events.push(new UnitKilledEvent(this.toHex, defendingUnit));
+        } else {
+            // battle back
+            const battleBackDice = game.roll(defendingUnit.diceCount);
+            const battleBackDamage = attackingUnit.takeDamage(battleBackDice);
+            events.push(new BattleBackEvent(this.fromHex, this.toHex, battleBackDice.length));
+            events.push(new DamageEvent(this.fromHex, battleBackDamage, battleBackDice));
+            if (attackingUnit.isDead()) {
+                game.killUnit(this.fromHex);
+                events.push(new UnitKilledEvent(this.fromHex, attackingUnit));    
+            }
         }
         return events;
     }
