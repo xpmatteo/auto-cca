@@ -61,16 +61,17 @@ export class Board {
 
     closestUnitHex(fromHex, side) {
         let closest = null;
-        let closestDistance = 100000;
+        let closestDistance = 1000000;
         this.#units.forEach((unit, hex) => {
             if (unit.side === side) {
-                const distance = hex.distance(fromHex);
+                // break ties between units at the same distance by choosing the one with the smallest strength
+                const distance = hex.distance(fromHex) * 10 + unit.strength;
                 if (distance < closestDistance) {
                     closest = hex;
-                    closestDistance = hex.distance(hex);
+                    closestDistance = distance;
                 }
             }
-        });        
+        });
         return closest;
     }
 

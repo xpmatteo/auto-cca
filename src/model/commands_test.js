@@ -59,12 +59,24 @@ test("value of MoveCommand at various distances", () => {
     game.placeUnit(hexOf(0, 0), new CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
     
-    // distance 1: value is 0.9 * (1000/defender strength)
-    assertEquals(0.9 * 250, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));
+    // distance 1
+    assertEquals(22.5, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));
 
-    // distance 3: value is 0.9 * 0.9 * 0.9 * (1000/defender strength)
-    assertEquals(0.9 * 0.9 * 0.9 * 250, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
+    // distance 3: moving away from enemy gives negative score
+    assertEquals(-20.24999999999997, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
 });
 
-xtest("value of MoveCommand with more than one enemy unit adjacent", () => {
+test("value of move command, pathological case", () => {
+    let game = makeGame(new NullScenario());     
+    game.placeUnit(hexOf(1, 4), new CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(0, 5), new CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(1, 5), new CarthaginianHeavyInfantry());
+
+    game.placeUnit(hexOf(2, 5), new RomanHeavyInfantry());
+    game.placeUnit(hexOf(1, 6), new RomanHeavyInfantry());
+    game.placeUnit(hexOf(0, 6), new RomanHeavyInfantry());
+    game.placeUnit(hexOf(4, 4), new RomanHeavyInfantry());
+
+    assertEquals(22.5, new MoveCommand(hexOf(2, 4), hexOf(1, 4)).value(game));
 });
+
