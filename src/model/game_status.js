@@ -12,5 +12,5 @@ class GameStatus {
 }
 
 export const ONGOING = new GameStatus("ongoing");
-export const ROMAN_WIN = new GameStatus("roman win", Side.ROMAN);
-export const CARTHAGINIAN_WIN = new GameStatus("carthaginian win", Side.CARTHAGINIAN);
+export const ROMAN_WIN = new GameStatus("Roman victory", Side.ROMAN);
+export const CARTHAGINIAN_WIN = new GameStatus("Carthaginian victory", Side.CARTHAGINIAN);
