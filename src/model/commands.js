@@ -86,7 +86,7 @@ export class CloseCombatCommand {
             throw new Error(`Cannot Close Combat with unit at ${this.toHex} from ${this.fromHex} (too far)`);
         }
         let events = [];
-        const diceResults = game.roll(attackingUnit.diceCount());
+        const diceResults = game.roll(attackingUnit.diceCount);
         const damage = defendingUnit.takeDamage(diceResults);
         events.push(new DamageEvent(this.toHex, damage, diceResults));
         game.markUnitSpent(attackingUnit);

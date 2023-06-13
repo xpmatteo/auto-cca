@@ -25,7 +25,7 @@ test('carthaginian medium infantry', function () {
     let unit0 = new units.CarthaginianMediumInfantry();
 
     assertEquals(4, unit0.strength);
-    assertEquals(4, unit0.diceCount());
+    assertEquals(4, unit0.diceCount);
     assertEquals('car_inf_md.png', unit0.imageName);
     assertEquals(Side.CARTHAGINIAN, unit0.side);
 

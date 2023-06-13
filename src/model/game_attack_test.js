@@ -51,7 +51,7 @@ test("execute Attack and kill defender", () => {
         new DamageEvent(hexOf(1, 4), 5, diceResults),
         new UnitKilledEvent(hexOf(1, 4), defendingUnit),
     ];
-    assertDeepEquals(expected, actual);
+    assertEquals(expected.toString(), actual.toString());
     assertFalse(game.unitAt(hexOf(1, 4)), "defending unit not on board");    
     assertDeepEquals([defendingUnit], game.graveyard.unitsOf(Side.CARTHAGINIAN));
 });

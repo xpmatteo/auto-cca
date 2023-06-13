@@ -18,33 +18,12 @@ function toRoman(number) {
 }
 
 export class Unit {
-    #imageName;
-    #side;
-    #strength = 4;
-
-    constructor(imageName, side) {
-        this.#imageName = imageName;
-        this.#side = side;
-    }
-
-    get imageName() {
-        return this.#imageName;
-    }
-
-    get side() {
-        return this.#side;
-    }
-
-    get strength() {
-        return this.#strength;
-    }
-
     isDead() {
-        return this.#strength <= 0;
+        return this.strength <= 0;
     }
 
     displayStrength() {
-        return toRoman(this.#strength);
+        return toRoman(this.strength);
     }
 
     validDestinations(fromHex, board) {
@@ -64,63 +43,47 @@ export class Unit {
         return targets;
     }
 
-    diceCount() {
-        return 5;
-    }
-
     takeDamage(diceResults) {
         const damage = diceResults.
-            filter(r => r === dice.RESULT_HEAVY || r === dice.RESULT_SWORDS).
+            filter(r => r === this.weight || r === dice.RESULT_SWORDS).
             length;
-        this.#strength -= damage;
+        this.strength -= damage;
         return damage;
     }
+}
+
+class HeavyInfantry extends Unit {
+    diceCount = 5;
+    weight = dice.RESULT_HEAVY;
+    strength = 4;
 
     toString() {
         return `${this.side.name} heavy infantry`;
     }
 }
 
+
 class MediumInfantry extends Unit {
-    #diceCount = 4;
-    #weight = dice.RESULT_MEDIUM;
-    #strength = 4;
+    diceCount = 4;
+    weight = dice.RESULT_MEDIUM;
+    strength = 4;
 
-    constructor(imageName, side) {
-        super(imageName, side);
-    }
-
-    diceCount() {
-        return this.#diceCount;
-    }
-
-    takeDamage(diceResults) {
-        const damage = diceResults.
-            filter(r => r === this.#weight || r === dice.RESULT_SWORDS).
-            length;
-        this.#strength -= damage;
-        return damage;
-    }
-
-    get strength() {
-        return this.#strength;
+    toString() {
+        return `${this.side.name} medium infantry`;
     }
 }
 
-export class RomanHeavyInfantry extends Unit {
-    constructor() {
-        super('rom_inf_hv.png', Side.ROMAN);
-    }
+export class RomanHeavyInfantry extends HeavyInfantry {
+    imageName = 'rom_inf_hv.png';
+    side = Side.ROMAN;
 }
 
-export class CarthaginianHeavyInfantry extends Unit {
-    constructor() {
-        super('car_inf_hv.png', Side.CARTHAGINIAN);
-    }
+export class CarthaginianHeavyInfantry extends HeavyInfantry {
+    imageName = 'car_inf_hv.png';
+    side = Side.CARTHAGINIAN;
 }
 
 export class CarthaginianMediumInfantry extends MediumInfantry {
-    constructor() {
-        super('car_inf_md.png', Side.CARTHAGINIAN);
-    }
+    imageName = 'car_inf_md.png';
+    side = Side.CARTHAGINIAN;
 }
