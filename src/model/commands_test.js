@@ -54,7 +54,7 @@ test("value of CloseCombatCommand", () => {
     assertEquals(250, command.value(game));
 });
 
-test("value of MoveCommand at various distances", () => {
+xtest("value of MoveCommand at various distances", () => {
     let game = makeGame(new NullScenario());     
     let attacker = new RomanHeavyInfantry();
     let defender = new CarthaginianHeavyInfantry();

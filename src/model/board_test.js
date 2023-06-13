@@ -2,7 +2,8 @@
 import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from '../lib/test_lib.js';
 import { hexOf } from '../lib/hexlib.js';
 import { Board } from './board.js';
-import { RomanHeavyInfantry } from './units.js';
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from './units.js';
+import { Side } from './side.js';
 
 function makeGame() {
     return new Board();
@@ -71,4 +72,14 @@ test('map size', function () {
     });
 
     assertEquals(5 * 13 + 4 * 12, count);
+});
+
+test('distance of closest enemy unit', function () {
+    let game = makeGame();
+    game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
+    game.placeUnit(hexOf(0, 3), new CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(0, 4), new CarthaginianHeavyInfantry());
+
+    assertEquals(hexOf(0, 2), game.closestUnitHex(hexOf(0, 0), Side.ROMAN));
+    assertEquals(hexOf(0, 3), game.closestUnitHex(hexOf(0, 0), Side.CARTHAGINIAN));
 });
