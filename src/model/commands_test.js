@@ -54,21 +54,16 @@ test("value of CloseCombatCommand", () => {
     assertEquals(250, command.value(game));
 });
 
-xtest("value of MoveCommand at various distances", () => {
+test("value of MoveCommand at various distances", () => {
     let game = makeGame(new NullScenario());     
-    let attacker = new RomanHeavyInfantry();
-    let defender = new CarthaginianHeavyInfantry();
-    game.placeUnit(hexOf(1, 5), attacker);
-    game.placeUnit(hexOf(1, 3), defender);
+    game.placeUnit(hexOf(0, 0), new CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
     
-    // distance 0: value is 0.9 * (1000/defender strength)
-    assertEquals(0.9 * 250, new MoveCommand(hexOf(1, 4), hexOf(1, 3)).value(game));
+    // distance 1: value is 0.9 * (1000/defender strength)
+    assertEquals(0.9 * 250, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));
 
-    // distance 1: value is 0.9 * 0.9 * (1000/defender strength)
-    // assertEquals(0.9 * 0.9 * 250, new MoveCommand(hexOf(0, 5), hexOf(1, 3).value(game)));
-
-    // // distance 2: value is 0.9 * 0.9 * 0.9 * (1000/defender strength)
-    // assertEquals(0.9 * 0.9 * 0.9 * 250, new MoveCommand(hexOf(1, 6), hexOf(1, 3).value(game)));
+    // distance 3: value is 0.9 * 0.9 * 0.9 * (1000/defender strength)
+    assertEquals(0.9 * 0.9 * 0.9 * 250, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
 });
 
 xtest("value of MoveCommand with more than one enemy unit adjacent", () => {

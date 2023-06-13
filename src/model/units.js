@@ -77,7 +77,7 @@ export class Unit {
     }
 
     toString() {
-        return `${this.side} heavy infantry`;
+        return `${this.side.name} heavy infantry`;
     }
 }
 

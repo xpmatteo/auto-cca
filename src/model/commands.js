@@ -3,27 +3,34 @@ import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
 const DISTANCE_VALUE_BACKOFF = 0.9;
 
 export class MoveCommand {
-    constructor(to, from) {
-        this.to = to;
-        this.from = from;
+    constructor(toHex, fromHex) {
+        this.toHex = toHex;
+        this.fromHex = fromHex;
     }
 
     toString() {
-        return `Move ${this.from} to ${this.to}`;
+        return `Move ${this.fromHex} to ${this.toHex}`;
     }
 
     play(game) {
-        game.moveUnit(this.to, this.from);
-        game.markUnitSpent(game.unitAt(this.to));
-        game.addMovementTrail(this.to, this.from);
+        game.moveUnit(this.toHex, this.fromHex);
+        game.markUnitSpent(game.unitAt(this.toHex));
+        game.addMovementTrail(this.toHex, this.fromHex);
         return [];
     }
 
-    value(game) {
+    value(game) {        
         const movingUnit = game.unitAt(this.fromHex);
+        if (!movingUnit) {
+            throw new Error(`No unit at ${this.fromHex}`);
+        }
+        
         const enemyUnitHex = game.closestUnitHex(this.toHex, game.opposingSide(movingUnit.side));
         const enemyUnit = game.unitAt(enemyUnitHex);
-        const distance = enemyUnitHex.distance(this.fromHex);
+        if (!enemyUnit) {
+            throw new Error(`No enemy unit at ${enemyUnitHex}`);
+        }
+        const distance = enemyUnitHex.distance(this.toHex);        
         return hexScore(enemyUnit) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
     }
 }
