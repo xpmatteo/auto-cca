@@ -81,6 +81,31 @@ export class Unit {
     }
 }
 
+class MediumInfantry extends Unit {
+    #diceCount = 4;
+    #weight = dice.RESULT_MEDIUM;
+    #strength = 4;
+
+    constructor(imageName, side) {
+        super(imageName, side);
+    }
+
+    diceCount() {
+        return this.#diceCount;
+    }
+
+    takeDamage(diceResults) {
+        const damage = diceResults.
+            filter(r => r === this.#weight || r === dice.RESULT_SWORDS).
+            length;
+        this.#strength -= damage;
+        return damage;
+    }
+
+    get strength() {
+        return this.#strength;
+    }
+}
 
 export class RomanHeavyInfantry extends Unit {
     constructor() {
@@ -91,5 +116,11 @@ export class RomanHeavyInfantry extends Unit {
 export class CarthaginianHeavyInfantry extends Unit {
     constructor() {
         super('car_inf_hv.png', Side.CARTHAGINIAN);
+    }
+}
+
+export class CarthaginianMediumInfantry extends MediumInfantry {
+    constructor() {
+        super('car_inf_md.png', Side.CARTHAGINIAN);
     }
 }
