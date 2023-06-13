@@ -1,5 +1,7 @@
 import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
 
+const DISTANCE_VALUE_BACKOFF = 0.9;
+
 export class MoveCommand {
     constructor(to, from) {
         this.to = to;
@@ -16,6 +18,14 @@ export class MoveCommand {
         game.addMovementTrail(this.to, this.from);
         return [];
     }
+
+    value(game) {
+        const movingUnit = game.unitAt(this.fromHex);
+        const enemyUnitHex = game.closestUnitHex(this.toHex, game.opposingSide(movingUnit.side));
+        const enemyUnit = game.unitAt(enemyUnitHex);
+        const distance = enemyUnitHex.distance(this.fromHex);
+        return hexScore(enemyUnit) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
+    }
 }
 
 export class EndPhaseCommand {
@@ -26,6 +36,10 @@ export class EndPhaseCommand {
     play(game) {
         game.endPhase();
         return [];
+    }
+
+    value(game) {
+        return 0;
     }
 }
 
@@ -68,5 +82,14 @@ export class CloseCombatCommand {
         }
         return events;
     }
+
+    value(game) {
+        const defendingUnit = game.unitAt(this.toHex);
+        return hexScore(defendingUnit);
+    }
+}
+
+function hexScore(enemyUnit) {
+    return 1000 / enemyUnit.strength;
 }
 

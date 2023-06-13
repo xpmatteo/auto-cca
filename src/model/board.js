@@ -59,6 +59,10 @@ export class Board {
         this.#units.delete(hex);
     }
 
+    closestUnitHex(hex, side) {
+        return hex.neighbors()[0];
+    }
+
     subtractOffMap(hexes) {
         return hexes.filter(hex => MAP.includes(hex));
     }

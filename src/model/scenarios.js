@@ -4,7 +4,13 @@ import { hexOf } from "../lib/hexlib.js";
 import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 
-export class NullScenario {
+export class Scenario {
+    opposingSide = (side) => {
+        return side === Side.ROMAN ? Side.CARTHAGINIAN : Side.ROMAN;
+    }
+}
+
+export class NullScenario extends Scenario {
     get firstSide() {
         return Side.ROMAN;
     }
@@ -17,7 +23,7 @@ export class NullScenario {
     }
 }
 
-export class ScenarioRaceToOppositeSide {
+export class ScenarioRaceToOppositeSide extends Scenario {
     firstSide = Side.ROMAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;

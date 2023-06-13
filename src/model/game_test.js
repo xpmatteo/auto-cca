@@ -5,8 +5,9 @@ import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import { Side } from "./side.js";
 import { MoveCommand, EndPhaseCommand } from "./commands.js";
+import { Scenario } from "./scenarios.js";
 
-class TestScenario {
+class TestScenario extends Scenario {
     get firstSide() {
         return Side.CARTHAGINIAN;
     }
@@ -58,7 +59,13 @@ test("executeCommand - game over", () => {
 test("currentSide", () => {
     const cca = makeGame(scenario);
     
-    
     assertEquals(Side.CARTHAGINIAN, cca.currentSide);
+});
+
+test("opposingSide", () => {
+    const game = makeGame(scenario);
+    
+    assertEquals(Side.CARTHAGINIAN, game.opposingSide(Side.ROMAN));
+    assertEquals(Side.ROMAN, game.opposingSide(Side.CARTHAGINIAN));
 });
 

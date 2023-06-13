@@ -114,7 +114,16 @@ class Game {
         return this.scenario.gameStatus(this);
     }
 
+    opposingSide(side) {
+        return this.scenario.opposingSide(side);
+    }
+
     // ---- delegate to board ----
+
+    closestUnitHex(hex, side) {
+        return this.board.closestUnitHex(hex, side);
+    }
+
     foreachHex(f) {
         return this.board.foreachHex(f);
     }

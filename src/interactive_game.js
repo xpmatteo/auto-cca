@@ -48,6 +48,14 @@ export class InteractiveGame {
 
     // --- delegate to game ---
 
+    closestUnitHex(hex, side) {
+        return this.#game.closestUnitHex(hex, side);
+    }
+
+    opposingSide(side) {
+        return this.#game.opposingSide(side);
+    }
+
     get pointsToWin() {
         return this.#game.pointsToWin;
     }
