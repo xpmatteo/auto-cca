@@ -30,9 +30,16 @@ export class MoveCommand {
         if (!enemyUnit) {
             throw new Error(`No enemy unit at ${enemyUnitHex}`);
         }
-        const distance = enemyUnitHex.distance(this.toHex);        
-        return hexScore(enemyUnit) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
+        // we don't want to move to a hex that is worse than the hex we are moving from
+        const valueOfFromHex = valueOfHex(this.fromHex, enemyUnitHex, enemyUnit);
+        const valueOfToHex = valueOfHex(this.toHex, enemyUnitHex, enemyUnit);
+        return valueOfToHex - valueOfFromHex;
     }
+}
+
+function valueOfHex(hexToBeEvaluated, enemyUnitHex, enemyUnit) {
+    const distance = enemyUnitHex.distance(hexToBeEvaluated);
+    return hexScore(enemyUnit) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
 }
 
 export class EndPhaseCommand {
