@@ -5,6 +5,7 @@ import { IMAGES } from "./load_all_images.js";
 import { layout } from "./map.js";
 import { Point } from "../lib/hexlib.js";
 import { RomanHeavyInfantry } from "../model/units.js";
+import { Side } from "../model/side.js";
 
 export function drawUnit(ctx, graphics, pixelCoordinate, unit, isSelected) {
     let url = `images/units/${unit.imageName}`;
@@ -45,10 +46,13 @@ function drawMovementTrail(graphics, layout, hexFrom, hexTo) {
 
 function enableButtons(game) {
     let endTurnButton = document.getElementById("end-phase");
-    endTurnButton.disabled = game.isTerminal();
+    endTurnButton.disabled = game.isTerminal();    
 
-    let newGameButton = document.getElementById("new-game");
-    newGameButton.disabled = !game.isTerminal();
+    // let newGameButton = document.getElementById("new-game");
+    // newGameButton.disabled = !game.isTerminal();
+
+    let aiContinueButton = document.getElementById("ai-continue");
+    aiContinueButton.disabled = game.currentSide === Side.ROMAN || game.isTerminal();
 }
 
 function updateInfoMessage(game) {
@@ -97,6 +101,11 @@ function drawGraveyard(ctx, graphics, game) {
         drawGraveyardHexSouth(ctx, graphics, game, i, game.deadUnitsNorth[i]);
         drawGraveyardHexNorth(ctx, graphics, game, i, game.deadUnitsSouth[i]);
     }
+}
+
+export function drawTextOnHex(graphics, text, hex) {
+    const pixel = hex_to_pixel(layout, hex);
+    graphics.writeText(text, pixel, "14pt Times");
 }
 
 export function redraw(ctx, graphics, game) {

@@ -1,6 +1,6 @@
 
 import { Side } from "./model/side.js";
-import { redraw } from "./view/graphics.js";
+import { redraw, drawTextOnHex } from "./view/graphics.js";
 
 const AUTOPLAY_DELAY = 800;
 
@@ -17,17 +17,28 @@ export class Autoplay {
         this.game = game;
     }
 
+    showAiWeights() {
+        if (this.game.currentSide !== Side.CARTHAGINIAN) {
+            return;
+        }
+        let commands = this.game.validCommands();
+        commands.sort((a, b) => b.value(this.game) - a.value(this.game));
+        console.log("-----------------");
+        commands.forEach(command => {
+            console.log(`${command} value: ${command.value(this.game)}`);
+        });    
+    }
+
     async play(ctx, graphics) {
-        while (this.game.currentSide === Side.CARTHAGINIAN) {
+        if (this.game.currentSide === Side.CARTHAGINIAN) {
             let commands = this.game.validCommands();
             if (commands.length === 0) {
                 return;
             }
-            commands.forEach((command, index) => console.log(command.toString(), command.value(this.game)));
             
             // sort commands by value
             commands.sort((a, b) => b.value(this.game) - a.value(this.game));
-            
+
             // extract all the commands with the highest value
             let bestCommands = commands.filter(command => command.value(this.game) === commands[0].value(this.game));
             
