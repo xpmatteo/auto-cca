@@ -68,6 +68,15 @@ export class GraphicalContext {
         return new Point(img.width, img.height);
     }    
 
+    drawImageCentered(url, pixelCoordinate) {
+        let img = IMAGES[url];
+        if (!img) {
+            throw new Error(`Image ${url} not found`);
+        }
+        this.ctx.drawImage(img, pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
+        return new Point(img.width, img.height);
+    }    
+
     drawRect(pixelCoordinate, width, height, lineWidth, color) {
         this.ctx.save();
         this.ctx.strokeStyle = color;

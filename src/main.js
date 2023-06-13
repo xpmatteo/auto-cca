@@ -15,8 +15,7 @@ const canvas = document.createElement('canvas');
 canvas.width = MAP_WIDTH;
 canvas.height = MAP_HEIGHT;
 document.body.appendChild(canvas);
-const ctx = canvas.getContext('2d');
-const graphics = new GraphicalContext(ctx);
+const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game
 let scenario = new ScenarioRaceToOppositeSide();
@@ -25,7 +24,7 @@ let interactiveGame = new InteractiveGame(game);
 
 // draw initial map
 loadAllImagesThen(() => {
-    redraw(ctx, graphics, interactiveGame);
+    redraw(graphics, interactiveGame);
     resizeCanvas(canvas);
 });
 
@@ -36,21 +35,21 @@ canvas.addEventListener('click', function (event) {
     let hex = findHexFromPixel(canvas, event.clientX, event.clientY);
     let events = interactiveGame.onClick(hex);
     displayEvents(events);
-    redraw(ctx, graphics, interactiveGame);
+    redraw(graphics, interactiveGame);
 });
 
 const autoplay = new Autoplay(interactiveGame);
 
 document.getElementById('end-phase').addEventListener('click', function (event) {
     interactiveGame.endPhase();
-//    autoplay.play(ctx, graphics);
+//    autoplay.play(graphics);
     autoplay.showAiWeights(graphics);
-    redraw(ctx, graphics, interactiveGame);
+    redraw(graphics, interactiveGame);
 });
 
 document.getElementById('ai-continue').addEventListener('click', function (event) {
-    autoplay.play(ctx, graphics);
-    redraw(ctx, graphics, interactiveGame);
+    autoplay.play(graphics);
+    redraw(graphics, interactiveGame);
     autoplay.showAiWeights(graphics);
 });
 

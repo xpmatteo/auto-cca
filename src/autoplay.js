@@ -29,7 +29,7 @@ export class Autoplay {
         });    
     }
 
-    async play(ctx, graphics) {
+    async play(graphics) {
         if (this.game.currentSide === Side.CARTHAGINIAN) {
             let commands = this.game.validCommands();
             if (commands.length === 0) {
@@ -47,7 +47,7 @@ export class Autoplay {
             
             let events = this.game.executeCommand(command);
             displayEvents(events);
-            redraw(ctx, graphics, this.game);
+            redraw(graphics, this.game);
             await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
         }
     }

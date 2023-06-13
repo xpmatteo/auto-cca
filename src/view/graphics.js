@@ -1,29 +1,24 @@
 'use strict';
 
 import { hexOf, hex_to_pixel } from "../lib/hexlib.js";
-import { IMAGES } from "./load_all_images.js";
 import { layout } from "./map.js";
 import { Point } from "../lib/hexlib.js";
-import { RomanHeavyInfantry } from "../model/units.js";
 import { Side } from "../model/side.js";
 
-export function drawUnit(ctx, graphics, pixelCoordinate, unit, isSelected) {
+export function drawUnit(graphics, pixelCoordinate, unit, isSelected) {
     let url = `images/units/${unit.imageName}`;
-    let img = IMAGES[url];
-    if (!img) {
-        throw new Error(`Image ${url} not found`);
-    }
-    ctx.drawImage(img, pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
+    
+    const size = graphics.drawImageCentered(url, pixelCoordinate);
     
     let shift = 2;
-    const pixelStrength = pixelCoordinate.add(new Point(18, img.height / 2 - 10));
+    const pixelStrength = pixelCoordinate.add(new Point(18, size.y / 2 - 10));
     const pixelStrengthShadow = pixelStrength.add(new Point(-shift, shift));
     graphics.writeText(unit.strength, pixelStrengthShadow, "20pt Arial", "white");
     graphics.writeText(unit.strength, pixelStrength, "16pt Arial", "black");
 
     if (isSelected) {
-        let pixelTopLeft = pixelCoordinate.add(new Point(-img.width / 2, -img.height / 2));
-        graphics.drawRect(pixelTopLeft, img.width, img.height, 5, 'red');
+        let pixelTopLeft = pixelCoordinate.add(new Point(-size.x / 2, -size.y / 2));
+        graphics.drawRect(pixelTopLeft, size.x, size.y, 5, 'red');
     }
 }
 
@@ -74,32 +69,32 @@ function drawCoordinates(graphics, hex) {
 
 const GRAVEYARD_LABELS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 const GRAVEYARD_ADJUSTMENTS = [-7, -12, -18, -18, -12, -18];
-function drawGraveyardHex(ctx, graphics, game, index, hex, unit) {
+function drawGraveyardHex(graphics, game, index, hex, unit) {
     const pixel = hex_to_pixel(layout, hex);
     graphics.drawCircle(pixel, layout.size.x * 0.7, 'darkgray');
     const adjustment = GRAVEYARD_ADJUSTMENTS[index];
     graphics.writeText(GRAVEYARD_LABELS[index], 
         pixel.add(new Point(adjustment, 10)), "30pt Times", "white");
     if (unit) {
-        drawUnit(ctx, graphics, pixel, unit, false);
+        drawUnit(graphics, pixel, unit, false);
     }
 }
 
-function drawGraveyardHexSouth(ctx, graphics, game, index, unit) {
+function drawGraveyardHexSouth(graphics, game, index, unit) {
     const hex = hexOf(-4 + index, 9)
-    drawGraveyardHex(ctx, graphics, game, index, hex, unit);
+    drawGraveyardHex(graphics, game, index, hex, unit);
 }
 
-function drawGraveyardHexNorth(ctx, graphics, game, index, unit) {
+function drawGraveyardHexNorth(graphics, game, index, unit) {
     const hex = hexOf(12 - index, -1)
-    drawGraveyardHex(ctx, graphics, game, index, hex, unit);
+    drawGraveyardHex(graphics, game, index, hex, unit);
 }
 
-function drawGraveyard(ctx, graphics, game) {    
+function drawGraveyard(graphics, game) {    
     const graveyardSize = game.pointsToWin;
     for (let i = 0; i < graveyardSize; i++) {
-        drawGraveyardHexSouth(ctx, graphics, game, i, game.deadUnitsNorth[i]);
-        drawGraveyardHexNorth(ctx, graphics, game, i, game.deadUnitsSouth[i]);
+        drawGraveyardHexSouth(graphics, game, i, game.deadUnitsNorth[i]);
+        drawGraveyardHexNorth(graphics, game, i, game.deadUnitsSouth[i]);
     }
 }
 
@@ -108,7 +103,7 @@ export function drawTextOnHex(graphics, text, hex) {
     graphics.writeText(text, pixel, "14pt Times");
 }
 
-export function redraw(ctx, graphics, game) {
+export function redraw(graphics, game) {
     graphics.drawImage('images/cca_map_hq.jpg', new Point(0, 0));
 
     game.foreachHex(hex => drawCoordinates(graphics, hex));
@@ -122,10 +117,10 @@ export function redraw(ctx, graphics, game) {
 
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        drawUnit(ctx, graphics, pixelCoordinate, unit, unit === game.selectedUnit());
+        drawUnit(graphics, pixelCoordinate, unit, unit === game.selectedUnit());
     });
 
-    drawGraveyard(ctx, graphics, game);
+    drawGraveyard(graphics, game);
 
     updateInfoMessage(game);
     enableButtons(game);
