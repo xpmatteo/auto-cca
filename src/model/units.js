@@ -78,6 +78,11 @@ export class RomanHeavyInfantry extends HeavyInfantry {
     side = Side.ROMAN;
 }
 
+export class RomanMediumInfantry extends MediumInfantry {
+    imageName = 'rom_inf_md.png';
+    side = Side.ROMAN;
+}
+
 export class CarthaginianHeavyInfantry extends HeavyInfantry {
     imageName = 'car_inf_hv.png';
     side = Side.CARTHAGINIAN;
