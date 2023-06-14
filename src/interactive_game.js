@@ -10,11 +10,24 @@ export class InteractiveGame {
     }
 
     onClick(hex) {
-        return this.#game.onClick(hex, this);
+        let events = [];
+        if (this.#game.isTerminal())
+            return [];
+        if (this.#selectedUnit && this.hilightedHexes.includes(hex)) {
+            const command = this.validCommands().
+                find(command => command.toHex === hex && command.fromHex === this.selectedHex());
+            events = this.executeCommand(command);
+            this.#selectedUnit = undefined;
+        } else if (!this.#selectedUnit && this.hilightedHexes.includes(hex)) {
+            this.#selectedUnit = this.#game.unitAt(hex);
+        } else {
+            this.#selectedUnit = undefined;
+        }
+        return events;
     }
 
     get hilightedHexes() {
-        if (this.selectedUnit()) {
+        if (this.#selectedUnit) {
             return this.#game.validCommands().
                 filter(command => command.fromHex === this.selectedHex()).
                 map(command => command.toHex).
@@ -26,19 +39,15 @@ export class InteractiveGame {
     }
 
     selectedHex() {
-        return this.#game.hexOfUnit(this.selectedUnit());
+        return this.#game.hexOfUnit(this.#selectedUnit);
     }
 
     selectedUnit() {
         return this.#selectedUnit;
     }
 
-    selectUnit(unit) {
+    __selectUnit(unit) {
         this.#selectedUnit = unit;
-    }
-
-    unselectUnit() {
-        this.#selectedUnit = undefined;
     }
 
     get currentSide() {
@@ -140,7 +149,7 @@ export class InteractiveGame {
     }
 
     endPhase() {
-        this.unselectUnit();
+        this.#selectedUnit = undefined;
         this.#game.endPhase();
     }
 }

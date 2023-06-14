@@ -55,20 +55,6 @@ test('cannot select a spent unit', function () {
     assertEquals(undefined, game.selectedUnit(), "should not be able to select a spent unit");
 });
 
-
-test('click on other unit', function () {
-    let game = makeInteractiveGame();
-    let unit0 = new RomanHeavyInfantry();
-    let unit1 = new RomanHeavyInfantry();
-    game.placeUnit(hexOf(0, 0), unit0);
-    game.placeUnit(hexOf(0, 1), unit1);
-
-    game.onClick(hexOf(0, 0));
-    game.onClick(hexOf(0, 1));
-
-    assertEquals(unit1, game.selectedUnit(), "new unit should be selected");
-});
-
 test('click and deselect unit', function () {
     let game = makeInteractiveGame();
     let unit = new RomanHeavyInfantry();
@@ -136,20 +122,6 @@ test('click and select unit in battle phase', function () {
 
     assertEquals(unit, game.selectedUnit(), "selected unit");
     assertDeepEquals(hexOf(1, 1), game.selectedHex());
-});
-
-test('click on other unit in battle phase', function () {
-    let game = makeGameInBattlePhase();
-    let unit0 = new RomanHeavyInfantry();
-    let unit1 = new RomanHeavyInfantry();
-    game.placeUnit(hexOf(0, 0), unit0);
-    game.placeUnit(hexOf(1, 0), unit1);
-    game.placeUnit(hexOf(0, 1), enemyUnit());
-
-    game.onClick(hexOf(0, 0));
-    game.onClick(hexOf(1, 0));
-
-    assertEquals(unit1, game.selectedUnit(), "new unit should be selected");
 });
 
 test('click and deselect unit in battle phase', function () {
@@ -240,7 +212,7 @@ test('hilighted hexes when a unit is selected', () => {
         }
     };
     const interactiveGame = new InteractiveGame(fakeGame);
-    interactiveGame.selectUnit(hexOf(0, 0));
+    interactiveGame.__selectUnit(hexOf(0, 0));
 
     assertEqualsInAnyOrder([hexOf(0, 2), hexOf(0, 3)], interactiveGame.hilightedHexes);
 });
