@@ -29,11 +29,6 @@ class Phase {
         } else {
             game.unselectUnit();
         }
-        if (game.selectedUnit()) {
-            game.hilightHexes(this.hexesToHilight(game));
-        } else {
-            game.hilightHexes([]);
-        }
         return events;
     }
 }

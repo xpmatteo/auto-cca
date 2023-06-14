@@ -3,7 +3,6 @@ import { MoveCommand } from "./model/commands.js";
 
 export class InteractiveGame {
     #game;
-    #hilightedHexes = [];
     #selectedUnit = undefined;
 
     constructor(game) {
@@ -15,11 +14,15 @@ export class InteractiveGame {
     }
 
     get hilightedHexes() {
-        return this.#hilightedHexes;
-    }
-
-    hilightHexes(hexes) {
-        this.#hilightedHexes = hexes;
+        if (this.selectedUnit()) {
+            return this.#game.validCommands().
+                filter(command => command.fromHex === this.selectedHex()).
+                map(command => command.toHex).
+                filter(hex => hex !== undefined);            
+        }
+        return this.#game.validCommands().
+            map(command => command.fromHex).
+            filter(hex => hex !== undefined);        
     }
 
     selectedHex() {
@@ -138,7 +141,6 @@ export class InteractiveGame {
 
     endPhase() {
         this.unselectUnit();
-        this.hilightHexes([]);
         this.#game.endPhase();
     }
 }
