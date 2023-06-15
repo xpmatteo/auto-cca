@@ -89,35 +89,24 @@ test("close combat with non-ignorable flag and unblocked map NORTH", () => {
     assertEquals(expectedEvents.toString(), actualEvents.toString());
 });
 
-
-// at the end of retreat, the retreat phase is automatically removed
-
-
-test("close combat with non-ignorable flag and unblocked map SOUTH", () => {
-    const diceResults = [dice.RESULT_FLAG, dice.RESULT_LIGHT, dice.RESULT_LIGHT, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
+test("close combat with non-ignorable flag and blocked path", () => {
+    const diceResults = [dice.RESULT_FLAG, dice.RESULT_FLAG, dice.RESULT_HEAVY, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
     const game = makeGame(new NullScenario(), diceReturning(diceResults));
-    const defendingUnit = new units.RomanHeavyInfantry();
-    const attackingUnit = new units.CarthaginianHeavyInfantry();
-    game.placeUnit(hexOf(1, 4), attackingUnit);
-    game.placeUnit(hexOf(0, 5), defendingUnit);
+    const defendingUnit = new units.CarthaginianHeavyInfantry();
+    game.placeUnit(hexOf(4, 0), defendingUnit);
+    const attackingUnit = new units.RomanHeavyInfantry();
+    game.placeUnit(hexOf(4, 1), attackingUnit);
 
-    let actualEvents = game.executeCommand(new CloseCombatCommand(hexOf(0, 5), hexOf(1, 4)));
-
-    // now the currentside is temporarily Roman
-    assertEquals(Side.ROMAN, game.currentSide);
-
-    // and the possible moves are the two retreat hexes
-    const expectedValidCommands = [
-        new MoveCommand(hexOf(-1, 6), hexOf(0, 5)),
-        new MoveCommand(hexOf(0, 6), hexOf(0, 5)),
-    ]
-    assertEqualsInAnyOrder(expectedValidCommands, game.validCommands());
+    let actualEvents = game.executeCommand(new CloseCombatCommand(hexOf(4, 0), hexOf(4, 1)));
 
     const expectedEvents = [
-        new DamageEvent(hexOf(0, 5), 0, diceResults),
+        new DamageEvent(hexOf(4, 0), 3, diceResults),
     ];
     assertEquals(expectedEvents.toString(), actualEvents.toString());
 });
+
+
+// at the end of retreat, the retreat phase is automatically removed
 
 // close combat with non-ignorable flag and unblocked map SOUTH
 

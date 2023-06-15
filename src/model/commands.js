@@ -60,6 +60,10 @@ export class EndPhaseCommand {
     }
 }
 
+function countOf(array, value) {
+    return array.filter(v => v === value).length;
+}
+
 export class CloseCombatCommand {
     constructor(toHex, fromHex) {
         this.toHex = toHex;
@@ -92,9 +96,10 @@ export class CloseCombatCommand {
         }
         let events = [];
         const diceResults = game.roll(attackingUnit.diceCount);
-        const damage = defendingUnit.takeDamage(diceResults);
+        const damage = defendingUnit.takeDamage(diceResults, game.retreatHexes(defendingHex).length === 0);
         events.push(new DamageEvent(defendingHex, damage, diceResults));
         game.markUnitSpent(attackingUnit);
+
         if (defendingUnit.isDead()) {
             game.killUnit(defendingHex);
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));

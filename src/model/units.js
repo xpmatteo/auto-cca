@@ -43,9 +43,12 @@ export class Unit {
         return targets;
     }
 
-    takeDamage(diceResults) {
+    takeDamage(diceResults, includeFlags = false) {
         const damage = diceResults.
-            filter(r => r === this.weight || r === dice.RESULT_SWORDS).
+            filter(r => r === this.weight 
+                || r === dice.RESULT_SWORDS 
+                || (includeFlags && r == dice.RESULT_FLAG)
+                ).
             length;
         this.strength -= damage;
         return damage;
