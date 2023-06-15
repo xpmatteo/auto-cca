@@ -41,7 +41,7 @@ export function assertEqualsInAnyOrder(expected, actual, message=undefined) {
     let a = JSON.stringify(expected.sort());
     let b = JSON.stringify(actual.sort());
     if (message === undefined) {
-        message = `Expected ${a} but got ${b}`;
+        message = `\nExpected ${expected.toString()}\nbut got  ${actual.toString()}`;
     }
     if (a !== b) {
         throw new AssertionFailed(message);

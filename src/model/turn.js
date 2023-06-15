@@ -29,7 +29,7 @@ export class Turn {
     }
 
     get currentSide() {        
-        return this.#currentSide;
+        return this.currentPhase.temporarySide || this.#currentSide;
     }
 
     get currentPhaseName() {
@@ -51,6 +51,10 @@ export class Turn {
             this.#phases.shift();
             this.#spentUnits = [];
         }
+    }
+
+    unshiftPhase(phase) {
+        this.#phases.unshift(phase);
     }
 
     switchSide() {

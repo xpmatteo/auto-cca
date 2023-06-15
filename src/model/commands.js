@@ -1,4 +1,7 @@
 import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
+import * as dice from './dice.js';
+import { RetreatPhase } from "./phases.js";
+import { hexOf } from "../lib/hexlib.js";
 
 const DISTANCE_VALUE_BACKOFF = 0.9;
 
@@ -68,40 +71,44 @@ export class CloseCombatCommand {
     }
 
     play(game) {
-        const attackingUnit = game.unitAt(this.fromHex);
+        const defendingHex = this.toHex;
+        const attackingHex = this.fromHex;
+        const attackingUnit = game.unitAt(attackingHex);
         if (!attackingUnit) {
-            throw new Error(`No unit at ${this.fromHex}`);
+            throw new Error(`No unit at ${attackingHex}`);
         }
-        const defendingUnit = game.unitAt(this.toHex);
+        const defendingUnit = game.unitAt(defendingHex);
         if (!defendingUnit) {
-            throw new Error(`No unit at ${this.toHex}`);
+            throw new Error(`No unit at ${defendingHex}`);
         }
         if (attackingUnit.side === defendingUnit.side) {
-            throw new Error(`Cannot attack own unit at ${this.toHex}`);
+            throw new Error(`Cannot attack own unit at ${defendingHex}`);
         }
-        if (this.toHex === this.fromHex) {
-            throw new Error(`Cannot attack self at ${this.toHex}`);
+        if (defendingHex === attackingHex) {
+            throw new Error(`Cannot attack self at ${defendingHex}`);
         }
-        if (this.toHex.distance(this.fromHex) > 1) {
-            throw new Error(`Cannot Close Combat with unit at ${this.toHex} from ${this.fromHex} (too far)`);
+        if (defendingHex.distance(attackingHex) > 1) {
+            throw new Error(`Cannot Close Combat with unit at ${defendingHex} from ${attackingHex} (too far)`);
         }
         let events = [];
         const diceResults = game.roll(attackingUnit.diceCount);
         const damage = defendingUnit.takeDamage(diceResults);
-        events.push(new DamageEvent(this.toHex, damage, diceResults));
+        events.push(new DamageEvent(defendingHex, damage, diceResults));
         game.markUnitSpent(attackingUnit);
         if (defendingUnit.isDead()) {
-            game.killUnit(this.toHex);
-            events.push(new UnitKilledEvent(this.toHex, defendingUnit));
+            game.killUnit(defendingHex);
+            events.push(new UnitKilledEvent(defendingHex, defendingUnit));
+        } else if (diceResults.includes(dice.RESULT_FLAG)) {
+            game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, defendingHex.northWest, defendingHex.northEast));
         } else {
             // battle back
             const battleBackDice = game.roll(defendingUnit.diceCount);
             const battleBackDamage = attackingUnit.takeDamage(battleBackDice);
-            events.push(new BattleBackEvent(this.fromHex, this.toHex, battleBackDice.length));
-            events.push(new DamageEvent(this.fromHex, battleBackDamage, battleBackDice));
+            events.push(new BattleBackEvent(attackingHex, defendingHex, battleBackDice.length));
+            events.push(new DamageEvent(attackingHex, battleBackDamage, battleBackDice));
             if (attackingUnit.isDead()) {
-                game.killUnit(this.fromHex);
-                events.push(new UnitKilledEvent(this.fromHex, attackingUnit));    
+                game.killUnit(attackingHex);
+                events.push(new UnitKilledEvent(attackingHex, attackingUnit));    
             }
         }
         return events;

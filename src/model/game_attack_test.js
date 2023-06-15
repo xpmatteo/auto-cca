@@ -1,8 +1,8 @@
 import { hexOf } from "../lib/hexlib.js";
-import { assertEquals, assertFalse, assertTrue, assertDeepEquals, test } from "../lib/test_lib.js";
+import { assertEquals, assertFalse, assertTrue, assertDeepEquals, assertEqualsInAnyOrder, test } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as units from "./units.js";
-import { CloseCombatCommand } from "./commands.js";
+import { MoveCommand, CloseCombatCommand } from "./commands.js";
 import { NullScenario } from "./scenarios.js";
 import * as dice from "./dice.js";
 import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
@@ -64,10 +64,40 @@ test("execute Attack and kill defender", () => {
     assertDeepEquals([defendingUnit], game.graveyard.unitsOf(Side.CARTHAGINIAN));
 });
 
+test("close combat with non-ignorable flag and unblocked map NORTH", () => {
+    const diceResults = [dice.RESULT_FLAG, dice.RESULT_LIGHT, dice.RESULT_LIGHT, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
+    const game = makeGame(new NullScenario(), diceReturning(diceResults));
+    const defendingUnit = new units.CarthaginianHeavyInfantry();
+    game.placeUnit(hexOf(0, 5), new units.RomanHeavyInfantry());
+    game.placeUnit(hexOf(1, 4), defendingUnit);
+
+    let actualEvents = game.executeCommand(new CloseCombatCommand(hexOf(1, 4), hexOf(0, 5)));
+
+    // now the currentside is temporarily carthago
+    assertEquals(Side.CARTHAGINIAN, game.currentSide);
+
+    // and the possible moves are the two retreat hexes
+    const expectedValidCommands = [
+        new MoveCommand(hexOf(1, 3), hexOf(1, 4)),
+        new MoveCommand(hexOf(2, 3), hexOf(1, 4)),
+    ]
+    assertEqualsInAnyOrder(expectedValidCommands, game.validCommands());
+
+    const expectedEvents = [
+        new DamageEvent(hexOf(1, 4), 0, diceResults),
+    ];
+    assertEquals(expectedEvents.toString(), actualEvents.toString());
+});
+
+// at the end of retreat, the retreat phase is automatically removed
+
+// close combat with non-ignorable flag and unblocked map SOUTH
+
+// battle back with retreat result!!!
+
 // flag result and cannot retreat
 
-// flag result and can retreat
-
-// attack and no damage
+// flag result and can retreat only partially
 
 // unit supported, flag can be ignored
+

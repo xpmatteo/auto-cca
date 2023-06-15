@@ -60,6 +60,10 @@ export class InteractiveGame {
 
     // --- delegate to game ---
 
+    unshiftPhase(phase) {
+        this.#game.unshiftPhase(phase);
+    }
+
     closestUnitHex(hex, side) {
         return this.#game.closestUnitHex(hex, side);
     }

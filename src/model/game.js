@@ -92,6 +92,10 @@ class Game {
         this.turn.markUnitSpent(unit);
     }
     
+    unshiftPhase(phase) {
+        this.turn.unshiftPhase(phase);
+    }
+
     // ---- delegate to dice ----
 
     roll(diceCount) {

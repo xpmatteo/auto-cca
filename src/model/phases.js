@@ -19,6 +19,19 @@ class Phase {
     }
 }
 
+export class RetreatPhase extends Phase {
+    constructor(temporarySide, fromHex, ...toHexes) {
+        super("retreat");
+        this.fromHex = fromHex;
+        this.toHexes = toHexes;
+        this.temporarySide = temporarySide;
+    }
+
+    validCommands(turn, board) {
+        return this.toHexes.map(toHex => new MoveCommand(toHex, this.fromHex));
+    }
+}
+
 export class MovementPhase extends Phase {
     constructor() {
         super("movement");
