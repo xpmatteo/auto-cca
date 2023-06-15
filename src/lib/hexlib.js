@@ -31,6 +31,22 @@ class Hex {
         return hex_directions.map((direction) => hex_add(this, direction));
     }
 
+    get northernNeighbors() {
+        return [this.northEast, this.northWest];
+    }
+
+    get southernNeighbors() {
+        return [this.southEast, this.southWest];
+    }
+
+    get southEast() {
+        return hex_add(this, DIRECTION_SE);
+    }
+
+    get southWest() {
+        return hex_add(this, DIRECTION_SW);
+    }
+
     get northWest() {
         return hex_add(this, DIRECTION_NW);
     }
@@ -51,13 +67,16 @@ export function hexOf(q, r) {
 const DIRECTION_WEST = hexOf(-1, 0, 1);
 const DIRECTION_NE = hexOf(0, -1, 1);
 const DIRECTION_NW = hexOf(1, -1, 0);
+const DIRECTION_SW = hexOf(-1, 1, 0);
+const DIRECTION_SE = hexOf(0, 1, -1);
+const DIRECTION_EAST = hexOf(1, 0, -1);
 const hex_directions = [
-    hexOf(1, 0, -1), 
+    DIRECTION_EAST, 
     DIRECTION_NW, 
     DIRECTION_NE, 
     DIRECTION_WEST, 
-    hexOf(-1, 1, 0), 
-    hexOf(0, 1, -1)
+    DIRECTION_SW, 
+    DIRECTION_SE
 ];
 
 class Orientation {

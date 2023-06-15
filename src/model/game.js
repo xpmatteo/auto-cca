@@ -66,6 +66,21 @@ class Game {
         return this.graveyard.unitsOf(side);
     }
 
+    retreatHexes(hex) {
+        const retreatingUnit = this.board.unitAt(hex);
+        if (!retreatingUnit) {
+            throw new Error(`No unit at ${hex}`);
+        }
+        const side = retreatingUnit.side;
+        let result;
+        if (side === Side.CARTHAGINIAN) {
+            result = hex.northernNeighbors;            
+        } else {
+            result = hex.southernNeighbors;
+        }
+        return this.subtractOffMap(this.subtractOccupiedHexes(result));
+    }
+
     // ---- delegate to turn ----
 
     moveUnit(hexTo, hexFrom) {

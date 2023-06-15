@@ -99,7 +99,8 @@ export class CloseCombatCommand {
             game.killUnit(defendingHex);
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
         } else if (diceResults.includes(dice.RESULT_FLAG)) {
-            game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, defendingHex.northWest, defendingHex.northEast));
+            const retreatHexes = game.retreatHexes(defendingHex);
+            game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, retreatHexes));
         } else {
             // battle back
             const battleBackDice = game.roll(defendingUnit.diceCount);
