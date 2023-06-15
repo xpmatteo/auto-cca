@@ -193,7 +193,7 @@ test('hilighted hexes when no unit is selected', () => {
     };
     const interactiveGame = new InteractiveGame(fakeGame);
 
-    assertEqualsInAnyOrder([hexOf(0, 1), hexOf(0, 2), hexOf(0, 3)], interactiveGame.hilightedHexes);
+    assertDeepEquals(new Set([hexOf(0, 1), hexOf(0, 2), hexOf(0, 3)]), interactiveGame.hilightedHexes);
 });
 
 test('hilighted hexes when a unit is selected', () => {
@@ -214,5 +214,5 @@ test('hilighted hexes when a unit is selected', () => {
     const interactiveGame = new InteractiveGame(fakeGame);
     interactiveGame.__selectUnit(hexOf(0, 0));
 
-    assertEqualsInAnyOrder([hexOf(0, 2), hexOf(0, 3)], interactiveGame.hilightedHexes);
+    assertDeepEquals(new Set([hexOf(0, 2), hexOf(0, 3)]), interactiveGame.hilightedHexes);
 });

@@ -13,12 +13,12 @@ export class InteractiveGame {
         let events = [];
         if (this.#game.isTerminal())
             return [];
-        if (this.#selectedUnit && this.hilightedHexes.includes(hex)) {
+        if (this.#selectedUnit && this.hilightedHexes.has(hex)) {
             const command = this.validCommands().
                 find(command => command.toHex === hex && command.fromHex === this.selectedHex());
             events = this.executeCommand(command);
             this.#selectedUnit = undefined;
-        } else if (!this.#selectedUnit && this.hilightedHexes.includes(hex)) {
+        } else if (!this.#selectedUnit && this.hilightedHexes.has(hex)) {
             this.#selectedUnit = this.#game.unitAt(hex);
         } else {
             this.#selectedUnit = undefined;
@@ -28,14 +28,16 @@ export class InteractiveGame {
 
     get hilightedHexes() {
         if (this.#selectedUnit) {
-            return this.#game.validCommands().
+            const toHexes = this.#game.validCommands().
                 filter(command => command.fromHex === this.selectedHex()).
                 map(command => command.toHex).
-                filter(hex => hex !== undefined);            
+                filter(hex => hex !== undefined);
+            return new Set(toHexes);            
         }
-        return this.#game.validCommands().
+        const fromHexes = this.#game.validCommands().
             map(command => command.fromHex).
-            filter(hex => hex !== undefined);        
+            filter(hex => hex !== undefined);
+        return new Set(fromHexes);        
     }
 
     selectedHex() {
