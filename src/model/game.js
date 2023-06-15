@@ -111,6 +111,10 @@ class Game {
         this.turn.unshiftPhase(phase);
     }
 
+    shiftPhase() {
+        this.turn.shiftPhase();
+    }
+
     // ---- delegate to dice ----
 
     roll(diceCount) {

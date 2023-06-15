@@ -2,7 +2,7 @@ import { hexOf } from "../lib/hexlib.js";
 import { assertEquals, assertFalse, assertTrue, assertDeepEquals, assertEqualsInAnyOrder, test } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as units from "./units.js";
-import { MoveCommand, CloseCombatCommand } from "./commands.js";
+import { CloseCombatCommand, RetreatCommand } from "./commands.js";
 import { NullScenario } from "./scenarios.js";
 import * as dice from "./dice.js";
 import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
@@ -78,10 +78,10 @@ test("close combat with non-ignorable flag and unblocked map NORTH", () => {
 
     // and the possible moves are the two retreat hexes
     const expectedValidCommands = [
-        new MoveCommand(hexOf(1, 3), hexOf(1, 4)),
-        new MoveCommand(hexOf(2, 3), hexOf(1, 4)),
+        new RetreatCommand(hexOf(1, 3), hexOf(1, 4)),
+        new RetreatCommand(hexOf(2, 3), hexOf(1, 4)),
     ]
-    assertEqualsInAnyOrder(expectedValidCommands, game.validCommands());
+    assertEquals(expectedValidCommands.toString(), game.validCommands().toString());
 
     const expectedEvents = [
         new DamageEvent(hexOf(1, 4), 0, diceResults),
@@ -105,14 +105,9 @@ test("close combat with non-ignorable flag and blocked path", () => {
     assertEquals(expectedEvents.toString(), actualEvents.toString());
 });
 
-
-// at the end of retreat, the retreat phase is automatically removed
-
-// close combat with non-ignorable flag and unblocked map SOUTH
+// retreat more than one hex
 
 // battle back with retreat result!!!
-
-// flag result and cannot retreat
 
 // flag result and can retreat only partially
 

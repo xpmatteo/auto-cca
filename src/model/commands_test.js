@@ -1,12 +1,13 @@
 
 import { assertEquals, assertDeepEquals, test, xtest } from "../lib/test_lib.js";
 import { hexOf } from "../lib/hexlib.js";
-import { CloseCombatCommand, EndPhaseCommand, MoveCommand } from "./commands.js";
+import { CloseCombatCommand, EndPhaseCommand, RetreatCommand, MoveCommand } from "./commands.js";
 import makeGame from "./game.js";
 import { NullScenario } from "./scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./units.js";
 import { MovementTrail } from "./turn.js";
 import { Side } from "./side.js";
+import { RetreatPhase } from "./phases.js";
 
 test("MoveCommand play", () => {
     let game = makeGame(new NullScenario());     
@@ -18,6 +19,23 @@ test("MoveCommand play", () => {
     assertEquals(undefined, game.unitAt(hexOf(1, 5)));
     assertEquals(unit, game.unitAt(hexOf(1, 4)));
     assertDeepEquals([unit], game.spentUnits);
+    assertDeepEquals([new MovementTrail(hexOf(1, 4), hexOf(1, 5))], game.movementTrails);
+});
+
+
+test("Retreat play", () => {
+    let game = makeGame(new NullScenario());     
+    let unit = new CarthaginianHeavyInfantry();
+    game.placeUnit(hexOf(1, 5), unit);
+    assertEquals("Roman movement", game.currentPhaseName);
+    game.unshiftPhase(new RetreatPhase(Side.CARTHAGINIAN, hexOf(1,5), [hexOf(1,4)]))
+    assertEquals("Carthaginian retreat", game.currentPhaseName);
+
+    game.executeCommand(new RetreatCommand(hexOf(1,4), hexOf(1, 5)));
+
+    assertEquals("Roman movement", game.currentPhaseName);
+    assertEquals(undefined, game.unitAt(hexOf(1, 5)));
+    assertEquals(unit, game.unitAt(hexOf(1, 4)));
     assertDeepEquals([new MovementTrail(hexOf(1, 4), hexOf(1, 5))], game.movementTrails);
 });
 

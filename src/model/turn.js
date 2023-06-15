@@ -28,12 +28,12 @@ export class Turn {
         command.play(this);        
     }
 
-    get currentSide() {        
+    get currentSide() {  
         return this.currentPhase.temporarySide || this.#currentSide;
     }
 
     get currentPhaseName() {
-        return `${this.#currentSide.name} ${this.currentPhase}`;
+        return `${this.currentSide.name} ${this.currentPhase}`;
     }
 
     get spentUnits() {
@@ -55,6 +55,10 @@ export class Turn {
 
     unshiftPhase(phase) {
         this.#phases.unshift(phase);
+    }
+
+    shiftPhase() {
+        this.#phases.shift();
     }
 
     switchSide() {

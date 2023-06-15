@@ -1,4 +1,4 @@
-import { CloseCombatCommand, MoveCommand, EndPhaseCommand } from "./commands.js";
+import { CloseCombatCommand, MoveCommand, RetreatCommand, EndPhaseCommand } from "./commands.js";
 
 
 class Phase {
@@ -28,7 +28,7 @@ export class RetreatPhase extends Phase {
     }
 
     validCommands(turn, board) {
-        return this.toHexes.map(toHex => new MoveCommand(toHex, this.fromHex));
+        return this.toHexes.map(toHex => new RetreatCommand(toHex, this.fromHex));
     }
 }
 
