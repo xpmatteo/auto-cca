@@ -7,7 +7,7 @@ export class DamageEvent {
     }
 
     toString() {        
-        return `Damage ${this.hex} for ${this.damage} with ${this.diceResults}`;
+        return `Damage ${this.hex} for ${this.damage} damage with ${this.diceResults}`;
     }
 }
 
@@ -19,7 +19,7 @@ export class BattleBackEvent {
     }
 
     toString() {
-        return `Battle back from ${this.hexFrom} to ${this.hexTo} for ${this.diceCount}`;
+        return `Battle back from ${this.hexFrom} to ${this.hexTo} with ${this.diceCount} dice`;
     }
 }
 
@@ -30,6 +30,6 @@ export class UnitKilledEvent {
     }
 
     toString() {
-        return `Unit ${this.unit} killed at ${this.hex}`;
+        return `${this.unit} killed at ${this.hex}`;
     }
 }
