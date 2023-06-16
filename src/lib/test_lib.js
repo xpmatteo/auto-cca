@@ -28,6 +28,15 @@ export function assertFalse(isTrue, message='Assertion failed') {
     }
 }
 
+export function assertThrows(closure, message='Expected to throw an exception') {
+    try {
+        closure();
+    } catch (e) {
+        return;
+    }
+    throw new AssertionFailed(message);
+}
+
 export function assertEquals(expected, actual, message=undefined) {
     message = `${message ? message : ""}
 Expected ${expected}
