@@ -13,8 +13,8 @@ export function drawUnit(graphics, pixelCoordinate, unit, isSelected) {
     let shift = 2;
     const pixelStrength = pixelCoordinate.add(new Point(18, size.y / 2 - 10));
     const pixelStrengthShadow = pixelStrength.add(new Point(-shift, shift));
-    graphics.writeText(unit.strength, pixelStrengthShadow, "20pt Arial", "white");
-    graphics.writeText(unit.strength, pixelStrength, "16pt Arial", "black");
+    graphics.writeText(unit.displayStrength(), pixelStrengthShadow, "20pt Arial", "white");
+    graphics.writeText(unit.displayStrength(), pixelStrength, "16pt Arial", "black");
 
     if (isSelected) {
         let pixelTopLeft = pixelCoordinate.add(new Point(-size.x / 2, -size.y / 2));

@@ -43,13 +43,15 @@ const autoplay = new Autoplay(interactiveGame);
 document.getElementById('end-phase').addEventListener('click', function (event) {
     interactiveGame.endPhase();
 //    autoplay.play(graphics);
-    autoplay.showAiWeights(graphics);
     redraw(graphics, interactiveGame);
 });
 
 document.getElementById('ai-continue').addEventListener('click', function (event) {
     autoplay.play(graphics);
     redraw(graphics, interactiveGame);
-    autoplay.showAiWeights(graphics);
+});
+
+document.getElementById('playout').addEventListener('click', function (event) {
+    autoplay.playout(graphics);
 });
 

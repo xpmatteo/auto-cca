@@ -29,26 +29,39 @@ export class Autoplay {
         });    
     }
 
-    async play(graphics) {
-        if (this.game.currentSide === Side.CARTHAGINIAN) {
-            let commands = this.game.validCommands();
-            if (commands.length === 0) {
-                return;
-            }
-            
-            // sort commands by value
-            commands.sort((a, b) => b.value(this.game) - a.value(this.game));
-
-            // extract all the commands with the highest value
-            let bestCommands = commands.filter(command => command.value(this.game) === commands[0].value(this.game));
-            
-            // choose randomly from the best commands
-            let command = bestCommands[Math.floor(Math.random() * bestCommands.length)];
-            
-            let events = this.game.executeCommand(command);
+    async playout(graphics) {
+        while (!this.game.isTerminal()) {
+            let events = await this.executeBestCommand();
             displayEvents(events);
             redraw(graphics, this.game);
             await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
         }
+    }
+
+    async play(graphics) {
+        if (this.game.currentSide === Side.CARTHAGINIAN) {            
+            let events = this.executeBestCommand();
+            displayEvents(events);
+            redraw(graphics, this.game);
+            await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
+        }
+    }
+
+    executeBestCommand() {
+        let commands = this.game.validCommands();
+        if (commands.length === 0) {
+            throw new Error("No valid commands");
+        }
+
+        // sort commands by value
+        commands.sort((a, b) => b.value(this.game) - a.value(this.game));
+
+        // extract all the commands with the highest value
+        let bestCommands = commands.filter(command => command.value(this.game) === commands[0].value(this.game));
+        
+        // choose randomly from the best commands
+        let command = bestCommands[Math.floor(Math.random() * bestCommands.length)];
+        
+        return this.game.executeCommand(command);        
     }
 }

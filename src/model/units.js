@@ -13,7 +13,7 @@ function toRoman(number) {
         case 8: return 'VIII';
         case 9: return 'IX';
         case 10: return 'X';
-        default: return number;
+        default: return "";
     }
 }
 
@@ -23,7 +23,8 @@ export class Unit {
     }
 
     displayStrength() {
-        return toRoman(this.strength);
+        if (this.isDead()) return '';
+        return this.strength;
     }
 
     validDestinations(fromHex, board) {
