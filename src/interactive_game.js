@@ -13,12 +13,12 @@ export class InteractiveGame {
         let events = [];
         if (this.#game.isTerminal())
             return [];
-        if (this.#selectedUnit && this.hilightedHexes.has(hex)) {
+        if (this.selectedUnit() && this.hilightedHexes.has(hex)) {
             const command = this.validCommands().
                 find(command => command.toHex === hex && command.fromHex === this.selectedHex());
             events = this.executeCommand(command);
             this.#selectedUnit = undefined;
-        } else if (!this.#selectedUnit && this.hilightedHexes.has(hex)) {
+        } else if (!this.selectedUnit() && this.hilightedHexes.has(hex)) {
             this.#selectedUnit = this.#game.unitAt(hex);
         } else {
             this.#selectedUnit = undefined;
@@ -27,7 +27,7 @@ export class InteractiveGame {
     }
 
     get hilightedHexes() {
-        if (this.#selectedUnit) {
+        if (this.selectedUnit()) {
             const toHexes = this.#game.validCommands().
                 filter(command => command.fromHex === this.selectedHex()).
                 map(command => command.toHex).
@@ -41,11 +41,18 @@ export class InteractiveGame {
     }
 
     selectedHex() {
-        return this.#game.hexOfUnit(this.#selectedUnit);
+        return this.#game.hexOfUnit(this.selectedUnit());
     }
 
     selectedUnit() {
-        return this.#selectedUnit;
+        return this.#selectedUnit || this.implicitSelectedUnit();
+    }
+
+    implicitSelectedUnit() {
+        if (this.currentPhaseName && this.currentPhaseName.includes('retreat')) {
+            return this.#game.unitAt(this.validCommands()[0].fromHex);
+        }
+        return undefined;
     }
 
     __selectUnit(unit) {

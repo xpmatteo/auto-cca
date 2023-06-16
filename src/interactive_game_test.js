@@ -158,8 +158,8 @@ test('click on enemy unit and deselect in battle phase', () => {
     game.onClick(hexOf(0, 0));
     assertEquals(unit, game.selectedUnit(), "unit should be selected");
     
-    game.onClick(hexOf(0, 1));
-    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+    game.onClick(hexOf(0, 0));
+    assertFalse(game.selectedUnit(), "should not be selected");
 });
 
 
@@ -189,7 +189,7 @@ test('hilighted hexes when no unit is selected', () => {
                 new MoveCommand(hexOf(0, 4), hexOf(0, 3)),
                 new EndPhaseCommand(),
             ];
-        }
+        },
     };
     const interactiveGame = new InteractiveGame(fakeGame);
 
@@ -209,7 +209,7 @@ test('hilighted hexes when a unit is selected', () => {
 
         hexOfUnit: function() {
             return hexOf(0, 0);
-        }
+        },
     };
     const interactiveGame = new InteractiveGame(fakeGame);
     interactiveGame.__selectUnit(hexOf(0, 0));

@@ -126,7 +126,7 @@ export class CloseCombatCommand {
         if (defendingUnit.isDead()) {
             game.killUnit(defendingHex);
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
-        } else if (diceResults.includes(dice.RESULT_FLAG)) {
+        } else if (game.retreatHexes(defendingHex).length !== 0 && diceResults.includes(dice.RESULT_FLAG)) {
             const retreatHexes = game.retreatHexes(defendingHex);
             game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, retreatHexes));
         } else {

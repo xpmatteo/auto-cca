@@ -14,6 +14,9 @@ function diceReturning() {
     return {
         roll: function (count) {
             const results = successiveResults[invocations++];
+            if (!results) {
+                throw new Error(`Dice#roll called too many times (expected ${successiveResults.length} times)`);
+            }
             if (count !== results.length) {
                 throw new Error(`Expected ${results.length} rolls, got ${count}`);
             }
@@ -91,7 +94,8 @@ test("close combat with non-ignorable flag and unblocked map NORTH", () => {
 
 test("close combat with non-ignorable flag and blocked path", () => {
     const diceResults = [dice.RESULT_FLAG, dice.RESULT_FLAG, dice.RESULT_HEAVY, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
-    const game = makeGame(new NullScenario(), diceReturning(diceResults));
+    const battleBackDiceResults = Array(5).fill(dice.RESULT_LIGHT);
+    const game = makeGame(new NullScenario(), diceReturning(diceResults, battleBackDiceResults));
     const defendingUnit = new units.CarthaginianHeavyInfantry();
     game.placeUnit(hexOf(4, 0), defendingUnit);
     const attackingUnit = new units.RomanHeavyInfantry();
@@ -101,6 +105,8 @@ test("close combat with non-ignorable flag and blocked path", () => {
 
     const expectedEvents = [
         new DamageEvent(hexOf(4, 0), 3, diceResults),
+        new BattleBackEvent(hexOf(4, 1), hexOf(4, 0), 5),
+        new DamageEvent(hexOf(4, 1), 0, battleBackDiceResults),
     ];
     assertEquals(expectedEvents.toString(), actualEvents.toString());
 });

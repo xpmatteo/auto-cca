@@ -29,9 +29,9 @@ export function assertFalse(isTrue, message='Assertion failed') {
 }
 
 export function assertEquals(expected, actual, message=undefined) {
-    if (message === undefined) {
-        message = `Expected ${expected} but got ${actual}`;
-    }
+    message = `${message ? message : ""}
+Expected ${expected}
+but got  ${actual}`;
     if (expected !== actual) {
         throw new AssertionFailed(message);
     }
