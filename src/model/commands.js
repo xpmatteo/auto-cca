@@ -5,6 +5,34 @@ import { hexOf } from "../lib/hexlib.js";
 
 const DISTANCE_VALUE_BACKOFF = 0.2;
 
+/*
+    Commands are immutable objects representing the actions that can be taken by the player. 
+    They are used by both the human player and the AI to execute a move.
+*/
+
+function hexScore(enemyUnit) {
+    return 1000 / enemyUnit.strength;
+}
+
+function valueOfHex(hexToBeEvaluated, enemyUnitHex, enemyUnit) {
+    const distance = enemyUnitHex.distance(hexToBeEvaluated);
+    return hexScore(enemyUnit) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
+}
+
+function valueOfHexOverAllEnemyUnits(game, hexToBeEvaluated, friendlySide) {
+    let bestValue = -Infinity;
+    game.foreachUnit((otherUnit, otherUnitHex) => {
+        if (otherUnit.side === friendlySide) {
+            return;
+        }
+        const candidateBest = valueOfHex(otherUnitHex, hexToBeEvaluated, otherUnit);
+        if (candidateBest > bestValue) {
+            bestValue = candidateBest;
+        }
+    });
+    return bestValue;
+}
+
 export class MoveCommand {
     constructor(toHex, fromHex) {
         this.toHex = toHex;
@@ -22,20 +50,22 @@ export class MoveCommand {
         return [];
     }
 
-    value(game) {        
+    value(game) {     
+        // The value of a move is the value of the hex we are moving to,
+        // minus the value of the hex we are moving from.
+        // The value of a hex is determined by the closest, weakest enemy unit, 
+        // and decreases with the distance from that unit.
+
         const movingUnit = game.unitAt(this.fromHex);
         if (!movingUnit) {
             throw new Error(`No unit at ${this.fromHex}`);
         }
         
-        const enemyUnitHex = game.closestUnitHex(this.toHex, game.opposingSide(movingUnit.side));
-        const enemyUnit = game.unitAt(enemyUnitHex);
-        if (!enemyUnit) {
-            throw new Error(`No enemy unit at ${enemyUnitHex}`);
-        }
+        // for all enemy units, find the highest value using the ValueOfHex function
+        const valueOfToHex = valueOfHexOverAllEnemyUnits(game, this.toHex, movingUnit.side);
+        const valueOfFromHex = valueOfHexOverAllEnemyUnits(game, this.fromHex, movingUnit.side);
+
         // we don't want to move to a hex that is worse than the hex we are moving from
-        const valueOfFromHex = valueOfHex(this.fromHex, enemyUnitHex, enemyUnit);
-        const valueOfToHex = valueOfHex(this.toHex, enemyUnitHex, enemyUnit);
         return valueOfToHex - valueOfFromHex;
     }
 }
@@ -61,11 +91,6 @@ export class RetreatCommand {
     value(game) {
         return 0; // AI treats all retreat hexes as equally likely
     }
-}
-
-function valueOfHex(hexToBeEvaluated, enemyUnitHex, enemyUnit) {
-    const distance = enemyUnitHex.distance(hexToBeEvaluated);
-    return hexScore(enemyUnit) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
 }
 
 export class EndPhaseCommand {
@@ -149,7 +174,4 @@ export class CloseCombatCommand {
     }
 }
 
-function hexScore(enemyUnit) {
-    return 1000 / enemyUnit.strength;
-}
 

@@ -85,16 +85,38 @@ test("value of MoveCommand at various distances", () => {
     assertAlmostEquals(0.2 * 0.2 * 0.2 * 250 - 0.04 * 250, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
 });
 
+test("value of MoveCommand with weaker target", () => {
+    let game = makeGame(new NullScenario());     
+    game.placeUnit(hexOf(0, 0), new CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
+    game.unitAt(hexOf(0, 0)).takeDamage(3);
+
+    // distance 1
+    assertAlmostEquals(0.2 * 1000 - 0.04 * 1000, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));
+
+    // distance 3: moving away from enemy gives negative score
+    assertAlmostEquals(0.2 * 0.2 * 0.2 * 1000 - 0.04 * 1000, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
+});
+
 test("value of move command, 3 same-distance enemies of different strengths", () => {
     let game = makeGame(new NullScenario());     
-    game.placeUnit(hexOf(1, 4), new CarthaginianHeavyInfantry());
+    const fromHex = hexOf(0, 0);
+    const toHex = hexOf(0, 1);
+    game.placeUnit(fromHex, new CarthaginianHeavyInfantry());
+    placeEnemyUnit(hexOf(1, 1), 4);
+    placeEnemyUnit(hexOf(0, 2), 2);
+    placeEnemyUnit(hexOf(-1, 2), 1);
 
-    game.placeUnit(hexOf(2, 5), new RomanHeavyInfantry());
-    game.placeUnit(hexOf(1, 6), new RomanHeavyInfantry());
-    game.placeUnit(hexOf(0, 6), new RomanHeavyInfantry());
-    game.unitAt(hexOf(1, 6)).takeDamage(3);
-    game.unitAt(hexOf(0, 6)).takeDamage(2);
+    const command = new MoveCommand(toHex, fromHex);
 
-    assertAlmostEquals(0.2 * 1000 - 0.04 * 1000, new MoveCommand(hexOf(2, 4), hexOf(1, 4)).value(game));
+    assertAlmostEquals(0.2 * 1000 - 0.04 * 1000, command.value(game));
+
+    function placeEnemyUnit(hex, strength) {
+        assertEquals(2, hex.distance(fromHex), `distance fromHex of unit at ${hex}`);
+        assertEquals(1, hex.distance(toHex), `distance fromHex of unit at ${hex}`);
+        const enemyUnit = new RomanHeavyInfantry();
+        enemyUnit.strength = strength;
+        game.placeUnit(hex, enemyUnit);
+    }
 });
 

@@ -74,26 +74,3 @@ test('map size', function () {
 
     assertEquals(5 * 13 + 4 * 12, count);
 });
-
-test('hex of closest enemy unit', function () {
-    let game = makeGame();
-    game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
-    game.placeUnit(hexOf(0, 3), new CarthaginianHeavyInfantry());
-    game.placeUnit(hexOf(0, 4), new CarthaginianHeavyInfantry());
-
-    assertEquals(hexOf(0, 2), game.closestUnitHex(hexOf(0, 0), Side.ROMAN));
-    assertEquals(hexOf(0, 3), game.closestUnitHex(hexOf(0, 0), Side.CARTHAGINIAN));
-});
-
-
-test('hex of closest enemy unit: break ties with strength', function () {
-    const game = makeGame();
-    const strongerEnemy = new CarthaginianHeavyInfantry();
-    const weakerEnemy = new CarthaginianHeavyInfantry();
-    weakerEnemy.takeDamage([dice.RESULT_SWORDS]);
-    assertEquals(3, weakerEnemy.strength);
-    game.placeUnit(hexOf(0, 1), strongerEnemy);
-    game.placeUnit(hexOf(1, 0), weakerEnemy);
-
-    assertEquals(hexOf(1, 0), game.closestUnitHex(hexOf(0, 0), Side.CARTHAGINIAN));
-});

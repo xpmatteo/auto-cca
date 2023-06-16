@@ -73,10 +73,6 @@ export class InteractiveGame {
         this.#game.unshiftPhase(phase);
     }
 
-    closestUnitHex(hex, side) {
-        return this.#game.closestUnitHex(hex, side);
-    }
-
     opposingSide(side) {
         return this.#game.opposingSide(side);
     }

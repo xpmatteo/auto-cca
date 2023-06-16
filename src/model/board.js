@@ -59,22 +59,6 @@ export class Board {
         this.#units.delete(hex);
     }
 
-    closestUnitHex(fromHex, side) {
-        let closest = null;
-        let closestDistance = 1000000;
-        this.#units.forEach((unit, hex) => {
-            if (unit.side === side) {
-                // break ties between units at the same distance by choosing the one with the smallest strength
-                const distance = hex.distance(fromHex) * 10 + unit.strength;
-                if (distance < closestDistance) {
-                    closest = hex;
-                    closestDistance = distance;
-                }
-            }
-        });
-        return closest;
-    }
-
     subtractOffMap(hexes) {
         return hexes.filter(hex => MAP.includes(hex));
     }

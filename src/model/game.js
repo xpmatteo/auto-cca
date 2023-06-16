@@ -137,10 +137,6 @@ class Game {
 
     // ---- delegate to board ----
 
-    closestUnitHex(hex, side) {
-        return this.board.closestUnitHex(hex, side);
-    }
-
     foreachHex(f) {
         return this.board.foreachHex(f);
     }
