@@ -3,7 +3,7 @@ import * as dice from './dice.js';
 import { RetreatPhase } from "./phases.js";
 import { hexOf } from "../lib/hexlib.js";
 
-const DISTANCE_VALUE_BACKOFF = 0.9;
+const DISTANCE_VALUE_BACKOFF = 0.2;
 
 export class MoveCommand {
     constructor(toHex, fromHex) {

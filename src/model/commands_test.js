@@ -1,5 +1,5 @@
 
-import { assertEquals, assertDeepEquals, test, xtest } from "../lib/test_lib.js";
+import { assertEquals, assertDeepEquals, assertAlmostEquals, test, xtest } from "../lib/test_lib.js";
 import { hexOf } from "../lib/hexlib.js";
 import { CloseCombatCommand, EndPhaseCommand, RetreatCommand, MoveCommand } from "./commands.js";
 import makeGame from "./game.js";
@@ -8,6 +8,7 @@ import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./units.js";
 import { MovementTrail } from "./turn.js";
 import { Side } from "./side.js";
 import { RetreatPhase } from "./phases.js";
+import * as dice from "./dice.js";
 
 test("MoveCommand play", () => {
     let game = makeGame(new NullScenario());     
@@ -78,23 +79,22 @@ test("value of MoveCommand at various distances", () => {
     game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
     
     // distance 1
-    assertEquals(22.5, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));
+    assertAlmostEquals(0.2 * 250 - 0.04 * 250, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));
 
     // distance 3: moving away from enemy gives negative score
-    assertEquals(-20.24999999999997, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
+    assertAlmostEquals(0.2 * 0.2 * 0.2 * 250 - 0.04 * 250, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
 });
 
-test("value of move command, pathological case", () => {
+test("value of move command, 3 same-distance enemies of different strengths", () => {
     let game = makeGame(new NullScenario());     
     game.placeUnit(hexOf(1, 4), new CarthaginianHeavyInfantry());
-    game.placeUnit(hexOf(0, 5), new CarthaginianHeavyInfantry());
-    game.placeUnit(hexOf(1, 5), new CarthaginianHeavyInfantry());
 
     game.placeUnit(hexOf(2, 5), new RomanHeavyInfantry());
     game.placeUnit(hexOf(1, 6), new RomanHeavyInfantry());
     game.placeUnit(hexOf(0, 6), new RomanHeavyInfantry());
-    game.placeUnit(hexOf(4, 4), new RomanHeavyInfantry());
+    game.unitAt(hexOf(1, 6)).takeDamage(3);
+    game.unitAt(hexOf(0, 6)).takeDamage(2);
 
-    assertEquals(22.5, new MoveCommand(hexOf(2, 4), hexOf(1, 4)).value(game));
+    assertAlmostEquals(0.2 * 1000 - 0.04 * 1000, new MoveCommand(hexOf(2, 4), hexOf(1, 4)).value(game));
 });
 

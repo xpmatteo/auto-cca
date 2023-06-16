@@ -37,6 +37,15 @@ but got  ${actual}`;
     }
 }
 
+export function assertAlmostEquals(expected, actual, epsilon=0.0000001, message=undefined) {
+    message = `${message ? message : ""}
+Expected ${expected}
+but got  ${actual}`;
+    if (Math.abs(expected - actual) > epsilon) {
+        throw new AssertionFailed(message);
+    }
+}
+
 export function assertEqualsInAnyOrder(expected, actual, message=undefined) {
     let a = JSON.stringify(expected.sort());
     let b = JSON.stringify(actual.sort());

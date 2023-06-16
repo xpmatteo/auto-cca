@@ -44,6 +44,11 @@ export class Unit {
     }
 
     takeDamage(diceResults, includeFlags = false) {
+        if (typeof diceResults === 'number') {
+            this.strength -= diceResults;
+            return diceResults;
+        }
+
         const damage = diceResults.
             filter(r => r === this.weight 
                 || r === dice.RESULT_SWORDS 
