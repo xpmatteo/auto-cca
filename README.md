@@ -13,3 +13,5 @@ See the game by visiting http://localhost:8000/
     - value of hexes for AI: should compute the max over all same-distance enemies, not stick with the 1st
     - correct behaviour for combat result with more than 1 flag
     - battle back can result in a retreat too
+
+    - clone

@@ -68,4 +68,3 @@ test("opposingSide", () => {
     assertEquals(Side.CARTHAGINIAN, game.opposingSide(Side.ROMAN));
     assertEquals(Side.ROMAN, game.opposingSide(Side.CARTHAGINIAN));
 });
-

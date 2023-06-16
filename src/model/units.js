@@ -58,6 +58,12 @@ export class Unit {
         this.strength -= damage;
         return damage;
     }
+
+    clone() {
+        const clone = new this.constructor();
+        clone.strength = this.strength; // strength is the only mutable property
+        return clone;
+    }
 }
 
 class HeavyInfantry extends Unit {
@@ -69,7 +75,6 @@ class HeavyInfantry extends Unit {
         return `${this.side.name} heavy infantry`;
     }
 }
-
 
 class MediumInfantry extends Unit {
     diceCount = 4;

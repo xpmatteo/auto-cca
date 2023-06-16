@@ -33,3 +33,18 @@ test('carthaginian medium infantry', function () {
     assertEquals(1, unit0.strength);
 });
 
+
+test("clone", () => {
+    let o = new units.RomanHeavyInfantry();
+    o.strength = 2;
+    
+    let clone = o.clone();
+    
+    assertEquals(o.toString(), clone.toString());
+    assertEquals(o.imageName, clone.imageName);
+    assertEquals(o.strength, clone.strength, "strength should be copied");
+
+    clone.strength = 3;
+    assertEquals(2, o.strength);
+    assertEquals(3, clone.strength);
+});
