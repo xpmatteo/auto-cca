@@ -23,8 +23,8 @@ export class Unit {
     }
 
     displayStrength() {
-        if (this.isDead()) return '';
-        return this.strength;
+        if (this.isDead()) return 'X';
+        return this.strength.toString();
     }
 
     validDestinations(fromHex, board) {

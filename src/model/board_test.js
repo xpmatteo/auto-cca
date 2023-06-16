@@ -6,12 +6,12 @@ import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from './units.js';
 import { Side } from './side.js';
 import * as dice from './dice.js';
 
-function makeGame() {
+function makeBoard() {
     return new Board();
 }
 
 test('add units', function () {
-    let game = makeGame();
+    let game = makeBoard();
     let unit0 = new RomanHeavyInfantry();
     let unit1 = new RomanHeavyInfantry();
 
@@ -26,7 +26,7 @@ test('add units', function () {
 });
 
 test('add unit outside map', () => {
-    let game = makeGame();
+    let game = makeBoard();
     let unit = new RomanHeavyInfantry();
 
     try {
@@ -38,7 +38,7 @@ test('add unit outside map', () => {
 });
 
 test('stacking not allowed', () => {
-    let game = makeGame();
+    let game = makeBoard();
     let unit0 = new RomanHeavyInfantry();
     let unit1 = new RomanHeavyInfantry();
     game.placeUnit(hexOf(0, 0), unit0);
@@ -52,7 +52,7 @@ test('stacking not allowed', () => {
 });
 
 test('adding same unit in two places?', () => {
-    let game = makeGame();
+    let game = makeBoard();
     let unit = new RomanHeavyInfantry();
     game.placeUnit(hexOf(0, 0), unit);
 
@@ -65,7 +65,7 @@ test('adding same unit in two places?', () => {
 });
 
 test('map size', function () {
-    let game = makeGame();
+    let game = makeBoard();
     let count = 0;
 
     game.foreachHex((hex) => {
@@ -73,4 +73,21 @@ test('map size', function () {
     });
 
     assertEquals(5 * 13 + 4 * 12, count);
+});
+
+test('clone', function () {
+    let original = makeBoard();
+    let unit0 = new RomanHeavyInfantry();    
+    let unit1 = new RomanHeavyInfantry();
+    unit0.strength = 3;
+    original.placeUnit(hexOf(0, 0), unit0);
+    original.placeUnit(hexOf(0, 1), unit1);
+
+    let clone = original.clone();
+
+    assertEquals(3, clone.unitAt(hexOf(0, 0)).strength);
+    assertEquals(4, clone.unitAt(hexOf(0, 1)).strength);
+
+    clone.unitAt(hexOf(0, 0)).strength = 2;
+    assertEquals(3, original.unitAt(hexOf(0, 0)).strength, "Original should not be modified");
 });

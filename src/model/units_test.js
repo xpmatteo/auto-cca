@@ -18,7 +18,9 @@ test('units', function () {
 test('units display strength', function () {
     let unit0 = new units.RomanHeavyInfantry();
 
-    assertEquals('IV', unit0.displayStrength());
+    assertEquals('4', unit0.displayStrength());
+    unit0.strength = 0;
+    assertEquals('X', unit0.displayStrength());
 });
 
 test('carthaginian medium infantry', function () {

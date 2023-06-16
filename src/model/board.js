@@ -28,7 +28,7 @@ function getByValue(map, searchValue) {
 export class Board {
     #units = new Map();
 
-   placeUnit(hex, unit) {
+    placeUnit(hex, unit) {
         if (this.unitIsPresent(unit)) {
             throw new Error(`Unit added twice`);
         }
@@ -93,6 +93,14 @@ export class Board {
 
     unitsOfSide(side) {
         return Array.from(this.#units.values()).filter(unit => unit.side === side);
+    }
+
+    clone() {
+        let board = new Board();
+        this.foreachUnit((unit, hex) => {
+            board.placeUnit(hex, unit.clone());
+        });
+        return board;
     }
 }
 
