@@ -147,5 +147,18 @@ t.test('generate close combat commands for one unit and two targets', function (
     t.assertEqualsInAnyOrder(expected, moves);
 });
 
+t.test('clone turn', function () {
+    let board = new Board();
+    let turn = new Turn(board);
+    board.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    turn.play(new MoveCommand(hexOf(0, 1), hexOf(1, 1)));
+    
+    let clone = turn.clone();
+
+    t.assertFalse(turn === clone, "clone is not the same object");
+    t.assertEquals(turn.board, clone.board, "clone has the same board");
+    t.assertEquals(turn.currentSide, clone.currentSide, "clone has the same side");
+
+});
 
 

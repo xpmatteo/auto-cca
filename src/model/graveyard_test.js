@@ -15,3 +15,13 @@ test("add unit to graveyard", function () {
 
     assertDeepEquals([romanUnit], graveyard.unitsOf(Side.ROMAN));
 });
+
+test('clone', () => {
+    const graveyard = new Graveyard();
+    const romanUnit = new units.RomanHeavyInfantry();
+    graveyard.bury(romanUnit);
+
+    const graveyardClone = graveyard.clone();
+
+    assertDeepEquals(graveyard.unitsOf(Side.ROMAN), graveyardClone.unitsOf(Side.ROMAN));
+});

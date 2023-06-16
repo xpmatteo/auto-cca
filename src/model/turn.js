@@ -72,6 +72,25 @@ export class Turn {
         this.#spentUnits.push(unit);
     }
 
+    clone() {
+        /*
+            The following properties should be cloned:
+          
+            #spentUnits
+            #movementTrails
+            #phases
+
+            The following properties should be copied by reference:
+            #currentSide
+            #board;
+        */
+        const clone = new Turn(this.#board, this.#currentSide);
+        clone.#spentUnits = this.#spentUnits.slice();
+        clone.#movementTrails = this.#movementTrails.slice();
+        clone.#phases = this.#phases.slice();
+        return clone;
+    }
+
     // --- delegate to game ---
     moveUnit(to, from) {
         this.#board.moveUnit(to, from);

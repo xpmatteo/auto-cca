@@ -13,12 +13,12 @@ export default function makeGame(scenario, dice = new Dice()) {
 }
 
 class Game {
-    constructor(scenario, dice, board, turn) {
+    constructor(scenario, dice, board, turn, graveyard= new Graveyard()) {
         this.scenario = scenario;
         this.dice = dice;
         this.board = board;
         this.turn = turn;
-        this.graveyard = new Graveyard();
+        this.graveyard = graveyard;
     }
 
     initialize() {
@@ -40,9 +40,6 @@ class Game {
 
     isTerminal() {
         return this.gameStatus !== GameStatus.ONGOING;
-    }
-
-    attack(hexTo, hexFrom) {
     }
 
     endPhase() {
@@ -79,6 +76,16 @@ class Game {
             result = hex.southernNeighbors;
         }
         return this.subtractOffMap(this.subtractOccupiedHexes(result));
+    }
+
+    clone() {
+        return new Game(
+            this.scenario,
+            this.dice,
+            this.board.clone(),
+            this.turn.clone(),
+            this.graveyard.clone()
+        );
     }
 
     // ---- delegate to turn ----

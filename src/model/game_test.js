@@ -5,7 +5,7 @@ import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import { Side } from "./side.js";
 import { MoveCommand, EndPhaseCommand } from "./commands.js";
-import { Scenario } from "./scenarios.js";
+import { Scenario, ScenarioRaceToOppositeSide } from "./scenarios.js";
 
 class TestScenario extends Scenario {
     get firstSide() {
@@ -67,4 +67,34 @@ test("opposingSide", () => {
     
     assertEquals(Side.CARTHAGINIAN, game.opposingSide(Side.ROMAN));
     assertEquals(Side.ROMAN, game.opposingSide(Side.CARTHAGINIAN));
+});
+
+test('clone game', () => {
+    const game = makeGame(new ScenarioRaceToOppositeSide());
+    game.unitAt(hexOf(1, 5)).strength = 0;
+    game.killUnit(hexOf(1, 5));
+
+    const clone = game.clone();
+
+    /*
+        The clone should be a deep copy of the original.
+
+        considering the following properties:
+        - scenario
+        - dice
+        - board *
+        - turn  *
+        - graveyard *
+
+        starred properties are objects that should be deep copied
+    */
+    
+    assertEquals(game.scenario, clone.scenario);
+    assertEquals(game.dice, clone.dice);
+    assertDeepEquals(game.board, clone.board);
+    assertFalse(game.board === clone.board, "board is not a deep copy");
+    assertDeepEquals(game.turn, clone.turn);
+    assertFalse(game.turn === clone.turn, "turn is not a deep copy");
+    assertDeepEquals(game.graveyard.unitsOf(Side.ROMAN), clone.graveyard.unitsOf(Side.ROMAN));
+    assertFalse(game.graveyard === clone.graveyard, "graveyard is not a deep copy");
 });
