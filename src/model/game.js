@@ -3,7 +3,8 @@ import * as GameStatus from "./game_status.js";
 import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
 import { Side } from "./side.js";
-import { MovementPhase, BattlePhase } from "./phases.js";
+import { MovementPhase } from "./phases/MovementPhase.js";
+import { BattlePhase } from "./phases/BattlePhase.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -199,7 +200,7 @@ class Game {
     }
 }
 
-class MovementTrail {
+export class MovementTrail {
     constructor(to, from) {
         this.from = from;
         this.to = to;
