@@ -5,12 +5,10 @@ import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import { Side } from "./side.js";
 import { MoveCommand, EndPhaseCommand } from "./commands/commands.js";
-import { Scenario, TestScenario } from "./scenarios.js";
+import { NullScenario, TestScenario } from "./scenarios.js";
 
-class SimpleScenario extends Scenario {
-    get firstSide() {
-        return Side.CARTHAGINIAN;
-    }
+class SimpleScenario extends NullScenario {
+    firstSide = Side.CARTHAGINIAN;
 
     placeUnitsOn(board) {
         board.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());

@@ -5,8 +5,8 @@ import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 
 export class Scenario {
-    opposingSide = (side) => {
-        return side === Side.ROMAN ? Side.CARTHAGINIAN : Side.ROMAN;
+    opposingSide(side) {
+        return side === this.sideNorth ? this.sideSouth : this.sideNorth;
     }
 }
 
