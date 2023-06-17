@@ -31,7 +31,7 @@ class Game {
 
     initialize() {
         this.#currentSide = this.scenario.firstSide;
-        this.scenario.placeUnitsOn(this.#board);
+        this.scenario.placeUnitsOn(this);
     }
 
     get currentPhase() {
@@ -187,6 +187,24 @@ class Game {
     placeUnit(hex, unit) {
         this.#board.placeUnit(hex, unit);
         this.#unitStrengths.set(unit, unit.initialStrength);
+    }
+
+    unitStrength(unit) {
+        if (unit.constructor.name === 'Hex') {
+            let hex = unit;
+            unit = this.unitAt(hex);
+            if (!unit) 
+                throw new Error(`No unit at ${hex}`);
+        }
+        if (!this.#unitStrengths.has(unit)) {
+            throw new Error(`No unit ${unit} in game`);
+        }
+        return this.#unitStrengths.get(unit);
+    }
+
+    takeDamage(unit, diceRoll) {
+        let damage = unit.takeDamage(diceRoll);
+        this.#unitStrengths.set(unit, this.#unitStrengths.get(unit) - damage);
     }
 
     get spentUnits() {

@@ -69,6 +69,13 @@ test("opposingSide", () => {
     assertEquals(Side.ROMAN, game.opposingSide(Side.CARTHAGINIAN));
 });
 
+test("unit strength", () => {
+    const game = makeGame(scenario);
+
+    assertEquals(4, game.unitStrength(game.unitAt(hexOf(1, 5))));
+    assertEquals(4, game.unitStrength(hexOf(1, 5)));
+});
+
 xtest('clone game', () => {
     const game = makeGame(new ScenarioRaceToOppositeSide());
     game.unitAt(hexOf(1, 5)).strength = 0;
