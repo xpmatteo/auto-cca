@@ -7,16 +7,16 @@ export class BattlePhase extends Phase {
         super("battle");
     }
 
-    validCommands(game, board) {
+    validCommands(game) {
         let commands = [];
-        board.foreachUnit((unit, hex) => {
+        game.foreachUnit((unit, hex) => {
             if (game.spentUnits.includes(unit)) {
                 return;
             }
             if (unit.side !== game.currentSide) {
                 return;
             }
-            unit.validCloseCombatTargets(hex, board).forEach(to => {
+            unit.validCloseCombatTargets(hex, game).forEach(to => {
                 commands.push(new CloseCombatCommand(to, hex));
             });
         });

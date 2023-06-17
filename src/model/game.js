@@ -16,7 +16,7 @@ export default function makeGame(scenario, dice = new Dice()) {
 const PHASES = [new MovementPhase(), new BattlePhase()];
 
 class Game {
-    board = new Board();
+    #board = new Board();
     #phases = PHASES.slice();
     #currentSide;
     #spentUnits = [];
@@ -30,7 +30,7 @@ class Game {
 
     initialize() {
         this.#currentSide = this.scenario.firstSide;
-        this.scenario.placeUnitsOn(this.board);
+        this.scenario.placeUnitsOn(this.#board);
     }
 
     get currentPhase() {
@@ -39,7 +39,7 @@ class Game {
 
     validCommands() {
         if (this.isTerminal()) return [];
-        return this.currentPhase.validCommands(this, this.board);
+        return this.currentPhase.validCommands(this, this.#board);
     }
 
     executeCommand(command) {
@@ -69,8 +69,8 @@ class Game {
     }
 
     killUnit(hex) {
-        this.graveyard.bury(this.board.unitAt(hex));
-        this.board.removeUnit(hex);
+        this.graveyard.bury(this.#board.unitAt(hex));
+        this.#board.removeUnit(hex);
     }
 
     get deadUnitsNorth() {
@@ -86,7 +86,7 @@ class Game {
     }
 
     retreatHexes(hex) {
-        const retreatingUnit = this.board.unitAt(hex);
+        const retreatingUnit = this.#board.unitAt(hex);
         if (!retreatingUnit) {
             throw new Error(`No unit at ${hex}`);
         }
@@ -104,13 +104,13 @@ class Game {
         return new Game(
             this.scenario,
             this.dice,
-            this.board.clone(),
+            this.#board.clone(),
             this.graveyard.clone()
         );
     }
 
     moveUnit(hexTo, hexFrom) {
-        this.board.moveUnit(hexTo, hexFrom);
+        this.#board.moveUnit(hexTo, hexFrom);
     }
 
     get currentSide() {
@@ -160,31 +160,31 @@ class Game {
     // ---- delegate to board ----
 
     foreachHex(f) {
-        return this.board.foreachHex(f);
+        return this.#board.foreachHex(f);
     }
 
     foreachUnit(f) {
-        return this.board.foreachUnit(f);
+        return this.#board.foreachUnit(f);
     }
 
     unitAt(hex) {
-        return this.board.unitAt(hex);
+        return this.#board.unitAt(hex);
     }
 
     hexOfUnit(unit) {
-        return this.board.hexOfUnit(unit);
+        return this.#board.hexOfUnit(unit);
     }
 
     subtractOffMap(hexes) {
-        return this.board.subtractOffMap(hexes);
+        return this.#board.subtractOffMap(hexes);
     }
 
     subtractOccupiedHexes(hexes) {
-        return this.board.subtractOccupiedHexes(hexes);
+        return this.#board.subtractOccupiedHexes(hexes);
     }
 
     placeUnit(hex, unit) {
-        this.board.placeUnit(hex, unit);
+        this.#board.placeUnit(hex, unit);
     }
 
     get spentUnits() {

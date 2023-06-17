@@ -13,7 +13,7 @@ t.test('generate no close combat commands for out of range', function () {
     game.placeUnit(hexOf(0, 0), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
 
-    let commands = phase.validCommands(game, game.board);
+    let commands = phase.validCommands(game);
 
     let expected = [
         new EndPhaseCommand(),        
@@ -28,7 +28,7 @@ t.test('generate close combat commands for one unit and one target', function ()
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
 
-    let commands = phase.validCommands(game, game.board);
+    let commands = phase.validCommands(game);
 
     let expected = [
         new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
@@ -44,7 +44,7 @@ t.test('generate close combat commands for one unit and two targets', function (
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
     
-    let commands = phase.validCommands(game, game.board);
+    let commands = phase.validCommands(game);
 
     let expected = [
         new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
