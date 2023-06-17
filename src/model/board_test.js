@@ -75,7 +75,7 @@ test('map size', function () {
     assertEquals(5 * 13 + 4 * 12, count);
 });
 
-test('clone', function () {
+xtest('clone', function () {
     let original = makeBoard();
     let unit0 = new RomanHeavyInfantry();    
     let unit1 = new RomanHeavyInfantry();

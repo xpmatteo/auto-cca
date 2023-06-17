@@ -10,13 +10,13 @@ const DISTANCE_VALUE_BACKOFF = 0.2;
     They are used by both the human player and the AI to execute a move.
 */
 
-function hexScore(enemyUnit) {
-    return 1000 / enemyUnit.strength;
+function hexScore(enemyUnitStrength) {
+    return 1000 / enemyUnitStrength;
 }
 
-function valueOfHex(hexToBeEvaluated, enemyUnitHex, enemyUnit) {
+function valueOfHex(hexToBeEvaluated, enemyUnitHex, enemyUnitStrength) {
     const distance = enemyUnitHex.distance(hexToBeEvaluated);
-    return hexScore(enemyUnit) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
+    return hexScore(enemyUnitStrength) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
 }
 
 function valueOfHexOverAllEnemyUnits(game, hexToBeEvaluated, friendlySide) {
@@ -25,7 +25,7 @@ function valueOfHexOverAllEnemyUnits(game, hexToBeEvaluated, friendlySide) {
         if (otherUnit.side === friendlySide) {
             return;
         }
-        const candidateBest = valueOfHex(otherUnitHex, hexToBeEvaluated, otherUnit);
+        const candidateBest = valueOfHex(otherUnitHex, hexToBeEvaluated, game.unitStrength(otherUnit));
         if (candidateBest > bestValue) {
             bestValue = candidateBest;
         }
@@ -144,11 +144,11 @@ export class CloseCombatCommand {
         }
         let events = [];
         const diceResults = game.roll(attackingUnit.diceCount);
-        const damage = defendingUnit.takeDamage(diceResults, game.retreatHexes(defendingHex).length === 0);
+        const damage = game.takeDamage(defendingHex, diceResults, game.retreatHexes(defendingHex).length === 0);
         events.push(new DamageEvent(defendingHex, damage, diceResults));
         game.markUnitSpent(attackingUnit);
 
-        if (defendingUnit.isDead()) {
+        if (game.isDead(defendingUnit)) {
             game.killUnit(defendingHex);
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
         } else if (game.retreatHexes(defendingHex).length !== 0 && diceResults.includes(dice.RESULT_FLAG)) {
@@ -157,10 +157,10 @@ export class CloseCombatCommand {
         } else {
             // battle back
             const battleBackDice = game.roll(defendingUnit.diceCount);
-            const battleBackDamage = attackingUnit.takeDamage(battleBackDice);
+            const battleBackDamage = game.takeDamage(attackingUnit, battleBackDice);
             events.push(new BattleBackEvent(attackingHex, defendingHex, battleBackDice.length));
             events.push(new DamageEvent(attackingHex, battleBackDamage, battleBackDice));
-            if (attackingUnit.isDead()) {
+            if (game.isDead(attackingUnit)) {
                 game.killUnit(attackingHex);
                 events.push(new UnitKilledEvent(attackingHex, attackingUnit));    
             }
@@ -170,7 +170,7 @@ export class CloseCombatCommand {
 
     value(game) {
         const defendingUnit = game.unitAt(this.toHex);
-        return hexScore(defendingUnit);
+        return hexScore(game.unitStrength(defendingUnit));
     }
 }
 

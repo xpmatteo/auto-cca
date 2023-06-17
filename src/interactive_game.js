@@ -69,6 +69,10 @@ export class InteractiveGame {
 
     // --- delegate to game ---
 
+    unitStrength(unit) {
+        return this.#game.unitStrength(unit);
+    }
+
     unshiftPhase(phase) {
         this.#game.unshiftPhase(phase);
     }

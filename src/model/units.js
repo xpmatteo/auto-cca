@@ -1,32 +1,7 @@
 import { Side } from './side.js';
 import * as dice from './dice.js';
 
-function toRoman(number) {
-    switch (number) {
-        case 1: return 'I';
-        case 2: return 'II';
-        case 3: return 'III';
-        case 4: return 'IV';
-        case 5: return 'V';
-        case 6: return 'VI';
-        case 7: return 'VII';
-        case 8: return 'VIII';
-        case 9: return 'IX';
-        case 10: return 'X';
-        default: return "";
-    }
-}
-
 export class Unit {
-    isDead() {
-        return this.strength <= 0;
-    }
-
-    displayStrength() {
-        if (this.isDead()) return 'X';
-        return this.strength.toString();
-    }
-
     validDestinations(fromHex, board) {
         let hexes = board.subtractOffMap(fromHex.neighbors());
         return board.subtractOccupiedHexes(hexes);
@@ -46,7 +21,6 @@ export class Unit {
 
     takeDamage(diceResults, includeFlags = false) {
         if (typeof diceResults === 'number') {
-            this.strength -= diceResults;
             return diceResults;
         }
 
@@ -56,21 +30,13 @@ export class Unit {
                 || (includeFlags && r == dice.RESULT_FLAG)
                 ).
             length;
-        this.strength -= damage;
         return damage;
-    }
-
-    clone() {
-        const clone = new this.constructor();
-        clone.strength = this.strength; // strength is the only mutable property
-        return clone;
     }
 }
 
 class HeavyInfantry extends Unit {
     weight = dice.RESULT_HEAVY;
     diceCount = 5;
-    strength = 4;
     initialStrength = 4;
 
     toString() {
@@ -81,7 +47,6 @@ class HeavyInfantry extends Unit {
 class MediumInfantry extends Unit {
     weight = dice.RESULT_MEDIUM;
     diceCount = 4;
-    strength = 4;
     initialStrength = 4;
 
     toString() {
@@ -92,19 +57,39 @@ class MediumInfantry extends Unit {
 export class RomanHeavyInfantry extends HeavyInfantry {
     imageName = 'rom_inf_hv.png';
     side = Side.ROMAN;
+
+    constructor() {
+        super();
+        Object.freeze(this);
+    }
 }
 
 export class RomanMediumInfantry extends MediumInfantry {
     imageName = 'rom_inf_md.png';
     side = Side.ROMAN;
+
+    constructor() {
+        super();
+        Object.freeze(this);
+    }
 }
 
 export class CarthaginianHeavyInfantry extends HeavyInfantry {
     imageName = 'car_inf_hv.png';
     side = Side.CARTHAGINIAN;
+
+    constructor() {
+        super();
+        Object.freeze(this);
+    }
 }
 
 export class CarthaginianMediumInfantry extends MediumInfantry {
     imageName = 'car_inf_md.png';
     side = Side.CARTHAGINIAN;
+
+    constructor() {
+        super();
+        Object.freeze(this);
+    }
 }

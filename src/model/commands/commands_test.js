@@ -110,12 +110,12 @@ test("value of move command, 3 same-distance enemies of different strengths", ()
 
     assertAlmostEquals(0.2 * 1000 - 0.04 * 1000, command.value(game));
 
-    function placeEnemyUnit(hex, strength) {
+    function placeEnemyUnit(hex, desiredStrength) {
         assertEquals(2, hex.distance(fromHex), `distance fromHex of unit at ${hex}`);
         assertEquals(1, hex.distance(toHex), `distance fromHex of unit at ${hex}`);
         const enemyUnit = new RomanHeavyInfantry();
-        enemyUnit.strength = strength;
         game.placeUnit(hex, enemyUnit);
+        game.takeDamage(enemyUnit, 4-desiredStrength);
     }
 });
 

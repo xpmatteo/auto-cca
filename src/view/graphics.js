@@ -5,7 +5,12 @@ import { layout } from "./map.js";
 import { Point } from "../lib/hexlib.js";
 import { Side } from "../model/side.js";
 
-export function drawUnit(graphics, pixelCoordinate, unit, isSelected) {
+export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected) {
+    function displayStrength() {
+        if (unitStrength <= 0) return 'X';
+        return unitStrength.toString();
+    }
+
     let url = `images/units/${unit.imageName}`;
     
     const size = graphics.drawImageCentered(url, pixelCoordinate);
@@ -13,8 +18,8 @@ export function drawUnit(graphics, pixelCoordinate, unit, isSelected) {
     let shift = 2;
     const pixelStrength = pixelCoordinate.add(new Point(18, size.y / 2 - 10));
     const pixelStrengthShadow = pixelStrength.add(new Point(-shift, shift));
-    graphics.writeText(unit.displayStrength(), pixelStrengthShadow, "20pt Arial", "white");
-    graphics.writeText(unit.displayStrength(), pixelStrength, "16pt Arial", "black");
+    graphics.writeText(displayStrength(), pixelStrengthShadow, "20pt Arial", "white");
+    graphics.writeText(displayStrength(), pixelStrength, "16pt Arial", "black");
 
     if (isSelected) {
         let pixelTopLeft = pixelCoordinate.add(new Point(-size.x / 2, -size.y / 2));
@@ -76,7 +81,7 @@ function drawGraveyardHex(graphics, game, index, hex, unit) {
     graphics.writeText(GRAVEYARD_LABELS[index], 
         pixel.add(new Point(adjustment, 10)), "30pt Times", "white");
     if (unit) {
-        drawUnit(graphics, pixel, unit, false);
+        drawUnit(graphics, pixel, unit, 0, false);
     }
 }
 
@@ -117,7 +122,7 @@ export function redraw(graphics, game) {
 
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        drawUnit(graphics, pixelCoordinate, unit, unit === game.selectedUnit());
+        drawUnit(graphics, pixelCoordinate, unit, game.unitStrength(unit), unit === game.selectedUnit());
     });
 
     drawGraveyard(graphics, game);

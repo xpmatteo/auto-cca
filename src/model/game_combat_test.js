@@ -44,8 +44,8 @@ test("execute Attack then battle back", () => {
         new UnitKilledEvent(hexOf(1, 5), attackingUnit),
     ];
     assertDeepEquals(expected.toString(), actual.toString());
-    assertEquals(2, defendingUnit.strength);
-    assertTrue(attackingUnit.isDead());
+    assertEquals(2, game.unitStrength(defendingUnit));
+    assertTrue(game.isDead(attackingUnit));
 });
 
 // attack then killed

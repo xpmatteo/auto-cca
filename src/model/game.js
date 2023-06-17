@@ -189,22 +189,24 @@ class Game {
         this.#unitStrengths.set(unit, unit.initialStrength);
     }
 
-    unitStrength(unit) {
-        if (unit.constructor.name === 'Hex') {
-            let hex = unit;
-            unit = this.unitAt(hex);
-            if (!unit) 
-                throw new Error(`No unit at ${hex}`);
-        }
+    unitStrength(unitOrHex) {
+        let unit = this.__toUnit(unitOrHex);
         if (!this.#unitStrengths.has(unit)) {
             throw new Error(`No unit ${unit} in game`);
         }
         return this.#unitStrengths.get(unit);
     }
 
-    takeDamage(unit, diceRoll) {
-        let damage = unit.takeDamage(diceRoll);
+    takeDamage(unitOrHex, diceRoll, includeFlags = false) {
+        let unit = this.__toUnit(unitOrHex);
+        let damage = unit.takeDamage(diceRoll, includeFlags);
         this.#unitStrengths.set(unit, this.#unitStrengths.get(unit) - damage);
+        return damage;
+    }
+
+    isDead(unitOrHex) {
+        let unit = this.__toUnit(unitOrHex);
+        return this.unitStrength(unit) <= 0;
     }
 
     get spentUnits() {
@@ -217,6 +219,17 @@ class Game {
 
     addMovementTrail(hexTo, hexFrom) {
         this.#movementTrails.push(new MovementTrail(hexTo, hexFrom));
+    }
+
+    __toUnit(unitOrHex) {
+        let unit = unitOrHex;
+        if (unitOrHex.constructor.name === 'Hex') {
+            let hex = unitOrHex;
+            unit = this.unitAt(hex);
+            if (!unit)
+                throw new Error(`No unit at ${hex}`);
+        }
+        return unit;
     }
 }
 
