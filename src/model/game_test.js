@@ -76,6 +76,16 @@ test("unit strength", () => {
     assertEquals(4, game.unitStrength(hexOf(1, 5)));
 });
 
+test("unit takes damage", () => {
+    const game = makeGame(scenario);
+    const unit = game.unitAt(hexOf(1, 5));
+
+    game.takeDamage(unit, 1);
+
+    assertEquals(3, game.unitStrength(unit));
+});
+
+
 xtest('clone game', () => {
     const game = makeGame(new ScenarioRaceToOppositeSide());
     game.unitAt(hexOf(1, 5)).strength = 0;
