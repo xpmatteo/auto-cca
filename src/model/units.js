@@ -68,9 +68,10 @@ export class Unit {
 }
 
 class HeavyInfantry extends Unit {
-    diceCount = 5;
     weight = dice.RESULT_HEAVY;
+    diceCount = 5;
     strength = 4;
+    initialStrength = 4;
 
     toString() {
         return `${this.side.name} heavy infantry`;
@@ -78,9 +79,10 @@ class HeavyInfantry extends Unit {
 }
 
 class MediumInfantry extends Unit {
-    diceCount = 4;
     weight = dice.RESULT_MEDIUM;
+    diceCount = 4;
     strength = 4;
+    initialStrength = 4;
 
     toString() {
         return `${this.side.name} medium infantry`;

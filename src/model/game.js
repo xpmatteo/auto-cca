@@ -21,6 +21,7 @@ class Game {
     #currentSide;
     #spentUnits = [];
     #movementTrails = [];
+    #unitStrengths = new Map();
     #graveyard = new Graveyard();
 
     constructor(scenario, dice) {
@@ -185,6 +186,7 @@ class Game {
 
     placeUnit(hex, unit) {
         this.#board.placeUnit(hex, unit);
+        this.#unitStrengths.set(unit, unit.initialStrength);
     }
 
     get spentUnits() {
