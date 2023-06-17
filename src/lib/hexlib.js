@@ -8,7 +8,7 @@ const trunc = Math.trunc;
 // thanks https://www.redblobgames.com/grids/hexagons/implementation.html
 
 class Hex {
-    constructor(q, r, s=undefined) {
+    constructor(q, r, s = undefined) {
         if (s === undefined) {
             s = -q - r;
         }
@@ -27,8 +27,23 @@ class Hex {
         return hex_length(hex_subtract(this, other));
     }
 
+    ring(radius) {
+        let directions = hex_directions;
+        switch (radius) {
+            case 1:
+                directions = hex_directions;
+                break;
+            case 2:
+                directions = hex_directions_radius_2;
+                break;
+            default:
+                throw new Error(`radius ${radius} not implemented`);
+        }
+        return directions.map((direction) => hex_add(this, direction));
+    }
+
     neighbors() {
-        return hex_directions.map((direction) => hex_add(this, direction));
+        return this.ring(1);
     }
 
     get northernNeighbors() {
@@ -59,32 +74,47 @@ class Hex {
 const hexes = Object.create(null);
 export function hexOf(q, r) {
     if (hexes[[q, r]] === undefined) {
-        hexes[[q, r]] = new Hex(q, r);   
+        hexes[[q, r]] = new Hex(q, r);
     }
     return hexes[[q, r]];
 }
 
-const DIRECTION_WEST = hexOf(-1, 0, 1);
-const DIRECTION_NE = hexOf(0, -1, 1);
-const DIRECTION_NW = hexOf(1, -1, 0);
-const DIRECTION_SW = hexOf(-1, 1, 0);
-const DIRECTION_SE = hexOf(0, 1, -1);
-const DIRECTION_EAST = hexOf(1, 0, -1);
+const DIRECTION_WEST = hexOf(-1, 0);
+const DIRECTION_NE =   hexOf(0, -1);
+const DIRECTION_NW =   hexOf(1, -1);
+const DIRECTION_SW =   hexOf(-1, 1);
+const DIRECTION_SE =   hexOf(0, 1);
+const DIRECTION_EAST = hexOf(1, 0);
 const hex_directions = [
-    DIRECTION_EAST, 
-    DIRECTION_NW, 
-    DIRECTION_NE, 
-    DIRECTION_WEST, 
-    DIRECTION_SW, 
+    DIRECTION_EAST,
+    DIRECTION_NW,
+    DIRECTION_NE,
+    DIRECTION_WEST,
+    DIRECTION_SW,
     DIRECTION_SE
+];
+
+const hex_directions_radius_2 = [
+    hexOf(-1, -1),
+    hexOf(-1, 2),
+    hexOf(-2, 0),
+    hexOf(-2, 1),
+    hexOf(-2, 2),
+    hexOf(0, -2),
+    hexOf(0, 2),
+    hexOf(1, -2),
+    hexOf(1, 1),
+    hexOf(2, -1),
+    hexOf(2, -2),
+    hexOf(2, 0),
 ];
 
 class Orientation {
     // start_angle is in multiples of 60°
     constructor(f0_, f1_, f2_, f3_, b0_, b1_, b2_, b3_, start_angle_) {
-        this.f0 = f0_; 
-        this.f1 = f1_; 
-        this.f2 = f2_; 
+        this.f0 = f0_;
+        this.f1 = f1_;
+        this.f2 = f2_;
         this.f3 = f3_;
         this.b0 = b0_;
         this.b1 = b1_;
@@ -106,7 +136,7 @@ export class Point {
     }
 }
 
-export class Layout {    
+export class Layout {
     constructor(orientation, size, origin) {
         this.orientation = orientation;
         this.size = size;
@@ -123,8 +153,8 @@ export function hex_to_pixel(layout, hex) {
 
 export function pixel_to_hex(layout, p) {
     const M = layout.orientation;
-    let pt = new Point((p.x - layout.origin.x) / layout.size.x, 
-                        (p.y - layout.origin.y) / layout.size.y);
+    let pt = new Point((p.x - layout.origin.x) / layout.size.x,
+        (p.y - layout.origin.y) / layout.size.y);
     let q = M.b0 * pt.x + M.b1 * pt.y;
     let r = M.b2 * pt.x + M.b3 * pt.y;
     return hex_round(q, r, -q - r);
@@ -160,9 +190,9 @@ function hex_length(hex) {
 }
 
 export const layout_pointy
-  = new Orientation(sqrt(3.0), sqrt(3.0) / 2.0, 0.0, 3.0 / 2.0,
-                sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0,
-                0.5);
+    = new Orientation(sqrt(3.0), sqrt(3.0) / 2.0, 0.0, 3.0 / 2.0,
+        sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0,
+        0.5);
 
 
 function assertEquals(expected, actual, message = "Assertion failed") {
@@ -181,5 +211,5 @@ function assertDeepEquals(expected, actual, message = "Assertion failed") {
 const test_layout = new Layout(layout_pointy, new Point(50, 60), new Point(10, 100));
 assertDeepEquals(layout_pointy, test_layout.orientation);
 assertDeepEquals(hex_to_pixel(test_layout, hexOf(0, 0, 0)), new Point(10, 100));
-assertEquals(  0, hexOf(1,  -1, 0).s);
-assertEquals(-30, hexOf(10, 20)   .s);
+assertEquals(0, hexOf(1, -1, 0).s);
+assertEquals(-30, hexOf(10, 20).s);
