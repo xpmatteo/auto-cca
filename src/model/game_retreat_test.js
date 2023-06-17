@@ -1,26 +1,9 @@
 import { hexOf } from "../lib/hexlib.js";
-import { assertEquals, assertFalse, assertTrue, assertDeepEquals, assertEqualsInAnyOrder, test } from "../lib/test_lib.js";
+import { assertEqualsInAnyOrder, test } from "../lib/test_lib.js";
 import makeGame from "./game.js";
-import * as units from "./units.js";
-import { MoveCommand, CloseCombatCommand } from "./commands/commands.js";
 import { NullScenario } from "./scenarios.js";
-import * as dice from "./dice.js";
-import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
-import { Side } from "./side.js";
+import * as units from "./units.js";
 
-function diceReturning() {
-    let invocations = 0;
-    let successiveResults = Array.from(arguments);
-    return {
-        roll: function (count) {
-            const results = successiveResults[invocations++];
-            if (count !== results.length) {
-                throw new Error(`Expected ${results.length} rolls, got ${count}`);
-            }
-            return results;
-        }
-    }
-}
 
 test("retreat with clear ground NORTH", () => {
     const game = makeGame(new NullScenario());

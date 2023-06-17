@@ -2,7 +2,6 @@ import { Board } from "./board.js";
 import * as GameStatus from "./game_status.js";
 import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
-import { Side } from "./side.js";
 import { MovementPhase } from "./phases/MovementPhase.js";
 import { BattlePhase } from "./phases/BattlePhase.js";
 
@@ -64,7 +63,7 @@ class Game {
 
     switchSide() {
         this.#phases = PHASES.slice();
-        this.#currentSide = this.#currentSide === Side.ROMAN ? Side.CARTHAGINIAN : Side.ROMAN;
+        this.#currentSide = this.scenario.opposingSide(this.#currentSide);
         this.#spentUnits = [];
         this.#movementTrails = [];
     }
@@ -88,7 +87,7 @@ class Game {
         }
         const side = retreatingUnit.side;
         let result;
-        if (side === Side.CARTHAGINIAN) {
+        if (side === this.scenario.sideNorth) {
             result = hex.northernNeighbors;            
         } else {
             result = hex.southernNeighbors;

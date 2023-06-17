@@ -11,9 +11,10 @@ export class Scenario {
 }
 
 export class NullScenario extends Scenario {
-    get firstSide() {
-        return Side.ROMAN;
-    }
+    firstSide = Side.ROMAN;
+    sideNorth = Side.CARTHAGINIAN;
+    sideSouth = Side.ROMAN;
+    pointsToWin = 3;
 
     placeUnitsOn(board) {
     }
