@@ -1,9 +1,9 @@
 import { Board } from "./board.js";
-import { Turn } from "./turn.js";
 import * as GameStatus from "./game_status.js";
 import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
 import { Side } from "./side.js";
+import { MovementPhase, BattlePhase } from "./phases.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -12,24 +12,33 @@ export default function makeGame(scenario, dice = new Dice()) {
     return game;
 }
 
+const PHASES = [new MovementPhase(), new BattlePhase()];
+
 class Game {
-    constructor(scenario, dice, board, turn, graveyard= new Graveyard()) {
+    board = new Board();
+    #phases = PHASES.slice();
+    #currentSide;
+    #spentUnits = [];
+    #movementTrails = [];
+    graveyard = new Graveyard();
+
+    constructor(scenario, dice) {
         this.scenario = scenario;
         this.dice = dice;
-        this.board = board;
-        this.turn = turn;
-        this.graveyard = graveyard;
     }
 
     initialize() {
-        this.board = new Board();
-        this.turn = new Turn(this.board, this.scenario.firstSide);
+        this.#currentSide = this.scenario.firstSide;
         this.scenario.placeUnitsOn(this.board);
+    }
+
+    get currentPhase() {
+        return this.#phases[0]
     }
 
     validCommands() {
         if (this.isTerminal()) return [];
-        return this.turn.validCommands();
+        return this.currentPhase.validCommands(this, this.board);
     }
 
     executeCommand(command) {
@@ -43,7 +52,19 @@ class Game {
     }
 
     endPhase() {
-        this.turn.endPhase();
+        if (this.#phases.length === 1) {
+            this.switchSide();
+        } else {
+            this.#phases.shift();
+            this.#spentUnits = [];
+        }
+    }
+
+    switchSide() {
+        this.#phases = PHASES.slice();
+        this.#currentSide = this.#currentSide === Side.ROMAN ? Side.CARTHAGINIAN : Side.ROMAN;
+        this.#spentUnits = [];
+        this.#movementTrails = [];
     }
 
     killUnit(hex) {
@@ -83,43 +104,36 @@ class Game {
             this.scenario,
             this.dice,
             this.board.clone(),
-            this.turn.clone(),
             this.graveyard.clone()
         );
     }
 
-    // ---- delegate to turn ----
-
     moveUnit(hexTo, hexFrom) {
-        this.turn.moveUnit(hexTo, hexFrom);
-    }
-
-    endPhase() {
-        this.turn.endPhase();
+        this.board.moveUnit(hexTo, hexFrom);
     }
 
     get currentSide() {
-        return this.turn.currentSide;
+        return this.currentPhase.temporarySide || this.#currentSide;
     }
 
     get currentPhaseName() {
-        return this.turn.currentPhaseName;
+        return `${this.currentSide.name} ${this.currentPhase}`;
     }
 
     isSpent(unit) {
-        return this.turn.isSpent(unit);
+        return this.#spentUnits.includes(unit);
     }
 
     markUnitSpent(unit) {
-        this.turn.markUnitSpent(unit);
+        this.#spentUnits.push(unit);
     }
     
     unshiftPhase(phase) {
-        this.turn.unshiftPhase(phase);
+        this.#phases.unshift(phase);
     }
 
     shiftPhase() {
-        this.turn.shiftPhase();
+        this.#phases.shift();
     }
 
     // ---- delegate to dice ----
@@ -173,14 +187,25 @@ class Game {
     }
 
     get spentUnits() {
-        return this.turn.spentUnits;
+        return this.#spentUnits;
     }
 
     get movementTrails() {
-        return this.turn.movementTrails;
+        return this.#movementTrails;
     }
 
     addMovementTrail(hexTo, hexFrom) {
-        this.turn.addMovementTrail(hexTo, hexFrom);
+        this.#movementTrails.push(new MovementTrail(hexTo, hexFrom));
+    }
+}
+
+class MovementTrail {
+    constructor(to, from) {
+        this.from = from;
+        this.to = to;
+    }
+
+    toString() {
+        return `MovementTrail(${this.from}, ${this.to})`;
     }
 }

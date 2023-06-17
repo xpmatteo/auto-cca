@@ -60,13 +60,13 @@ export class BattlePhase extends Phase {
         super("battle");
     }
 
-    validCommands(turn, board) {
+    validCommands(game, board) {
         let commands = [];
         board.foreachUnit((unit, hex) => {
-            if (turn.spentUnits.includes(unit)) {
+            if (game.spentUnits.includes(unit)) {
                 return;
             }
-            if (unit.side !== turn.currentSide) {
+            if (unit.side !== game.currentSide) {
                 return;
             }
             unit.validCloseCombatTargets(hex, board).forEach(to => {

@@ -66,12 +66,12 @@ export function assertEqualsInAnyOrder(expected, actual, message=undefined) {
     }
 }
 
-export function assertDeepEquals(expected, actual, message=undefined) {
+export function assertDeepEquals(expected, actual, message="Assertion failed") {
     let a = JSON.stringify(expected);
     let b = JSON.stringify(actual);
-    if (message === undefined) {
-        message = `Expected ${a} but got ${b}`;
-    }
+        message = `${message}
+Expected ${a.toString()} 
+but got  ${b.toString()}`;
     if (a !== b) {
         throw new AssertionFailed(message);
     }
