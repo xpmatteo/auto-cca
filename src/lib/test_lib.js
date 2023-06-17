@@ -70,8 +70,8 @@ export function assertDeepEquals(expected, actual, message="Assertion failed") {
     let a = JSON.stringify(expected);
     let b = JSON.stringify(actual);
         message = `${message}
-Expected ${a.toString()} 
-but got  ${b.toString()}`;
+Expected ${expected.toString()} 
+but got  ${actual.toString()} ${b}`;
     if (a !== b) {
         throw new AssertionFailed(message);
     }

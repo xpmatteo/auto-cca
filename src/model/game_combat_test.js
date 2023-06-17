@@ -64,7 +64,7 @@ test("execute Attack and kill defender", () => {
     ];
     assertEquals(expected.toString(), actual.toString());
     assertFalse(game.unitAt(hexOf(1, 4)), "defending unit not on board");    
-    assertDeepEquals([defendingUnit], game.graveyard.unitsOf(Side.CARTHAGINIAN));
+    assertDeepEquals([defendingUnit], game.killedUnitsOfSide(Side.CARTHAGINIAN));
 });
 
 test("close combat with non-ignorable flag and unblocked map NORTH", () => {

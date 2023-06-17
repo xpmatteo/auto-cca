@@ -21,7 +21,7 @@ class Game {
     #currentSide;
     #spentUnits = [];
     #movementTrails = [];
-    graveyard = new Graveyard();
+    #graveyard = new Graveyard();
 
     constructor(scenario, dice) {
         this.scenario = scenario;
@@ -69,20 +69,20 @@ class Game {
     }
 
     killUnit(hex) {
-        this.graveyard.bury(this.#board.unitAt(hex));
+        this.#graveyard.bury(this.#board.unitAt(hex));
         this.#board.removeUnit(hex);
     }
 
     get deadUnitsNorth() {
-        return this.graveyard.unitsOf(this.scenario.sideNorth);
+        return this.#graveyard.unitsOf(this.scenario.sideNorth);
     }
 
     get deadUnitsSouth() {
-        return this.graveyard.unitsOf(this.scenario.sideSouth);
+        return this.#graveyard.unitsOf(this.scenario.sideSouth);
     }
 
     killedUnitsOfSide(side) {
-        return this.graveyard.unitsOf(side);
+        return this.#graveyard.unitsOf(side);
     }
 
     retreatHexes(hex) {
@@ -105,7 +105,7 @@ class Game {
             this.scenario,
             this.dice,
             this.#board.clone(),
-            this.graveyard.clone()
+            this.#graveyard.clone()
         );
     }
 
