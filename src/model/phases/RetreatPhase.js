@@ -1,4 +1,4 @@
-import { RetreatCommand } from "../commands.js";
+import { RetreatCommand } from "../commands/commands.js";
 import { Phase } from "./Phase.js";
 
 

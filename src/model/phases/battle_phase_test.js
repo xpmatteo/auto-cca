@@ -4,7 +4,7 @@ import { NullScenario } from '../scenarios.js';
 import { hexOf } from '../../lib/hexlib.js';
 import * as units from '../units.js';
 import { BattlePhase } from "./BattlePhase.js";
-import { EndPhaseCommand, CloseCombatCommand } from '../commands.js';
+import { EndPhaseCommand, CloseCombatCommand } from '../commands/commands.js';
 
 
 t.test('generate no close combat commands for out of range', function () {

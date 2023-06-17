@@ -1,7 +1,7 @@
-import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
-import * as dice from './dice.js';
-import { RetreatPhase } from "./phases/RetreatPhase.js";
-import { hexOf } from "../lib/hexlib.js";
+import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "../events.js";
+import * as dice from '../dice.js';
+import { RetreatPhase } from "../phases/RetreatPhase.js";
+import { hexOf } from "../../lib/hexlib.js";
 
 const DISTANCE_VALUE_BACKOFF = 0.2;
 

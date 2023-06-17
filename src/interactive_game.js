@@ -1,5 +1,5 @@
 
-import { MoveCommand } from "./model/commands.js";
+import { MoveCommand } from "./model/commands/commands.js";
 
 export class InteractiveGame {
     #game;

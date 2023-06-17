@@ -3,7 +3,7 @@ import makeGame from "./game.js";
 import { NullScenario } from "./scenarios.js";
 import * as units from "./units.js";
 import { hexOf } from "../lib/hexlib.js";
-import { MoveCommand } from "./commands.js";
+import { MoveCommand } from "./commands/commands.js";
 
 
 test("phase name", () => {

@@ -1,4 +1,4 @@
-import { CloseCombatCommand, EndPhaseCommand } from "../commands.js";
+import { CloseCombatCommand, EndPhaseCommand } from "../commands/commands.js";
 import { Phase } from "./Phase.js";
 
 

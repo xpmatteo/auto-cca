@@ -4,7 +4,7 @@ import makeGame from "./game.js";
 import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import { Side } from "./side.js";
-import { MoveCommand, EndPhaseCommand } from "./commands.js";
+import { MoveCommand, EndPhaseCommand } from "./commands/commands.js";
 import { Scenario, ScenarioRaceToOppositeSide } from "./scenarios.js";
 
 class TestScenario extends Scenario {

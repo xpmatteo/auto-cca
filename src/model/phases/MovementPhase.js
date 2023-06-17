@@ -1,4 +1,4 @@
-import { MoveCommand, EndPhaseCommand } from "../commands.js";
+import { MoveCommand, EndPhaseCommand } from "../commands/commands.js";
 import { Phase } from "./Phase.js";
 
 

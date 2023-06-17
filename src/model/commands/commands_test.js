@@ -1,13 +1,13 @@
 
-import { hexOf } from "../lib/hexlib.js";
-import { assertAlmostEquals, assertDeepEquals, assertEquals, test } from "../lib/test_lib.js";
+import { hexOf } from "../../lib/hexlib.js";
+import { assertAlmostEquals, assertDeepEquals, assertEquals, test } from "../../lib/test_lib.js";
 import { CloseCombatCommand, EndPhaseCommand, MoveCommand, RetreatCommand } from "./commands.js";
-import makeGame from "./game.js";
-import { RetreatPhase } from "./phases/RetreatPhase.js";
-import { NullScenario } from "./scenarios.js";
-import { Side } from "./side.js";
-import { MovementTrail } from "./game.js";
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "./units.js";
+import makeGame from "../game.js";
+import { RetreatPhase } from "../phases/RetreatPhase.js";
+import { NullScenario } from "../scenarios.js";
+import { Side } from "../side.js";
+import { MovementTrail } from "../game.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
 
 test("MoveCommand play", () => {
     let game = makeGame(new NullScenario());     
