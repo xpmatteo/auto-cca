@@ -70,6 +70,12 @@ class Game {
     }
 
     killUnit(hex) {
+        if (!this.#board.unitAt(hex)) {
+            throw new Error(`No unit at ${hex}`);
+        }
+        // if (this.unitStrength(hex) > 0) {
+        //     throw new Error(`Cannot kill unit with strength ${this.unitStrength(hex)}`);
+        // }
         this.#graveyard.bury(this.#board.unitAt(hex));
         this.#board.removeUnit(hex);
     }

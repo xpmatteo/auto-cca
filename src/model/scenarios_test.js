@@ -4,10 +4,10 @@ import { Board } from "./board.js";
 import * as units from "./units.js";
 import * as GameStatus from "./game_status.js";
 import { Side } from "./side.js";
-import { ScenarioRaceToOppositeSide } from "./scenarios.js";
+import { TestScenario } from "./scenarios.js";
 import makeGame from "./game.js";
 
-const scenario = new ScenarioRaceToOppositeSide();
+const scenario = new TestScenario();
 
 test ("first side", () => {
     assertEquals(Side.ROMAN, scenario.firstSide);
@@ -49,7 +49,7 @@ test("ongoing", () => {
 });
 
 test("place units on board", () => {
-    const scenario = new ScenarioRaceToOppositeSide();
+    const scenario = new TestScenario();
     const board = new Board();
 
     scenario.placeUnitsOn(board);

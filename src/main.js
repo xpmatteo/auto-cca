@@ -3,7 +3,7 @@
 import { Autoplay, displayEvents } from "./autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
-import { ScenarioRaceToOppositeSide } from "./model/scenarios.js";
+import { TestScenario } from "./model/scenarios.js";
 import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas } from "./view/map.js";
@@ -18,7 +18,7 @@ document.body.appendChild(canvas);
 const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game
-let scenario = new ScenarioRaceToOppositeSide();
+let scenario = new TestScenario();
 let game = makeGame(scenario);
 let interactiveGame = new InteractiveGame(game);
 

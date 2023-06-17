@@ -5,9 +5,9 @@ import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import { Side } from "./side.js";
 import { MoveCommand, EndPhaseCommand } from "./commands/commands.js";
-import { Scenario, ScenarioRaceToOppositeSide } from "./scenarios.js";
+import { Scenario, TestScenario } from "./scenarios.js";
 
-class TestScenario extends Scenario {
+class SimpleScenario extends Scenario {
     get firstSide() {
         return Side.CARTHAGINIAN;
     }
@@ -27,7 +27,7 @@ class TestScenario extends Scenario {
     }
 }
 
-const scenario = new TestScenario();
+const scenario = new SimpleScenario();
 
 test("game status", () => {
     const game = makeGame(scenario);
@@ -87,7 +87,7 @@ test("unit takes damage", () => {
 
 
 xtest('clone game', () => {
-    const game = makeGame(new ScenarioRaceToOppositeSide());
+    const game = makeGame(new TestScenario());
     game.killUnit(hexOf(1, 5));
 
     const clone = game.clone();

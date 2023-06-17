@@ -23,7 +23,7 @@ export class NullScenario extends Scenario {
     }
 }
 
-export class ScenarioRaceToOppositeSide extends Scenario {
+export class TestScenario extends Scenario {
     firstSide = Side.ROMAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
