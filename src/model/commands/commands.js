@@ -149,7 +149,6 @@ export class CloseCombatCommand {
         game.markUnitSpent(attackingUnit);
 
         if (game.isDead(defendingUnit)) {
-            game.killUnit(defendingHex);
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
         } else if (game.retreatHexes(defendingHex).length !== 0 && diceResults.includes(dice.RESULT_FLAG)) {
             const retreatHexes = game.retreatHexes(defendingHex);
@@ -161,7 +160,6 @@ export class CloseCombatCommand {
             events.push(new BattleBackEvent(attackingHex, defendingHex, battleBackDice.length));
             events.push(new DamageEvent(attackingHex, battleBackDamage, battleBackDice));
             if (game.isDead(attackingUnit)) {
-                game.killUnit(attackingHex);
                 events.push(new UnitKilledEvent(attackingHex, attackingUnit));    
             }
         }

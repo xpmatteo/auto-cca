@@ -88,7 +88,7 @@ test("unit takes damage", () => {
 
 xtest('clone game', () => {
     const game = makeGame(new TestScenario());
-    game.killUnit(hexOf(1, 5));
+    game.takeDamage(hexOf(1, 5), 4);
 
     const clone = game.clone();
 

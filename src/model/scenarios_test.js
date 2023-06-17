@@ -19,9 +19,9 @@ test("roman win", () => {
     game.placeUnit(hexOf(2, 0), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(3, 0), new units.CarthaginianHeavyInfantry());
 
-    game.killUnit(hexOf(1, 0));
-    game.killUnit(hexOf(2, 0));
-    game.killUnit(hexOf(3, 0));
+    game.takeDamage(hexOf(1, 0), 4);
+    game.takeDamage(hexOf(2, 0), 4);
+    game.takeDamage(hexOf(3, 0), 4);
 
     assertEquals(GameStatus.ROMAN_WIN, scenario.gameStatus(game));
 });
@@ -32,9 +32,9 @@ test("carthaginian win", () => {
     game.placeUnit(hexOf(2, 0), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(3, 0), new units.RomanHeavyInfantry());
 
-    game.killUnit(hexOf(1, 0));
-    game.killUnit(hexOf(2, 0));
-    game.killUnit(hexOf(3, 0));
+    game.takeDamage(hexOf(1, 0), 4);
+    game.takeDamage(hexOf(2, 0), 4);
+    game.takeDamage(hexOf(3, 0), 4);
 
     assertEquals(GameStatus.CARTHAGINIAN_WIN, scenario.gameStatus(game));
 });
