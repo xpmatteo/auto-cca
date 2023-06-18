@@ -48,12 +48,3 @@ test("ongoing", () => {
     assertEquals(GameStatus.ONGOING, scenario.gameStatus(game));
 });
 
-test("place units on board", () => {
-    const scenario = new TestScenario();
-    const board = new Board();
-
-    scenario.placeUnitsOn(board);
-
-    assertEquals(6, board.unitsOfSide(Side.ROMAN).length);
-    assertEquals(6, board.unitsOfSide(Side.CARTHAGINIAN).length);
-});

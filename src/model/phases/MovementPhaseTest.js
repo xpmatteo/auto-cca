@@ -5,7 +5,8 @@ import Game from '../game.js'
 import {NullScenario} from "../scenarios.js";
 import {Board} from "../board.js";
 import {Side} from "../side.js";
-import {EndPhaseCommand, MoveCommand} from "../commands/commands.js";
+import {EndPhaseCommand} from "../commands/commands.js";
+import {MoveCommand} from "../commands/moveCommand.js";
 
 
 t.test('generate moves for one unit', function () {

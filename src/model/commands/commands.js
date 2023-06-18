@@ -1,7 +1,6 @@
-import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "../events.js";
+import {BattleBackEvent, DamageEvent, UnitKilledEvent} from "../events.js";
 import * as dice from '../dice.js';
-import { RetreatPhase } from "../phases/RetreatPhase.js";
-import { hexOf } from "../../lib/hexlib.js";
+import {RetreatPhase} from "../phases/RetreatPhase.js";
 
 const DISTANCE_VALUE_BACKOFF = 0.2;
 
@@ -10,7 +9,7 @@ const DISTANCE_VALUE_BACKOFF = 0.2;
     They are used by both the human player and the AI to execute a move.
 */
 
-function hexScore(enemyUnitStrength) {
+export function hexScore(enemyUnitStrength) {
     return 1000 / enemyUnitStrength;
 }
 
@@ -19,7 +18,7 @@ function valueOfHex(hexToBeEvaluated, enemyUnitHex, enemyUnitStrength) {
     return hexScore(enemyUnitStrength) * Math.pow(DISTANCE_VALUE_BACKOFF, distance);
 }
 
-function valueOfHexOverAllEnemyUnits(game, hexToBeEvaluated, friendlySide) {
+export function valueOfHexOverAllEnemyUnits(game, hexToBeEvaluated, friendlySide) {
     let bestValue = -Infinity;
     game.foreachUnit((otherUnit, otherUnitHex) => {
         if (otherUnit.side === friendlySide) {
@@ -31,43 +30,6 @@ function valueOfHexOverAllEnemyUnits(game, hexToBeEvaluated, friendlySide) {
         }
     });
     return bestValue;
-}
-
-export class MoveCommand {
-    constructor(toHex, fromHex) {
-        this.toHex = toHex;
-        this.fromHex = fromHex;
-    }
-
-    toString() {
-        return `Move ${this.fromHex} to ${this.toHex}`;
-    }
-
-    play(game) {
-        game.moveUnit(this.toHex, this.fromHex);
-        game.markUnitSpent(game.unitAt(this.toHex));
-        game.addMovementTrail(this.toHex, this.fromHex);
-        return [];
-    }
-
-    value(game) {     
-        // The value of a move is the value of the hex we are moving to,
-        // minus the value of the hex we are moving from.
-        // The value of a hex is determined by the closest, weakest enemy unit, 
-        // and decreases with the distance from that unit.
-
-        const movingUnit = game.unitAt(this.fromHex);
-        if (!movingUnit) {
-            throw new Error(`No unit at ${this.fromHex}`);
-        }
-        
-        // for all enemy units, find the highest value using the ValueOfHex function
-        const valueOfToHex = valueOfHexOverAllEnemyUnits(game, this.toHex, movingUnit.side);
-        const valueOfFromHex = valueOfHexOverAllEnemyUnits(game, this.fromHex, movingUnit.side);
-
-        // we don't want to move to a hex that is worse than the hex we are moving from
-        return valueOfToHex - valueOfFromHex;
-    }
 }
 
 export class RetreatCommand {
