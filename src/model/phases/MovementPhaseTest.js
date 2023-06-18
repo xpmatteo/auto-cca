@@ -3,21 +3,19 @@ import {hexOf} from "../../lib/hexlib.js";
 import * as units from "../units.js";
 import Game from '../game.js'
 import {NullScenario} from "../scenarios.js";
-import {Board} from "../board.js";
 import {Side} from "../side.js";
-import {EndPhaseCommand} from "../commands/commands.js";
 import {MoveCommand} from "../commands/moveCommand.js";
+import {EndPhaseCommand} from "../commands/endPhaseCommand.js";
 
 
 t.test('generate moves for one unit', function () {
-    let board = new Board();
-    let turn = new Turn(board);
+    let game = new Game(new NullScenario());
 
-    t.assertEquals(Side.ROMAN, turn.currentSide);
-    board.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
-    board.placeUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
+    t.assertEquals(Side.ROMAN, game.currentSide);
+    game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    game.placeUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
 
-    let moves = turn.validCommands();
+    let moves = game.validCommands();
 
     let expected = [
         new MoveCommand(hexOf(1, 0), hexOf(1, 1)),
@@ -42,7 +40,7 @@ t.test('generate commands for two units, avoiding collisions', function () {
     g.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
     g.placeUnit(hexOf(3, 5), new units.RomanHeavyInfantry());
 
-    let commands = turn.validCommands();
+    let commands = g.validCommands();
 
     let expected = [
         new MoveCommand(hexOf(3, 4), hexOf(2, 5)),

@@ -1,6 +1,6 @@
-import { EndPhaseCommand } from "../commands/commands.js";
 import { Phase } from "./Phase.js";
 import {MoveCommand} from "../commands/moveCommand.js";
+import {EndPhaseCommand} from "../commands/endPhaseCommand.js";
 
 
 export class MovementPhase extends Phase {

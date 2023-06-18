@@ -5,8 +5,9 @@ import makeGame from './model/game.js';
 import { NullScenario } from './model/scenarios.js';
 import { InteractiveGame } from "./interactive_game.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from './model/units.js';
-import { CloseCombatCommand, EndPhaseCommand } from './model/commands/commands.js';
 import {MoveCommand} from "./model/commands/moveCommand.js";
+import {EndPhaseCommand} from "./model/commands/endPhaseCommand.js";
+import {CloseCombatCommand} from "./model/commands/closeCombatCommand.js";
 
 function otherUnit() {
     return new RomanHeavyInfantry();

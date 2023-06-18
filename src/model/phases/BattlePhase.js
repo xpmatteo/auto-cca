@@ -1,5 +1,6 @@
-import { CloseCombatCommand, EndPhaseCommand } from "../commands/commands.js";
 import { Phase } from "./Phase.js";
+import {EndPhaseCommand} from "../commands/endPhaseCommand.js";
+import {CloseCombatCommand} from "../commands/closeCombatCommand.js";
 
 
 export class BattlePhase extends Phase {

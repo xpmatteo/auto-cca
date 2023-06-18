@@ -2,11 +2,12 @@ import { hexOf } from "../lib/hexlib.js";
 import { assertEquals, assertFalse, assertTrue, assertDeepEquals, assertEqualsInAnyOrder, test } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as units from "./units.js";
-import { CloseCombatCommand, RetreatCommand } from "./commands/commands.js";
 import { NullScenario } from "./scenarios.js";
 import * as dice from "./dice.js";
 import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
 import { Side } from "./side.js";
+import {RetreatCommand} from "./commands/retreatCommand.js";
+import {CloseCombatCommand} from "./commands/closeCombatCommand.js";
 
 function diceReturning() {
     let invocations = 0;
