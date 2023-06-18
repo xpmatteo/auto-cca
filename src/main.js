@@ -1,6 +1,6 @@
 "use strict";
 
-import { Autoplay, displayEvents } from "./autoplay.js";
+import { Autoplay, displayEvents } from "./ai/autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
 import { TestScenario } from "./model/scenarios.js";

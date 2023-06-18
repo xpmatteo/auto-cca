@@ -12,7 +12,7 @@ import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
 import {Side} from "./side.js";
 import {NullScenario, TestScenario} from "./scenarios.js";
-import {Autoplay} from "../autoplay.js";
+import {Autoplay} from "../ai/autoplay.js";
 import {MoveCommand} from "./commands/moveCommand.js";
 import {EndPhaseCommand} from "./commands/endPhaseCommand.js";
 

@@ -1,6 +1,6 @@
 
-import { Side } from "./model/side.js";
-import { redraw, drawTextOnHex } from "./view/graphics.js";
+import { Side } from "../model/side.js";
+import { redraw, drawTextOnHex } from "../view/graphics.js";
 
 const AUTOPLAY_DELAY = 800;
 
