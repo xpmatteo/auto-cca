@@ -101,7 +101,6 @@ test('clone game', () => {
     assertEquals(gameBeforeClone, JSON.stringify(clone));
 
     new Autoplay(clone).fastPlayout();
-    console.log(clone.gameStatus, JSON.stringify(clone));
     assertEquals(gameBeforeClone, JSON.stringify(game));
 });
 
