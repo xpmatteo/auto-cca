@@ -12,8 +12,8 @@ const initialState = {
 
 
 test('ucb1', () => {
-    let root = new MonteCarloTreeSearchNode(null, null, null);
-    let node = new MonteCarloTreeSearchNode(null, root, null);
+    let root = new MonteCarloTreeSearchNode(null, null, null, null);
+    let node = new MonteCarloTreeSearchNode(null, null, root, null);
 
     assertEquals(Infinity, node.ubc1()); 
     assertTrue(1 < Infinity, "infinity!");

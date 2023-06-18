@@ -3,14 +3,14 @@ import {chooseBestCommand} from "./autoplay.js";
 const EXPANSION_FACTOR = 1.41421356237;
 
 export class MonteCarloTreeSearchNode {
-    constructor(state, parent = null, move = null, sideExecutingTheMove = null) {
+    constructor(state, parent = null, move = null) {
         this.state = state;
         this.parent = parent;
         this.move = move;
         this.children = [];
         this.wins = 0;
         this.visits = 0;
-        this.sideExecutingTheMove = sideExecutingTheMove;
+        this.sideExecutingTheMove = state.currentSide;
     }
 
     ubc1() {
@@ -96,13 +96,13 @@ export default class AIPlayer {
             let result = this.simulate(node.state);
             let score = this.gameStatusToScore(result);
             this.backpropagate(node, score);
-            this.collectVisitData(root, i);
+            //this.collectVisitData(root, i);
         }
         return root;
     }
 
     displayInformation(root) {
-        console.log(`tree size: ${root.size()}`);
+        console.log(`tree size: ${root.size()}`, root);
         root.children.sort((a, b) => b.visits - a.visits);
         for (let child of root.children) {
             console.log(`Child move: ${child.move}, score: ${child.wins}/${child.visits}`);
@@ -123,14 +123,8 @@ export default class AIPlayer {
     expand(node) {
         for (let command of node.state.validCommands()) {
             const clone = node.state.clone();
-            const sideExecutingTheMove = clone.currentSide;
             clone.executeCommand(command);
-            node.children.push(new MonteCarloTreeSearchNode(
-                clone,
-                node,
-                command,
-                sideExecutingTheMove
-            ));
+            node.children.push(new MonteCarloTreeSearchNode(clone, node, command));
         }
         return node.children[Math.floor(Math.random() * node.children.length)];
     }
@@ -143,6 +137,7 @@ export default class AIPlayer {
             let command = chooseBestCommand(clone);
             clone.executeCommand(command);
         }
+        this.lastSimulateResult = clone.gameStatus;
         if (clone.gameStatus === this.aiWinStatuses[0]) {
             this.aiWins++;
         } else if (clone.gameStatus === this.aiLoseStatuses[0]) {
