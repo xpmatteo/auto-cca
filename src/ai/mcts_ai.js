@@ -65,7 +65,8 @@ export default class AIPlayer {
     }
 
     decideMove(state) {
-        console.log("AI is thinking...");
+        console.log("-------- AI is thinking... ---------");
+        const start = performance.now();
         this.initVisitData();
         let root = new MonteCarloTreeSearchNode(state);
         for (let i = 0; i < this.iterations; i++) {
@@ -76,11 +77,15 @@ export default class AIPlayer {
             this.collectVisitData(root, i);
         }
         this.displayInformation(root);
+        const end = performance.now();
+        const timeInSeconds = ((end - start) / 1000).toFixed(2);
+        const timePerIteration = (end - start) / this.iterations;
+        console.log(`AI took ${timeInSeconds} seconds to decide; ${timePerIteration.toFixed(2)} ms per iteration`);
         return root.mostVisited().move;
     }
 
     displayInformation(root) {
-        console.log(`--------- tree size: ${root.size()} --------- `);
+        console.log(`tree size: ${root.size()}`);
         for (let child of root.children) {
             console.log(`Child move: ${child.move}, score: ${child.wins}/${child.visits}`);
         }
@@ -115,7 +120,7 @@ export default class AIPlayer {
     simulate(state) {
         const clone = state.clone();
         while (!clone.isTerminal()) {
-            let command = this.randomCommand(clone);
+            let command = this.bestCommand(clone);
             clone.executeCommand(command);
         }
         return clone.gameStatus;
@@ -155,6 +160,22 @@ export default class AIPlayer {
             }
             this.moveVisitsData[child.move].push(child.visits);
         }
+    }
+
+    bestCommand(game) {
+        let commands = game.validCommands();
+        if (commands.length === 0) {
+            throw new Error("No valid commands");
+        }
+
+        // sort commands by value
+        commands.sort((a, b) => b.value(game) - a.value(game));
+
+        // extract all the commands with the highest value
+        let bestCommands = commands.filter(command => command.value(game) === commands[0].value(game));
+
+        // choose randomly from the best commands
+        return bestCommands[Math.floor(Math.random() * bestCommands.length)];
     }
 }
 
