@@ -33,6 +33,10 @@ export class MoveCommand {
         const valueOfFromHex = valueOfHexOverAllEnemyUnits(game, this.fromHex, movingUnit.side);
 
         // we don't want to move to a hex that is worse than the hex we are moving from
+        // if we are weak, better run away
+        if (game.unitStrength(movingUnit) === 1) {
+            return valueOfFromHex - valueOfToHex;
+        }
         return valueOfToHex - valueOfFromHex;
     }
 }

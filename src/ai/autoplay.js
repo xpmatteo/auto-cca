@@ -14,6 +14,23 @@ export function displayEvents(events) {
     });
 }
 
+export function chooseBestCommand(game) {
+    let commands = game.validCommands();
+    if (commands.length === 0) {
+        throw new Error("No valid commands");
+    }
+
+    // sort commands by value
+    commands.sort((a, b) => b.value(game) - a.value(game));
+
+    // extract all the commands with the highest value
+    let bestCommands = commands.filter(command => command.value(game) === commands[0].value(game));
+
+    // choose randomly from the best commands
+    let command = bestCommands[Math.floor(Math.random() * bestCommands.length)];
+    return command;
+}
+
 export class Autoplay {
     constructor(game) {
         this.game = game;
@@ -67,19 +84,7 @@ export class Autoplay {
     }
 
     executeBestCommand() {
-        let commands = this.game.validCommands();
-        if (commands.length === 0) {
-            throw new Error("No valid commands");
-        }
-
-        // sort commands by value
-        commands.sort((a, b) => b.value(this.game) - a.value(this.game));
-
-        // extract all the commands with the highest value
-        let bestCommands = commands.filter(command => command.value(this.game) === commands[0].value(this.game));
-
-        // choose randomly from the best commands
-        let command = bestCommands[Math.floor(Math.random() * bestCommands.length)];
+        let command = chooseBestCommand(this.game);
 
         return this.game.executeCommand(command);
     }

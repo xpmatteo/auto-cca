@@ -1,8 +1,9 @@
+import {chooseBestCommand} from "./autoplay.js";
 
 const EXPANSION_FACTOR = 1.41421356237;
 
 export class MonteCarloTreeSearchNode {
-    constructor(state, parent = null, move = null, sideExecutingTheMove) {
+    constructor(state, parent = null, move = null, sideExecutingTheMove = null) {
         this.state = state;
         this.parent = parent;
         this.move = move;
@@ -62,11 +63,13 @@ export default class AIPlayer {
         this.aiLoseStatuses = params.aiLoseStatuses;
         this.aiToken = params.aiToken;
         this.iterations = params.iterations || 10000;
-        this.aiWins = 0;
-        this.aiLosses = 0;
     }
 
     decideMove(state) {
+        this.aiWins = 0;
+        this.aiLosses = 0;
+        this.draws = 0;
+
         if (state.validCommands().length === 1) {
             console.log("-------- AI has one only move: " + state.validCommands()[0]);
             return state.validCommands()[0];
@@ -81,7 +84,7 @@ export default class AIPlayer {
         const timePerIteration = (end - start) / this.iterations;
         this.displayInformation(root);
         console.log(`AI took ${timeInSeconds} seconds to decide; ${timePerIteration.toFixed(2)} ms per iteration`);
-        console.log(`AI wins: ${this.aiWins}, AI losses: ${this.aiLosses}`);
+        console.log(`AI wins: ${this.aiWins}, AI losses: ${this.aiLosses}, draws: ${this.draws}`);
         return root.mostVisited().move;
     }
 
@@ -134,8 +137,10 @@ export default class AIPlayer {
 
     simulate(state) {
         const clone = state.clone();
-        while (!clone.isTerminal()) {
-            let command = this.bestCommand(clone);
+        const maxIterations = 1000;
+        let iterations = 0;
+        while (!clone.isTerminal() && iterations++ < maxIterations) {
+            let command = chooseBestCommand(clone);
             clone.executeCommand(command);
         }
         if (clone.gameStatus === this.aiWinStatuses[0]) {
@@ -143,7 +148,7 @@ export default class AIPlayer {
         } else if (clone.gameStatus === this.aiLoseStatuses[0]) {
             this.aiLosses++;
         } else {
-            throw new Error("Unexpected game status: " + clone.gameStatus);
+            this.draws++;
         }
         return clone.gameStatus;
     }
@@ -182,22 +187,6 @@ export default class AIPlayer {
             }
             this.moveVisitsData[child.move].push(child.visits);
         }
-    }
-
-    bestCommand(game) {
-        let commands = game.validCommands();
-        if (commands.length === 0) {
-            throw new Error("No valid commands");
-        }
-
-        // sort commands by value
-        commands.sort((a, b) => b.value(game) - a.value(game));
-
-        // extract all the commands with the highest value
-        let bestCommands = commands.filter(command => command.value(game) === commands[0].value(game));
-
-        // choose randomly from the best commands
-        return bestCommands[Math.floor(Math.random() * bestCommands.length)];
     }
 }
 
