@@ -65,8 +65,24 @@ export default class AIPlayer {
     }
 
     decideMove(state) {
+        if (state.validCommands().length === 1) {
+            console.log("-------- AI has one only move: " + state.validCommands()[0]);
+            return state.validCommands()[0];
+        }
         console.log("-------- AI is thinking... ---------");
         const start = performance.now();
+
+        let root = this.__doDecideMove(state);
+
+        const end = performance.now();
+        const timeInSeconds = ((end - start) / 1000).toFixed(2);
+        const timePerIteration = (end - start) / this.iterations;
+        this.displayInformation(root);
+        console.log(`AI took ${timeInSeconds} seconds to decide; ${timePerIteration.toFixed(2)} ms per iteration`);
+        return root.mostVisited().move;
+    }
+
+    __doDecideMove(state) {
         this.initVisitData();
         let root = new MonteCarloTreeSearchNode(state);
         for (let i = 0; i < this.iterations; i++) {
@@ -76,16 +92,12 @@ export default class AIPlayer {
             this.backpropagate(node, score);
             this.collectVisitData(root, i);
         }
-        this.displayInformation(root);
-        const end = performance.now();
-        const timeInSeconds = ((end - start) / 1000).toFixed(2);
-        const timePerIteration = (end - start) / this.iterations;
-        console.log(`AI took ${timeInSeconds} seconds to decide; ${timePerIteration.toFixed(2)} ms per iteration`);
-        return root.mostVisited().move;
+        return root;
     }
 
     displayInformation(root) {
         console.log(`tree size: ${root.size()}`);
+        root.children.sort((a, b) => b.visits - a.visits);
         for (let child of root.children) {
             console.log(`Child move: ${child.move}, score: ${child.wins}/${child.visits}`);
         }
