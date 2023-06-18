@@ -29,6 +29,12 @@ export class Autoplay {
         });    
     }
 
+    fastPlayout(graphics) {
+        while (!this.game.isTerminal()) {
+            this.executeBestCommand();
+        }
+    }
+
     async playout(graphics) {
         while (!this.game.isTerminal()) {
             let events = await this.executeBestCommand();

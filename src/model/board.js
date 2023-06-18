@@ -98,7 +98,7 @@ export class Board {
     clone() {
         let board = new Board();
         this.foreachUnit((unit, hex) => {
-            board.placeUnit(hex, unit.clone());
+            board.placeUnit(hex, unit);
         });
         return board;
     }

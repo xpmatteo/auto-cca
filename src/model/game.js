@@ -15,13 +15,13 @@ export default function makeGame(scenario, dice = new Dice()) {
 const PHASES = [new MovementPhase(), new BattlePhase()];
 
 class Game {
-    #board = new Board();
-    #phases = PHASES.slice();
-    #currentSide;
-    #spentUnits = [];
-    #movementTrails = [];
-    #unitStrengths = new Map();
-    #graveyard = new Graveyard();
+    board = new Board();
+    phases = PHASES.slice();
+    currentSide;
+    spentUnits = [];
+    movementTrails = [];
+    unitStrengths = new Map();
+    graveyard = new Graveyard();
 
     constructor(scenario, dice) {
         this.scenario = scenario;
@@ -29,17 +29,17 @@ class Game {
     }
 
     initialize() {
-        this.#currentSide = this.scenario.firstSide;
+        this.currentSide = this.scenario.firstSide;
         this.scenario.placeUnitsOn(this);
     }
 
     get currentPhase() {
-        return this.#phases[0]
+        return this.phases[0]
     }
 
     validCommands() {
         if (this.isTerminal()) return [];
-        return this.currentPhase.validCommands(this, this.#board);
+        return this.currentPhase.validCommands(this, this.board);
     }
 
     executeCommand(command) {
@@ -53,35 +53,35 @@ class Game {
     }
 
     endPhase() {
-        if (this.#phases.length === 1) {
+        if (this.phases.length === 1) {
             this.switchSide();
         } else {
-            this.#phases.shift();
-            this.#spentUnits = [];
+            this.phases.shift();
+            this.spentUnits = [];
         }
     }
 
     switchSide() {
-        this.#phases = PHASES.slice();
-        this.#currentSide = this.scenario.opposingSide(this.#currentSide);
-        this.#spentUnits = [];
-        this.#movementTrails = [];
+        this.phases = PHASES.slice();
+        this.currentSide = this.scenario.opposingSide(this.currentSide);
+        this.spentUnits = [];
+        this.movementTrails = [];
     }
 
     get deadUnitsNorth() {
-        return this.#graveyard.unitsOf(this.scenario.sideNorth);
+        return this.graveyard.unitsOf(this.scenario.sideNorth);
     }
 
     get deadUnitsSouth() {
-        return this.#graveyard.unitsOf(this.scenario.sideSouth);
+        return this.graveyard.unitsOf(this.scenario.sideSouth);
     }
 
     killedUnitsOfSide(side) {
-        return this.#graveyard.unitsOf(side);
+        return this.graveyard.unitsOf(side);
     }
 
     retreatHexes(hex) {
-        const retreatingUnit = this.#board.unitAt(hex);
+        const retreatingUnit = this.board.unitAt(hex);
         if (!retreatingUnit) {
             throw new Error(`No unit at ${hex}`);
         }
@@ -96,20 +96,23 @@ class Game {
     }
 
     clone() {
-        return new Game(
-            this.scenario,
-            this.dice,
-            this.#board.clone(),
-            this.#graveyard.clone()
-        );
+        const game = new Game(this.scenario, this.dice);
+        game.board = this.board.clone();
+        game.phases = this.phases.slice();
+        game.currentSide = this.currentSide;
+        game.spentUnits = this.spentUnits.slice();
+        game.movementTrails = this.movementTrails.slice();
+        game.unitStrengths = new Map(this.unitStrengths);
+        game.graveyard = this.graveyard.clone();
+        return game;
     }
 
     moveUnit(hexTo, hexFrom) {
-        this.#board.moveUnit(hexTo, hexFrom);
+        this.board.moveUnit(hexTo, hexFrom);
     }
 
     get currentSide() {
-        return this.currentPhase.temporarySide || this.#currentSide;
+        return this.currentPhase.temporarySide || this.currentSide;
     }
 
     get currentPhaseName() {
@@ -117,19 +120,19 @@ class Game {
     }
 
     isSpent(unit) {
-        return this.#spentUnits.includes(unit);
+        return this.spentUnits.includes(unit);
     }
 
     markUnitSpent(unit) {
-        this.#spentUnits.push(unit);
+        this.spentUnits.push(unit);
     }
     
     unshiftPhase(phase) {
-        this.#phases.unshift(phase);
+        this.phases.unshift(phase);
     }
 
     shiftPhase() {
-        this.#phases.shift();
+        this.phases.shift();
     }
 
     // ---- delegate to dice ----
@@ -155,49 +158,49 @@ class Game {
     // ---- delegate to board ----
 
     foreachHex(f) {
-        return this.#board.foreachHex(f);
+        return this.board.foreachHex(f);
     }
 
     foreachUnit(f) {
-        return this.#board.foreachUnit(f);
+        return this.board.foreachUnit(f);
     }
 
     unitAt(hex) {
-        return this.#board.unitAt(hex);
+        return this.board.unitAt(hex);
     }
 
     hexOfUnit(unit) {
-        return this.#board.hexOfUnit(unit);
+        return this.board.hexOfUnit(unit);
     }
 
     subtractOffMap(hexes) {
-        return this.#board.subtractOffMap(hexes);
+        return this.board.subtractOffMap(hexes);
     }
 
     subtractOccupiedHexes(hexes) {
-        return this.#board.subtractOccupiedHexes(hexes);
+        return this.board.subtractOccupiedHexes(hexes);
     }
 
     placeUnit(hex, unit) {
-        this.#board.placeUnit(hex, unit);
-        this.#unitStrengths.set(unit, unit.initialStrength);
+        this.board.placeUnit(hex, unit);
+        this.unitStrengths.set(unit, unit.initialStrength);
     }
 
     unitStrength(unitOrHex) {
         let unit = this.__toUnit(unitOrHex);
-        if (!this.#unitStrengths.has(unit)) {
+        if (!this.unitStrengths.has(unit)) {
             throw new Error(`No unit ${unit} in game`);
         }
-        return this.#unitStrengths.get(unit);
+        return this.unitStrengths.get(unit);
     }
 
     takeDamage(unitOrHex, diceRoll, includeFlags = false) {
         let unit = this.__toUnit(unitOrHex);
         let damage = unit.takeDamage(diceRoll, includeFlags);
-        this.#unitStrengths.set(unit, this.#unitStrengths.get(unit) - damage);
+        this.unitStrengths.set(unit, this.unitStrengths.get(unit) - damage);
         if (this.isDead(unit)) {
-            this.#graveyard.bury(unit);
-            this.#board.removeUnit(this.hexOfUnit(unit));
+            this.graveyard.bury(unit);
+            this.board.removeUnit(this.hexOfUnit(unit));
         }
         return damage;
     }
@@ -208,15 +211,15 @@ class Game {
     }
 
     get spentUnits() {
-        return this.#spentUnits;
+        return this.spentUnits;
     }
 
     get movementTrails() {
-        return this.#movementTrails;
+        return this.movementTrails;
     }
 
     addMovementTrail(hexTo, hexFrom) {
-        this.#movementTrails.push(new MovementTrail(hexTo, hexFrom));
+        this.movementTrails.push(new MovementTrail(hexTo, hexFrom));
     }
 
     __toUnit(unitOrHex) {

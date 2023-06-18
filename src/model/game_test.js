@@ -1,11 +1,19 @@
-import { hexOf } from "../lib/hexlib.js";
-import { assertEquals, assertFalse, assertTrue, assertDeepEquals, test, xtest } from "../lib/test_lib.js";
+import {hexOf} from "../lib/hexlib.js";
+import {
+    assertDeepEquals,
+    assertEquals,
+    assertEqualsInAnyOrder,
+    assertFalse,
+    assertTrue,
+    test
+} from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as GameStatus from "./game_status.js";
 import * as units from "./units.js";
-import { Side } from "./side.js";
-import { MoveCommand, EndPhaseCommand } from "./commands/commands.js";
-import { NullScenario, TestScenario } from "./scenarios.js";
+import {Side} from "./side.js";
+import {EndPhaseCommand, MoveCommand} from "./commands/commands.js";
+import {NullScenario, TestScenario} from "./scenarios.js";
+import {Autoplay} from "../autoplay.js";
 
 class SimpleScenario extends NullScenario {
     firstSide = Side.CARTHAGINIAN;
@@ -84,29 +92,48 @@ test("unit takes damage", () => {
 });
 
 
-xtest('clone game', () => {
+test('clone game', () => {
     const game = makeGame(new TestScenario());
-    game.takeDamage(hexOf(1, 5), 4);
+    const gameBeforeClone = JSON.stringify(game);
 
     const clone = game.clone();
-
-    /*
-        The clone should be a deep copy of the original.
-
-        considering the following properties:
-        - scenario
-        - dice
-        - board *
-        - turn  *
-        - graveyard *
-
-        starred properties are objects that should be deep copied
-    */
     
-    assertEquals(game.scenario, clone.scenario);
-    assertEquals(game.dice, clone.dice);
-    assertDeepEquals(game.board, clone.board);
-    assertFalse(game.board === clone.board, "board is not a deep copy");
-    assertDeepEquals(game.graveyard.unitsOf(Side.ROMAN), clone.graveyard.unitsOf(Side.ROMAN));
-    assertFalse(game.graveyard === clone.graveyard, "graveyard is not a deep copy");
+    assertEquals(gameBeforeClone, JSON.stringify(clone));
+
+    new Autoplay(clone).fastPlayout();
+    console.log(clone.gameStatus, JSON.stringify(clone));
+    assertEquals(gameBeforeClone, JSON.stringify(game));
+});
+
+test('eventually switch side', function () {
+    const game = makeGame(new NullScenario());
+    game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+
+    game.executeCommand(new MoveCommand(hexOf(1, 0), hexOf(1, 1)));
+
+    assertEquals("End phase", game.validCommands().toString());
+});
+
+test('play move then spent', function () {
+    const g = makeGame(new NullScenario());
+    let unit0 = new units.RomanHeavyInfantry();
+    let unit1 = new units.RomanHeavyInfantry();
+    g.placeUnit(hexOf(2, 5), unit0);
+    g.placeUnit(hexOf(3, 5), unit1);
+
+    g.executeCommand(new MoveCommand(hexOf(1, 5), hexOf(2, 5)));
+
+    assertEquals(unit0, g.unitAt(hexOf(1, 5)));
+    let commands = g.validCommands();
+    let expected = [
+        new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
+        new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
+        new MoveCommand(hexOf(2, 5), hexOf(3, 5)),
+        new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
+        new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
+        new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
+
+        new EndPhaseCommand(),
+    ];
+    assertEqualsInAnyOrder(expected, commands);
 });
