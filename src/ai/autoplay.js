@@ -1,6 +1,8 @@
 
 import { Side } from "../model/side.js";
 import { redraw, drawTextOnHex } from "../view/graphics.js";
+import AIPlayer from "./mcts_ai.js";
+import * as GameStatus from "../model/game_status.js";
 
 const AUTOPLAY_DELAY = 800;
 
@@ -15,23 +17,18 @@ export function displayEvents(events) {
 export class Autoplay {
     constructor(game) {
         this.game = game;
+        this.aiPlayer = new AIPlayer({
+            game: game,
+            iterations: 1000,
+            aiWinStatuses: [GameStatus.CARTHAGINIAN_WIN],
+            aiLoseStatuses: [GameStatus.ROMAN_WIN],
+            aiToken: Side.CARTHAGINIAN,
+        });
     }
 
-    showAiWeights() {
-        if (this.game.currentSide !== Side.CARTHAGINIAN) {
-            return;
-        }
-        let commands = this.game.validCommands();
-        commands.sort((a, b) => b.value(this.game) - a.value(this.game));
-        console.log("-----------------");
-        commands.forEach(command => {
-            console.log(`${command} value: ${command.value(this.game)}`);
-        });    
-    }
-
-    fastPlayout(graphics) {
+    randomPlayout() {
         while (!this.game.isTerminal()) {
-            this.executeBestCommand();
+            this.executeRandomCommand();
         }
     }
 
@@ -45,12 +42,22 @@ export class Autoplay {
     }
 
     async play(graphics) {
-        if (this.game.currentSide === Side.CARTHAGINIAN) {            
-            let events = this.executeBestCommand();
+        while (this.game.currentSide === Side.CARTHAGINIAN) {
+            const command = this.aiPlayer.decideMove(this.game);
+            let events = this.game.executeCommand(command);
             displayEvents(events);
             redraw(graphics, this.game);
             await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
         }
+    }
+
+    executeRandomCommand() {
+        let commands = this.game.validCommands();
+        if (commands.length === 0) {
+            throw new Error("No valid commands");
+        }
+        let command = commands[Math.floor(Math.random() * commands.length)];
+        return this.game.executeCommand(command);
     }
 
     executeBestCommand() {
@@ -64,10 +71,10 @@ export class Autoplay {
 
         // extract all the commands with the highest value
         let bestCommands = commands.filter(command => command.value(this.game) === commands[0].value(this.game));
-        
+
         // choose randomly from the best commands
         let command = bestCommands[Math.floor(Math.random() * bestCommands.length)];
-        
-        return this.game.executeCommand(command);        
+
+        return this.game.executeCommand(command);
     }
 }

@@ -8,7 +8,9 @@ import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas } from "./view/map.js";
 import { GraphicalContext } from "./view/graphical_context.js";
-import { hexOf } from "./lib/hexlib.js";
+import * as GameStatus from "./model/game_status.js";
+import AIPlayer from "./ai/mcts_ai.js";
+import {Side} from "./model/side.js";
 
 // create canvas
 const canvas = document.createElement('canvas');
@@ -42,7 +44,7 @@ const autoplay = new Autoplay(interactiveGame);
 
 document.getElementById('end-phase').addEventListener('click', function (event) {
     interactiveGame.endPhase();
-//    autoplay.play(graphics);
+    autoplay.play(graphics);
     redraw(graphics, interactiveGame);
 });
 

@@ -97,11 +97,18 @@ test('clone game', () => {
     const game = makeGame(new TestScenario());
     const gameBeforeClone = JSON.stringify(game);
 
+    // measure the time it takes to clone the game
+    const start = performance.now();
     const clone = game.clone();
-    
+    const end = performance.now();
+    console.log("Cloning took " + (end - start) + " milliseconds.");
     assertEquals(gameBeforeClone, JSON.stringify(clone));
 
-    new Autoplay(clone).fastPlayout();
+    const autoplayStart = performance.now();
+    new Autoplay(clone).randomPlayout();
+    const autoplayEnd = performance.now();
+    console.log("Autoplay took " + (autoplayEnd - autoplayStart) + " milliseconds.");
+
     assertEquals(gameBeforeClone, JSON.stringify(game));
 });
 

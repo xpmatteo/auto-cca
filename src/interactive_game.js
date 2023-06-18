@@ -165,4 +165,8 @@ export class InteractiveGame {
         this.#selectedUnit = undefined;
         this.#game.endPhase();
     }
+
+    clone() {
+        return new InteractiveGame(this.#game.clone());
+    }
 }
