@@ -4,7 +4,7 @@ import { redraw, drawTextOnHex } from "../view/graphics.js";
 import AIPlayer from "./mcts_ai.js";
 import * as GameStatus from "../model/game_status.js";
 
-const AUTOPLAY_DELAY = 800;
+const AUTOPLAY_DELAY = 8;
 
 const textBox = document.getElementById("messages");
 export function displayEvents(events) {
@@ -29,6 +29,12 @@ export class Autoplay {
     randomPlayout() {
         while (!this.game.isTerminal()) {
             this.executeRandomCommand();
+        }
+    }
+
+    fastPlayout() {
+        while (!this.game.isTerminal()) {
+            this.executeBestCommand();
         }
     }
 

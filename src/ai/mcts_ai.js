@@ -62,6 +62,8 @@ export default class AIPlayer {
         this.aiLoseStatuses = params.aiLoseStatuses;
         this.aiToken = params.aiToken;
         this.iterations = params.iterations || 10000;
+        this.aiWins = 0;
+        this.aiLosses = 0;
     }
 
     decideMove(state) {
@@ -79,6 +81,7 @@ export default class AIPlayer {
         const timePerIteration = (end - start) / this.iterations;
         this.displayInformation(root);
         console.log(`AI took ${timeInSeconds} seconds to decide; ${timePerIteration.toFixed(2)} ms per iteration`);
+        console.log(`AI wins: ${this.aiWins}, AI losses: ${this.aiLosses}`);
         return root.mostVisited().move;
     }
 
@@ -134,6 +137,13 @@ export default class AIPlayer {
         while (!clone.isTerminal()) {
             let command = this.bestCommand(clone);
             clone.executeCommand(command);
+        }
+        if (clone.gameStatus === this.aiWinStatuses[0]) {
+            this.aiWins++;
+        } else if (clone.gameStatus === this.aiLoseStatuses[0]) {
+            this.aiLosses++;
+        } else {
+            throw new Error("Unexpected game status: " + clone.gameStatus);
         }
         return clone.gameStatus;
     }
