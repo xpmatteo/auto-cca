@@ -2,13 +2,14 @@
 const EXPANSION_FACTOR = 1.41421356237;
 
 export class MonteCarloTreeSearchNode {
-    constructor(state, parent = null, move = null) {
+    constructor(state, parent = null, move = null, sideExecutingTheMove) {
         this.state = state;
         this.parent = parent;
         this.move = move;
         this.children = [];
         this.wins = 0;
         this.visits = 0;
+        this.sideExecutingTheMove = sideExecutingTheMove;
     }
 
     ubc1() {
@@ -99,11 +100,13 @@ export default class AIPlayer {
     expand(node) {
         for (let command of node.state.validCommands()) {
             const clone = node.state.clone();
+            const sideExecutingTheMove = clone.currentSide;
             clone.executeCommand(command);
             node.children.push(new MonteCarloTreeSearchNode(
                 clone,
                 node,
-                command
+                command,
+                sideExecutingTheMove
             ));
         }
         return node.children[Math.floor(Math.random() * node.children.length)];
@@ -120,7 +123,7 @@ export default class AIPlayer {
 
     backpropagate(node, score) {
         while (node !== null) {
-            node.update(score, this.aiToken !== node.state.currentSide);
+            node.update(score, this.aiToken !== node.sideExecutingTheMove);
             node = node.parent;
         }
     }
