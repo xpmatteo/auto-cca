@@ -3,14 +3,14 @@ import {chooseBestCommand} from "./autoplay.js";
 const EXPANSION_FACTOR = 1.41421356237;
 
 export class MonteCarloTreeSearchNode {
-    constructor(state, parent = null, move = null) {
+    constructor(state, sideExecutingTheMove, parent = null, move = null) {
         this.state = state;
         this.parent = parent;
         this.move = move;
         this.children = [];
         this.wins = 0;
         this.visits = 0;
-        this.sideExecutingTheMove = state.currentSide;
+        this.sideExecutingTheMove = sideExecutingTheMove;
     }
 
     ubc1() {
@@ -90,7 +90,7 @@ export default class AIPlayer {
 
     __doDecideMove(state) {
         this.initVisitData();
-        let root = new MonteCarloTreeSearchNode(state);
+        let root = new MonteCarloTreeSearchNode(state, state.currentSide);
         for (let i = 0; i < this.iterations; i++) {
             let node = this.select(root);
             let result = this.simulate(node.state);
@@ -123,8 +123,9 @@ export default class AIPlayer {
     expand(node) {
         for (let command of node.state.validCommands()) {
             const clone = node.state.clone();
+            const sideExecutingTheMove = clone.currentSide;
             clone.executeCommand(command);
-            node.children.push(new MonteCarloTreeSearchNode(clone, node, command));
+            node.children.push(new MonteCarloTreeSearchNode(clone, sideExecutingTheMove, node, command));
         }
         return node.children[Math.floor(Math.random() * node.children.length)];
     }
