@@ -34,7 +34,7 @@ export class Autoplay {
         this.game = game;
         this.aiPlayer = new AIPlayer({
             game: game,
-            iterations: 1000,
+            iterations: 10000,
             aiWinStatuses: [GameStatus.CARTHAGINIAN_WIN],
             aiLoseStatuses: [GameStatus.ROMAN_WIN],
             aiToken: Side.CARTHAGINIAN,

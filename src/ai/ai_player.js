@@ -1,5 +1,5 @@
-import {chooseBestCommand} from "./autoplay.js";
-import {MonteCarloTreeSearchNode} from "./monte_carlo_tree_search_node.js";
+import { chooseBestCommand } from "./autoplay.js";
+import { makeRootNode } from "./monte_carlo_tree_search_node.js";
 
 export const performanceObserver = {
     onStartDecideMove: function (aiPlayer) {
@@ -95,7 +95,7 @@ export default class AIPlayer {
 
     __doDecideMove(state) {
         this.initVisitData();
-        let root = new MonteCarloTreeSearchNode(state, state.currentSide);
+        let root = makeRootNode(state, state.currentSide);
         for (let i = 0; i < this.iterations; i++) {
             let node = this.select(root);
             let result = this.simulate(node.state);
@@ -121,7 +121,7 @@ export default class AIPlayer {
             const clone = node.state.clone();
             const sideExecutingTheMove = clone.currentSide;
             clone.executeCommand(command);
-            node.children.push(new MonteCarloTreeSearchNode(clone, sideExecutingTheMove, node, command));
+            node.pushChild(clone, sideExecutingTheMove, command);
         }
         return node.children[Math.floor(Math.random() * node.children.length)];
     }

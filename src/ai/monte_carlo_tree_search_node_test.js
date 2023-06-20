@@ -1,13 +1,13 @@
 
 import {assertEquals, assertTrue, assertDeepEquals, test, assertAlmostEquals} from "../lib/test_lib.js";
-import { MonteCarloTreeSearchNode } from './monte_carlo_tree_search_node.js';
+import { makeRootNode } from './monte_carlo_tree_search_node.js';
 import {Side} from "../model/side.js";
 
 // unit tests for the MonteCarloTreeSearchNode class
 
 // create node
 test('create root node', () => {
-    let node = new MonteCarloTreeSearchNode({}, Side.ROMAN);
+    let node = makeRootNode({}, Side.ROMAN);
     assertDeepEquals({}, node.state);
     assertEquals(Side.ROMAN, node.sideExecutingTheMove);
     assertEquals(null, node.move);
@@ -19,7 +19,7 @@ test('create root node', () => {
 
 // ubc1
 test('ubc1', () => {
-    let node = new MonteCarloTreeSearchNode({}, Side.ROMAN);
+    let node = makeRootNode({}, Side.ROMAN);
     node.wins = 1;
     node.visits = 2;
     node.parent = {
@@ -30,7 +30,7 @@ test('ubc1', () => {
 
 // update
 test('update', () => {
-    let node = new MonteCarloTreeSearchNode({}, Side.ROMAN);
+    let node = makeRootNode({}, Side.ROMAN);
     node.update(1, false);
     assertEquals(1, node.wins);
     assertEquals(1, node.visits);
@@ -42,30 +42,25 @@ test('update', () => {
 
 // size
 test('size', () => {
-    let root = new MonteCarloTreeSearchNode({}, Side.ROMAN);
+    let root = makeRootNode({}, Side.ROMAN);
     assertEquals(1, root.size());
 
-    root.children.push(new MonteCarloTreeSearchNode({}, Side.CARTHAGINIAN));
+    root.pushChild();
     assertEquals(2, root.size());
 
-    root.children.push(new MonteCarloTreeSearchNode({}, Side.CARTHAGINIAN));
+    root.pushChild();
     assertEquals(3, root.size());
 });
 
 test('return the path of most visited nodes', () => {
-    function aNode(side, visits, move) {
-        let result = new MonteCarloTreeSearchNode({}, side);
-        result.visits = visits;
-        result.move = move;
-        return result;
-    }
-    let root = aNode(Side.ROMAN, 0, null);
-    let child1 = aNode(Side.ROMAN, 100, 1);
-    root.children.push(child1);
-    let child2 = aNode(Side.ROMAN, 200, 2);
-    root.children.push(child2);
-    let child3 = aNode(Side.CARTHAGINIAN, 300, 3);
-    child2.children.push(child3);
+    let root = makeRootNode({}, Side.ROMAN);
+    root.pushChild({}, Side.ROMAN, 1);
+    root.children[0].visits = 100;
+    root.pushChild({}, Side.ROMAN, 2);
+    root.children[1].visits = 200;
+    let child2 = root.children[1];
+    child2.pushChild({}, Side.CARTHAGINIAN, 3);
+    child2.children[0].visits = 300;
 
     let pathUntilLeaf = root.mostVisitedPath(() => { return true; });
     assertDeepEquals([2, 3], pathUntilLeaf, "path until leaf node");

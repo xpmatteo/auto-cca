@@ -1,15 +1,29 @@
 
 const EXPANSION_FACTOR = 1.41421356237;
 
-export class MonteCarloTreeSearchNode {
+export function makeRootNode(state, sideExecutingTheMove) {
+    return new MonteCarloTreeSearchNode(state, sideExecutingTheMove);
+}
+
+class MonteCarloTreeSearchNode {
+    #children;
+
     constructor(state, sideExecutingTheMove, parent = null, move = null) {
         this.state = state;
         this.parent = parent;
         this.move = move;
-        this.children = [];
+        this.#children = [];
         this.wins = 0;
         this.visits = 0;
         this.sideExecutingTheMove = sideExecutingTheMove;
+    }
+
+    get children() {
+        return this.#children;
+    }
+
+    pushChild(state, sideExecutingTheMove, move) {
+        this.#children.push(new MonteCarloTreeSearchNode(state, sideExecutingTheMove, this, move));
     }
 
     ubc1() {
@@ -29,15 +43,15 @@ export class MonteCarloTreeSearchNode {
 
     size() {
         // return the number of nodes in the subtree rooted at this node
-        if (this.children.length === 0) {
+        if (this.#children.length === 0) {
             return 1;
         }
-        return 1 + this.children.map(child => child.size()).reduce((a, b) => a + b, 0);
+        return 1 + this.#children.map(child => child.size()).reduce((a, b) => a + b, 0);
     }
 
     bestChild() {
-        let best = this.children[0];
-        for (let child of this.children) {
+        let best = this.#children[0];
+        for (let child of this.#children) {
             if (child.ubc1() > best.ubc1()) {
                 best = child;
             }
@@ -46,8 +60,8 @@ export class MonteCarloTreeSearchNode {
     }
 
     mostVisited() {
-        let mostVisited = this.children[0];
-        for (let child of this.children) {
+        let mostVisited = this.#children[0];
+        for (let child of this.#children) {
             if (child.visits > mostVisited.visits) {
                 mostVisited = child;
             }
@@ -59,7 +73,7 @@ export class MonteCarloTreeSearchNode {
     mostVisitedPath(validNode) {
         let result = [];
         let currentNode = this;
-        while (currentNode.children.length > 0) {
+        while (currentNode.#children.length > 0) {
             currentNode = currentNode.mostVisited();
             if (!validNode(currentNode)) {
                 break;
