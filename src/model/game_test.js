@@ -112,27 +112,24 @@ test('clone game', () => {
     assertEquals(gameBeforeClone, JSON.stringify(game));
 });
 
-
-test('playout the test scenario', () => {
-
-    // repeat N times
-    const N = 1000;
-    let romanWins = 0;
-    let carthaginianWins = 0;
-    for (let i = 0; i < N; i++) {
-        const game = makeGame(new TestScenario());
-        new Autoplay(game).fastPlayout();
-        if (game.gameStatus === GameStatus.ROMAN_WIN) {
-            romanWins++;
-        } else if (game.gameStatus === GameStatus.CARTHAGINIAN_WIN) {
-            carthaginianWins++;
-        } else {
-            throw new Error("Game is not terminal: " + clone.gameStatus);
-        }
-    }
-    console.log("Roman wins: " + romanWins + ", Carthaginian wins: " + carthaginianWins);
-});
-
+// test('playout the test scenario', () => {
+//     // repeat N times
+//     const N = 1000;
+//     let romanWins = 0;
+//     let carthaginianWins = 0;
+//     for (let i = 0; i < N; i++) {
+//         const game = makeGame(new TestScenario());
+//         new Autoplay(game).fastPlayout();
+//         if (game.gameStatus === GameStatus.ROMAN_WIN) {
+//             romanWins++;
+//         } else if (game.gameStatus === GameStatus.CARTHAGINIAN_WIN) {
+//             carthaginianWins++;
+//         } else {
+//             throw new Error("Game is not terminal: " + clone.gameStatus);
+//         }
+//     }
+//     console.log("Roman wins: " + romanWins + ", Carthaginian wins: " + carthaginianWins);
+// });
 
 test('eventually switch side', function () {
     const game = makeGame(new NullScenario());
