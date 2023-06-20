@@ -3,7 +3,7 @@ import { redraw } from "../view/graphics.js";
 import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
 import * as GameStatus from "../model/game_status.js";
 
-const AUTOPLAY_DELAY = 8;
+const AUTOPLAY_DELAY = 800;
 
 const textBox = document.getElementById("messages");
 export function displayEvents(events) {
@@ -71,11 +71,12 @@ export class Autoplay {
         while (this.game.currentSide === Side.CARTHAGINIAN) {
             const commands = this.aiPlayer.decideMove(this.game);
             for (let command of commands) {
+                console.log("Executing command: " + command);
                 let events = this.game.executeCommand(command);
                 displayEvents(events);
+                redraw(graphics, this.game);
+                await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
             }
-            redraw(graphics, this.game);
-            await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
         }
     }
 

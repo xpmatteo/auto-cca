@@ -90,7 +90,7 @@ export default class AIPlayer {
         notifyStartDecideMove(this);
         let root = this.__doDecideMove(state);
         notifyEndDecideMove(this, root);
-        return [root.mostVisited().move];
+        return root.mostVisitedPath((node) => node.sideExecutingTheMove === this.aiToken);
     }
 
     __doDecideMove(state) {

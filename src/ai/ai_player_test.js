@@ -14,10 +14,8 @@ test('decideMove', () => {
         iterations: 1
     });
     let root = {
-        mostVisited: () => {
-            return {
-                move: 2
-            };
+        mostVisitedPath: () => {
+            return [2];
         }
     };
     ai.__doDecideMove = () => root;
