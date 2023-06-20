@@ -84,13 +84,13 @@ export default class AIPlayer {
     decideMove(state) {
         if (state.validCommands().length === 1) {
             console.log("-------- AI has one only move: " + state.validCommands()[0]);
-            return state.validCommands()[0];
+            return state.validCommands();
         }
 
         notifyStartDecideMove(this);
         let root = this.__doDecideMove(state);
         notifyEndDecideMove(this, root);
-        return root.mostVisited().move;
+        return [root.mostVisited().move];
     }
 
     __doDecideMove(state) {

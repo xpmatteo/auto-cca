@@ -1,4 +1,4 @@
-import { assertEquals, test } from "../lib/test_lib.js";
+import { assertDeepEquals, assertEquals, test } from "../lib/test_lib.js";
 import AIPlayer from "./ai_player.js";
 
 // unit tests for the AIPlayer class
@@ -21,5 +21,5 @@ test('decideMove', () => {
         }
     };
     ai.__doDecideMove = () => root;
-    assertEquals(2, ai.decideMove(state));
+    assertDeepEquals([2], ai.decideMove(state));
 });

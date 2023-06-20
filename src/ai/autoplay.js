@@ -1,6 +1,5 @@
-
 import { Side } from "../model/side.js";
-import { redraw, drawTextOnHex } from "../view/graphics.js";
+import { redraw } from "../view/graphics.js";
 import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
 import * as GameStatus from "../model/game_status.js";
 
@@ -27,8 +26,7 @@ export function chooseBestCommand(game) {
     let bestCommands = commands.filter(command => command.value(game) === commands[0].value(game));
 
     // choose randomly from the best commands
-    let command = bestCommands[Math.floor(Math.random() * bestCommands.length)];
-    return command;
+    return bestCommands[Math.floor(Math.random() * bestCommands.length)];
 }
 
 export class Autoplay {
@@ -71,9 +69,11 @@ export class Autoplay {
 
     async play(graphics) {
         while (this.game.currentSide === Side.CARTHAGINIAN) {
-            const command = this.aiPlayer.decideMove(this.game);
-            let events = this.game.executeCommand(command);
-            displayEvents(events);
+            const commands = this.aiPlayer.decideMove(this.game);
+            for (let command of commands) {
+                let events = this.game.executeCommand(command);
+                displayEvents(events);
+            }
             redraw(graphics, this.game);
             await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
         }
