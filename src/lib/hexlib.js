@@ -28,7 +28,7 @@ class Hex {
     }
 
     neighbors() {
-        return hex_directions.map(d => hex_add(this, d));
+        return HEX_DIRECTIONS.map(d => hex_add(this, d));
     }
 
     get northernNeighbors() {
@@ -56,12 +56,12 @@ class Hex {
     }
 };
 
-const hexes = Object.create(null);
+const HEXES = Object.create(null);
 export function hexOf(q, r) {
-    if (hexes[[q, r]] === undefined) {
-        hexes[[q, r]] = new Hex(q, r);
+    if (HEXES[[q, r]] === undefined) {
+        HEXES[[q, r]] = new Hex(q, r);
     }
-    return hexes[[q, r]];
+    return HEXES[[q, r]];
 }
 
 const DIRECTION_WEST = hexOf(-1, 0);
@@ -70,28 +70,13 @@ const DIRECTION_NW =   hexOf(1, -1);
 const DIRECTION_SW =   hexOf(-1, 1);
 const DIRECTION_SE =   hexOf(0, 1);
 const DIRECTION_EAST = hexOf(1, 0);
-const hex_directions = [
+const HEX_DIRECTIONS = [
     DIRECTION_EAST,
     DIRECTION_NW,
     DIRECTION_NE,
     DIRECTION_WEST,
     DIRECTION_SW,
     DIRECTION_SE
-];
-
-const hex_directions_radius_2 = [
-    hexOf(-1, -1),
-    hexOf(-1, 2),
-    hexOf(-2, 0),
-    hexOf(-2, 1),
-    hexOf(-2, 2),
-    hexOf(0, -2),
-    hexOf(0, 2),
-    hexOf(1, -2),
-    hexOf(1, 1),
-    hexOf(2, -1),
-    hexOf(2, -2),
-    hexOf(2, 0),
 ];
 
 class Orientation {
