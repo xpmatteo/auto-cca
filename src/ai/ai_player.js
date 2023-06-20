@@ -20,7 +20,7 @@ export const treeObserver = {
         this.treeSize = 0;
     },
     onEndDecideMove: function (aiPlayer, root) {
-        console.log(`tree size: ${root.size()}`, root);
+        console.log(`tree size: ${root.size()}, depth: ${root.depth()}`, root);
         root.children.sort((a, b) => b.visits - a.visits);
         for (let child of root.children) {
             console.log(`Child move: ${child.move}, score: ${child.wins}/${child.visits}`);
@@ -90,7 +90,13 @@ export default class AIPlayer {
         notifyStartDecideMove(this);
         let root = this.__doDecideMove(state);
         notifyEndDecideMove(this, root);
-        return root.mostVisitedPath((node) => node.sideExecutingTheMove === this.aiToken);
+        let moves = root.mostVisitedPath((node) =>
+            node.sideExecutingTheMove === this.aiToken && node.move.isDeterministic()
+        );
+        if (moves.length === 0) {
+            return [root.mostVisited().move];
+        }
+        return moves;
     }
 
     __doDecideMove(state) {

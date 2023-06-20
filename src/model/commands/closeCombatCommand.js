@@ -13,6 +13,10 @@ export class CloseCombatCommand {
         return `Close Combat from ${this.fromHex} to ${this.toHex}`;
     }
 
+    isDeterministic() {
+        return false;
+    }
+
     play(game) {
         const defendingHex = this.toHex;
         const attackingHex = this.fromHex;

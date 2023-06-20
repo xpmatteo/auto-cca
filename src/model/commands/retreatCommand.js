@@ -20,4 +20,8 @@ export class RetreatCommand {
     value(game) {
         return 0; // AI treats all retreat hexes as equally likely
     }
+
+    isDeterministic() {
+        return true;
+    }
 }

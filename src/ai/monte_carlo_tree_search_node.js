@@ -49,6 +49,14 @@ class MonteCarloTreeSearchNode {
         return 1 + this.#children.map(child => child.size()).reduce((a, b) => a + b, 0);
     }
 
+    depth() {
+        // return the depth of the subtree rooted at this node
+        if (this.#children.length === 0) {
+            return 0;
+        }
+        return 1 + Math.max(...this.#children.map(child => child.depth()));
+    }
+
     bestChild() {
         let best = this.#children[0];
         for (let child of this.#children) {

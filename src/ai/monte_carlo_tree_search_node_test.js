@@ -40,7 +40,6 @@ test('update', () => {
     assertEquals(2, node.visits);
 });
 
-// size
 test('size', () => {
     let root = makeRootNode({}, Side.ROMAN);
     assertEquals(1, root.size());
@@ -50,6 +49,20 @@ test('size', () => {
 
     root.pushChild();
     assertEquals(3, root.size());
+});
+
+test('depth', () => {
+    let root = makeRootNode({}, Side.ROMAN);
+    assertEquals(0, root.depth());
+
+    root.pushChild({}, Side.ROMAN, 1);
+    root.pushChild({}, Side.ROMAN, 2);
+    let child2 = root.children[1];
+    child2.pushChild({}, Side.CARTHAGINIAN, 3);
+
+
+    assertEquals(1, child2.depth());
+    assertEquals(2, root.depth());
 });
 
 test('return the path of most visited nodes', () => {

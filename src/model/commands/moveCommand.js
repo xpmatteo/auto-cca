@@ -39,4 +39,8 @@ export class MoveCommand {
         }
         return valueOfToHex - valueOfFromHex;
     }
+
+    isDeterministic() {
+        return true;
+    }
 }

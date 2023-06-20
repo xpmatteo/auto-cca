@@ -11,4 +11,8 @@ export class EndPhaseCommand {
     value(game) {
         return 0;
     }
+
+    isDeterministic() {
+        return true;
+    }
 }
