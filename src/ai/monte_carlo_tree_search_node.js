@@ -54,4 +54,18 @@ export class MonteCarloTreeSearchNode {
         }
         return mostVisited;
     }
+
+    // return the moves on the path of most visited nodes, while validNode returns true or until we reach a leaf node
+    mostVisitedPath(validNode) {
+        let result = [];
+        let currentNode = this;
+        while (currentNode.children.length > 0) {
+            currentNode = currentNode.mostVisited();
+            if (!validNode(currentNode)) {
+                break;
+            }
+            result.push(currentNode);
+        }
+        return result.map(node => node.move);
+    }
 }

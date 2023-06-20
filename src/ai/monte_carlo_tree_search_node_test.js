@@ -52,3 +52,24 @@ test('size', () => {
     assertEquals(3, root.size());
 });
 
+test('return the path of most visited nodes', () => {
+    function aNode(side, visits, move) {
+        let result = new MonteCarloTreeSearchNode({}, side);
+        result.visits = visits;
+        result.move = move;
+        return result;
+    }
+    let root = aNode(Side.ROMAN, 0, null);
+    let child1 = aNode(Side.ROMAN, 100, 1);
+    root.children.push(child1);
+    let child2 = aNode(Side.ROMAN, 200, 2);
+    root.children.push(child2);
+    let child3 = aNode(Side.CARTHAGINIAN, 300, 3);
+    child2.children.push(child3);
+
+    let pathUntilLeaf = root.mostVisitedPath(() => { return true; });
+    assertDeepEquals([2, 3], pathUntilLeaf, "path until leaf node");
+
+    let pathUntilInvalid = root.mostVisitedPath((node) => { return node.sideExecutingTheMove === Side.ROMAN; });
+    assertDeepEquals([2], pathUntilInvalid, "path until invalid node");
+});
