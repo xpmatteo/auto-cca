@@ -1,5 +1,5 @@
 import { assertEquals, test } from "../lib/test_lib.js";
-import AIPlayer from "./mcts_ai.js";
+import AIPlayer from "./ai_player.js";
 
 // unit tests for the AIPlayer class
 
