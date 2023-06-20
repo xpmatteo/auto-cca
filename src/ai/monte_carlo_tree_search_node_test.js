@@ -65,6 +65,19 @@ test('depth', () => {
     assertEquals(2, root.depth());
 });
 
+test('shape', () => {
+    let root = makeRootNode({}, Side.ROMAN);
+    root.pushChild({}, Side.ROMAN, 1);
+    root.pushChild({}, Side.ROMAN, 2);
+    let child2 = root.children[1];
+    child2.pushChild({}, Side.CARTHAGINIAN, 3);
+    child2.pushChild({}, Side.CARTHAGINIAN, 4);
+    child2.pushChild({}, Side.CARTHAGINIAN, 5);
+
+    assertDeepEquals([1,2,3], root.shape());
+});
+
+
 test('return the path of most visited nodes', () => {
     let root = makeRootNode({}, Side.ROMAN);
     root.pushChild({}, Side.ROMAN, 1);

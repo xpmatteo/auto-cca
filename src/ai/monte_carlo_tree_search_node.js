@@ -90,4 +90,23 @@ class MonteCarloTreeSearchNode {
         }
         return result.map(node => node.move);
     }
+
+    // return the list of the number of nodes at each level of depth as a list
+    shape() {
+        const result = [];
+
+        function traverse(node, level) {
+            if (!result[level]) {
+                result[level] = 0;
+            }
+            result[level]++;
+
+            for (const child of node.children) {
+                traverse(child, level + 1);
+            }
+        }
+
+        traverse(this, 0);
+        return result;
+    }
 }

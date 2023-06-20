@@ -15,3 +15,7 @@ See the game by visiting http://localhost:8000/
     - battle back can result in a retreat too
 
     - clone
+
+# History
+
+As of 20/6 the AI is weak.   
