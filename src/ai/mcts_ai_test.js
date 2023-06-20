@@ -1,6 +1,7 @@
 import { assertEquals, assertTrue, assertDeepEquals, test } from "./test_lib.js";
-import AIPlayer, { MonteCarloTreeSearchNode } from "./mcts_ai.js";
+import AIPlayer from "./mcts_ai.js";
 import * as ttt from "./tic_tac_toe.js";
+import {MonteCarloTreeSearchNode} from "./monte_carlo_tree_search_node.js";
 
 const initialState = {
     board: [ttt.CELL_X,     ttt.CELL_EMPTY, ttt.CELL_EMPTY,
