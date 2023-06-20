@@ -160,14 +160,19 @@ function hex_length(hex) {
     return trunc((abs(hex.q) + abs(hex.r) + abs(hex.s)) / 2);
 }
 
-export const layout_pointy
-    = new Orientation(sqrt(3.0), sqrt(3.0) / 2.0, 0.0, 3.0 / 2.0,
-        sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0,
-        0.5);
-
+export const LAYOUT_POINTY = new Orientation(
+    sqrt(3.0),
+    sqrt(3.0) / 2.0,
+    0.0,
+    3.0 / 2.0,
+    sqrt(3.0) / 3.0,
+    -1.0 / 3.0,
+    0.0,
+    2.0 / 3.0,
+    0.5);
 
 function assertEquals(expected, actual, message = "Assertion failed") {
-    if (expected != actual) {
+    if (expected !== actual) {
         throw new Error(message + ": expected " + expected + ", got " + actual);
     }
 }

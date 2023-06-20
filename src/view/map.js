@@ -1,5 +1,5 @@
 
-import { Layout, Point, layout_pointy, pixel_to_hex } from "../lib/hexlib.js";
+import { Layout, Point, LAYOUT_POINTY, pixel_to_hex } from "../lib/hexlib.js";
 
 const hexWidth = 76.4;
 const hexHeight = 77.4;
@@ -9,7 +9,7 @@ export const MAP_HEIGHT = 1200;
 
 let canvasScale = 1;
 
-export const layout = new Layout(layout_pointy, new Point(hexWidth, hexHeight), new Point(110, 140));
+export const layout = new Layout(LAYOUT_POINTY, new Point(hexWidth, hexHeight), new Point(110, 140));
 
 // scale canvas to fit window
 export function resizeCanvas(canvas) {
