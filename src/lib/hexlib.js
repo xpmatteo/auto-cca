@@ -27,23 +27,8 @@ class Hex {
         return hex_length(hex_subtract(this, other));
     }
 
-    ring(radius) {
-        let directions = hex_directions;
-        switch (radius) {
-            case 1:
-                directions = hex_directions;
-                break;
-            case 2:
-                directions = hex_directions_radius_2;
-                break;
-            default:
-                throw new Error(`radius ${radius} not implemented`);
-        }
-        return directions.map((direction) => hex_add(this, direction));
-    }
-
     neighbors() {
-        return this.ring(1);
+        return hex_directions.map(d => hex_add(this, d));
     }
 
     get northernNeighbors() {

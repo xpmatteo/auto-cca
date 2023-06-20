@@ -27,7 +27,7 @@ test('hex neighbors', function () {
     assertEqualsInAnyOrder(expected, actual)
 });
 
-test('hex static cosntructor', function () {
+test('hex static constructor', function () {
     let a = hexOf(1, 2);
     let b = hexOf(1, 2);
     let c = hexOf(2, 1);
@@ -35,3 +35,4 @@ test('hex static cosntructor', function () {
     assertEquals(a, b, "should be the same hex");
     assertTrue(a !== c, "should be different hexes");
 })
+
