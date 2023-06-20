@@ -30,10 +30,10 @@ test('add unit outside map', () => {
     let unit = new RomanHeavyInfantry();
 
     try {
-        game.placeUnit(hexOf(1000, 0), unit);
+        game.placeUnit(hexOf(100, 0), unit);
         fail("should have thrown exception");
     } catch (err) {
-        assertEquals('Error: Hex [1000,0] outside of map', err.toString());
+        assertEquals('Error: Hex [100,0] outside of map', err.toString());
     }
 });
 

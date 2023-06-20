@@ -1,34 +1,95 @@
 import {chooseBestCommand} from "./autoplay.js";
 import {MonteCarloTreeSearchNode} from "./monte_carlo_tree_search_node.js";
 
+export const performanceObserver = {
+    onStartDecideMove: function (aiPlayer) {
+        console.log("-------- AI is thinking... ---------");
+        this.startTime = performance.now();
+    },
+    onEndDecideMove: function (aiPlayer, root) {
+        const end = performance.now();
+        const start = this.startTime;
+        const timeInSeconds = ((end - start) / 1000).toFixed(2);
+        const timePerIteration = (end - start) / aiPlayer.iterations;
+        console.log(`AI took ${timeInSeconds} seconds to decide; ${timePerIteration.toFixed(2)} ms per iteration`);
+    },
+}
+
+export const treeObserver = {
+    onStartDecideMove: function (aiPlayer) {
+        this.treeSize = 0;
+    },
+    onEndDecideMove: function (aiPlayer, root) {
+        console.log(`tree size: ${root.size()}`, root);
+        root.children.sort((a, b) => b.visits - a.visits);
+        for (let child of root.children) {
+            console.log(`Child move: ${child.move}, score: ${child.wins}/${child.visits}`);
+        }
+    },
+}
+
+export const winLossObserver = {
+    onStartDecideMove: function (aiPlayer) {
+        this.aiWins = 0;
+        this.aiLosses = 0;
+        this.draws = 0;
+    },
+    onSimulateEnd: function (aiPlayer, clone) {
+        if (clone.gameStatus === aiPlayer.aiWinStatuses[0]) {
+            this.aiWins++;
+        } else if (clone.gameStatus === aiPlayer.aiLoseStatuses[0]) {
+            this.aiLosses++;
+        } else {
+            this.draws++;
+        }
+    },
+    onEndDecideMove: function (aiPlayer, root) {
+        console.log(`AI wins: ${this.aiWins}, AI losses: ${this.aiLosses}, draws: ${this.draws}`);
+    }
+}
+
+function notifyStartDecideMove(aiPlayer) {
+    for (let observer of aiPlayer.observers) {
+        if (observer.onStartDecideMove) {
+            observer.onStartDecideMove(aiPlayer);
+        }
+    }
+}
+
+function notifyEndDecideMove(aiPlayer, root) {
+    for (let observer of aiPlayer.observers) {
+        if (observer.onEndDecideMove) {
+            observer.onEndDecideMove(aiPlayer, root);
+        }
+    }
+}
+
+function notifySimulationEnd(aiPlayer, clone) {
+    for (let observer of aiPlayer.observers) {
+        if (observer.onSimulateEnd) {
+            observer.onSimulateEnd(aiPlayer, clone);
+        }
+    }
+}
+
 export default class AIPlayer {
     constructor(params) {
         this.aiWinStatuses = params.aiWinStatuses;
         this.aiLoseStatuses = params.aiLoseStatuses;
         this.aiToken = params.aiToken;
         this.iterations = params.iterations || 10000;
+        this.observers = params.observers || [];
     }
 
     decideMove(state) {
-        this.aiWins = 0;
-        this.aiLosses = 0;
-        this.draws = 0;
-
         if (state.validCommands().length === 1) {
             console.log("-------- AI has one only move: " + state.validCommands()[0]);
             return state.validCommands()[0];
         }
-        console.log("-------- AI is thinking... ---------");
-        const start = performance.now();
 
+        notifyStartDecideMove(this);
         let root = this.__doDecideMove(state);
-
-        const end = performance.now();
-        const timeInSeconds = ((end - start) / 1000).toFixed(2);
-        const timePerIteration = (end - start) / this.iterations;
-        this.displayInformation(root);
-        console.log(`AI took ${timeInSeconds} seconds to decide; ${timePerIteration.toFixed(2)} ms per iteration`);
-        console.log(`AI wins: ${this.aiWins}, AI losses: ${this.aiLosses}, draws: ${this.draws}`);
+        notifyEndDecideMove(this, root);
         return root.mostVisited().move;
     }
 
@@ -40,17 +101,8 @@ export default class AIPlayer {
             let result = this.simulate(node.state);
             let score = this.gameStatusToScore(result);
             this.backpropagate(node, score);
-            //this.collectVisitData(root, i);
         }
         return root;
-    }
-
-    displayInformation(root) {
-        console.log(`tree size: ${root.size()}`, root);
-        root.children.sort((a, b) => b.visits - a.visits);
-        for (let child of root.children) {
-            console.log(`Child move: ${child.move}, score: ${child.wins}/${child.visits}`);
-        }
     }
 
     select(node) {
@@ -82,14 +134,7 @@ export default class AIPlayer {
             let command = chooseBestCommand(clone);
             clone.executeCommand(command);
         }
-        this.lastSimulateResult = clone.gameStatus;
-        if (clone.gameStatus === this.aiWinStatuses[0]) {
-            this.aiWins++;
-        } else if (clone.gameStatus === this.aiLoseStatuses[0]) {
-            this.aiLosses++;
-        } else {
-            this.draws++;
-        }
+        notifySimulationEnd(this, clone);
         return clone.gameStatus;
     }
 

@@ -1,7 +1,7 @@
 
 import { Side } from "../model/side.js";
 import { redraw, drawTextOnHex } from "../view/graphics.js";
-import AIPlayer from "./mcts_ai.js";
+import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./mcts_ai.js";
 import * as GameStatus from "../model/game_status.js";
 
 const AUTOPLAY_DELAY = 8;
@@ -40,6 +40,11 @@ export class Autoplay {
             aiWinStatuses: [GameStatus.CARTHAGINIAN_WIN],
             aiLoseStatuses: [GameStatus.ROMAN_WIN],
             aiToken: Side.CARTHAGINIAN,
+            observers: [
+                performanceObserver,
+                treeObserver,
+                winLossObserver,
+            ],
         });
     }
 

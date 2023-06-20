@@ -57,12 +57,13 @@ class Hex {
 };
 
 // The only way to create a Hex is with hexOf(q, r)
-const HEXES = Object.create(null);
+const HEXES = [];
 export function hexOf(q, r) {
-    if (HEXES[[q, r]] === undefined) {
-        HEXES[[q, r]] = new Hex(q, r);
+    const key = q + r * 1000;
+    if (HEXES[key] === undefined) {
+        HEXES[key] = new Hex(q, r);
     }
-    return HEXES[[q, r]];
+    return HEXES[key];
 }
 
 const DIRECTION_WEST = hexOf(-1, 0);
