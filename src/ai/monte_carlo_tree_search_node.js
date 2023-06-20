@@ -67,10 +67,14 @@ class MonteCarloTreeSearchNode {
         return best;
     }
 
+    score() {
+        return this.wins / this.visits;
+    }
+
     mostVisited() {
         let mostVisited = this.#children[0];
         for (let child of this.#children) {
-            if (child.visits > mostVisited.visits) {
+            if (child.score() > mostVisited.score()) {
                 mostVisited = child;
             }
         }
