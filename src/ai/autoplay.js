@@ -29,12 +29,14 @@ export function chooseBestCommand(game) {
     return bestCommands[Math.floor(Math.random() * bestCommands.length)];
 }
 
+const AI_ITERATIONS = 10000;
+
 export class Autoplay {
     constructor(game) {
         this.game = game;
         this.aiPlayer = new AIPlayer({
             game: game,
-            iterations: 3000,
+            iterations: AI_ITERATIONS,
             aiWinStatuses: [GameStatus.CARTHAGINIAN_WIN],
             aiLoseStatuses: [GameStatus.ROMAN_WIN],
             aiToken: Side.CARTHAGINIAN,

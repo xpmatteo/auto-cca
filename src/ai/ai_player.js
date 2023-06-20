@@ -1,6 +1,8 @@
 import { chooseBestCommand } from "./autoplay.js";
 import { makeRootNode } from "./monte_carlo_tree_search_node.js";
 
+export let aiTree = undefined;
+
 export const performanceObserver = {
     onStartDecideMove: function (aiPlayer) {
         console.log("-------- AI is thinking... ---------");
@@ -96,6 +98,7 @@ export default class AIPlayer {
         if (moves.length === 0) {
             return [root.mostVisited().move];
         }
+        aiTree = root;
         return moves;
     }
 

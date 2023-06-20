@@ -64,6 +64,17 @@ class MediumInfantry extends Unit {
         return `${this.side.name} medium infantry`;
     }
 }
+
+class LightInfantry extends Unit {
+    weight = dice.RESULT_LIGHT;
+    diceCount = 2;
+    initialStrength = 4;
+
+    toString() {
+        return `${this.side.name} light infantry`;
+    }
+}
+
 export class RomanHeavyCavalry extends HeavyCavalry {
     imageName = 'rom_cav_hv.png';
     side = Side.ROMAN;
@@ -87,6 +98,11 @@ export class RomanMediumInfantry extends MediumInfantry {
         super();
         Object.freeze(this);
     }
+}
+
+export class RomanLightInfantry extends LightInfantry {
+    imageName = 'rom_inf_lt.png';
+    side = Side.ROMAN;
 }
 
 export class CarthaginianHeavyInfantry extends HeavyInfantry {

@@ -6,9 +6,9 @@ function makeMap() {
     }
     
     let map = new Set();
-    for (let r = 0; r <= 8; r++) {
+    for (let r = 0; r <= 4; r++) {
         let col_start = -Math.trunc(r / 2);
-        let num_cols = even(r) ? 13 : 12;
+        let num_cols = even(r) ? 4 : 3;
         for (let q = col_start; q < col_start + num_cols; q++) {
             let hex = hexOf(q, r);
             map.add(hex);

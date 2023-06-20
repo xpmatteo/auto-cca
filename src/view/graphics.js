@@ -1,9 +1,11 @@
 'use strict';
 
-import { hexOf, hex_to_pixel } from "../lib/hexlib.js";
+import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
 import { layout } from "./map.js";
-import { Point } from "../lib/hexlib.js";
 import { Side } from "../model/side.js";
+import { aiTree } from "../ai/ai_player.js";
+import { MoveCommand } from "../model/commands/moveCommand.js";
+import { CloseCombatCommand } from "../model/commands/closeCombatCommand.js";
 
 export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected) {
     function displayStrength() {
@@ -126,6 +128,30 @@ export function redraw(graphics, game) {
     });
 
     drawGraveyard(graphics, game);
+
+    function drawChildren(tree, maxDepth) {
+        if (maxDepth === 0) return;
+        tree.children.forEach(child => {
+            if (child.move.constructor === MoveCommand) {
+                let pixelFrom = hex_to_pixel(layout, child.move.fromHex);
+                let pixelTo = hex_to_pixel(layout, child.move.toHex);
+                graphics.drawLine(pixelFrom, pixelTo, 10, 'green');
+                graphics.drawCircle(pixelTo, 10, 'green');
+                drawChildren(child, maxDepth - 1);
+            }
+            if (child.move.constructor === CloseCombatCommand) {
+                let pixelFrom = hex_to_pixel(layout, child.move.fromHex);
+                let pixelTo = hex_to_pixel(layout, child.move.toHex);
+                graphics.drawLine(pixelFrom, pixelTo, 10, 'brown');
+                graphics.drawCircle(pixelTo, 10, 'brown');
+                drawChildren(child, maxDepth - 1);
+            }
+        });
+    }
+
+    // if (aiTree) {
+    //     drawChildren(aiTree, 3);
+    // }
 
     updateInfoMessage(game);
     enableButtons(game);
