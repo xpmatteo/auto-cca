@@ -1,6 +1,7 @@
 
 import { assertEquals, assertDeepEquals, assertTrue, assertFalse, test, assertEqualsInAnyOrder } from './test_lib.js';
 import { hexOf } from './hexlib.js';
+import { hex_to_pixel, Layout, layout_pointy, Point } from './hexlib.js';
 
 test('hex to string', function () {
     let hex = hexOf(1, 2);
@@ -36,3 +37,13 @@ test('hex static constructor', function () {
     assertTrue(a !== c, "should be different hexes");
 })
 
+test('layout', function () {
+    const test_layout = new Layout(layout_pointy, new Point(50, 60), new Point(10, 100));
+    assertDeepEquals(layout_pointy, test_layout.orientation);
+    assertDeepEquals(hex_to_pixel(test_layout, hexOf(0, 0, 0)), new Point(10, 100));    
+});
+
+test('computed coordinate s', function () {
+    assertEquals(0, hexOf(1, -1, 0).s);
+    assertEquals(-30, hexOf(10, 20).s);
+});

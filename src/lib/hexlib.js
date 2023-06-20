@@ -56,6 +56,7 @@ class Hex {
     }
 };
 
+// The only way to create a Hex is with hexOf(q, r)
 const HEXES = Object.create(null);
 export function hexOf(q, r) {
     if (HEXES[[q, r]] === undefined) {
@@ -171,15 +172,3 @@ function assertEquals(expected, actual, message = "Assertion failed") {
     }
 }
 
-function assertDeepEquals(expected, actual, message = "Assertion failed") {
-    if (JSON.stringify(expected) != JSON.stringify(actual)) {
-        throw new Error(message + ": expected " + expected + ", got " + actual);
-    }
-}
-
-
-const test_layout = new Layout(layout_pointy, new Point(50, 60), new Point(10, 100));
-assertDeepEquals(layout_pointy, test_layout.orientation);
-assertDeepEquals(hex_to_pixel(test_layout, hexOf(0, 0, 0)), new Point(10, 100));
-assertEquals(0, hexOf(1, -1, 0).s);
-assertEquals(-30, hexOf(10, 20).s);
