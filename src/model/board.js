@@ -5,13 +5,13 @@ function makeMap() {
         return n % 2 === 0;
     }
     
-    let map = [];
+    let map = new Set();
     for (let r = 0; r <= 8; r++) {
         let col_start = -Math.trunc(r / 2);
         let num_cols = even(r) ? 13 : 12;
         for (let q = col_start; q < col_start + num_cols; q++) {
             let hex = hexOf(q, r);
-            map.push(hex);
+            map.add(hex);
         }
     }
     return map;
@@ -35,7 +35,7 @@ export class Board {
         if (this.#units.has(hex)) {
             throw new Error(`Unit already exists at ${hex}`);
         }
-        if (!MAP.includes(hex)) {
+        if (!MAP.has(hex)) {
             throw new Error(`Hex ${hex} outside of map`);
         }
         this.#units.set(hex, unit);
@@ -60,7 +60,7 @@ export class Board {
     }
 
     subtractOffMap(hexes) {
-        return hexes.filter(hex => MAP.includes(hex));
+        return hexes.filter(hex => MAP.has(hex));
     }
 
     subtractOccupiedHexes(hexes) {
