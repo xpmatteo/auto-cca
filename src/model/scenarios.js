@@ -29,6 +29,7 @@ export class TestScenario extends Scenario {
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
     pointsToWin = 1;
+    maxTurns = 2;
 
     placeUnitsOn(board) {
         board.placeUnit(hexOf(0, 3), new units.RomanLightInfantry());
@@ -45,6 +46,9 @@ export class TestScenario extends Scenario {
     }
 
     gameStatus(game) {
+        if (game.turnCount > this.maxTurns) {
+            return GameStatus.ROMAN_WIN;
+        }
         if (game.killedUnitsOfSide(Side.CARTHAGINIAN).length === this.pointsToWin) {
             return GameStatus.ROMAN_WIN;
         }

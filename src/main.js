@@ -8,6 +8,7 @@ import {redraw} from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import {findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas} from "./view/map.js";
 import {GraphicalContext} from "./view/graphical_context.js";
+import { RESULT_SWORDS } from "./model/dice.js";
 
 // create canvas
 const canvas = document.createElement('canvas');
@@ -18,7 +19,11 @@ const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game
 let scenario = new TestScenario();
-let game = makeGame(scenario);
+let game = makeGame(scenario, {
+    roll(count) {
+        return Array(count).fill(RESULT_SWORDS);
+    }
+});
 let interactiveGame = new InteractiveGame(game);
 
 // draw initial map

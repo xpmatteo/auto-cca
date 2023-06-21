@@ -22,6 +22,7 @@ class Game {
     movementTrails = [];
     unitStrengths = new Map();
     graveyard = new Graveyard();
+    turnCount = 0;
 
     constructor(scenario, dice) {
         this.scenario = scenario;
@@ -66,6 +67,7 @@ class Game {
         this.#currentSide = this.scenario.opposingSide(this.#currentSide);
         this.spentUnits = [];
         this.movementTrails = [];
+        this.turnCount++;
     }
 
     get deadUnitsNorth() {
