@@ -84,16 +84,10 @@ test('Kill in one move', () => {
     let expectedMovementMoves = [
         new MoveCommand(hexOf(0, 2), hexOf(1, 1)),
         new EndPhaseCommand(),
+        new CloseCombatCommand(hexOf(0, 3), hexOf(0, 2)),
     ];
     // console.log(aiTree);
     // console.log(aiTree.shape())
     // console.log(aiTree.mostVisitedPath1(() => true).map(n => `${n.move} ${n.sideExecutingTheMove}`));
     assertDeepEquals(expectedMovementMoves, movementMoves);
-    executeAll(movementMoves, game);
-
-    let combatMoves = ai.decideMove(game);
-    let expectedCombatMove = [
-        new CloseCombatCommand(hexOf(0, 3), hexOf(0, 2)),
-    ];
-    assertDeepEquals(expectedCombatMove, combatMoves);
 });
