@@ -70,7 +70,7 @@ export class Autoplay {
     }
 
     async play(graphics) {
-        while (this.game.currentSide === Side.CARTHAGINIAN) {
+        while (this.game.currentSide === Side.CARTHAGINIAN && !this.game.isTerminal()) {
             const commands = this.aiPlayer.decideMove(this.game);
             for (let command of commands) {
                 console.log("Executing command: " + command);

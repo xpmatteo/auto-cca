@@ -1,13 +1,22 @@
 import { assertEquals, test } from "../lib/test_lib.js";
 import { hexOf } from "../lib/hexlib.js";
-import { Board } from "./board.js";
 import * as units from "./units.js";
 import * as GameStatus from "./game_status.js";
 import { Side } from "./side.js";
-import { TestScenario } from "./scenarios.js";
+import { Scenario, TestScenario } from "./scenarios.js";
 import makeGame from "./game.js";
 
-const scenario = new TestScenario();
+class SomeScenario extends Scenario {
+    firstSide = Side.ROMAN;
+    sideNorth = Side.CARTHAGINIAN;
+    sideSouth = Side.ROMAN;
+    pointsToWin = 3;
+
+    placeUnitsOn(board) {
+    }
+}
+
+const scenario = new SomeScenario();
 
 test ("first side", () => {
     assertEquals(Side.ROMAN, scenario.firstSide);

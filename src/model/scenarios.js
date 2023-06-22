@@ -8,6 +8,15 @@ export class Scenario {
     opposingSide(side) {
         return side === this.sideNorth ? this.sideSouth : this.sideNorth;
     }
+    gameStatus(game) {
+        if (game.killedUnitsOfSide(Side.CARTHAGINIAN).length === this.pointsToWin) {
+            return GameStatus.ROMAN_WIN;
+        }
+        if (game.killedUnitsOfSide(Side.ROMAN).length === this.pointsToWin) {
+            return GameStatus.CARTHAGINIAN_WIN;
+        }
+        return GameStatus.ONGOING;
+    }
 }
 
 export class NullScenario extends Scenario {
@@ -29,20 +38,20 @@ export class TestScenario extends Scenario {
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
     pointsToWin = 1;
-    maxTurns = 2;
+    maxTurns = 6;
 
     placeUnitsOn(board) {
-        board.placeUnit(hexOf(0, 3), new units.RomanLightInfantry());
-        // board.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
-        // board.placeUnit(hexOf(3, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(1, 5), new units.RomanLightInfantry());
+        board.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(3, 5), new units.RomanHeavyInfantry());
         // board.placeUnit(hexOf(4, 5), new units.RomanHeavyInfantry());
         // board.placeUnit(hexOf(3, 6), new units.RomanHeavyCavalry());
-        board.placeUnit(hexOf(1, 1), new units.CarthaginianHeavyInfantry());
-        // board.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
-        // board.placeUnit(hexOf(3, 2), new units.CarthaginianHeavyInfantry());
-        // board.placeUnit(hexOf(4, 2), new units.CarthaginianMediumInfantry());
-        // board.placeUnit(hexOf(5, 2), new units.CarthaginianMediumInfantry());
-        // board.placeUnit(hexOf(6, 2), new units.CarthaginianMediumInfantry());
+        board.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(3, 2), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(4, 2), new units.CarthaginianMediumInfantry());
+        board.placeUnit(hexOf(5, 2), new units.CarthaginianMediumInfantry());
+        board.placeUnit(hexOf(6, 2), new units.CarthaginianMediumInfantry());
     }
 
     gameStatus(game) {

@@ -1,14 +1,13 @@
 "use strict";
 
-import {Autoplay, displayEvents} from "./ai/autoplay.js";
-import {InteractiveGame} from "./interactive_game.js";
+import { Autoplay, displayEvents } from "./ai/autoplay.js";
+import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
-import {TestScenario} from "./model/scenarios.js";
-import {redraw} from "./view/graphics.js";
+import { TestScenario } from "./model/scenarios.js";
+import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
-import {findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas} from "./view/map.js";
-import {GraphicalContext} from "./view/graphical_context.js";
-import { RESULT_SWORDS } from "./model/dice.js";
+import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas } from "./view/map.js";
+import { GraphicalContext } from "./view/graphical_context.js";
 
 // create canvas
 const canvas = document.createElement('canvas');
@@ -19,11 +18,7 @@ const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game
 let scenario = new TestScenario();
-let game = makeGame(scenario, {
-    roll(count) {
-        return Array(count).fill(RESULT_SWORDS);
-    }
-});
+let game = makeGame(scenario);
 let interactiveGame = new InteractiveGame(game);
 
 // draw initial map

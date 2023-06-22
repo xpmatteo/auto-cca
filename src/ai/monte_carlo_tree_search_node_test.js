@@ -60,7 +60,6 @@ test('depth', () => {
     let child2 = root.children[1];
     child2.pushChild({}, Side.CARTHAGINIAN, 3);
 
-
     assertEquals(1, child2.depth());
     assertEquals(2, root.depth());
 });

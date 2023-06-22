@@ -84,6 +84,9 @@ export default class AIPlayer {
     }
 
     decideMove(state) {
+        if (state.isTerminal()) {
+            return [];
+        }
         if (state.validCommands().length === 1) {
             console.log("-------- AI has one only move: " + state.validCommands()[0]);
             return state.validCommands();
