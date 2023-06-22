@@ -82,7 +82,12 @@ class MonteCarloTreeSearchNode {
     }
 
     // return the moves on the path of most visited nodes, while validNode returns true or until we reach a leaf node
-    mostVisitedPath(validNode) {
+    mostVisitedPathMoves(validNode) {
+        return this.mostVisitedPath1(validNode).map(node => node.move);
+    }
+
+    // same as mostVisitedPath, but returns the list of nodes, not the list of moves
+    mostVisitedPath1(validNode) {
         let result = [];
         let currentNode = this;
         while (currentNode.#children.length > 0) {
@@ -92,24 +97,21 @@ class MonteCarloTreeSearchNode {
             }
             result.push(currentNode);
         }
-        return result.map(node => node.move);
+        return result;
     }
 
     // return the list of the number of nodes at each level of depth as a list
     shape() {
         const result = [];
-
         function traverse(node, level) {
             if (!result[level]) {
                 result[level] = 0;
             }
             result[level]++;
-
             for (const child of node.children) {
                 traverse(child, level + 1);
             }
         }
-
         traverse(this, 0);
         return result;
     }

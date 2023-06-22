@@ -24,7 +24,7 @@ test('decideMove', () => {
         iterations: 1
     });
     let root = {
-        mostVisitedPath: () => {
+        mostVisitedPathMoves: () => {
             return [2];
         }
     };
@@ -85,7 +85,9 @@ test('Kill in one move', () => {
         new MoveCommand(hexOf(0, 2), hexOf(1, 1)),
         new EndPhaseCommand(),
     ];
-    console.log(aiTree);
+    // console.log(aiTree);
+    // console.log(aiTree.shape())
+    // console.log(aiTree.mostVisitedPath1(() => true).map(n => `${n.move} ${n.sideExecutingTheMove}`));
     assertDeepEquals(expectedMovementMoves, movementMoves);
     executeAll(movementMoves, game);
 

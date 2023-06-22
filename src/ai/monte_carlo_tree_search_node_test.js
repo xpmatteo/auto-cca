@@ -87,9 +87,9 @@ test('return the path of most visited nodes', () => {
     child2.pushChild({}, Side.CARTHAGINIAN, 3);
     child2.children[0].visits = 300;
 
-    let pathUntilLeaf = root.mostVisitedPath(() => { return true; });
+    let pathUntilLeaf = root.mostVisitedPathMoves(() => { return true; });
     assertDeepEquals([2, 3], pathUntilLeaf, "path until leaf node");
 
-    let pathUntilInvalid = root.mostVisitedPath((node) => { return node.sideExecutingTheMove === Side.ROMAN; });
+    let pathUntilInvalid = root.mostVisitedPathMoves((node) => { return node.sideExecutingTheMove === Side.ROMAN; });
     assertDeepEquals([2], pathUntilInvalid, "path until invalid node");
 });
