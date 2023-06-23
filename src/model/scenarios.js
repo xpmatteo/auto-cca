@@ -37,7 +37,7 @@ export class TestScenario extends Scenario {
     firstSide = Side.ROMAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
-    pointsToWin = 1;
+    pointsToWin = 3;
     maxTurns = 6;
 
     placeUnitsOn(board) {

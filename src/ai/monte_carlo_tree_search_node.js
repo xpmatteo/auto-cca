@@ -1,5 +1,5 @@
 
-const EXPANSION_FACTOR = 1.41421356237;
+const EXPANSION_FACTOR = .01;
 
 export function makeRootNode(state, sideExecutingTheMove) {
     return new MonteCarloTreeSearchNode(state, sideExecutingTheMove);
@@ -87,7 +87,7 @@ class MonteCarloTreeSearchNode {
     }
 
     // same as mostVisitedPath, but returns the list of nodes, not the list of moves
-    mostVisitedPath1(validNode) {
+    mostVisitedPath1(validNode = () => true) {
         let result = [];
         let currentNode = this;
         while (currentNode.#children.length > 0) {

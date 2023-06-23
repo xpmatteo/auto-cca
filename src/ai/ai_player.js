@@ -22,11 +22,13 @@ export const treeObserver = {
         this.treeSize = 0;
     },
     onEndDecideMove: function (aiPlayer, root) {
-        console.log(`tree size: ${root.size()}, shape: ${root.shape()}`, root);
+        console.log(`tree size: ${root.size()}, shape: ${root.shape()}`);
         root.children.sort((a, b) => b.visits - a.visits);
         for (let child of root.children) {
             console.log(`Child move: ${child.move}, score: ${child.wins}/${child.visits}`);
         }
+        console.log("---");
+        console.log(root.mostVisitedPath1().map(node => `${node.sideExecutingTheMove}\t${node.move} (${node.wins}/${node.visits})`).join("\n"));
     },
 }
 
