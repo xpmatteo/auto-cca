@@ -1,7 +1,7 @@
 
 import { Side } from "./side.js";
 import { hexOf } from "../lib/hexlib.js";
-import * as GameStatus from "./game_status.js";
+import GameStatus from "./game_status.js";
 import * as units from "./units.js";
 
 export class Scenario {

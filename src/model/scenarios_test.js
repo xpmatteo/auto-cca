@@ -1,7 +1,7 @@
 import { assertEquals, test } from "../lib/test_lib.js";
 import { hexOf } from "../lib/hexlib.js";
 import * as units from "./units.js";
-import * as GameStatus from "./game_status.js";
+import GameStatus from "./game_status.js";
 import { Side } from "./side.js";
 import { Scenario, TestScenario } from "./scenarios.js";
 import makeGame from "./game.js";

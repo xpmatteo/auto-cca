@@ -1,7 +1,7 @@
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
 import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
-import * as GameStatus from "../model/game_status.js";
+import GameStatus from "../model/game_status.js";
 
 const AUTOPLAY_DELAY = 800;
 

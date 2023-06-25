@@ -1,5 +1,5 @@
 import { Board } from "./board.js";
-import * as GameStatus from "./game_status.js";
+import GameStatus from "./game_status.js";
 import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
 import { MovementPhase } from "./phases/MovementPhase.js";
@@ -214,9 +214,9 @@ class Game {
         let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length;
         let southPoints = this.graveyard.unitsOf(this.scenario.sideNorth).length;
         if (northPoints > southPoints)
-            return GameStatus.CARTHAGINIAN_WIN;
+            return GameStatus.victoryOf(this.scenario.sideNorth);
         if (southPoints > northPoints)
-            return GameStatus.ROMAN_WIN;
+            return GameStatus.victoryOf(this.scenario.sideSouth);
         return GameStatus.DRAW;
     }
 

@@ -3,7 +3,7 @@ import makeGame from "../model/game.js";
 import { NullScenario, TestScenario } from "../model/scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../model/units.js";
 import { hexOf } from "../lib/hexlib.js";
-import * as GameStatus from "../model/game_status.js";
+import GameStatus from "../model/game_status.js";
 import { Side } from "../model/side.js";
 
 // test a new playout policy "playoutUntilSwitchSidePolicy"
