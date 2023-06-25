@@ -213,10 +213,16 @@ class Game {
         }
         let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length;
         let southPoints = this.graveyard.unitsOf(this.scenario.sideNorth).length;
-        if (northPoints > southPoints)
+        if (northPoints === southPoints) {
+            northPoints = this.inflictedDamage(this.scenario.sideSouth);
+            southPoints = this.inflictedDamage(this.scenario.sideNorth);
+        }
+        if (northPoints > southPoints) {
             return GameStatus.victoryOf(this.scenario.sideNorth);
-        if (southPoints > northPoints)
+        }
+        if (southPoints > northPoints) {
             return GameStatus.victoryOf(this.scenario.sideSouth);
+        }
         return GameStatus.DRAW;
     }
 
@@ -248,6 +254,8 @@ class Game {
         return unit;
     }
 
+    // Return the total number of strength points removed from the units of the given side.
+    // It only counts the units on the board; units in graveyard are not counted
     inflictedDamage(side) {
         return this.board.unitsOfSide(side).reduce((acc, unit) => acc + this.inflictedDamageOnUnit(unit), 0);
     }
