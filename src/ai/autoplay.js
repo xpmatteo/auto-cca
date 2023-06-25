@@ -13,6 +13,14 @@ export function displayEvents(events) {
     });
 }
 
+export function chooseRandomCommand(game) {
+    let commands = game.validCommands();
+    if (commands.length === 0) {
+        throw new Error("No valid commands");
+    }
+    return commands[Math.floor(Math.random() * commands.length)];
+}
+
 export function chooseBestCommand(game) {
     let commands = game.validCommands();
     if (commands.length === 0) {

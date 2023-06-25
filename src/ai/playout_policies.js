@@ -1,4 +1,4 @@
-import { chooseBestCommand } from "./autoplay.js";
+import { chooseBestCommand, chooseRandomCommand } from "./autoplay.js";
 
 // Execute a playout till the end of the game, or until a maximum number of iterations is reached
 // It will modify the game passed as argument
@@ -11,4 +11,20 @@ export function playoutTillTheEndPolicy(game) {
         game.executeCommand(command);
     }
     return game.gameStatus;
+}
+
+
+export function fastPlayoutPolicy(game) {
+    const maxIterations = 1000;
+    let iterations = 0;
+
+    let side = game.currentSide;
+    while (!game.isTerminal() && side === game.currentSide) {
+        if (iterations++ > maxIterations) {
+            throw new Error("Too many iterations: " + iterations);
+        }
+        let command = chooseRandomCommand(game);
+        game.executeCommand(command);
+    }
+    return game.quickStatusEstimation();
 }

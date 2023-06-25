@@ -5,10 +5,8 @@ import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../model/units.js
 import { hexOf } from "../lib/hexlib.js";
 import GameStatus from "../model/game_status.js";
 import { Side } from "../model/side.js";
+import { fastPlayoutPolicy } from "./playout_policies.js";
 
-// test a new playout policy "playoutUntilSwitchSidePolicy"
-// This policy will keep executing random moves until the current side changes
-// When this happens, it will evaluate which side is winning and return the game status
 
 
 // test game status estimation
@@ -54,12 +52,38 @@ test("gameStatusEstimation when game is over", () => {
     assertEquals(GameStatus.CARTHAGINIAN_WIN, game.quickStatusEstimation(), "expected estimation to report the same");
 });
 
+// test a playout policy "playoutUntilSwitchSidePolicy"
+// This policy will keep executing random moves until the current side changes
+// When this happens, it will evaluate which side is winning and return the game status
 
+test("fast playout Until Switch Side Policy", () => {
+    const MAX_CARTHAGININAN_MOVES = 3;
+    let moves = 0;
+    const game = {
+        currentSide: Side.CARTHAGINIAN,
+        executeCommand: () => { if (moves++ === MAX_CARTHAGININAN_MOVES) game.currentSide = Side.ROMAN; },
+        quickStatusEstimation: () => GameStatus.CARTHAGINIAN_WIN,
+        validCommands: () => [moves],
+        isTerminal: () => false,
+    }
 
-test("playoutUntilSwitchSidePolicy", () => {
-    // set up a game that will switch side after 2 moves
+    const result = fastPlayoutPolicy(game);
 
-    // execute the policy
+    assertEquals(1 + MAX_CARTHAGININAN_MOVES, moves, "verify that the game advanced by 4 moves");
+    assertEquals(result, GameStatus.CARTHAGINIAN_WIN, "verify that the result is taken from quickStatusEstimation");
+});
 
-    // verify that the game advanced by 3 moves
+test('fast playout will stop when game is over', () => {
+    let moves = 0;
+    const game = {
+        currentSide: Side.CARTHAGINIAN,
+        isTerminal: () => moves === 1,
+        quickStatusEstimation: () => GameStatus.ROMAN_WIN,
+        executeCommand: () => { moves++; },
+        validCommands: () => [moves],
+    }
+    const result = fastPlayoutPolicy(game);
+
+    assertEquals(1, moves, "stops as soon as game is terminal");
+    assertEquals(result, GameStatus.ROMAN_WIN, "verify that the result is same as terminal status");
 });

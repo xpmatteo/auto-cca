@@ -208,7 +208,7 @@ class Game {
     }
 
     quickStatusEstimation() {
-        if (this.gameStatus !== GameStatus.ONGOING) {
+        if (this.isTerminal()) {
             return this.gameStatus;
         }
         let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length;
