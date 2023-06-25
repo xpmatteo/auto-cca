@@ -1,15 +1,16 @@
-import { assertDeepEquals, test, xtest } from "../lib/test_lib.js";
-import AIPlayer from "./ai_player.js";
+import { assertDeepEquals, assertEquals, assertFalse, assertTrue, test, xtest } from "../lib/test_lib.js";
+import AIPlayer, { __executeManyTimes } from "./ai_player.js";
 import makeGame from "../model/game.js";
 import { Side } from "../model/side.js";
 import { hexOf } from "../lib/hexlib.js";
 import * as units from "../model/units.js";
 import GameStatus from "../model/game_status.js";
-import { Scenario } from "../model/scenarios.js";
+import { NullScenario, Scenario, TestScenario } from "../model/scenarios.js";
 import { RESULT_SWORDS } from "../model/dice.js";
 import { MoveCommand } from "../model/commands/moveCommand.js";
 import { EndPhaseCommand } from "../model/commands/endPhaseCommand.js";
 import { CloseCombatCommand } from "../model/commands/closeCombatCommand.js";
+import { makeRootNode } from "./monte_carlo_tree_search_node.js";
 
 // unit tests for the AIPlayer class
 
@@ -63,29 +64,40 @@ const diceAlwaysSwords = {
     roll: (diceCount) => Array(diceCount).fill(RESULT_SWORDS),
 }
 
-function executeAll(moves, game) {
-    for (let move of moves) {
-        game.executeCommand(move);
-    }
-}
-
-xtest('Kill in one move', () => {
-    let game = makeGame(smallScenario, diceAlwaysSwords);
+test('pushChild deterministic', () => {
+    let game = makeGame(new TestScenario(), diceAlwaysSwords);
     let ai = new AIPlayer({
         game: game,
-        iterations: 2000,       // 2000 are required; if you reduce it to 1000, it does not attack
+        iterations: 2000,
         aiWinStatuses: [GameStatus.CARTHAGINIAN_WIN],
         aiLoseStatuses: [GameStatus.ROMAN_WIN],
         aiToken: Side.CARTHAGINIAN,
     });
 
-    let firstMove = ai.decideMove(game);
-    assertDeepEquals(new MoveCommand(hexOf(0, 2), hexOf(1, 1)), firstMove);
+    let root = makeRootNode(game, Side.CARTHAGINIAN);
+    ai.pushChild(game, new MoveCommand(hexOf(0, 2), hexOf(1, 2)), root);
 
-    game.executeCommand(firstMove);
-    let secondMove = ai.decideMove(game);
-    assertDeepEquals(new EndPhaseCommand(), secondMove);
-
-    game.executeCommand(secondMove);
-    assertDeepEquals(new CloseCombatCommand(hexOf(0, 3), hexOf(0, 2)), ai.decideMove(game));
+    assertEquals(1, root.children.length);
+    let child = root.children[0];
+    assertTrue(child.state.unitAt(hexOf(0, 2)), "move was executed");
 });
+
+
+test('pushChild chance', () => {
+    let game = makeGame(new NullScenario());
+    let ai = new AIPlayer({
+        game: game,
+        iterations: 2000,
+        aiWinStatuses: [GameStatus.CARTHAGINIAN_WIN],
+        aiLoseStatuses: [GameStatus.ROMAN_WIN],
+        aiToken: Side.CARTHAGINIAN,
+    });
+    // move unit close to enemy
+    game.placeUnit(hexOf(0, 1), new units.RomanLightInfantry());
+    game.placeUnit(hexOf(1, 1), new units.CarthaginianHeavyInfantry());
+
+    let command = new CloseCombatCommand(hexOf(0, 1), hexOf(1, 1));
+    let clone = __executeManyTimes(game, command);
+
+});
+

@@ -263,6 +263,16 @@ class Game {
     inflictedDamageOnUnit(unit) {
         return unit.initialStrength - this.unitStrength(unit);
     }
+
+    // Return a string that can be used to compare two states for "equivalence"
+    // when evaluating chance nodes
+    makeKey() {
+        const result = [
+            Array.from(this.unitStrengths.values()),
+            this.graveyard.units,
+        ];
+        return result.toString();
+    }
 }
 
 export class MovementTrail {

@@ -76,6 +76,32 @@ function notifySimulationEnd(aiPlayer, status) {
     }
 }
 
+// Execute the command many times on different clones of the original state.
+// Group the results by equality of the state.
+// Return the state with the highest number of occurrences.
+export function __executeManyTimes(state, command) {
+    const ITERATIONS = 20;
+    let stateMap = new Map();
+    for (let i = 0; i < ITERATIONS; i++) {
+        let clone = state.clone();
+        clone.executeCommand(command);
+        let key = clone.makeKey();
+        if (!stateMap.has(key)) {
+            stateMap.set(key, []);
+        }
+        stateMap.get(key).push(clone);
+    }
+    let mostFrequentState = undefined;
+    let maxCount = 0;
+    for (let [key, value] of stateMap) {
+        if (value.length > maxCount) {
+            maxCount = value.length;
+            mostFrequentState = value[0];
+        }
+    }
+    return mostFrequentState;
+}
+
 export default class AIPlayer {
     constructor(params) {
         this.aiWinStatuses = params.aiWinStatuses;
@@ -135,7 +161,11 @@ export default class AIPlayer {
 
     pushChild(clone, command, node) {
         let sideExecutingTheMove = clone.currentSide;
-        clone.executeCommand(command);
+        if (command.isDeterministic()) {
+            clone.executeCommand(command);
+        } else {
+            clone = __executeManyTimes(clone, command);
+        }
         node.pushChild(clone, sideExecutingTheMove, command);
     }
 

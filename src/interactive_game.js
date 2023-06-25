@@ -173,4 +173,8 @@ export class InteractiveGame {
     quickStatusEstimation() {
         return this.#game.quickStatusEstimation();
     }
+
+    makeKey() {
+        return this.#game.makeKey();
+    }
 }
