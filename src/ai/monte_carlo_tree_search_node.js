@@ -1,5 +1,5 @@
 
-const EXPANSION_FACTOR = .01;
+export const EXPANSION_FACTOR = 1.;
 
 export function makeRootNode(state, sideExecutingTheMove) {
     return new MonteCarloTreeSearchNode(state, sideExecutingTheMove);

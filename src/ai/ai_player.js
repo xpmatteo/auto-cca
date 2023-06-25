@@ -1,5 +1,6 @@
 import { chooseBestCommand } from "./autoplay.js";
 import { makeRootNode } from "./monte_carlo_tree_search_node.js";
+import { playoutTillTheEndPolicy } from "./playout_policies.js";
 
 export let aiTree = undefined;
 
@@ -83,6 +84,7 @@ export default class AIPlayer {
         this.aiToken = params.aiToken;
         this.iterations = params.iterations || 10000;
         this.observers = params.observers || [];
+        this.playoutPolicy = params.playoutPolicy || playoutTillTheEndPolicy;
     }
 
     decideMove(state) {
@@ -152,13 +154,8 @@ export default class AIPlayer {
     }
 
     simulate(state) {
-        const clone = state.clone();
-        const maxIterations = 1000;
-        let iterations = 0;
-        while (!clone.isTerminal() && iterations++ < maxIterations) {
-            let command = chooseBestCommand(clone);
-            clone.executeCommand(command);
-        }
+        let clone = state.clone();
+        this.playoutPolicy(clone);
         notifySimulationEnd(this, clone);
         return clone.gameStatus;
     }

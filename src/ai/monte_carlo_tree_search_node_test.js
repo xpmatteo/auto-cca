@@ -1,6 +1,6 @@
 
 import {assertEquals, assertTrue, assertDeepEquals, test, assertAlmostEquals} from "../lib/test_lib.js";
-import { makeRootNode } from './monte_carlo_tree_search_node.js';
+import { EXPANSION_FACTOR, makeRootNode } from './monte_carlo_tree_search_node.js';
 import {Side} from "../model/side.js";
 
 // unit tests for the MonteCarloTreeSearchNode class
@@ -25,7 +25,7 @@ test('ubc1', () => {
     node.parent = {
         visits: 3
     };
-    assertAlmostEquals(1 / 2 + Math.sqrt(2 * Math.log(3) / 2), node.ubc1());
+    assertAlmostEquals(1 / 2 + EXPANSION_FACTOR * Math.sqrt(Math.log(3) / 2), node.ubc1());
 });
 
 // update
