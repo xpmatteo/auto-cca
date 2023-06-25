@@ -1,4 +1,4 @@
-import {hexOf} from "../lib/hexlib.js";
+import { hexOf } from "../lib/hexlib.js";
 import {
     assertDeepEquals,
     assertEquals,
@@ -10,11 +10,11 @@ import {
 import makeGame from "./game.js";
 import GameStatus from "./game_status.js";
 import * as units from "./units.js";
-import {Side} from "./side.js";
-import {NullScenario, TestScenario} from "./scenarios.js";
-import {Autoplay} from "../ai/autoplay.js";
-import {MoveCommand} from "./commands/moveCommand.js";
-import {EndPhaseCommand} from "./commands/endPhaseCommand.js";
+import { Side } from "./side.js";
+import { NullScenario, TestScenario } from "./scenarios.js";
+import { Autoplay } from "../ai/autoplay.js";
+import { MoveCommand } from "./commands/moveCommand.js";
+import { EndPhaseCommand } from "./commands/endPhaseCommand.js";
 
 class SimpleScenario extends NullScenario {
     firstSide = Side.CARTHAGINIAN;

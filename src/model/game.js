@@ -247,6 +247,14 @@ class Game {
         }
         return unit;
     }
+
+    inflictedDamage(side) {
+        return this.board.unitsOfSide(side).reduce((acc, unit) => acc + this.inflictedDamageOnUnit(unit), 0);
+    }
+
+    inflictedDamageOnUnit(unit) {
+        return unit.initialStrength - this.unitStrength(unit);
+    }
 }
 
 export class MovementTrail {

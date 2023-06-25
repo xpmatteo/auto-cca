@@ -8,6 +8,21 @@ import { Side } from "../model/side.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
 
 
+test('inflicted damage ', () => {
+    const game = makeGame(new NullScenario());
+    game.placeUnit(hexOf(0, 0), new CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
+    game.placeUnit(hexOf(0, 3), new RomanHeavyInfantry());
+
+    game.takeDamage(hexOf(0, 0), 2);
+    game.takeDamage(hexOf(1, 0), 1);
+    game.takeDamage(hexOf(0, 2), 3);
+
+    assertEquals(3, game.inflictedDamage(Side.CARTHAGINIAN));
+    assertEquals(3, game.inflictedDamage(Side.ROMAN));
+});
+
 
 // test game status estimation
 // will compare the graveyard size; the side with more points is winning

@@ -1,5 +1,5 @@
 
-export const EXPANSION_FACTOR = 1.;
+export const EXPANSION_FACTOR = 1.4142135623730951; // Math.sqrt(2)
 
 export function makeRootNode(state, sideExecutingTheMove) {
     return new MonteCarloTreeSearchNode(state, sideExecutingTheMove);
