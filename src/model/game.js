@@ -207,6 +207,19 @@ class Game {
         return damage;
     }
 
+    quickStatusEstimation() {
+        if (this.gameStatus !== GameStatus.ONGOING) {
+            return this.gameStatus;
+        }
+        let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length;
+        let southPoints = this.graveyard.unitsOf(this.scenario.sideNorth).length;
+        if (northPoints > southPoints)
+            return GameStatus.CARTHAGINIAN_WIN;
+        if (southPoints > northPoints)
+            return GameStatus.ROMAN_WIN;
+        return GameStatus.DRAW;
+    }
+
     isDead(unitOrHex) {
         let unit = this.__toUnit(unitOrHex);
         return this.unitStrength(unit) <= 0;
