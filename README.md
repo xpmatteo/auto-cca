@@ -10,13 +10,19 @@ See the game by visiting http://localhost:8000/
 
 # TODO
 
-    - correct behaviour for combat result with more than 1 flag
-    - battle back can result in a retreat too
-    - light infantry should not hit on swords
-    - light infantry can evade
-    - ranged combat
-    - move selection is too broad; random playout do not convey enough information
-      - TRY an evaluation function for the playouts?
+  - implement at least simplified version of support rule (ignore all flags)
+  - shorter playouts
+  - chance nodes should simulate average results
+
+
+
+  - correct behaviour for combat result with more than 1 flag
+  - battle back can result in a retreat too
+  - light infantry should not hit on swords
+  - light infantry can evade
+  - ranged combat
+  - move selection is too broad; random playout do not convey enough information
+    - TRY an evaluation function for the playouts?
 
 
 

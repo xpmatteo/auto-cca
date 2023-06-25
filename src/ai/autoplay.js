@@ -29,7 +29,7 @@ export function chooseBestCommand(game) {
     return bestCommands[Math.floor(Math.random() * bestCommands.length)];
 }
 
-const AI_ITERATIONS = 20000;
+const AI_ITERATIONS = 5000;
 
 export class Autoplay {
     constructor(game) {

@@ -2,6 +2,7 @@ import { chooseBestCommand } from "./autoplay.js";
 
 // Execute a playout till the end of the game, or until a maximum number of iterations is reached
 // It will modify the game passed as argument
+// It returns the game status at end of the playout
 export function playoutTillTheEndPolicy(game) {
     const maxIterations = 1000;
     let iterations = 0;
@@ -9,5 +10,5 @@ export function playoutTillTheEndPolicy(game) {
         let command = chooseBestCommand(game);
         game.executeCommand(command);
     }
-    return game;
+    return game.gameStatus;
 }

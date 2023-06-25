@@ -39,10 +39,10 @@ export const winLossObserver = {
         this.aiLosses = 0;
         this.draws = 0;
     },
-    onSimulateEnd: function (aiPlayer, clone) {
-        if (clone.gameStatus === aiPlayer.aiWinStatuses[0]) {
+    onSimulateEnd: function (aiPlayer, status) {
+        if (status === aiPlayer.aiWinStatuses[0]) {
             this.aiWins++;
-        } else if (clone.gameStatus === aiPlayer.aiLoseStatuses[0]) {
+        } else if (status === aiPlayer.aiLoseStatuses[0]) {
             this.aiLosses++;
         } else {
             this.draws++;
@@ -69,10 +69,10 @@ function notifyEndDecideMove(aiPlayer, root) {
     }
 }
 
-function notifySimulationEnd(aiPlayer, clone) {
+function notifySimulationEnd(aiPlayer, status) {
     for (let observer of aiPlayer.observers) {
         if (observer.onSimulateEnd) {
-            observer.onSimulateEnd(aiPlayer, clone);
+            observer.onSimulateEnd(aiPlayer, status);
         }
     }
 }
@@ -155,9 +155,9 @@ export default class AIPlayer {
 
     simulate(state) {
         let clone = state.clone();
-        this.playoutPolicy(clone);
-        notifySimulationEnd(this, clone);
-        return clone.gameStatus;
+        const status = this.playoutPolicy(clone);
+        notifySimulationEnd(this, status);
+        return status;
     }
 
     backpropagate(node, score) {
