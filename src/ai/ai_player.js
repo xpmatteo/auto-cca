@@ -128,11 +128,15 @@ export default class AIPlayer {
     expand(node) {
         for (let command of node.state.validCommands()) {
             const clone = node.state.clone();
-            const sideExecutingTheMove = clone.currentSide;
-            clone.executeCommand(command);
-            node.pushChild(clone, sideExecutingTheMove, command);
+            this.pushChild(clone, command, node);
         }
         return node.children[Math.floor(Math.random() * node.children.length)];
+    }
+
+    pushChild(clone, command, node) {
+        let sideExecutingTheMove = clone.currentSide;
+        clone.executeCommand(command);
+        node.pushChild(clone, sideExecutingTheMove, command);
     }
 
     simulate(state) {
