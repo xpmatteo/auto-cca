@@ -2,6 +2,7 @@ import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
 import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
 import GameStatus from "../model/game_status.js";
+import { fastPlayoutPolicy } from "./playout_policies.js";
 
 const AUTOPLAY_DELAY = 800;
 
@@ -37,7 +38,7 @@ export function chooseBestCommand(game) {
     return bestCommands[Math.floor(Math.random() * bestCommands.length)];
 }
 
-const AI_ITERATIONS = 5000;
+const AI_ITERATIONS = 10000;
 
 export class Autoplay {
     constructor(game) {
@@ -53,6 +54,7 @@ export class Autoplay {
                 treeObserver,
                 winLossObserver,
             ],
+            playoutPolicy: fastPlayoutPolicy,
         });
     }
 

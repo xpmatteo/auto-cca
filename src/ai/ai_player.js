@@ -1,4 +1,3 @@
-import { chooseBestCommand } from "./autoplay.js";
 import { makeRootNode } from "./monte_carlo_tree_search_node.js";
 import { playoutTillTheEndPolicy } from "./playout_policies.js";
 
@@ -99,25 +98,26 @@ export default class AIPlayer {
         notifyStartDecideMove(this);
         let root = this.__doDecideMove(state);
         notifyEndDecideMove(this, root);
-        let foundNonDeterministicMove = false;
-        let moves = root.mostVisitedPathMoves((node) => {
-            if (foundNonDeterministicMove) {
-                return false;
-            }
-            if (node.sideExecutingTheMove !== this.aiToken) {
-                return false;
-            }
-            if (node.move.isDeterministic()) {
-                return true;
-            }
-            foundNonDeterministicMove = true;
-            return true;
-        });
-        if (moves.length === 0) {
-            return [root.mostVisited().move];
-        }
+        // let foundNonDeterministicMove = false;
+        // let moves = root.mostVisitedPathMoves((node) => {
+        //     if (foundNonDeterministicMove) {
+        //         return false;
+        //     }
+        //     if (node.sideExecutingTheMove !== this.aiToken) {
+        //         return false;
+        //     }
+        //     if (node.move.isDeterministic()) {
+        //         return true;
+        //     }
+        //     foundNonDeterministicMove = true;
+        //     return true;
+        // });
+        // if (moves.length === 0) {
+        //     return [root.mostVisited().move];
+        // }
         aiTree = root;
-        return moves;
+        // return moves;
+        return [root.mostVisited().move];
     }
 
     __doDecideMove(state) {
@@ -165,11 +165,6 @@ export default class AIPlayer {
             node.update(score, this.aiToken !== node.sideExecutingTheMove);
             node = node.parent;
         }
-    }
-
-    randomCommand(state) {
-        let commands = state.validCommands();
-        return commands[Math.floor(Math.random() * commands.length)];
     }
 
     gameStatusToScore(gameStatus) {

@@ -169,4 +169,8 @@ export class InteractiveGame {
     clone() {
         return new InteractiveGame(this.#game.clone());
     }
+
+    quickStatusEstimation() {
+        return this.#game.quickStatusEstimation();
+    }
 }
