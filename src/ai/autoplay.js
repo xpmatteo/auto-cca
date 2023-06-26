@@ -46,9 +46,7 @@ export class Autoplay {
         this.aiPlayer = new AIPlayer({
             game: game,
             iterations: AI_ITERATIONS,
-            aiWinStatuses: [GameStatus.CARTHAGINIAN_WIN],
-            aiLoseStatuses: [GameStatus.ROMAN_WIN],
-            aiToken: Side.CARTHAGINIAN,
+            aiSide: Side.CARTHAGINIAN,
             observers: [
                 performanceObserver,
                 treeObserver,
@@ -61,12 +59,6 @@ export class Autoplay {
     randomPlayout() {
         while (!this.game.isTerminal()) {
             this.executeRandomCommand();
-        }
-    }
-
-    fastPlayout() {
-        while (!this.game.isTerminal()) {
-            this.executeBestCommand();
         }
     }
 

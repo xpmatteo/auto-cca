@@ -38,10 +38,10 @@ export const winLossObserver = {
         this.aiLosses = 0;
         this.draws = 0;
     },
-    onSimulateEnd: function (aiPlayer, status) {
-        if (status === aiPlayer.aiWinStatuses[0]) {
+    onSimulateEnd: function (aiPlayer, score) {
+        if (score > 0) {
             this.aiWins++;
-        } else if (status === aiPlayer.aiLoseStatuses[0]) {
+        } else if (score < 0) {
             this.aiLosses++;
         } else {
             this.draws++;
@@ -104,9 +104,7 @@ export function __executeManyTimes(state, command) {
 
 export default class AIPlayer {
     constructor(params) {
-        this.aiWinStatuses = params.aiWinStatuses;
-        this.aiLoseStatuses = params.aiLoseStatuses;
-        this.aiToken = params.aiToken;
+        this.aiSide = params.aiSide;
         this.iterations = params.iterations || 10000;
         this.observers = params.observers || [];
         this.playoutPolicy = params.playoutPolicy || playoutTillTheEndPolicy;
@@ -129,12 +127,10 @@ export default class AIPlayer {
     }
 
     __doDecideMove(state) {
-        this.initVisitData();
         let root = makeRootNode(state, state.currentSide);
         for (let i = 0; i < this.iterations; i++) {
             let node = this.select(root);
-            let result = this.simulate(node.state);
-            let score = this.gameStatusToScore(result);
+            let score = this.simulate(node.state);
             this.backpropagate(node, score);
         }
         return root;
@@ -171,75 +167,17 @@ export default class AIPlayer {
 
     simulate(state) {
         let clone = state.clone();
-        const status = this.playoutPolicy(clone);
-        notifySimulationEnd(this, status);
-        return status;
+        this.playoutPolicy(clone);
+        let score = clone.score(this.aiSide);
+        notifySimulationEnd(this, score);
+        return score;
     }
 
     backpropagate(node, score) {
         while (node !== null) {
-            node.update(score, this.aiToken !== node.sideExecutingTheMove);
+            node.update(score, this.aiSide !== node.sideExecutingTheMove);
             node = node.parent;
         }
     }
-
-    gameStatusToScore(gameStatus) {
-        if (this.aiWinStatuses.includes(gameStatus)) {
-            return 1;
-        } else if (this.aiLoseStatuses.includes(gameStatus)) {
-            return -1;
-        } else {
-            return 0;
-        }
-    }
-
-    initVisitData() {
-        this.moveVisitsData = Object.create(null);
-    }
-
-    collectVisitData(root, iteration) {
-        if (iteration % 100 !== 0) return;
-        for (let child of root.children) {
-            if (this.moveVisitsData[child.move] === undefined) {
-                this.moveVisitsData[child.move] = [];
-            }
-            this.moveVisitsData[child.move].push(child.visits);
-        }
-    }
 }
 
-let myChart = undefined;
-export function plotData(canvasId, moveVisitsData) {
-    if (myChart) {
-        myChart.destroy();
-    }
-    
-    let datasets = [];
-    let iterations = undefined;
-    for (const [key, value] of Object.entries(moveVisitsData)) {
-        if (!iterations) iterations = value.map((_, i) => i);
-        datasets.push({
-            label: key,
-            data: value,
-            borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Generate a random color for each move
-            fill: false,
-        });
-    }
-
-    let ctx = document.getElementById(canvasId).getContext('2d');
-
-    myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: iterations,
-            datasets: datasets,
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}

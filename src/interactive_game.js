@@ -177,4 +177,8 @@ export class InteractiveGame {
     makeKey() {
         return this.#game.makeKey();
     }
+
+    score(side) {
+        return this.#game.score(side);
+    }
 }
