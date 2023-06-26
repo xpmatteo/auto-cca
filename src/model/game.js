@@ -208,8 +208,8 @@ class Game {
     }
 
     score(side) {
-        const SCORE_PER_POINT = 1;
-        const SCORE_PER_VICTORY = 10;
+        const SCORE_PER_POINT = 10;
+        const SCORE_PER_VICTORY = 100;
         if (this.isTerminal()) {
             if (side === this.gameStatus.side) {
                 return SCORE_PER_VICTORY;
@@ -219,8 +219,10 @@ class Game {
             }
             throw new Error(`Invalid side ${side}`);
         }
-        let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length;
-        let southPoints = this.graveyard.unitsOf(this.scenario.sideNorth).length;
+        let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length +
+            this.inflictedDamage(this.scenario.sideSouth);
+        let southPoints = this.graveyard.unitsOf(this.scenario.sideNorth).length +
+            this.inflictedDamage(this.scenario.sideNorth);
         let score = (northPoints - southPoints) * SCORE_PER_POINT;
         if (side === this.scenario.sideNorth) {
             return score;

@@ -23,7 +23,7 @@ export function fastPlayoutPolicy(game) {
         if (iterations++ > maxIterations) {
             throw new Error("Too many iterations: " + iterations);
         }
-        let command = chooseRandomCommand(game);
+        let command = chooseBestCommand(game);
         game.executeCommand(command);
     }
 }

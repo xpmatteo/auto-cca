@@ -1,10 +1,10 @@
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
 import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
-import GameStatus from "../model/game_status.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
 
 const AUTOPLAY_DELAY = 800;
+const AI_ITERATIONS = 40000;
 
 const textBox = document.getElementById("messages");
 export function displayEvents(events) {
@@ -38,7 +38,6 @@ export function chooseBestCommand(game) {
     return bestCommands[Math.floor(Math.random() * bestCommands.length)];
 }
 
-const AI_ITERATIONS = 20000;
 
 export class Autoplay {
     constructor(game) {
@@ -72,7 +71,7 @@ export class Autoplay {
     }
 
     async play(graphics) {
-        while (this.game.currentSide === Side.CARTHAGINIAN && !this.game.isTerminal()) {
+        if (this.game.currentSide === Side.CARTHAGINIAN && !this.game.isTerminal()) {
             const commands = this.aiPlayer.decideMove(this.game);
             for (let command of commands) {
                 console.log("Executing command: " + command);
