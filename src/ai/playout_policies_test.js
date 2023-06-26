@@ -8,12 +8,17 @@ import { Side } from "../model/side.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
 
 
-test('inflicted damage ', () => {
+function makeGameWithFourUnits() {
     const game = makeGame(new NullScenario());
     game.placeUnit(hexOf(0, 0), new CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
     game.placeUnit(hexOf(0, 3), new RomanHeavyInfantry());
+    return game;
+}
+
+test('inflicted damage ', () => {
+    const game = makeGameWithFourUnits();
 
     game.takeDamage(hexOf(0, 0), 2);
     game.takeDamage(hexOf(1, 0), 1);
@@ -24,15 +29,34 @@ test('inflicted damage ', () => {
 });
 
 
+test("game score when game is ongoing", () => {
+    const game = makeGameWithFourUnits();
+
+    assertEquals(0, game.score(Side.CARTHAGINIAN));
+    assertEquals(0, game.score(Side.ROMAN));
+
+    // after 1 carthaginian loss
+    game.takeDamage(hexOf(0, 0), 4);
+    assertEquals(-100, game.score(Side.CARTHAGINIAN));
+    assertEquals(100, game.score(Side.ROMAN));
+
+    // after 1 loss each
+    game.takeDamage(hexOf(0, 2), 4);
+    assertEquals(0, game.score(Side.CARTHAGINIAN));
+    assertEquals(0, game.score(Side.ROMAN));
+
+    // after 2 roman losses and 1 carth.
+    game.takeDamage(hexOf(0, 3), 4);
+    assertEquals(100, game.score(Side.CARTHAGINIAN));
+    assertEquals(-100, game.score(Side.ROMAN));
+});
+
+
 // test game status estimation
 // will compare the graveyard size; the side with more points is winning
 // otherwise it's a draw
 test("gameStatusEstimation when game is ongoing", () => {
-    const game = makeGame(new NullScenario());
-    game.placeUnit(hexOf(0, 0), new CarthaginianHeavyInfantry());
-    game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
-    game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
-    game.placeUnit(hexOf(0, 3), new RomanHeavyInfantry());
+    const game = makeGameWithFourUnits();
 
     // no unit killed yet
     assertEquals(GameStatus.DRAW, game.quickStatusEstimation());

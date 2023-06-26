@@ -207,6 +207,20 @@ class Game {
         return damage;
     }
 
+    score(side) {
+        const SCORE_PER_POINT = 100;
+        let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length;
+        let southPoints = this.graveyard.unitsOf(this.scenario.sideNorth).length;
+        let score = (northPoints - southPoints) * SCORE_PER_POINT;
+        if (side === this.scenario.sideNorth) {
+            return score;
+        }
+        if (side === this.scenario.sideSouth) {
+            return -score;
+        }
+        throw new Error(`Invalid side ${side}`);
+    }
+
     quickStatusEstimation() {
         if (this.isTerminal()) {
             return this.gameStatus;
