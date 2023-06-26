@@ -37,8 +37,8 @@ test("game score when game is ongoing", () => {
 
     // after 1 carthaginian loss
     game.takeDamage(hexOf(0, 0), 4);
-    assertEquals(-100, game.score(Side.CARTHAGINIAN));
-    assertEquals(100, game.score(Side.ROMAN));
+    assertEquals(-1, game.score(Side.CARTHAGINIAN));
+    assertEquals(1, game.score(Side.ROMAN));
 
     // after 1 loss each
     game.takeDamage(hexOf(0, 2), 4);
@@ -47,10 +47,23 @@ test("game score when game is ongoing", () => {
 
     // after 2 roman losses and 1 carth.
     game.takeDamage(hexOf(0, 3), 4);
-    assertEquals(100, game.score(Side.CARTHAGINIAN));
-    assertEquals(-100, game.score(Side.ROMAN));
+    assertEquals(1, game.score(Side.CARTHAGINIAN));
+    assertEquals(-1, game.score(Side.ROMAN));
 });
 
+test("game score when game is over", () => {
+    const game = makeGame(new TestScenario());
+
+    // kill all Roman units
+    game.foreachUnit((unit, hex) => {
+        if (unit.side === Side.ROMAN) {
+            game.takeDamage(hex, 4);
+        }
+    })
+
+    assertEquals(10, game.score(Side.CARTHAGINIAN));
+    assertEquals(-10, game.score(Side.ROMAN));
+});
 
 // test game status estimation
 // will compare the graveyard size; the side with more points is winning
