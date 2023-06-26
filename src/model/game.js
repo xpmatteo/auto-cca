@@ -231,25 +231,6 @@ class Game {
         throw new Error(`Invalid side ${side}`);
     }
 
-    quickStatusEstimation() {
-        if (this.isTerminal()) {
-            return this.gameStatus;
-        }
-        let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length;
-        let southPoints = this.graveyard.unitsOf(this.scenario.sideNorth).length;
-        if (northPoints === southPoints) {
-            northPoints = this.inflictedDamage(this.scenario.sideSouth);
-            southPoints = this.inflictedDamage(this.scenario.sideNorth);
-        }
-        if (northPoints > southPoints) {
-            return GameStatus.victoryOf(this.scenario.sideNorth);
-        }
-        if (southPoints > northPoints) {
-            return GameStatus.victoryOf(this.scenario.sideSouth);
-        }
-        return GameStatus.DRAW;
-    }
-
     isDead(unitOrHex) {
         let unit = this.__toUnit(unitOrHex);
         return this.unitStrength(unit) <= 0;

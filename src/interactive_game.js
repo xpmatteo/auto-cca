@@ -129,10 +129,6 @@ export class InteractiveGame {
         return this.#game.units;
     }
 
-    get hexes() {
-        return this.#game.hexes;
-    }
-
     placeUnit(hex, unit) {
         this.#game.placeUnit(hex, unit);
     }
@@ -168,10 +164,6 @@ export class InteractiveGame {
 
     clone() {
         return new InteractiveGame(this.#game.clone());
-    }
-
-    quickStatusEstimation() {
-        return this.#game.quickStatusEstimation();
     }
 
     makeKey() {

@@ -26,5 +26,4 @@ export function fastPlayoutPolicy(game) {
         let command = chooseRandomCommand(game);
         game.executeCommand(command);
     }
-    return game.quickStatusEstimation();
 }
