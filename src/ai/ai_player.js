@@ -163,6 +163,9 @@ export default class AIPlayer {
             clone = __executeManyTimes(clone, command);
         }
         node.pushChild(clone, sideExecutingTheMove, command);
+        // if (command.constructor.name === "EndPhaseCommand") {
+        //     node.children[node.children.length - 1].visits = 70;
+        // }
     }
 
     simulate(state) {

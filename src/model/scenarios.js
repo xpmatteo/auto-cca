@@ -43,14 +43,11 @@ export class TestScenario extends Scenario {
         board.placeUnit(hexOf(1, 4), new units.RomanLightInfantry());
         board.placeUnit(hexOf(2, 4), new units.RomanHeavyInfantry());
         board.placeUnit(hexOf(3, 4), new units.RomanHeavyInfantry());
-        // board.placeUnit(hexOf(4, 5), new units.RomanHeavyInfantry());
-        // board.placeUnit(hexOf(3, 6), new units.RomanHeavyCavalry());
-        board.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
-        board.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
-        board.placeUnit(hexOf(3, 2), new units.CarthaginianHeavyInfantry());
-        board.placeUnit(hexOf(4, 2), new units.CarthaginianMediumInfantry());
-        board.placeUnit(hexOf(5, 2), new units.CarthaginianMediumInfantry());
-        board.placeUnit(hexOf(6, 2), new units.CarthaginianMediumInfantry());
+
+        board.placeUnit(hexOf(1, 3), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(2, 3), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(4, 2), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(4, 3), new units.CarthaginianHeavyInfantry());
     }
 
     gameStatus(game) {
