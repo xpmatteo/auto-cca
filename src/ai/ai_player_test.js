@@ -65,7 +65,7 @@ const diceAlwaysSwords = {
 }
 
 test('pushChild deterministic', () => {
-    let game = makeGame(new TestScenario(), diceAlwaysSwords);
+    let game = makeGame(new NullScenario(), diceAlwaysSwords);
     let ai = new AIPlayer({
         game: game,
         iterations: 2000,
@@ -73,6 +73,7 @@ test('pushChild deterministic', () => {
         aiLoseStatuses: [GameStatus.ROMAN_WIN],
         aiToken: Side.CARTHAGINIAN,
     });
+    game.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
 
     let root = makeRootNode(game, Side.CARTHAGINIAN);
     ai.pushChild(game, new MoveCommand(hexOf(0, 2), hexOf(1, 2)), root);
@@ -92,7 +93,7 @@ test('pushChild chance', () => {
         aiLoseStatuses: [GameStatus.ROMAN_WIN],
         aiToken: Side.CARTHAGINIAN,
     });
-    // move unit close to enemy
+    // place unit close to enemy
     game.placeUnit(hexOf(0, 1), new units.RomanLightInfantry());
     game.placeUnit(hexOf(1, 1), new units.CarthaginianHeavyInfantry());
 
