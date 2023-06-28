@@ -32,6 +32,47 @@ export const treeObserver = {
     },
 }
 
+function renderSearchTree(node, depth, maxDepth) {
+    let li = document.createElement("li");
+    li.appendChild(document.createTextNode(`${node.wins}/${node.visits}, score: ${node.state.score(node.sideExecutingTheMove)} ${node.move}`));
+    if (depth < maxDepth) {
+        let ul = document.createElement("ul");
+        for (let child of node.children) {
+            ul.appendChild(renderSearchTree(child, depth + 1, maxDepth));
+        }
+        li.appendChild(ul);
+    }
+    return li;
+}
+
+function makeCollapsible() {
+    document.querySelectorAll('li').forEach(function(listItem){
+        listItem.addEventListener('click', function(e){
+            e.stopPropagation();
+            let firstUl = this.getElementsByTagName("ul")[0];
+            if(firstUl.style.display === "block") {
+                firstUl.style.display = "none";
+            } else {
+                let firstChild = this.children[0];
+                if(firstChild.tagName === "UL") {
+                    firstChild.style.display = "block";
+                }
+            }
+        });
+    });
+}
+
+
+
+export const treeObserver1 = {
+    onEndDecideMove: function (aiPlayer, root) {
+        let li = renderSearchTree(root, 0, 3);
+        let ul = document.getElementById("search-tree");
+        ul.appendChild(li);
+        makeCollapsible();
+    },
+}
+
 export const winLossObserver = {
     onStartDecideMove: function (aiPlayer) {
         this.aiWins = 0;

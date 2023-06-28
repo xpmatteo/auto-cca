@@ -16,6 +16,11 @@ canvas.height = MAP_HEIGHT;
 document.body.appendChild(canvas);
 const graphics = new GraphicalContext(canvas.getContext('2d'));
 
+// create div for displaying the search tree
+let treeList = document.createElement('ul');
+treeList.id = "search-tree";
+document.body.appendChild(treeList);
+
 // create game
 let scenario = new TestScenario();
 let game = makeGame(scenario);

@@ -1,10 +1,10 @@
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
-import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
+import AIPlayer, { performanceObserver, treeObserver, treeObserver1, winLossObserver } from "./ai_player.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
 
 const AUTOPLAY_DELAY = 800;
-const AI_ITERATIONS = 40000;
+const AI_ITERATIONS = 10000;
 
 const textBox = document.getElementById("messages");
 export function displayEvents(events) {
@@ -50,6 +50,7 @@ export class Autoplay {
                 performanceObserver,
                 treeObserver,
                 winLossObserver,
+                treeObserver1,
             ],
             playoutPolicy: fastPlayoutPolicy,
         });
