@@ -173,4 +173,8 @@ export class InteractiveGame {
     score(side) {
         return this.#game.score(side);
     }
+
+    get currentSideRaw() {
+        return this.#game.currentSideRaw;
+    }
 }

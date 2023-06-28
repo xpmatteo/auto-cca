@@ -18,15 +18,11 @@ export function fastPlayoutPolicy(game) {
     const maxIterations = 1000;
     let iterations = 0;
     let side = game.currentSideRaw;
-    let events = [];
-    let commands = [];
     while (!game.isTerminal() && side === game.currentSideRaw) {
         if (iterations++ > maxIterations) {
             throw new Error("Too many iterations: " + iterations);
         }
         let command = chooseBestCommand(game);
-        commands.push(command);
-        events = events.concat(game.executeCommand(command));
+        game.executeCommand(command)
     }
-    return [commands, events];
 }

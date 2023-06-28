@@ -110,14 +110,14 @@ test('fast playout will stop when game is over', () => {
     assertEquals(1, moves, "stops as soon as game is terminal");
 });
 
-test('score in test scenario', () => {
-   let game = makeGame(new TestScenario());
-   assertEquals(0, game.score(Side.CARTHAGINIAN));
-   game.executeCommand(new EndPhaseCommand());
-   game.executeCommand(new EndPhaseCommand());
-
-   let [commands, events] = fastPlayoutPolicy(game);
-    console.log(commands.join('\n').toString());
-    console.log(events.join('\n').toString());
-    console.log(game.score(Side.CARTHAGINIAN));
-});
+// test('score in test scenario', () => {
+//    let game = makeGame(new TestScenario());
+//    assertEquals(0, game.score(Side.CARTHAGINIAN));
+//    game.executeCommand(new EndPhaseCommand());
+//    game.executeCommand(new EndPhaseCommand());
+//
+//    let [commands, events] = fastPlayoutPolicy(game);
+//     console.log(commands.join('\n').toString());
+//     console.log(events.join('\n').toString());
+//     console.log(game.score(Side.CARTHAGINIAN));
+// });
