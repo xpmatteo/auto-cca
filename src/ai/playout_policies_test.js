@@ -86,8 +86,8 @@ test("fast playout Until Switch Side Policy", () => {
     const MAX_CARTHAGININAN_MOVES = 3;
     let moves = 0;
     const game = {
-        currentSide: Side.CARTHAGINIAN,
-        executeCommand: () => { if (moves++ === MAX_CARTHAGININAN_MOVES) game.currentSide = Side.ROMAN; },
+        currentSideRaw: Side.CARTHAGINIAN,
+        executeCommand: () => { if (moves++ === MAX_CARTHAGININAN_MOVES) game.currentSideRaw = Side.ROMAN; },
         validCommands: () => [{value: () => 0}],
         isTerminal: () => false,
     }
@@ -100,7 +100,7 @@ test("fast playout Until Switch Side Policy", () => {
 test('fast playout will stop when game is over', () => {
     let moves = 0;
     const game = {
-        currentSide: Side.CARTHAGINIAN,
+        currentSideRaw: Side.CARTHAGINIAN,
         isTerminal: () => moves === 1,
         executeCommand: () => { moves++; },
         validCommands: () => [{value: () => 0}],
@@ -119,5 +119,5 @@ test('score in test scenario', () => {
    let [commands, events] = fastPlayoutPolicy(game);
     console.log(commands.join('\n').toString());
     console.log(events.join('\n').toString());
-   console.log(game.score(Side.CARTHAGINIAN));
+    console.log(game.score(Side.CARTHAGINIAN));
 });

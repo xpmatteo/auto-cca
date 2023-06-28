@@ -17,7 +17,7 @@ export function playoutTillTheEndPolicy(game) {
 export function fastPlayoutPolicy(game) {
     const maxIterations = 1000;
     let iterations = 0;
-    let side = game.currentSide;
+    let side = game.currentSideRaw;
     let events = [];
     let commands = [];
     while (!game.isTerminal() && side === game.currentSideRaw) {
