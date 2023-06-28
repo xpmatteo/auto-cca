@@ -1,13 +1,15 @@
 
 export class DamageEvent {
-    constructor(hex, damage, diceResults) {
+    constructor(attackingUnit, defendingUnit, hex, damage, diceResults) {
+        this.attackingUnit = attackingUnit;
+        this.defendingUnit = defendingUnit;
         this.hex = hex;
         this.damage = damage;
         this.diceResults = diceResults.slice();
     }
 
     toString() {        
-        return `Damage ${this.hex} for ${this.damage} damage with ${this.diceResults}`;
+        return `${this.attackingUnit} damages ${this.defendingUnit} at ${this.hex} for ${this.damage} damage with ${this.diceResults}`;
     }
 }
 

@@ -31,6 +31,9 @@ export function chooseBestCommand(game) {
     // sort commands by value
     commands.sort((a, b) => b.value(game) - a.value(game));
 
+    console.log(`Best commands for ${game.currentSide}:`)
+    console.log(commands.map(command => `${command}: ${command.value(game)}`).join('\n'))
+
     // extract all the commands with the highest value
     let bestCommands = commands.filter(command => command.value(game) === commands[0].value(game));
 

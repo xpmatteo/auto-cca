@@ -67,7 +67,7 @@ function updateInfoMessage(game) {
 }
 
 function drawCoordinates(graphics, hex) {
-    let pixelCoordinate = hex_to_pixel(layout, hex).add(new Point(-12, -20));
+    let pixelCoordinate = hex_to_pixel(layout, hex).add(new Point(-12, -50));
     const text = `${hex.q}, ${hex.r}`;
     graphics.writeText(text, pixelCoordinate);
 }
@@ -113,14 +113,13 @@ export function drawTextOnHex(graphics, text, hex) {
 export function redraw(graphics, game) {
     graphics.drawImage('images/cca_map_hq.jpg', new Point(0, 0));
 
-    game.foreachHex(hex => drawCoordinates(graphics, hex));
-
     drawMovementTrails(graphics, layout, game);
 
     game.hilightedHexes.forEach(hex => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
         graphics.hilightHex(layout.size, pixelCoordinate);
     });
+    game.foreachHex(hex => drawCoordinates(graphics, hex));
 
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
@@ -128,30 +127,6 @@ export function redraw(graphics, game) {
     });
 
     drawGraveyard(graphics, game);
-
-    function drawChildren(tree, maxDepth) {
-        if (maxDepth === 0) return;
-        tree.children.forEach(child => {
-            if (child.move.constructor === MoveCommand) {
-                let pixelFrom = hex_to_pixel(layout, child.move.fromHex);
-                let pixelTo = hex_to_pixel(layout, child.move.toHex);
-                graphics.drawLine(pixelFrom, pixelTo, 10, 'green');
-                graphics.drawCircle(pixelTo, 10, 'green');
-                drawChildren(child, maxDepth - 1);
-            }
-            if (child.move.constructor === CloseCombatCommand) {
-                let pixelFrom = hex_to_pixel(layout, child.move.fromHex);
-                let pixelTo = hex_to_pixel(layout, child.move.toHex);
-                graphics.drawLine(pixelFrom, pixelTo, 10, 'brown');
-                graphics.drawCircle(pixelTo, 10, 'brown');
-                drawChildren(child, maxDepth - 1);
-            }
-        });
-    }
-
-    // if (aiTree) {
-    //     drawChildren(aiTree, 3);
-    // }
 
     updateInfoMessage(game);
     enableButtons(game);

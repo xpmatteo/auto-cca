@@ -40,7 +40,7 @@ export class CloseCombatCommand {
         let events = [];
         const diceResults = game.roll(attackingUnit.diceCount);
         const damage = game.takeDamage(defendingHex, diceResults, game.retreatHexes(defendingHex).length === 0);
-        events.push(new DamageEvent(defendingHex, damage, diceResults));
+        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, diceResults));
         game.markUnitSpent(attackingUnit);
 
         if (game.isDead(defendingUnit)) {
@@ -53,7 +53,7 @@ export class CloseCombatCommand {
             const battleBackDice = game.roll(defendingUnit.diceCount);
             const battleBackDamage = game.takeDamage(attackingUnit, battleBackDice);
             events.push(new BattleBackEvent(attackingHex, defendingHex, battleBackDice.length));
-            events.push(new DamageEvent(attackingHex, battleBackDamage, battleBackDice));
+            events.push(new DamageEvent(defendingUnit, attackingUnit, attackingHex, battleBackDamage, battleBackDice));
             if (game.isDead(attackingUnit)) {
                 events.push(new UnitKilledEvent(attackingHex, attackingUnit));
             }

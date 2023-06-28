@@ -17,7 +17,7 @@ const PHASES = [new MovementPhase(), new BattlePhase()];
 class Game {
     board = new Board();
     phases = PHASES.slice();
-    #currentSide;
+    currentSideRaw;
     spentUnits = [];
     movementTrails = [];
     unitStrengths = new Map();
@@ -30,7 +30,7 @@ class Game {
     }
 
     initialize() {
-        this.#currentSide = this.scenario.firstSide;
+        this.currentSideRaw = this.scenario.firstSide;
         this.scenario.placeUnitsOn(this);
     }
 
@@ -64,7 +64,7 @@ class Game {
 
     switchSide() {
         this.phases = PHASES.slice();
-        this.#currentSide = this.scenario.opposingSide(this.#currentSide);
+        this.currentSideRaw = this.scenario.opposingSide(this.currentSideRaw);
         this.spentUnits = [];
         this.movementTrails = [];
         this.turnCount++;
@@ -101,7 +101,7 @@ class Game {
         const game = new Game(this.scenario, this.dice);
         game.board = this.board.clone();
         game.phases = this.phases.slice();
-        game.#currentSide = this.#currentSide;
+        game.currentSideRaw = this.currentSideRaw;
         game.spentUnits = this.spentUnits.slice();
         game.movementTrails = this.movementTrails.slice();
         game.unitStrengths = new Map(this.unitStrengths);
@@ -114,7 +114,7 @@ class Game {
     }
 
     get currentSide() {
-        return this.currentPhase.temporarySide || this.#currentSide;
+        return this.currentPhase.temporarySide || this.currentSideRaw;
     }
 
     get currentPhaseName() {
