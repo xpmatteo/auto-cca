@@ -29,12 +29,13 @@ export const treeObserver = {
         }
         console.log("---");
         console.log(root.mostVisitedPath1().map(node => `${node.sideExecutingTheMove}\t${node.move} (${node.wins}/${node.visits})`).join("\n"));
+        console.log(root);
     },
 }
 
 function renderSearchTree(node, depth, maxDepth) {
     let li = document.createElement("li");
-    li.appendChild(document.createTextNode(`${node.wins}/${node.visits}, score: ${node.state.score(node.sideExecutingTheMove)} ${node.move}`));
+    li.appendChild(document.createTextNode(`${node.wins.toFixed(3)}/${node.visits}, score: ${node.state.score(node.sideExecutingTheMove)} ${node.move}`));
     if (depth < maxDepth) {
         let ul = document.createElement("ul");
         for (let child of node.children) {
@@ -61,8 +62,6 @@ function makeCollapsible() {
         });
     });
 }
-
-
 
 export const treeObserver1 = {
     onEndDecideMove: function (aiPlayer, root) {
