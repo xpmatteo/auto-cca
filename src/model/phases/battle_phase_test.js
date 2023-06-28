@@ -73,3 +73,19 @@ t.test('generate ranged combat commands for one unit and two targets', function 
     t.assertEqualsInAnyOrder(expected, commands);
 });
 
+t.test('no ranged combat if enemy adjacent', function () {
+    const game = makeGame(new NullScenario());
+    const phase = new BattlePhase(game);
+    game.placeUnit(hexOf(0, 4), new units.RomanLightInfantry());
+    game.placeUnit(hexOf(1, 4), new units.CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
+
+    let commands = phase.validCommands(game);
+
+    let expected = [
+        new CloseCombatCommand(hexOf(1, 4), hexOf(0, 4)),
+        new EndPhaseCommand(),
+    ];
+    t.assertEqualsInAnyOrder(expected, commands);
+});
+

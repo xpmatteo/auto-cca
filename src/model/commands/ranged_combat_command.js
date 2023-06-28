@@ -19,4 +19,7 @@ export class RangedCombatCommand {
         return hexScore(game.unitStrength(defendingUnit));
     }
 
+    play(game) {
+        
+    }
 }
