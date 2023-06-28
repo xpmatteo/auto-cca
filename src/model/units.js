@@ -19,6 +19,21 @@ export class Unit {
         return targets;
     }
 
+    validRangedCombatTargets(fromHex, board) {
+        if (this.weight !== dice.RESULT_LIGHT) {
+            return [];
+        }
+        let targets = [];
+        board.foreachUnit((unit, hex) => {
+            if (unit.side !== this.side) {
+                if (fromHex.distance(hex) === 2) {
+                    targets.push(hex);
+                }
+            }
+        });
+        return targets;
+    }
+
     takeDamage(diceResults, includeFlags = false) {
         if (typeof diceResults === 'number') {
             return diceResults;
