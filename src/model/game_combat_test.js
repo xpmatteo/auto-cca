@@ -9,7 +9,7 @@ import { Side } from "./side.js";
 import {RetreatCommand} from "./commands/retreatCommand.js";
 import {CloseCombatCommand} from "./commands/closeCombatCommand.js";
 
-function diceReturning() {
+export function diceReturning() {
     let invocations = 0;
     let successiveResults = Array.from(arguments);
     return {

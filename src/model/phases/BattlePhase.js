@@ -21,9 +21,6 @@ export class BattlePhase extends Phase {
             unit.validCloseCombatTargets(hex, game).forEach(to => {
                 commands.push(new CloseCombatCommand(to, hex));
             });
-            if (commands.length > 0) {
-                return;
-            }
             unit.validRangedCombatTargets(hex, game).forEach(to => {
                 commands.push(new RangedCombatCommand(to, hex));
             });

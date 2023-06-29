@@ -20,7 +20,7 @@ export class Unit {
     }
 
     validRangedCombatTargets(fromHex, board) {
-        if (this.weight !== dice.RESULT_LIGHT) {
+        if (this.weight !== dice.RESULT_LIGHT && this.validCloseCombatTargets(fromHex, board).length === 0) {
             return [];
         }
         let targets = [];
@@ -34,17 +34,16 @@ export class Unit {
         return targets;
     }
 
-    takeDamage(diceResults, includeFlags = false) {
+    takeDamage(diceResults, includeFlags = false, includeSwords = true) {
         if (typeof diceResults === 'number') {
             return diceResults;
         }
 
-        const damage = diceResults.
-            filter(r => r === this.weight 
-                || r === dice.RESULT_SWORDS 
-                || (includeFlags && r == dice.RESULT_FLAG)
-                ).
-            length;
+        const damage = diceResults.filter(
+            r => r === this.weight
+            || (includeSwords && r === dice.RESULT_SWORDS)
+            || (includeFlags && r === dice.RESULT_FLAG)
+        ).length;
         return damage;
     }
 }

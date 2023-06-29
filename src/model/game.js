@@ -196,9 +196,9 @@ class Game {
         return this.unitStrengths.get(unit);
     }
 
-    takeDamage(unitOrHex, diceRoll, includeFlags = false) {
+    takeDamage(unitOrHex, diceRoll, includeFlags = false, includeSwords = true) {
         let unit = this.__toUnit(unitOrHex);
-        let damage = unit.takeDamage(diceRoll, includeFlags);
+        let damage = unit.takeDamage(diceRoll, includeFlags, includeSwords);
         this.unitStrengths.set(unit, this.unitStrengths.get(unit) - damage);
         if (this.isDead(unit)) {
             this.graveyard.bury(unit);
