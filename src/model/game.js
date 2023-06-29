@@ -280,6 +280,10 @@ class Game {
         ];
         return result.toString();
     }
+
+    unitHasMoved(hex) {
+        return this.movementTrails.some(trail => trail.to === hex);
+    }
 }
 
 export class MovementTrail {

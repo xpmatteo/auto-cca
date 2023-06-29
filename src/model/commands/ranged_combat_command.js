@@ -43,12 +43,13 @@ export class RangedCombatCommand {
             throw new Error(`Cannot Ranged Combat with unit at ${defendingHex} from ${attackingHex} (distance is not 2)`);
         }
         let events = [];
-        const diceResults = game.roll(2);
+        const rangedDiceCount = game.unitHasMoved(this.fromHex) ? 1 : 2;
+        const diceResults = game.roll(rangedDiceCount);
         const damage = game.takeDamage(defendingHex,
             diceResults,
             game.retreatHexes(defendingHex).length === 0,
             false);
-        // events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, diceResults));
+        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, diceResults));
         game.markUnitSpent(attackingUnit);
 
         // if (game.isDead(defendingUnit)) {

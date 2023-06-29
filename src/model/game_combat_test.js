@@ -26,7 +26,7 @@ export function diceReturning() {
     }
 }
 
-function eventNames(events) {
+export function eventNames(events) {
     return events.map(e => e.constructor.name);
 }
 
