@@ -20,7 +20,8 @@ export class Unit {
     }
 
     validRangedCombatTargets(fromHex, board) {
-        if (this.weight !== dice.RESULT_LIGHT && this.validCloseCombatTargets(fromHex, board).length === 0) {
+        console.assert(this.weight);
+        if (this.weight !== dice.RESULT_LIGHT || this.validCloseCombatTargets(fromHex, board).length > 0) {
             return [];
         }
         let targets = [];

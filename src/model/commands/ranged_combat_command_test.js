@@ -1,7 +1,7 @@
 import { assertDeepEquals, assertEquals, test } from "../../lib/test_lib.js";
 import makeGame from "../game.js";
 import { NullScenario } from "../scenarios.js";
-import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../units.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry, RomanLightInfantry } from "../units.js";
 import { hexOf } from "../../lib/hexlib.js";
 import { RangedCombatCommand } from "./ranged_combat_command.js";
 import { diceReturning } from "../game_combat_test.js";
