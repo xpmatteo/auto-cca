@@ -20,8 +20,7 @@ export class Unit {
     }
 
     validRangedCombatTargets(fromHex, board) {
-        console.assert(this.weight);
-        if (this.weight !== dice.RESULT_LIGHT || this.validCloseCombatTargets(fromHex, board).length > 0) {
+        if (!this.canRangedCombat() || this.hasAdjacentEnemies(fromHex, board)) {
             return [];
         }
         let targets = [];
@@ -33,6 +32,14 @@ export class Unit {
             }
         });
         return targets;
+    }
+
+    hasAdjacentEnemies(fromHex, board) {
+        return this.validCloseCombatTargets(fromHex, board).length > 0;
+    }
+
+    canRangedCombat() {
+        return this.weight === dice.RESULT_LIGHT;
     }
 
     takeDamage(diceResults, includeFlags = false, includeSwords = true) {
