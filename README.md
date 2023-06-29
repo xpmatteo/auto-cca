@@ -1,4 +1,6 @@
 
+Graphics are copyright GMT Games, copied from the Vassal CC:A module
+
 # How to
 
 Serve locally with `python -m http.server`
