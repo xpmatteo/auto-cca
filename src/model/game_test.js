@@ -163,3 +163,25 @@ test('play move then spent', function () {
     ];
     assertEqualsInAnyOrder(expected, commands);
 });
+
+test('unit support', function () {
+    const game = makeGame(new NullScenario());
+
+    game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    assertFalse(game.isSupported(hexOf(1, 1)), "unit alone is not supported");
+
+    game.placeUnit(hexOf(0, 2), new units.RomanHeavyInfantry());
+    assertFalse(game.isSupported(hexOf(1, 1)), "with just one adjacent unit, unit is not supported");
+
+    game.placeUnit(hexOf(1, 2), new units.RomanHeavyInfantry());
+    assertTrue(game.isSupported(hexOf(1, 1)), "with just two adjacent units, unit is supported");
+});
+
+test('enemy units do not provide support', function () {
+    const game = makeGame(new NullScenario());
+    game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    game.placeUnit(hexOf(0, 2), new units.CarthaginianHeavyInfantry());
+    game.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
+
+    assertFalse(game.isSupported(hexOf(1, 1)), "enemy units do not provide support");
+});

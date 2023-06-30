@@ -284,6 +284,22 @@ class Game {
     unitHasMoved(hex) {
         return this.movementTrails.some(trail => trail.to === hex);
     }
+
+    isSupported(hex) {
+        const unit = this.unitAt(hex);
+        if (!unit) {
+            throw new Error(`No unit at ${hex}`);
+        }
+        let supportingUnits = 0;
+        let hexes = this.subtractOffMap(hex.neighbors());
+        hexes.forEach(h => {
+            let unit = this.unitAt(h);
+            if (unit && unit.side === this.currentSide) {
+                supportingUnits++;
+            }
+        });
+        return supportingUnits >= 2;
+    }
 }
 
 export class MovementTrail {

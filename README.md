@@ -28,4 +28,6 @@ See the game by visiting http://localhost:8000/
 
  - ???
 
+ - optimize neighbors
+
 
