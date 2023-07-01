@@ -14,10 +14,12 @@ See the game by visiting http://localhost:8000/
 
   - flags > 1 should retreat > 1
   - support
-  - movement of > 1 hex
+  - movement of 3 or 4 hexes
   - evasion
   - activation
   - cards
+  - leaders
+  - terrain
 
 # AI things to try
 

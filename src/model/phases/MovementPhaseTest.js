@@ -59,3 +59,30 @@ t.test('generate commands for two units, avoiding collisions', function () {
     ];
     t.assertEqualsInAnyOrder(expected, commands);
 });
+
+t.test('generate moves for unit of range 2', function () {
+    let game = new Game(new NullScenario());
+    game.placeUnit(hexOf(1, 1), new units.RomanLightInfantry());
+
+    let moves = game.validCommands();
+
+    let expected = [
+        new MoveCommand(hexOf(1, 0), hexOf(1, 1)),
+        new MoveCommand(hexOf(2, 0), hexOf(1, 1)),
+        new MoveCommand(hexOf(0, 1), hexOf(1, 1)),
+        new MoveCommand(hexOf(2, 1), hexOf(1, 1)),
+        new MoveCommand(hexOf(0, 2), hexOf(1, 1)),
+        new MoveCommand(hexOf(1, 2), hexOf(1, 1)),
+
+        new MoveCommand(hexOf(0, 0), hexOf(1, 1)),
+        new MoveCommand(hexOf(3, 0), hexOf(1, 1)),
+        new MoveCommand(hexOf(3, 1), hexOf(1, 1)),
+        new MoveCommand(hexOf(2, 2), hexOf(1, 1)),
+        new MoveCommand(hexOf(1, 3), hexOf(1, 1)),
+        new MoveCommand(hexOf(0, 3), hexOf(1, 1)),
+        new MoveCommand(hexOf(-1, 3), hexOf(1, 1)),
+        new MoveCommand(hexOf(-1, 2), hexOf(1, 1)),
+        new EndPhaseCommand(),
+    ];
+    t.assertEqualsInAnyOrder(expected, moves);
+});

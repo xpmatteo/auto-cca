@@ -4,7 +4,16 @@ import * as dice from './dice.js';
 export class Unit {
     validDestinations(fromHex, board) {
         let hexes = board.subtractOffMap(fromHex.neighbors());
-        return board.subtractOccupiedHexes(hexes);
+        const levelOneMoves = board.subtractOccupiedHexes(hexes);
+        if (this.movement === 2) {
+            const levelTwoMoves = [];
+            levelOneMoves.forEach(hex => {
+                levelTwoMoves.push(...board.subtractOccupiedHexes(hex.neighbors()));
+            });
+            const set = new Set(levelOneMoves.concat(board.subtractOffMap(levelTwoMoves)));
+            return Array.from(set);
+        }
+        return levelOneMoves;
     }
 
     validCloseCombatTargets(fromHex, board) {
@@ -71,6 +80,7 @@ class HeavyInfantry extends Unit {
     weight = dice.RESULT_HEAVY;
     diceCount = 5;
     initialStrength = 4;
+    movement = 1;
 
     toString() {
         return `${this.side.name} heavy infantry`;
@@ -81,6 +91,7 @@ class MediumInfantry extends Unit {
     weight = dice.RESULT_MEDIUM;
     diceCount = 4;
     initialStrength = 4;
+    movement = 1;
 
     toString() {
         return `${this.side.name} medium infantry`;
@@ -91,6 +102,7 @@ class LightInfantry extends Unit {
     weight = dice.RESULT_LIGHT;
     diceCount = 2;
     initialStrength = 4;
+    movement = 2;
 
     toString() {
         return `${this.side.name} light infantry`;
