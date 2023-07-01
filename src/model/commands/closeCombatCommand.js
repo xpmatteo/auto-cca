@@ -2,9 +2,11 @@ import {BattleBackEvent, DamageEvent, UnitKilledEvent} from "../events.js";
 import * as dice from "../dice.js";
 import {RetreatPhase} from "../phases/RetreatPhase.js";
 import {hexScore} from "./commands.js";
+import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
-export class CloseCombatCommand {
+export class CloseCombatCommand extends AbstractCombatCommand {
     constructor(toHex, fromHex) {
+        super();
         this.toHex = toHex;
         this.fromHex = fromHex;
     }
@@ -21,19 +23,8 @@ export class CloseCombatCommand {
         const defendingHex = this.toHex;
         const attackingHex = this.fromHex;
         const attackingUnit = game.unitAt(attackingHex);
-        if (!attackingUnit) {
-            throw new Error(`No unit at ${attackingHex}`);
-        }
         const defendingUnit = game.unitAt(defendingHex);
-        if (!defendingUnit) {
-            throw new Error(`No unit at ${defendingHex}`);
-        }
-        if (attackingUnit.side === defendingUnit.side) {
-            throw new Error(`Cannot attack own unit at ${defendingHex}`);
-        }
-        if (defendingHex === attackingHex) {
-            throw new Error(`Cannot attack self at ${defendingHex}`);
-        }
+        this.validateCombat(attackingUnit, attackingHex, defendingUnit, defendingHex);
         if (defendingHex.distance(attackingHex) > 1) {
             throw new Error(`Cannot Close Combat with unit at ${defendingHex} from ${attackingHex} (too far)`);
         }
