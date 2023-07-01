@@ -3,18 +3,18 @@
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
 import { layout } from "./map.js";
 import { Side } from "../model/side.js";
-import { aiTree } from "../ai/ai_player.js";
-import { MoveCommand } from "../model/commands/moveCommand.js";
-import { CloseCombatCommand } from "../model/commands/closeCombatCommand.js";
 
-export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected) {
+export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected, isOrdered) {
     function displayStrength() {
         if (unitStrength <= 0) return 'X';
         return unitStrength.toString();
     }
 
+    if (isOrdered) {
+        graphics.drawEllipse(pixelCoordinate.add(new Point(0, 25)), 65, 30, '#777777');
+    }
+
     let url = `images/units/${unit.imageName}`;
-    
     const size = graphics.drawImageCentered(url, pixelCoordinate);
     
     let shift = 2;
@@ -73,7 +73,6 @@ function drawCoordinates(graphics, hex) {
 }
 
 
-
 const GRAVEYARD_LABELS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 const GRAVEYARD_ADJUSTMENTS = [-7, -12, -18, -18, -12, -18];
 function drawGraveyardHex(graphics, game, index, hex, unit) {
@@ -123,7 +122,8 @@ export function redraw(graphics, game) {
 
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
-        drawUnit(graphics, pixelCoordinate, unit, game.unitStrength(unit), unit === game.selectedUnit());
+        drawUnit(graphics, pixelCoordinate, unit,
+            game.unitStrength(unit), unit === game.selectedUnit(), game.isOrdered(unit));
     });
 
     drawGraveyard(graphics, game);

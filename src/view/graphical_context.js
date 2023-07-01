@@ -9,6 +9,16 @@ export class GraphicalContext {
         this.ctx = ctx;
     }
 
+    drawEllipse(pixel, width, height, color) {
+        this.ctx.save();
+        this.ctx.fillStyle = color;
+        this.ctx.beginPath();
+        this.ctx.ellipse(pixel.x, pixel.y, width, height, 0, 0, 2 * Math.PI);
+        this.ctx.fill();
+        this.ctx.closePath();
+        this.ctx.restore();
+    }
+
     drawCircle(pixel, radius=5, color='red') {
         this.ctx.save();
         this.ctx.beginPath();

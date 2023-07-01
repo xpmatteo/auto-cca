@@ -177,4 +177,8 @@ export class InteractiveGame {
     get currentSideRaw() {
         return this.#game.currentSideRaw;
     }
+
+    isOrdered(unit) {
+        return this.#game.isOrdered(unit);
+    }
 }

@@ -22,6 +22,7 @@ class Game {
     movementTrails = [];
     unitStrengths = new Map();
     graveyard = new Graveyard();
+    orderedUnits = [];
     turnCount = 0;
 
     constructor(scenario, dice) {
@@ -67,6 +68,7 @@ class Game {
         this.currentSideRaw = this.scenario.opposingSide(this.currentSideRaw);
         this.spentUnits = [];
         this.movementTrails = [];
+        this.orderedUnits = [];
         this.turnCount++;
     }
 
@@ -106,6 +108,7 @@ class Game {
         game.movementTrails = this.movementTrails.slice();
         game.unitStrengths = new Map(this.unitStrengths);
         game.graveyard = this.graveyard.clone();
+        game.orderedUnits = this.orderedUnits.slice();
         return game;
     }
 
@@ -299,6 +302,10 @@ class Game {
             }
         });
         return supportingUnits >= 2;
+    }
+
+    isOrdered(unit) {
+        return this.orderedUnits.includes(unit);
     }
 }
 
