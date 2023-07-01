@@ -35,4 +35,8 @@ export class RangedCombatCommand extends AbstractCombatCommand {
     decideDiceCount(attackingUnit, game) {
         return game.unitHasMoved(this.fromHex) ? 1 : 2;
     }
+
+    doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
+        return false;
+    }
 }

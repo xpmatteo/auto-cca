@@ -34,7 +34,6 @@ export class InteractiveGame {
                 filter(hex => hex !== undefined);
             return new Set(toHexes);            
         }
-        console.log(this.#game.validCommands());
         const fromHexes = this.#game.validCommands().
             map(command => command.fromHex).
             filter(hex => hex !== undefined);

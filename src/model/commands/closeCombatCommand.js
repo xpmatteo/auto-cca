@@ -3,6 +3,7 @@ import * as dice from "../dice.js";
 import {RetreatPhase} from "../phases/RetreatPhase.js";
 import {hexScore} from "./commands.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
+import { RESULT_LIGHT } from "../dice.js";
 
 export class CloseCombatCommand extends AbstractCombatCommand {
     constructor(toHex, fromHex) {
@@ -29,18 +30,8 @@ export class CloseCombatCommand extends AbstractCombatCommand {
         if (defendingHex.distance(attackingHex) > 1) {
             throw new Error(`Cannot Close Combat with unit at ${defendingHex} from ${attackingHex} (too far)`);
         }
-        let events = [];
-        const diceResults = game.roll(attackingUnit.diceCount);
-        const damage = game.takeDamage(defendingHex, diceResults, game.retreatHexes(defendingHex).length === 0);
-        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, diceResults));
-        game.markUnitSpent(attackingUnit);
-
-        if (game.isDead(defendingUnit)) {
-            events.push(new UnitKilledEvent(defendingHex, defendingUnit));
-        } else if (game.retreatHexes(defendingHex).length !== 0 && diceResults.includes(dice.RESULT_FLAG)) {
-            const retreatHexes = game.retreatHexes(defendingHex);
-            game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, retreatHexes));
-        } else {
+        let events = this.attack(attackingUnit, defendingHex, defendingUnit, game);
+        if (this.defenderHoldsGround(game, defendingHex, attackingUnit)) {
             // battle back
             const battleBackDice = game.roll(defendingUnit.diceCount);
             const battleBackDamage = game.takeDamage(attackingUnit, battleBackDice);
@@ -49,11 +40,25 @@ export class CloseCombatCommand extends AbstractCombatCommand {
             if (game.isDead(attackingUnit)) {
                 events.push(new UnitKilledEvent(attackingHex, attackingUnit));
             }
+        } else {
+            // advance after combat
         }
         return events;
     }
 
+    defenderHoldsGround(game, defendingHex, attackingUnit) {
+        return game.unitAt(defendingHex) && this.noRetreat(game, attackingUnit);
+    }
+
+    noRetreat(game, attackingUnit) {
+        return game.currentSide === attackingUnit.side;
+    }
+
     decideDiceCount(attackingUnit, game) {
-        return game.unitHasMoved(this.fromHex) ? 1 : 2;
+        return attackingUnit.diceCount;
+    }
+
+    doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
+        return attackingUnit.weight != RESULT_LIGHT;
     }
 }
