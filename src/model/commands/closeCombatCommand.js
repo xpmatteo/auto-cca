@@ -1,9 +1,7 @@
-import {BattleBackEvent, DamageEvent, UnitKilledEvent} from "../events.js";
-import * as dice from "../dice.js";
-import {RetreatPhase} from "../phases/RetreatPhase.js";
-import {hexScore} from "./commands.js";
-import { AbstractCombatCommand } from "./abstract_combat_command.js";
+import { BattleBackEvent } from "../events.js";
 import { RESULT_LIGHT } from "../dice.js";
+import { hexScore } from "./commands.js";
+import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
 export class CloseCombatCommand extends AbstractCombatCommand {
     constructor(toHex, fromHex) {
@@ -33,16 +31,12 @@ export class CloseCombatCommand extends AbstractCombatCommand {
         let events = this.attack(attackingUnit, defendingHex, defendingUnit, game);
         if (this.defenderHoldsGround(game, defendingHex, attackingUnit)) {
             // battle back
-            const battleBackDice = game.roll(defendingUnit.diceCount);
-            const battleBackDamage = game.takeDamage(attackingUnit, battleBackDice);
-            events.push(new BattleBackEvent(attackingHex, defendingHex, battleBackDice.length));
-            events.push(new DamageEvent(defendingUnit, attackingUnit, attackingHex, battleBackDamage, battleBackDice));
-            if (game.isDead(attackingUnit)) {
-                events.push(new UnitKilledEvent(attackingHex, attackingUnit));
-            }
+            events.push(new BattleBackEvent(attackingHex, defendingHex, defendingUnit.diceCount));
+            events = events.concat(this.attack(defendingUnit, attackingHex, attackingUnit, game));
         } else {
             // advance after combat
         }
+        game.markUnitSpent(attackingUnit);
         return events;
     }
 

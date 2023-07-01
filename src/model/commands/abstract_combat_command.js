@@ -37,7 +37,6 @@ export class AbstractCombatCommand {
             game.retreatHexes(defendingHex).length === 0,
             this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
         events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, diceResults));
-        game.markUnitSpent(attackingUnit);
         if (game.isDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
         } else if (game.retreatHexes(defendingHex).length !== 0 && diceResults.includes(dice.RESULT_FLAG)) {
