@@ -307,6 +307,17 @@ class Game {
     isOrdered(unit) {
         return this.orderedUnits.includes(unit);
     }
+
+    orderUnit(hex) {
+        let unit = this.unitAt(hex);
+        if (!unit) {
+            throw new Error(`No unit at ${this.hex}`);
+        }
+        if (this.isOrdered(unit)) {
+            throw new Error("Unit already ordered");
+        }
+        this.orderedUnits.push(unit);
+    }
 }
 
 export class MovementTrail {
