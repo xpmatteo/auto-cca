@@ -15,8 +15,9 @@ export class CloseCombatCommand extends AbstractCombatCommand {
         return `Close Combat from ${this.fromHex} to ${this.toHex}`;
     }
 
-    isDeterministic() {
-        return false;
+    value(game) {
+        const defendingUnit = game.unitAt(this.toHex);
+        return hexScore(game.unitStrength(defendingUnit));
     }
 
     play(game) {
@@ -52,8 +53,7 @@ export class CloseCombatCommand extends AbstractCombatCommand {
         return events;
     }
 
-    value(game) {
-        const defendingUnit = game.unitAt(this.toHex);
-        return hexScore(game.unitStrength(defendingUnit));
+    decideDiceCount(attackingUnit, game) {
+        return game.unitHasMoved(this.fromHex) ? 1 : 2;
     }
 }

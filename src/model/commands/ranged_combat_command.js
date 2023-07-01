@@ -15,10 +15,6 @@ export class RangedCombatCommand extends AbstractCombatCommand {
         return `Ranged Combat from ${this.fromHex} to ${this.toHex}`;
     }
 
-    isDeterministic() {
-        return false;
-    }
-
     value(game) {
         const defendingUnit = game.unitAt(this.toHex);
         return hexScore(game.unitStrength(defendingUnit));
@@ -34,25 +30,6 @@ export class RangedCombatCommand extends AbstractCombatCommand {
             throw new Error(`Cannot Ranged Combat with unit at ${defendingHex} from ${attackingHex} (distance is not 2)`);
         }
         return this.attack(attackingUnit, defendingHex, defendingUnit, game);
-    }
-
-    attack(attackingUnit, defendingHex, defendingUnit, game) {
-        let events = [];
-        const diceCount = this.decideDiceCount(attackingUnit, game);
-        const diceResults = game.roll(diceCount);
-        const damage = game.takeDamage(defendingHex,
-            diceResults,
-            game.retreatHexes(defendingHex).length === 0,
-            false);
-        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, diceResults));
-        game.markUnitSpent(attackingUnit);
-        if (game.isDead(defendingUnit)) {
-            events.push(new UnitKilledEvent(defendingHex, defendingUnit));
-        } else if (game.retreatHexes(defendingHex).length !== 0 && diceResults.includes(dice.RESULT_FLAG)) {
-            const retreatHexes = game.retreatHexes(defendingHex);
-            game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, retreatHexes));
-        }
-        return events;
     }
 
     decideDiceCount(attackingUnit, game) {
