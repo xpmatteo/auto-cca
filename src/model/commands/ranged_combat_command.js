@@ -33,9 +33,13 @@ export class RangedCombatCommand extends AbstractCombatCommand {
         if (defendingHex.distance(attackingHex) !== 2) {
             throw new Error(`Cannot Ranged Combat with unit at ${defendingHex} from ${attackingHex} (distance is not 2)`);
         }
+        return this.attack(attackingUnit, defendingHex, defendingUnit, game);
+    }
+
+    attack(attackingUnit, defendingHex, defendingUnit, game) {
         let events = [];
-        const rangedDiceCount = game.unitHasMoved(this.fromHex) ? 1 : 2;
-        const diceResults = game.roll(rangedDiceCount);
+        const diceCount = this.decideDiceCount(attackingUnit, game);
+        const diceResults = game.roll(diceCount);
         const damage = game.takeDamage(defendingHex,
             diceResults,
             game.retreatHexes(defendingHex).length === 0,
@@ -49,5 +53,9 @@ export class RangedCombatCommand extends AbstractCombatCommand {
             game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, retreatHexes));
         }
         return events;
+    }
+
+    decideDiceCount(attackingUnit, game) {
+        return game.unitHasMoved(this.fromHex) ? 1 : 2;
     }
 }
