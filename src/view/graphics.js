@@ -23,6 +23,9 @@ export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelect
     graphics.writeText(displayStrength(), pixelStrengthShadow, "20pt Arial", "white");
     graphics.writeText(displayStrength(), pixelStrength, "16pt Arial", "black");
 
+    const pixelAcronym = pixelCoordinate.add(new Point(- size.x / 2 + 6, - size.y / 2 + 32));
+    graphics.writeText(unit.acronym, pixelAcronym, "14pt Arial", "black");
+
     if (isSelected) {
         let pixelTopLeft = pixelCoordinate.add(new Point(-size.x / 2, -size.y / 2));
         graphics.drawRect(pixelTopLeft, size.x, size.y, 5, 'red');

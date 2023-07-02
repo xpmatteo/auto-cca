@@ -3,7 +3,7 @@
 import { Autoplay, displayEvents } from "./ai/autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
-import { TestScenario } from "./model/scenarios.js";
+import { AkragasScenario, TestScenario } from "./model/scenarios.js";
 import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas } from "./view/map.js";
@@ -22,7 +22,7 @@ treeList.id = "search-tree";
 document.body.appendChild(treeList);
 
 // create game
-let scenario = new TestScenario();
+let scenario = new AkragasScenario();
 let game = makeGame(scenario);
 let interactiveGame = new InteractiveGame(game);
 

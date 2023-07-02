@@ -66,6 +66,7 @@ export class Unit {
 }
 
 class HeavyCavalry extends Unit {
+    acronym = "HC";
     weight = dice.RESULT_HEAVY;
     diceCount = 4;
     initialStrength = 3;
@@ -77,6 +78,7 @@ class HeavyCavalry extends Unit {
 }
 
 class HeavyInfantry extends Unit {
+    acronym = "H";
     weight = dice.RESULT_HEAVY;
     diceCount = 5;
     initialStrength = 4;
@@ -88,6 +90,7 @@ class HeavyInfantry extends Unit {
 }
 
 class MediumInfantry extends Unit {
+    acronym = "M";
     weight = dice.RESULT_MEDIUM;
     diceCount = 4;
     initialStrength = 4;
@@ -98,7 +101,20 @@ class MediumInfantry extends Unit {
     }
 }
 
+class AuxiliaInfantry extends Unit {
+    acronym = "A";
+    weight = dice.RESULT_LIGHT;
+    diceCount = 3;
+    initialStrength = 4;
+    movement = 2;
+
+    toString() {
+        return `${this.side.name} auxilia infantry`;
+    }
+}
+
 class LightInfantry extends Unit {
+    acronym = "L";
     weight = dice.RESULT_LIGHT;
     diceCount = 2;
     initialStrength = 4;
@@ -117,21 +133,11 @@ export class RomanHeavyCavalry extends HeavyCavalry {
 export class RomanHeavyInfantry extends HeavyInfantry {
     imageName = 'rom_inf_hv.png';
     side = Side.ROMAN;
-
-    constructor() {
-        super();
-        Object.freeze(this);
-    }
 }
 
 export class RomanMediumInfantry extends MediumInfantry {
     imageName = 'rom_inf_md.png';
     side = Side.ROMAN;
-
-    constructor() {
-        super();
-        Object.freeze(this);
-    }
 }
 
 export class RomanLightInfantry extends LightInfantry {
@@ -139,22 +145,22 @@ export class RomanLightInfantry extends LightInfantry {
     side = Side.ROMAN;
 }
 
+export class RomanAuziliaInfantry extends AuxiliaInfantry {
+    imageName = 'rom_aux.png';
+    side = Side.ROMAN;
+}
+
 export class CarthaginianHeavyInfantry extends HeavyInfantry {
     imageName = 'car_inf_hv.png';
     side = Side.CARTHAGINIAN;
-
-    constructor() {
-        super();
-        Object.freeze(this);
-    }
 }
 
 export class CarthaginianMediumInfantry extends MediumInfantry {
     imageName = 'car_inf_md.png';
     side = Side.CARTHAGINIAN;
+}
 
-    constructor() {
-        super();
-        Object.freeze(this);
-    }
+export class CarthaginianAuxiliaInfantry extends AuxiliaInfantry {
+    imageName = 'car_aux.png';
+    side = Side.CARTHAGINIAN;
 }
