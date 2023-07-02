@@ -172,6 +172,10 @@ export class InteractiveGame {
         this.#game.orderUnit(hex);
     }
 
+    unorderUnit(hex) {
+        this.#game.unorderUnit(hex);
+    }
+
     get numberOfOrderedUnits() {
         return this.#game.numberOfOrderedUnits;
     }

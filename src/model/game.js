@@ -13,8 +13,8 @@ export default function makeGame(scenario, dice = new Dice()) {
     return game;
 }
 
-//const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
-const PHASES = [new MovementPhase(), new BattlePhase()];
+const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
+// const PHASES = [new MovementPhase(), new BattlePhase()];
 
 class Game {
     board = new Board();
@@ -319,6 +319,17 @@ class Game {
             throw new Error("Unit already ordered");
         }
         this.orderedUnits.push(unit);
+    }
+
+    unorderUnit(hex) {
+        let unit = this.unitAt(hex);
+        if (!unit) {
+            throw new Error(`No unit at ${this.hex}`);
+        }
+        if (!this.isOrdered(unit)) {
+            throw new Error("Unit is not ordered");
+        }
+        this.orderedUnits = this.orderedUnits.filter(u => u !== unit);
     }
 
     get numberOfOrderedUnits() {
