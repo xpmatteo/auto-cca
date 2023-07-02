@@ -181,6 +181,16 @@ export class RomanHeavyCavalry extends HeavyCavalry {
     side = Side.ROMAN;
 }
 
+export class RomanMediumCavalry extends MediumCavalry {
+    imageName = 'rom_cav_md.png';
+    side = Side.ROMAN;
+}
+
+export class RomanLightCavalry extends LightCavalry {
+    imageName = 'rom_cav_lt.png';
+    side = Side.ROMAN;
+}
+
 export class RomanHeavyInfantry extends HeavyInfantry {
     imageName = 'rom_inf_hv.png';
     side = Side.ROMAN;
@@ -191,13 +201,18 @@ export class RomanMediumInfantry extends MediumInfantry {
     side = Side.ROMAN;
 }
 
+export class RomanAuxiliaInfantry extends AuxiliaInfantry {
+    imageName = 'rom_aux.png';
+    side = Side.ROMAN;
+}
+
 export class RomanLightInfantry extends LightInfantry {
     imageName = 'rom_inf_lt.png';
     side = Side.ROMAN;
 }
 
-export class RomanAuxiliaInfantry extends AuxiliaInfantry {
-    imageName = 'rom_aux.png';
+export class RomanLightBowsInfantry extends LightBowsInfantry {
+    imageName = 'rom_inf_lt_bow.png';
     side = Side.ROMAN;
 }
 
@@ -241,7 +256,7 @@ export class CarthaginianLightInfantry extends LightInfantry {
     side = Side.CARTHAGINIAN;
 }
 
-export class CarthaginianLightBows extends LightBowsInfantry {
+export class CarthaginianLightBowsInfantry extends LightBowsInfantry {
     imageName = 'car_inf_lt_bow.png';
     side = Side.CARTHAGINIAN;
 }

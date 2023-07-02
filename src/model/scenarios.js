@@ -63,9 +63,9 @@ export class TestScenario extends Scenario {
 }
 
 export class AkragasScenario extends Scenario {
-    firstSide = Side.ROMAN;
+    firstSide = Side.SYRACUSAN;
     sideNorth = Side.CARTHAGINIAN;
-    sideSouth = Side.ROMAN;
+    sideSouth = Side.SYRACUSAN;
     pointsToWin = 5;
 
     placeUnitsOn(board) {
@@ -78,19 +78,27 @@ export class AkragasScenario extends Scenario {
         board.placeUnit(hexOf(8, 1), new units.CarthaginianAuxiliaInfantry());
 
         board.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyChariot());
-        board.placeUnit(hexOf(3, 2), new units.CarthaginianLightBows());
+        board.placeUnit(hexOf(3, 2), new units.CarthaginianLightBowsInfantry());
         board.placeUnit(hexOf(7, 2), new units.CarthaginianLightInfantry());
         board.placeUnit(hexOf(9, 2), new units.CarthaginianHeavyChariot());
         board.placeUnit(hexOf(10, 1), new units.CarthaginianLightCavalry());
-    }
 
-    gameStatus(game) {
-        if (game.killedUnitsOfSide(Side.CARTHAGINIAN).length === this.pointsToWin) {
-            return GameStatus.ROMAN_WIN;
+        function placeSyracusanUnit(hex, unit) {
+            board.placeUnit(hex, unit);
+            unit.side = Side.SYRACUSAN;
         }
-        if (game.killedUnitsOfSide(Side.ROMAN).length === this.pointsToWin) {
-            return GameStatus.CARTHAGINIAN_WIN;
-        }
-        return GameStatus.ONGOING;
+        placeSyracusanUnit(hexOf(-2, 7), new units.RomanLightCavalry());
+        placeSyracusanUnit(hexOf(-1, 7), new units.RomanAuxiliaInfantry());
+        placeSyracusanUnit(hexOf(0, 7), new units.RomanHeavyInfantry());
+        placeSyracusanUnit(hexOf(2, 7), new units.RomanHeavyInfantry());
+        placeSyracusanUnit(hexOf(3, 7), new units.RomanHeavyInfantry());
+        placeSyracusanUnit(hexOf(4, 7), new units.RomanHeavyInfantry());
+        placeSyracusanUnit(hexOf(5, 7), new units.RomanAuxiliaInfantry());
+        placeSyracusanUnit(hexOf(6, 7), new units.RomanAuxiliaInfantry());
+        placeSyracusanUnit(hexOf(7, 7), new units.RomanMediumCavalry());
+
+        placeSyracusanUnit(hexOf(0, 6), new units.RomanLightBowsInfantry());
+        placeSyracusanUnit(hexOf(3, 6), new units.RomanLightBowsInfantry());
+        placeSyracusanUnit(hexOf(7, 6), new units.RomanLightInfantry());
     }
 }
