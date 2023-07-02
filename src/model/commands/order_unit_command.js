@@ -9,5 +9,14 @@ export class OrderUnitCommand {
 
     play(game) {
         game.orderUnit(this.hex);
+        return [];
+    }
+
+    isDeterministic() {
+        return true;
+    }
+
+    value(game) {
+        return 1;
     }
 }

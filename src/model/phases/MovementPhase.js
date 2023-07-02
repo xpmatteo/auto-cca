@@ -8,13 +8,13 @@ export class MovementPhase extends Phase {
         super("movement");
     }
 
-    validCommands(turn, board) {
+    validCommands(game, board) {
         let commands = [];
         board.foreachUnit((unit, hex) => {
-            if (turn.spentUnits.includes(unit)) {
+            if (!game.isOrdered(unit)) {
                 return;
             }
-            if (unit.side !== turn.currentSide) {
+            if (game.spentUnits.includes(unit)) {
                 return;
             }
             unit.validDestinations(hex, board).forEach(to => {

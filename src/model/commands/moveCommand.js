@@ -17,6 +17,10 @@ export class MoveCommand {
         return [];
     }
 
+    isDeterministic() {
+        return true;
+    }
+
     value(game) {
         // The value of a move is the value of the hex we are moving to,
         // minus the value of the hex we are moving from.
@@ -38,9 +42,5 @@ export class MoveCommand {
             return valueOfFromHex - valueOfToHex;
         }
         return valueOfToHex - valueOfFromHex;
-    }
-
-    isDeterministic() {
-        return true;
     }
 }
