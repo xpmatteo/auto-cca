@@ -179,4 +179,8 @@ export class InteractiveGame {
     get numberOfOrderedUnits() {
         return this.#game.numberOfOrderedUnits;
     }
+
+    get sideSouth() {
+        return this.#game.scenario.sideSouth;
+    }
 }

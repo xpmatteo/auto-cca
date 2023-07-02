@@ -50,14 +50,11 @@ function drawMovementTrail(graphics, layout, hexFrom, hexTo) {
 }
 
 function enableButtons(game) {
-    let endTurnButton = document.getElementById("end-phase");
-    endTurnButton.disabled = game.isTerminal();    
-
-    // let newGameButton = document.getElementById("new-game");
-    // newGameButton.disabled = !game.isTerminal();
+    let endPhaseButton = document.getElementById("end-phase");
+    endPhaseButton.disabled = game.isTerminal();
 
     let aiContinueButton = document.getElementById("ai-continue");
-    aiContinueButton.disabled = game.currentSide === Side.ROMAN || game.isTerminal();
+    aiContinueButton.disabled = game.currentSide === game.sideSouth || game.isTerminal();
 }
 
 function updateInfoMessage(game) {
