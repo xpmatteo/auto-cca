@@ -18,7 +18,7 @@ export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelect
     const size = graphics.drawImageCentered(url, pixelCoordinate);
     
     let shift = 2;
-    const pixelStrength = pixelCoordinate.add(new Point(18, size.y / 2 - 10));
+    const pixelStrength = pixelCoordinate.add(new Point(size.x/2 - 30, size.y / 2 - 10));
     const pixelStrengthShadow = pixelStrength.add(new Point(-shift, shift));
     graphics.writeText(displayStrength(), pixelStrengthShadow, "20pt Arial", "white");
     graphics.writeText(displayStrength(), pixelStrength, "16pt Arial", "black");

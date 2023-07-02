@@ -77,6 +77,42 @@ class HeavyCavalry extends Unit {
     }
 }
 
+class MediumCavalry extends Unit {
+    acronym = "MC";
+    weight = dice.RESULT_MEDIUM;
+    diceCount = 3;
+    initialStrength = 3;
+    movement = 3;
+
+    toString() {
+        return `${this.side.name} medium cavalry`;
+    }
+}
+
+class LightCavalry extends Unit {
+    acronym = "LC";
+    weight = dice.RESULT_LIGHT;
+    diceCount = 2;
+    initialStrength = 3;
+    movement = 4;
+    range = 2;
+
+    toString() {
+        return `${this.side.name} light cavalry`;
+    }
+}
+class HeavyChariot extends Unit {
+    acronym = "HCH";
+    weight = dice.RESULT_HEAVY;
+    diceCount = 5;
+    initialStrength = 2;
+    movement = 2;
+
+    toString() {
+        return `${this.side.name} heavy chariot`;
+    }
+}
+
 class HeavyInfantry extends Unit {
     acronym = "H";
     weight = dice.RESULT_HEAVY;
@@ -107,6 +143,7 @@ class AuxiliaInfantry extends Unit {
     diceCount = 3;
     initialStrength = 4;
     movement = 2;
+    range = 2;
 
     toString() {
         return `${this.side.name} auxilia infantry`;
@@ -119,6 +156,20 @@ class LightInfantry extends Unit {
     diceCount = 2;
     initialStrength = 4;
     movement = 2;
+    range = 2;
+
+    toString() {
+        return `${this.side.name} light infantry`;
+    }
+}
+
+class LightBowsInfantry extends Unit {
+    acronym = "LB";
+    weight = dice.RESULT_LIGHT;
+    diceCount = 2;
+    initialStrength = 4;
+    movement = 2;
+    range = 3;
 
     toString() {
         return `${this.side.name} light infantry`;
@@ -145,9 +196,29 @@ export class RomanLightInfantry extends LightInfantry {
     side = Side.ROMAN;
 }
 
-export class RomanAuziliaInfantry extends AuxiliaInfantry {
+export class RomanAuxiliaInfantry extends AuxiliaInfantry {
     imageName = 'rom_aux.png';
     side = Side.ROMAN;
+}
+
+export class CarthaginianHeavyCavalry extends HeavyCavalry {
+    imageName = 'car_cav_hv.png';
+    side = Side.CARTHAGINIAN;
+}
+
+export class CarthaginianMediumCavalry extends MediumCavalry {
+    imageName = 'car_cav_md.png';
+    side = Side.CARTHAGINIAN;
+}
+
+export class CarthaginianLightCavalry extends LightCavalry {
+    imageName = 'car_cav_lt.png';
+    side = Side.CARTHAGINIAN;
+}
+
+export class CarthaginianHeavyChariot extends HeavyChariot {
+    imageName = 'car_char.png';
+    side = Side.CARTHAGINIAN;
 }
 
 export class CarthaginianHeavyInfantry extends HeavyInfantry {
@@ -162,5 +233,15 @@ export class CarthaginianMediumInfantry extends MediumInfantry {
 
 export class CarthaginianAuxiliaInfantry extends AuxiliaInfantry {
     imageName = 'car_aux.png';
+    side = Side.CARTHAGINIAN;
+}
+
+export class CarthaginianLightInfantry extends LightInfantry {
+    imageName = 'car_inf_lt.png';
+    side = Side.CARTHAGINIAN;
+}
+
+export class CarthaginianLightBows extends LightBowsInfantry {
+    imageName = 'car_inf_lt_bow.png';
     side = Side.CARTHAGINIAN;
 }

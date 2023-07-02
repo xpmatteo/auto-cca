@@ -3,7 +3,7 @@ import { Side } from "./side.js";
 import { hexOf } from "../lib/hexlib.js";
 import GameStatus from "./game_status.js";
 import * as units from "./units.js";
-import { CarthaginianAuxiliaInfantry } from "./units.js";
+import { CarthaginianAuxiliaInfantry, CarthaginianHeavyChariot, CarthaginianLightCavalry } from "./units.js";
 
 export class Scenario {
     opposingSide(side) {
@@ -73,6 +73,15 @@ export class AkragasScenario extends Scenario {
         board.placeUnit(hexOf(2, 1), new units.CarthaginianAuxiliaInfantry());
         board.placeUnit(hexOf(3, 1), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(4, 1), new units.CarthaginianMediumInfantry());
+        board.placeUnit(hexOf(6, 1), new units.CarthaginianAuxiliaInfantry());
+        board.placeUnit(hexOf(7, 1), new units.CarthaginianAuxiliaInfantry());
+        board.placeUnit(hexOf(8, 1), new units.CarthaginianAuxiliaInfantry());
+
+        board.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyChariot());
+        board.placeUnit(hexOf(3, 2), new units.CarthaginianLightBows());
+        board.placeUnit(hexOf(7, 2), new units.CarthaginianLightInfantry());
+        board.placeUnit(hexOf(9, 2), new units.CarthaginianHeavyChariot());
+        board.placeUnit(hexOf(10, 1), new units.CarthaginianLightCavalry());
     }
 
     gameStatus(game) {
