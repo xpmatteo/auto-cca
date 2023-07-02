@@ -12,10 +12,10 @@ export class BattlePhase extends Phase {
     validCommands(game) {
         let commands = [];
         game.foreachUnit((unit, hex) => {
-            if (game.spentUnits.includes(unit)) {
+            if (!game.isOrdered(unit)) {
                 return;
             }
-            if (unit.side !== game.currentSide) {
+            if (game.spentUnits.includes(unit)) {
                 return;
             }
             unit.validCloseCombatTargets(hex, game).forEach(to => {
