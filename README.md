@@ -13,10 +13,9 @@ See the game by visiting http://localhost:8000/
 # rules TODO
 
   - flags > 1 should retreat > 1
-  - support
+  - support should let you ignore only 1 flags not all
   - movement of 3 or 4 hexes
   - evasion
-  - activation
   - cards
   - leaders
   - terrain

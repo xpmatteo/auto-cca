@@ -1,4 +1,4 @@
-import { DamageEvent, UnitKilledEvent } from "../events.js";
+import { DamageEvent, FlagIgnoredEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
 import { RetreatPhase } from "../phases/RetreatPhase.js";
 
@@ -31,17 +31,25 @@ export class AbstractCombatCommand {
     attack(attackingUnit, defendingHex, defendingUnit, game) {
         let events = [];
         const diceCount = this.decideDiceCount(attackingUnit, game);
-        const diceResults = game.roll(diceCount);
+        let diceResults = game.roll(diceCount);
+        const originalDiceResults = diceResults.slice();
+        const hasFlags = diceResults.includes(dice.RESULT_FLAG);
+        if (hasFlags && game.isSupported(defendingHex)) {
+            events.push(new FlagIgnoredEvent(defendingUnit, defendingHex));
+            diceResults = diceResults.filter(r => r !== dice.RESULT_FLAG);
+        }
         const damage = game.takeDamage(defendingHex,
             diceResults,
             game.retreatHexes(defendingHex).length === 0,
             this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
-        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, diceResults));
+        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, originalDiceResults));
         if (game.isDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
-        } else if (game.retreatHexes(defendingHex).length !== 0 && diceResults.includes(dice.RESULT_FLAG)) {
-            const retreatHexes = game.retreatHexes(defendingHex);
-            game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, retreatHexes));
+        } else {
+            if (game.retreatHexes(defendingHex).length !== 0 && hasFlags) {
+                        const retreatHexes = game.retreatHexes(defendingHex);
+                        game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, retreatHexes));
+                    }
         }
         return events;
     }

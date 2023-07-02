@@ -35,3 +35,14 @@ export class UnitKilledEvent {
         return `${this.unit} killed at ${this.hex}`;
     }
 }
+
+export class FlagIgnoredEvent {
+    constructor(unit, hex) {
+        this.unit = unit;
+        this.hex = hex;
+    }
+
+    toString() {
+        return `Flags ignored by ${this.unit} at ${this.hex}`;
+    }
+}
