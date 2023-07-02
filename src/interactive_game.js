@@ -27,17 +27,7 @@ export class InteractiveGame {
     }
 
     get hilightedHexes() {
-        if (this.selectedUnit()) {
-            const toHexes = this.#game.validCommands().
-                filter(command => command.fromHex === this.selectedHex()).
-                map(command => command.toHex).
-                filter(hex => hex !== undefined);
-            return new Set(toHexes);            
-        }
-        const fromHexes = this.#game.validCommands().
-            map(command => command.fromHex).
-            filter(hex => hex !== undefined);
-        return new Set(fromHexes);        
+        return this.#game.currentPhase.hilightedHexes(this);
     }
 
     selectedHex() {
@@ -180,5 +170,13 @@ export class InteractiveGame {
 
     isOrdered(unit) {
         return this.#game.isOrdered(unit);
+    }
+
+    orderUnit(hex) {
+        this.#game.orderUnit(hex);
+    }
+
+    get numberOfOrderedUnits() {
+        return this.#game.numberOfOrderedUnits;
     }
 }

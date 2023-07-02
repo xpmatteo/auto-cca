@@ -1,9 +1,10 @@
 import { Board } from "./board.js";
 import GameStatus from "./game_status.js";
-import { Dice } from "./dice.js";
+import { Dice, RESULT_HEAVY } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
 import { MovementPhase } from "./phases/MovementPhase.js";
 import { BattlePhase } from "./phases/BattlePhase.js";
+import { OrderUnitsPhase } from "./phases/order_units_phase.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -12,6 +13,7 @@ export default function makeGame(scenario, dice = new Dice()) {
     return game;
 }
 
+//const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
 const PHASES = [new MovementPhase(), new BattlePhase()];
 
 class Game {
@@ -317,6 +319,10 @@ class Game {
             throw new Error("Unit already ordered");
         }
         this.orderedUnits.push(unit);
+    }
+
+    get numberOfOrderedUnits() {
+        return this.orderedUnits.length;
     }
 }
 

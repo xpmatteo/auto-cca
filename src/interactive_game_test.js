@@ -183,38 +183,20 @@ test('click and close combat one unit', () => {
 });
 
 test('hilighted hexes when no unit is selected', () => {
-    const fakeGame = {
-        validCommands: function() {
-            return [
-                new MoveCommand(hexOf(0, 2), hexOf(0, 1)),
-                new MoveCommand(hexOf(0, 3), hexOf(0, 2)),
-                new MoveCommand(hexOf(0, 4), hexOf(0, 3)),
-                new EndPhaseCommand(),
-            ];
-        },
-    };
+    const fakeGame = makeGame(new NullScenario());
     const interactiveGame = new InteractiveGame(fakeGame);
+    fakeGame.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
+    fakeGame.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());
 
-    assertDeepEquals(new Set([hexOf(0, 1), hexOf(0, 2), hexOf(0, 3)]), interactiveGame.hilightedHexes);
+    assertDeepEquals(new Set([hexOf(0, 1), hexOf(0, 0)]), interactiveGame.hilightedHexes);
 });
 
 test('hilighted hexes when a unit is selected', () => {
-    const fakeGame = {
-        validCommands: function() {
-            return [
-                new MoveCommand(hexOf(0, 2), hexOf(0, 0)),
-                new MoveCommand(hexOf(0, 3), hexOf(0, 0)),
-                new MoveCommand(hexOf(0, 4), hexOf(0, 3)),
-                new EndPhaseCommand(),
-            ];
-        },
-
-        hexOfUnit: function() {
-            return hexOf(0, 0);
-        },
-    };
+    const fakeGame = makeGame(new NullScenario());
     const interactiveGame = new InteractiveGame(fakeGame);
-    interactiveGame.__selectUnit(hexOf(0, 0));
+    fakeGame.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
+    fakeGame.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());
+    interactiveGame.onClick(hexOf(0, 0));
 
-    assertDeepEquals(new Set([hexOf(0, 2), hexOf(0, 3)]), interactiveGame.hilightedHexes);
+    assertDeepEquals(new Set([hexOf(1, 0), hexOf(0, 1)]), interactiveGame.hilightedHexes);
 });

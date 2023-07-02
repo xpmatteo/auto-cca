@@ -28,4 +28,8 @@ export class BattlePhase extends Phase {
         commands.push(new EndPhaseCommand());
         return commands;
     }
+
+    hilightedHexes(game) {
+        return this.hilightedHexesForDirectionalCommands(game);
+    }
 }

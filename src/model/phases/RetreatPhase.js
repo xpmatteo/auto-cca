@@ -13,4 +13,8 @@ export class RetreatPhase extends Phase {
     validCommands(turn, board) {
         return this.toHexes.map(toHex => new RetreatCommand(toHex, this.fromHex));
     }
+
+    hilightedHexes(game) {
+        return this.hilightedHexesForDirectionalCommands(game);
+    }
 }
