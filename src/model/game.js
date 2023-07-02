@@ -5,6 +5,7 @@ import { Graveyard } from "./graveyard.js";
 import { MovementPhase } from "./phases/MovementPhase.js";
 import { BattlePhase } from "./phases/BattlePhase.js";
 import { OrderUnitsPhase } from "./phases/order_units_phase.js";
+import { CARD_ORDER_HEAVY_TROOPS, CARD_ORDER_LIGHT_TROOPS, CARD_ORDER_MEDIUM_TROOPS } from "./cards.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -25,6 +26,8 @@ class Game {
     unitStrengths = new Map();
     graveyard = new Graveyard();
     orderedUnits = [];
+    handNorth = [CARD_ORDER_HEAVY_TROOPS, CARD_ORDER_MEDIUM_TROOPS, CARD_ORDER_LIGHT_TROOPS];
+    handSouth = [CARD_ORDER_HEAVY_TROOPS, CARD_ORDER_MEDIUM_TROOPS, CARD_ORDER_LIGHT_TROOPS];
     turnCount = 0;
 
     constructor(scenario, dice) {
@@ -334,6 +337,17 @@ class Game {
 
     get numberOfOrderedUnits() {
         return this.orderedUnits.length;
+    }
+
+    commandSize(side) {
+        if (!side) {
+            side = this.currentSide;
+        }
+        if (side === this.scenario.sideNorth) {
+            return this.scenario.commandNorth;
+        } else {
+            return this.scenario.commandSouth;
+        }
     }
 }
 

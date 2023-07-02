@@ -12,6 +12,9 @@ See the game by visiting http://localhost:8000/
 
 # rules TODO
 
+ - if auxilia moves, it does not fight
+ - advance after combat
+ - range of bows is 3
   - flags > 1 should retreat > 1
   - support should let you ignore only 1 flags not all
   - movement of 3 or 4 hexes

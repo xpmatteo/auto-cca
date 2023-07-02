@@ -25,6 +25,8 @@ export class NullScenario extends Scenario {
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
     pointsToWin = 3;
+    commandNorth = 1;
+    commandSouth = 1;
 
     placeUnitsOn(board) {
     }
@@ -39,6 +41,8 @@ export class TestScenario extends Scenario {
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
     pointsToWin = 3;
+    commandNorth = 3;
+    commandSouth = 3;
 
     placeUnitsOn(board) {
         board.placeUnit(hexOf(1, 4), new units.RomanLightInfantry());
@@ -67,6 +71,8 @@ export class AkragasScenario extends Scenario {
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.SYRACUSAN;
     pointsToWin = 5;
+    commandNorth = 5;
+    commandSouth = 6;
 
     placeUnitsOn(board) {
         board.placeUnit(hexOf(1, 1), new units.CarthaginianMediumInfantry());
