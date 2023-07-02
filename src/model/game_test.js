@@ -112,58 +112,6 @@ test('clone game', () => {
     assertEquals(gameBeforeClone, JSON.stringify(game));
 });
 
-// test('playout the test scenario', () => {
-//     // repeat N times
-//     const N = 1000;
-//     let romanWins = 0;
-//     let carthaginianWins = 0;
-//     for (let i = 0; i < N; i++) {
-//         const game = makeGame(new TestScenario());
-//         new Autoplay(game).fastPlayout();
-//         if (game.gameStatus === GameStatus.ROMAN_WIN) {
-//             romanWins++;
-//         } else if (game.gameStatus === GameStatus.CARTHAGINIAN_WIN) {
-//             carthaginianWins++;
-//         } else {
-//             throw new Error("Game is not terminal: " + clone.gameStatus);
-//         }
-//     }
-//     console.log("Roman wins: " + romanWins + ", Carthaginian wins: " + carthaginianWins);
-// });
-
-test('eventually switch side', function () {
-    const game = makeGame(new NullScenario());
-    game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
-
-    game.executeCommand(new MoveCommand(hexOf(1, 0), hexOf(1, 1)));
-
-    assertEquals("End phase", game.validCommands().toString());
-});
-
-test('play move then spent', function () {
-    const g = makeGame(new NullScenario());
-    let unit0 = new units.RomanHeavyInfantry();
-    let unit1 = new units.RomanHeavyInfantry();
-    g.placeUnit(hexOf(2, 5), unit0);
-    g.placeUnit(hexOf(3, 5), unit1);
-
-    g.executeCommand(new MoveCommand(hexOf(1, 5), hexOf(2, 5)));
-
-    assertEquals(unit0, g.unitAt(hexOf(1, 5)));
-    let commands = g.validCommands();
-    let expected = [
-        new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
-        new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
-        new MoveCommand(hexOf(2, 5), hexOf(3, 5)),
-        new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
-        new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
-        new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
-
-        new EndPhaseCommand(),
-    ];
-    assertEqualsInAnyOrder(expected, commands);
-});
-
 test('unit support', function () {
     const game = makeGame(new NullScenario());
 

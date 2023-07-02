@@ -6,10 +6,17 @@ import {NullScenario} from "../scenarios.js";
 import {Side} from "../side.js";
 import {MoveCommand} from "../commands/moveCommand.js";
 import {EndPhaseCommand} from "../commands/endPhaseCommand.js";
+import { MovementPhase } from "./MovementPhase.js";
 
+
+function makeGameInMovementPhase() {
+    let game = new Game(new NullScenario());
+    game.phases = [new MovementPhase()];
+    return game;
+}
 
 t.test('generate moves for one unit', function () {
-    let game = new Game(new NullScenario());
+    let game = makeGameInMovementPhase();
 
     t.assertEquals(Side.ROMAN, game.currentSide);
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
@@ -36,7 +43,7 @@ t.test('generate moves for one unit', function () {
 */
 
 t.test('generate commands for two units, avoiding collisions', function () {
-    let g = new Game(new NullScenario());
+    let g = makeGameInMovementPhase();
     g.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
     g.placeUnit(hexOf(3, 5), new units.RomanHeavyInfantry());
 
@@ -61,7 +68,7 @@ t.test('generate commands for two units, avoiding collisions', function () {
 });
 
 t.test('generate moves for unit of range 2', function () {
-    let game = new Game(new NullScenario());
+    let game = makeGameInMovementPhase();
     game.placeUnit(hexOf(1, 1), new units.RomanLightInfantry());
 
     let moves = game.validCommands();
