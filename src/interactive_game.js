@@ -1,6 +1,8 @@
+import { MoveCommand } from "./model/commands/moveCommand.js";
 
-import {MoveCommand} from "./model/commands/moveCommand.js";
-
+/*
+    Decorator for Game that adds interactive features.
+*/
 export class InteractiveGame {
     #game;
     #selectedUnit = undefined;
@@ -10,23 +12,13 @@ export class InteractiveGame {
     }
 
     onClick(hex) {
-        let events = [];
         if (this.#game.isTerminal())
             return [];
-        if (this.selectedUnit() && this.hilightedHexes.has(hex)) {
-            const command = this.validCommands().
-                find(command => command.toHex === hex && command.fromHex === this.selectedHex());
-            events = this.executeCommand(command);
-            this.#selectedUnit = undefined;
-        } else if (!this.selectedUnit() && this.hilightedHexes.has(hex)) {
-            this.#selectedUnit = this.#game.unitAt(hex);
-        } else {
-            this.#selectedUnit = undefined;
-        }
-        return events;
+        return this.#game.currentPhase.onClick(hex, this);
     }
 
     get hilightedHexes() {
+        // We don't want Game to know about highlighting, so we delegate directly to the current phase.
         return this.#game.currentPhase.hilightedHexes(this);
     }
 
@@ -45,7 +37,7 @@ export class InteractiveGame {
         return undefined;
     }
 
-    __selectUnit(unit) {
+    selectUnit(unit) {
         this.#selectedUnit = unit;
     }
 
@@ -148,8 +140,12 @@ export class InteractiveGame {
     }
 
     endPhase() {
-        this.#selectedUnit = undefined;
+        this.deselectUnit();
         this.#game.endPhase();
+    }
+
+    deselectUnit() {
+        this.#selectedUnit = undefined;
     }
 
     clone() {

@@ -29,4 +29,19 @@ export class Phase {
             filter(hex => hex !== undefined);
         return new Set(fromHexes);
     }
+
+    onClick(hex, interactiveGame) {
+        let events = [];
+        if (interactiveGame.selectedUnit() && interactiveGame.hilightedHexes.has(hex)) {
+            const command = interactiveGame.validCommands().
+                find(command => command.toHex === hex && command.fromHex === interactiveGame.selectedHex());
+            events = interactiveGame.executeCommand(command);
+            interactiveGame.deselectUnit();
+        } else if (!interactiveGame.selectedUnit() && interactiveGame.hilightedHexes.has(hex)) {
+            interactiveGame.selectUnit(interactiveGame.unitAt(hex));
+        } else {
+            interactiveGame.deselectUnit();
+        }
+        return events;
+    }
 }
