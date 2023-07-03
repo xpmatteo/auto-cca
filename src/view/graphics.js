@@ -2,7 +2,7 @@
 
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
 import { layout } from "./map.js";
-import { Side } from "../model/side.js";
+import { CARD_IMAGE_SIZE } from "../model/cards.js";
 
 export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected, isOrdered) {
     function displayStrength() {
@@ -109,6 +109,17 @@ export function drawTextOnHex(graphics, text, hex) {
     graphics.writeText(text, pixel, "14pt Times");
 }
 
+function drawCard(graphics, position, card) {
+    const pixel = new Point(position * (CARD_IMAGE_SIZE.x), 10);
+    graphics.drawImage(card.url, pixel)
+}
+
+function drawPlayerHand(graphics, game) {
+    for (let i = 0; i < game.handSouth.length; i++) {
+        drawCard(graphics, i, game.handSouth[i]);
+    }
+}
+
 export function redraw(graphics, game) {
     graphics.drawImage('images/cca_map_hq.jpg', new Point(0, 0));
 
@@ -127,7 +138,9 @@ export function redraw(graphics, game) {
     });
 
     drawGraveyard(graphics, game);
-
+    if (game.currentPhaseName.includes("play one card")) {
+        drawPlayerHand(graphics, game);
+    }
     updateInfoMessage(game);
     enableButtons(game);
 }

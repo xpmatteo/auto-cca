@@ -1,5 +1,6 @@
 import { OrderUnitsPhase } from "./phases/order_units_phase.js";
 import { RESULT_HEAVY, RESULT_LIGHT, RESULT_MEDIUM } from "./dice.js";
+import { Point } from "../lib/hexlib.js";
 
 /*
     Cards are used to order units during the order phase.
@@ -9,6 +10,8 @@ import { RESULT_HEAVY, RESULT_LIGHT, RESULT_MEDIUM } from "./dice.js";
 
     Cards are stateless and immutable.
 */
+
+export const CARD_IMAGE_SIZE = new Point(400, 560);
 class Card {
 
 }

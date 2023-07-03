@@ -1,11 +1,9 @@
 import { Board } from "./board.js";
 import GameStatus from "./game_status.js";
-import { Dice, RESULT_HEAVY } from "./dice.js";
+import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
-import { MovementPhase } from "./phases/MovementPhase.js";
-import { BattlePhase } from "./phases/BattlePhase.js";
-import { OrderUnitsPhase } from "./phases/order_units_phase.js";
-import { CARD_ORDER_HEAVY_TROOPS, CARD_ORDER_LIGHT_TROOPS, CARD_ORDER_MEDIUM_TROOPS } from "./cards.js";
+import { OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
+import { PlayCardPhase } from "./phases/play_card_phase.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -14,8 +12,9 @@ export default function makeGame(scenario, dice = new Dice()) {
     return game;
 }
 
-const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
+// const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
 // const PHASES = [new MovementPhase(), new BattlePhase()];
+const PHASES = [new PlayCardPhase()];
 
 class Game {
     board = new Board();
@@ -26,8 +25,8 @@ class Game {
     unitStrengths = new Map();
     graveyard = new Graveyard();
     orderedUnits = [];
-    handNorth = [CARD_ORDER_HEAVY_TROOPS, CARD_ORDER_MEDIUM_TROOPS, CARD_ORDER_LIGHT_TROOPS];
-    handSouth = [CARD_ORDER_HEAVY_TROOPS, CARD_ORDER_MEDIUM_TROOPS, CARD_ORDER_LIGHT_TROOPS];
+    handNorth = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
+    handSouth = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
     turnCount = 0;
 
     constructor(scenario, dice) {
@@ -347,6 +346,17 @@ class Game {
             return this.scenario.commandNorth;
         } else {
             return this.scenario.commandSouth;
+        }
+    }
+
+    hand(side) {
+        if (!side) {
+            side = this.currentSide;
+        }
+        if (side === this.scenario.sideNorth) {
+            return this.handNorth;
+        } else {
+            return this.handSouth;
         }
     }
 }

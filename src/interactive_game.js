@@ -183,4 +183,16 @@ export class InteractiveGame {
     get sideSouth() {
         return this.#game.scenario.sideSouth;
     }
+
+    get handSouth() {
+        return this.#game.handSouth;
+    }
+
+    commandSize(side) {
+        return this.#game.commandSize(side);
+    }
+
+    hand(side) {
+        return this.#game.hand(side);
+    }
 }
