@@ -9,7 +9,6 @@ Run tests by visiting http://localhost:8000/test.html
 
 See the game by visiting http://localhost:8000/
 
-
 # rules TODO
 
 - it no longer switches side?!?
@@ -32,8 +31,8 @@ See the game by visiting http://localhost:8000/
 
 # AI things to try
 
- - ???
-
+ - if # of visits is same, choose the one with best score
+ - hashing MCTS states?
  - optimize neighbors
 
 

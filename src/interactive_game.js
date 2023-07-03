@@ -200,6 +200,10 @@ export class InteractiveGame {
         return this.#game.playCard(card);
     }
 
+    get currentPhase() {
+        return this.#game.currentPhase;
+    }
+
     get currentCard() {
         return this.#game.currentCard;
     }

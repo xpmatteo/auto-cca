@@ -51,7 +51,7 @@ function drawMovementTrail(graphics, layout, hexFrom, hexTo) {
 
 function enableButtons(game) {
     let endPhaseButton = document.getElementById("end-phase");
-    endPhaseButton.disabled = game.isTerminal();
+    endPhaseButton.disabled = game.isTerminal() || game.currentPhase.constructor.name === "PlayCardPhase";
 
     let aiContinueButton = document.getElementById("ai-continue");
     aiContinueButton.disabled = game.currentSide === game.sideSouth || game.isTerminal();
