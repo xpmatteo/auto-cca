@@ -14,7 +14,6 @@ See the game by visiting http://localhost:8000/
 - it no longer switches side?!?
 
 - if auxilia moves 2, it does not fight
-- range of bows is 3
 - advance after combat
 - battle again after advance
 - ranged combat line of sight restriction

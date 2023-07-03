@@ -26,8 +26,9 @@ export class RangedCombatCommand extends AbstractCombatCommand {
         const attackingUnit = game.unitAt(attackingHex);
         const defendingUnit = game.unitAt(defendingHex);
         this.validateCombat(attackingUnit, attackingHex, defendingUnit, defendingHex);
-        if (defendingHex.distance(attackingHex) !== 2) {
-            throw new Error(`Cannot Ranged Combat with unit at ${defendingHex} from ${attackingHex} (distance is not 2)`);
+        const distance = defendingHex.distance(attackingHex);
+        if (distance < 2 || distance > attackingUnit.range) {
+            throw new Error(`Cannot Ranged Combat with unit at ${defendingHex} from ${attackingHex}`);
         }
         game.markUnitSpent(attackingUnit);
         return this.attack(attackingUnit, defendingHex, defendingUnit, game);

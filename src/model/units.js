@@ -35,7 +35,8 @@ export class Unit {
         let targets = [];
         board.foreachUnit((unit, hex) => {
             if (unit.side !== this.side) {
-                if (fromHex.distance(hex) === 2) {
+                const distance = fromHex.distance(hex);
+                if (distance >= 2 && distance <= this.range) {
                     targets.push(hex);
                 }
             }
