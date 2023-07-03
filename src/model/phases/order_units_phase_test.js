@@ -1,13 +1,12 @@
 import { assertDeepEquals, assertEquals, assertEqualsInAnyOrder, test } from "../../lib/test_lib.js";
 import Game from "../game.js";
 import { NullScenario } from "../scenarios.js";
-import { hexOf } from "../../lib/hexlib.js";
+import { hexOf, Point } from "../../lib/hexlib.js";
 import * as units from "../units.js";
 import { EndPhaseCommand } from "../commands/endPhaseCommand.js";
 import { RESULT_HEAVY } from "../dice.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { OrderUnitsPhase } from "./order_units_phase.js";
-import { InteractiveGame } from "../../interactive_game.js";
 
 function makeGameWithFiveUnits() {
     let game = new Game(new NullScenario());
@@ -16,6 +15,7 @@ function makeGameWithFiveUnits() {
     game.placeUnit(hexOf(1, 2), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(1, 3), new units.RomanHeavyCavalry());
     game.placeUnit(hexOf(1, 4), new units.RomanHeavyCavalry());
+    game.phases = [phase];
     return game;
 }
 const phase = new OrderUnitsPhase(2, RESULT_HEAVY);
@@ -67,10 +67,12 @@ test("highlighted hexes", () => {
     assertDeepEquals(new Set([hexOf(1,2), hexOf(1,3), hexOf(1,4)]), phase.hilightedHexes(game));
 });
 
+const pointWithinMap = new Point(0, 0);
+
 test("click to order unit", () => {
     let game = makeGameWithFiveUnits();
 
-    phase.onClick(hexOf(1, 2), game);
+    phase.onClick(hexOf(1, 2), game, pointWithinMap);
 
     assertEquals(1, game.orderedUnits.length);
 });
@@ -78,8 +80,8 @@ test("click to order unit", () => {
 test("click to unorder unit", () => {
     let game = makeGameWithFiveUnits();
 
-    phase.onClick(hexOf(1, 2), game);
-    phase.onClick(hexOf(1, 2), game);
+    phase.onClick(hexOf(1, 2), game, pointWithinMap);
+    phase.onClick(hexOf(1, 2), game, pointWithinMap);
 
     assertEquals(0, game.orderedUnits.length);
 });
@@ -87,7 +89,7 @@ test("click to unorder unit", () => {
 test("ignore click on unit that cannot be ordered", () => {
     let game = makeGameWithFiveUnits();
 
-    phase.onClick(hexOf(0, 0), game);
+    phase.onClick(hexOf(0, 0), game, pointWithinMap);
 
     assertEquals(0, game.orderedUnits.length);
 });

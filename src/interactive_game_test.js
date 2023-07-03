@@ -1,5 +1,5 @@
-import { assertDeepEquals, assertEquals, assertFalse, assertTrue, test } from './lib/test_lib.js';
-import { hexOf } from './lib/hexlib.js';
+import { assertDeepEquals, assertEquals, assertTrue, test } from './lib/test_lib.js';
+import { hexOf, Point } from './lib/hexlib.js';
 import makeGame from './model/game.js';
 import { NullScenario } from './model/scenarios.js';
 import { InteractiveGame } from "./interactive_game.js";
@@ -113,12 +113,13 @@ test('hilighted hexes when no unit is selected', () => {
     assertDeepEquals(new Set([hexOf(0, 1), hexOf(0, 0)]), interactiveGame.hilightedHexes);
 });
 
+const pointWithinMap = new Point(0, 0);
 test('hilighted hexes when a unit is selected', () => {
     const fakeGame = makeGame(new NullScenario());
     const interactiveGame = new InteractiveGame(fakeGame);
     fakeGame.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
     fakeGame.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());
-    interactiveGame.onClick(hexOf(0, 0));
+    interactiveGame.onClick(hexOf(0, 0), pointWithinMap);
 
     assertDeepEquals(new Set([hexOf(1, 0), hexOf(0, 1)]), interactiveGame.hilightedHexes);
 });

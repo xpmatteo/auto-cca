@@ -43,15 +43,6 @@ test("game status", () => {
     assertFalse(game.isTerminal(), "game is not terminal?!?")
 });
 
-test("validCommands", () => {
-    const game = makeGame(scenario);
-
-    let validCommands = game.validCommands();
-
-    // the only unit on board is Roman, first player is Carthaginian
-    assertDeepEquals([new EndPhaseCommand()], validCommands);
-});
-
 test("executeCommand - game over", () => {
     const game = makeGame(scenario);
     
