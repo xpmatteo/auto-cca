@@ -12,17 +12,23 @@ See the game by visiting http://localhost:8000/
 
 # rules TODO
 
-- if auxilia moves, it does not fight
-- advance after combat
+- it no longer switches side?!?
+
+- if auxilia moves 2, it does not fight
 - range of bows is 3
+- advance after combat
+- battle again after advance
+- ranged combat line of sight restriction
 - order light units: can move through friendly units
 - flags > 1 should retreat > 1
 - support should let you ignore only 1 flags not all
 - movement of 3 or 4 hexes
 - evasion
-- cards
+- more cards
 - leaders
 - terrain
+- heavy chariot battles back with 3 dice not 4
+- heavy chariot ignores one sword result
 
 # AI things to try
 

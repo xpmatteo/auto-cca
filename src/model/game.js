@@ -370,9 +370,7 @@ class Game {
     playCard(card) {
         this.__removeCardFromHand(card);
         this.currentCard = card;
-        this.unshiftPhase(new BattlePhase());
-        this.unshiftPhase(new MovementPhase());
-        this.unshiftPhase(card.orderPhase(this));
+        this.phases = [card.orderPhase(this), new MovementPhase(), new BattlePhase()];
         return [];
     }
 
