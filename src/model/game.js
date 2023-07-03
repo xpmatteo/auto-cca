@@ -4,6 +4,8 @@ import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
 import { OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
 import { PlayCardPhase } from "./phases/play_card_phase.js";
+import { BattlePhase } from "./phases/BattlePhase.js";
+import { MovementPhase } from "./phases/MovementPhase.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -27,6 +29,7 @@ class Game {
     orderedUnits = [];
     handNorth = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
     handSouth = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
+    currentCard = null;
     turnCount = 0;
 
     constructor(scenario, dice) {
@@ -73,6 +76,7 @@ class Game {
         this.spentUnits = [];
         this.movementTrails = [];
         this.orderedUnits = [];
+        this.currentCard = null;
         this.turnCount++;
     }
 
@@ -113,6 +117,7 @@ class Game {
         game.unitStrengths = new Map(this.unitStrengths);
         game.graveyard = this.graveyard.clone();
         game.orderedUnits = this.orderedUnits.slice();
+        game.currentCard = this.currentCard;
         return game;
     }
 
@@ -357,6 +362,26 @@ class Game {
             return this.handNorth;
         } else {
             return this.handSouth;
+        }
+    }
+
+    playCard(card) {
+        this.__removeCardFromHand(card);
+        this.currentCard = card;
+        this.unshiftPhase(new BattlePhase());
+        this.unshiftPhase(new MovementPhase());
+        this.unshiftPhase(card.orderPhase(this));
+        return [];
+    }
+
+    __removeCardFromHand(card, side) {
+        if (!side) {
+            side = this.currentSide;
+        }
+        if (side === this.scenario.sideNorth) {
+            this.handNorth = this.handNorth.filter(c => c !== card);
+        } else {
+            this.handSouth = this.handSouth.filter(c => c !== card);
         }
     }
 }

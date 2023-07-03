@@ -95,4 +95,11 @@ export class GraphicalContext {
         this.ctx.restore();
     }
 
+    fillRect(pixelCoordinate, width, height, color) {
+        this.ctx.save();
+        this.ctx.fillStyle = color;
+        this.ctx.fillRect(pixelCoordinate.x, pixelCoordinate.y, width, height);
+        this.ctx.restore();
+    }
+
 }

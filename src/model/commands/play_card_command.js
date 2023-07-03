@@ -11,10 +11,7 @@ export class PlayCardCommand {
     }
 
     play(game) {
-        game.unshiftPhase(new BattlePhase());
-        game.unshiftPhase(new MovementPhase());
-        game.unshiftPhase(this.card.orderPhase(game));
-        return [];
+        return game.playCard(this.card);
     }
 
     value(game) {

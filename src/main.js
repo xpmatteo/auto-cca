@@ -13,7 +13,7 @@ import { Point } from "./lib/hexlib.js";
 
 // create canvas
 const canvas = document.createElement('canvas');
-canvas.width = MAP_WIDTH;
+canvas.width = MAP_WIDTH + CARD_IMAGE_SIZE.x;
 canvas.height = MAP_HEIGHT + CARD_IMAGE_SIZE.y;
 document.body.appendChild(canvas);
 const graphics = new GraphicalContext(canvas.getContext('2d'));

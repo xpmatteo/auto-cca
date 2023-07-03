@@ -1,7 +1,7 @@
 'use strict';
 
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
-import { layout, MAP_HEIGHT } from "./map.js";
+import { layout, MAP_HEIGHT, MAP_WIDTH } from "./map.js";
 import { CARD_IMAGE_SIZE } from "../model/cards.js";
 
 export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected, isOrdered) {
@@ -109,14 +109,27 @@ export function drawTextOnHex(graphics, text, hex) {
     graphics.writeText(text, pixel, "14pt Times");
 }
 
-function drawCard(graphics, position, card) {
+function drawCardInHand(graphics, position, card) {
     const pixel = new Point(position * (CARD_IMAGE_SIZE.x), MAP_HEIGHT);
     graphics.drawImage(card.url, pixel)
 }
 
+function erasePlayedCard(graphics, position) {
+    const pixel = new Point(position * (CARD_IMAGE_SIZE.x), MAP_HEIGHT);
+    graphics.fillRect(pixel, CARD_IMAGE_SIZE.x, CARD_IMAGE_SIZE.y, 'white')
+}
+
 function drawPlayerHand(graphics, game) {
     for (let i = 0; i < game.handSouth.length; i++) {
-        drawCard(graphics, i, game.handSouth[i]);
+        drawCardInHand(graphics, i, game.handSouth[i]);
+    }
+    erasePlayedCard(graphics, game.handSouth.length);
+}
+
+function drawCurrentCard(graphics, game) {
+    if (game.currentCard) {
+        const pixel = new Point(MAP_WIDTH, 0);
+        graphics.drawImage(game.currentCard.url, pixel)
     }
 }
 
@@ -139,6 +152,7 @@ export function redraw(graphics, game) {
 
     drawGraveyard(graphics, game);
     drawPlayerHand(graphics, game);
+    drawCurrentCard(graphics, game);
     updateInfoMessage(game);
     enableButtons(game);
 }

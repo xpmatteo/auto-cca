@@ -195,4 +195,12 @@ export class InteractiveGame {
     hand(side) {
         return this.#game.hand(side);
     }
+
+    playCard(card) {
+        return this.#game.playCard(card);
+    }
+
+    get currentCard() {
+        return this.#game.currentCard;
+    }
 }
