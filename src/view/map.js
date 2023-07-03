@@ -23,3 +23,7 @@ export function findHexFromPixel(canvas, screenX, screenY) {
     let y = (screenY - canvas.offsetTop + window.scrollY) / canvasScale;
     return pixel_to_hex(layout, new Point(x, y));
 }
+
+export function scalePoint(point) {
+    return new Point(point.x / canvasScale, point.y / canvasScale);
+}

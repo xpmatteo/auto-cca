@@ -11,10 +11,10 @@ export class InteractiveGame {
         this.#game = game;
     }
 
-    onClick(hex) {
+    onClick(hex, pixel) {
         if (this.#game.isTerminal())
             return [];
-        return this.#game.currentPhase.onClick(hex, this);
+        return this.#game.currentPhase.onClick(hex, this, pixel);
     }
 
     get hilightedHexes() {

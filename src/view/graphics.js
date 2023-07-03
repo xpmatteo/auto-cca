@@ -1,7 +1,7 @@
 'use strict';
 
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
-import { layout } from "./map.js";
+import { layout, MAP_HEIGHT } from "./map.js";
 import { CARD_IMAGE_SIZE } from "../model/cards.js";
 
 export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected, isOrdered) {
@@ -110,7 +110,7 @@ export function drawTextOnHex(graphics, text, hex) {
 }
 
 function drawCard(graphics, position, card) {
-    const pixel = new Point(position * (CARD_IMAGE_SIZE.x), 10);
+    const pixel = new Point(position * (CARD_IMAGE_SIZE.x), MAP_HEIGHT);
     graphics.drawImage(card.url, pixel)
 }
 
@@ -138,9 +138,7 @@ export function redraw(graphics, game) {
     });
 
     drawGraveyard(graphics, game);
-    if (game.currentPhaseName.includes("play one card")) {
-        drawPlayerHand(graphics, game);
-    }
+    drawPlayerHand(graphics, game);
     updateInfoMessage(game);
     enableButtons(game);
 }

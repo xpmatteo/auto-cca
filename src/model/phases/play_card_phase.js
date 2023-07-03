@@ -1,5 +1,9 @@
 import { Phase } from "./Phase.js";
 import { PlayCardCommand } from "../commands/play_card_command.js";
+import { MAP_HEIGHT } from "../../view/map.js";
+import { CARD_IMAGE_SIZE } from "../cards.js";
+
+const EMPTY_SET = new Set();
 
 export class PlayCardPhase extends Phase {
     constructor() {
@@ -11,15 +15,19 @@ export class PlayCardPhase extends Phase {
     }
 
     hilightedHexes(game) {
-        return new Set();
+        return EMPTY_SET;
     }
 
-    onClick(hex, interactiveGame) {
-        console.log(`PlayCardPhase.onClick(${hex})`, interactiveGame.validCommands());
-        const index = hex.q/3;
-        const events = interactiveGame.validCommands()[index].play(interactiveGame);
-        console.log(`After PlayCardPhase.onClick(${hex})`, interactiveGame.phases);
-        return events;
+    onClick(hex, game, pixel) {
+        if (pixel.y < MAP_HEIGHT || pixel.y > MAP_HEIGHT + CARD_IMAGE_SIZE.y) {
+            return [];
+        }
+        const index = Math.trunc(pixel.x / CARD_IMAGE_SIZE.x);
+        const commands = game.validCommands();
+        if (index >= commands.length) {
+            return [];
+        }
+        return commands[index].play(game);
     }
 
 }
