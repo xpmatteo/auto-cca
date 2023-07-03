@@ -203,4 +203,8 @@ export class InteractiveGame {
     get currentCard() {
         return this.#game.currentCard;
     }
+
+    undoPlayCard() {
+        return this.#game.undoPlayCard();
+    }
 }

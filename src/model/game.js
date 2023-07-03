@@ -16,19 +16,20 @@ export default function makeGame(scenario, dice = new Dice()) {
 
 // const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
 // const PHASES = [new MovementPhase(), new BattlePhase()];
-const PHASES = [new PlayCardPhase()];
+const DEFAULT_PHASES = [new PlayCardPhase()];
+const DEFAULT_HAND = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
 
 class Game {
     board = new Board();
-    phases = PHASES.slice();
+    phases = DEFAULT_PHASES.slice();
     currentSideRaw;
     spentUnits = [];
     movementTrails = [];
     unitStrengths = new Map();
     graveyard = new Graveyard();
     orderedUnits = [];
-    handNorth = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
-    handSouth = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
+    handNorth = DEFAULT_HAND.slice();
+    handSouth = DEFAULT_HAND.slice();
     currentCard = null;
     turnCount = 0;
 
@@ -71,12 +72,13 @@ class Game {
     }
 
     switchSide() {
-        this.phases = PHASES.slice();
+        this.phases = DEFAULT_PHASES.slice();
         this.currentSideRaw = this.scenario.opposingSide(this.currentSideRaw);
         this.spentUnits = [];
         this.movementTrails = [];
         this.orderedUnits = [];
         this.currentCard = null;
+        this.drawCard();
         this.turnCount++;
     }
 
@@ -374,6 +376,28 @@ class Game {
         return [];
     }
 
+    undoPlayCard() {
+        this.__addCardToHand(this.currentCard);
+        this.currentCard = null;
+        this.shiftPhase();
+        this.shiftPhase();
+        this.shiftPhase();
+        this.phases = DEFAULT_PHASES.slice();
+        this.orderedUnits = [];
+        return [];
+    }
+
+    __addCardToHand(card, side) {
+        if (!side) {
+            side = this.currentSide;
+        }
+        if (side === this.scenario.sideNorth) {
+            this.handNorth.push(card);
+        } else {
+            this.handSouth.push(card);
+        }
+    }
+
     __removeCardFromHand(card, side) {
         if (!side) {
             side = this.currentSide;
@@ -383,6 +407,18 @@ class Game {
         } else {
             this.handSouth = this.handSouth.filter(c => c !== card);
         }
+    }
+
+    drawCard(side) {
+        if (!side) {
+            side = this.currentSide;
+        }
+        if (side === this.scenario.sideNorth) {
+            this.handNorth = DEFAULT_HAND.slice();
+        } else {
+            this.handSouth = DEFAULT_HAND.slice();
+        }
+
     }
 }
 

@@ -1,6 +1,8 @@
 import { EndPhaseCommand } from "../commands/endPhaseCommand.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { Phase } from "./Phase.js";
+import { MAP_WIDTH } from "../../view/map.js";
+import { CARD_IMAGE_SIZE } from "../cards.js";
 
 export class OrderUnitsPhase extends Phase {
     constructor(numberOfUnits, weight) {
@@ -31,7 +33,11 @@ export class OrderUnitsPhase extends Phase {
         return new Set(hexes);
     }
 
-    onClick(hex, interactiveGame) {
+    onClick(hex, interactiveGame, pixel) {
+        if (pixel.x > MAP_WIDTH && pixel.y < MAP_WIDTH + CARD_IMAGE_SIZE.x
+            && pixel.y < CARD_IMAGE_SIZE.y) {
+            return interactiveGame.undoPlayCard();
+        }
         const unit = interactiveGame.unitAt(hex);
         if (interactiveGame.isOrdered(unit)) {
             interactiveGame.unorderUnit(hex);

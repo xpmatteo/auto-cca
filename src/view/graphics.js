@@ -127,9 +127,11 @@ function drawPlayerHand(graphics, game) {
 }
 
 function drawCurrentCard(graphics, game) {
+    const pixel = new Point(MAP_WIDTH, 0);
     if (game.currentCard) {
-        const pixel = new Point(MAP_WIDTH, 0);
         graphics.drawImage(game.currentCard.url, pixel)
+    } else {
+        graphics.fillRect(pixel, CARD_IMAGE_SIZE.x, CARD_IMAGE_SIZE.y+20, 'white')
     }
 }
 
