@@ -197,6 +197,10 @@ class Game {
         return this.board.subtractOccupiedHexes(hexes);
     }
 
+    subtractEnemyOccupiedHexes(hexes, mySide) {
+        return this.board.subtractEnemyOccupiedHexes(hexes, mySide);
+    }
+
     placeUnit(hex, unit) {
         this.board.placeUnit(hex, unit);
         this.unitStrengths.set(unit, unit.initialStrength);
@@ -416,7 +420,10 @@ class Game {
         } else {
             this.handSouth = DEFAULT_HAND.slice();
         }
+    }
 
+    neighbors(hex) {
+        return this.board.neighbors(hex);
     }
 }
 

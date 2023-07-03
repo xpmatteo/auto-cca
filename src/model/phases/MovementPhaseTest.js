@@ -88,6 +88,28 @@ t.test('generate commands for two units, avoiding collisions', function () {
     t.assertEqualsInAnyOrder(expected, commands);
 });
 
+t.test('generate commands for two light units, can pass through friend units', function () {
+    let g = makeGameInMovementPhase();
+    g.placeUnit(hexOf(0, 0), new units.RomanLightInfantry());
+    g.orderUnit(hexOf(0, 0));
+    // these two units block the way, except that the card allows light units to pass through
+    g.placeUnit(hexOf(1, 0), new units.RomanHeavyInfantry());
+    g.placeUnit(hexOf(0, 1), new units.RomanHeavyInfantry());
+
+    let commands = g.validCommands();
+
+    let expected = [
+        new MoveCommand(hexOf(2, 0), hexOf(0, 0)),
+        new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+        new MoveCommand(hexOf(0, 2), hexOf(0, 0)),
+        new MoveCommand(hexOf(-1, 2), hexOf(0, 0)),
+
+        new EndPhaseCommand(),
+    ];
+    t.assertEqualsInAnyOrder(expected, commands);
+});
+
+
 t.test('generate moves for unit of range 2', function () {
     let game = makeGameInMovementPhase();
     game.placeUnit(hexOf(1, 1), new units.RomanLightInfantry());

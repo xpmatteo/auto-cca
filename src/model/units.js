@@ -2,16 +2,38 @@ import { Side } from './side.js';
 import * as dice from './dice.js';
 
 export class Unit {
-    validDestinations(fromHex, board) {
+    validDestinations(fromHex, game) {
+        if (this.weight === dice.RESULT_LIGHT) {
+            return this.__validDestinationsPassingThroughFriendlies(fromHex, game);
+        }
+        return this.__validDestinations(fromHex, game);
+    }
+
+    __validDestinations(fromHex, game) {
         let seed = new Set([fromHex]);
         let result = new Set();
-        for (let i = 0; i <this.movement; i++) {
+        for (let i = 0; i < this.movement; i++) {
             let newSeed = new Set();
             seed.forEach(hex => {
-                const next = board.subtractOccupiedHexes(board.neighbors(hex));
+                const next = game.subtractOccupiedHexes(game.neighbors(hex));
                 next.forEach(hex => newSeed.add(hex));
             });
             newSeed.forEach(hex => result.add(hex));
+            seed = newSeed;
+        }
+        return Array.from(result);
+    }
+
+    __validDestinationsPassingThroughFriendlies(fromHex, game) {
+        let seed = new Set([fromHex]);
+        let result = new Set();
+        for (let i = 0; i < this.movement; i++) {
+            let newSeed = [];
+            seed.forEach(hex => {
+                const next = game.subtractEnemyOccupiedHexes(game.neighbors(hex), this.side);
+                newSeed.push(...next);
+            });
+            game.subtractOccupiedHexes(newSeed).forEach(hex => result.add(hex));
             seed = newSeed;
         }
         return Array.from(result);

@@ -67,6 +67,13 @@ export class Board {
         return hexes.filter(hex => !this.#units.has(hex));
     }
 
+    subtractEnemyOccupiedHexes(hexes, mySide) {
+        return hexes.filter(hex => {
+            const otherUnit = this.#units.get(hex);
+            return !otherUnit || otherUnit.side === mySide;
+        });
+    }
+
     foreachUnit(f) {
         this.#units.forEach(f);
     }
