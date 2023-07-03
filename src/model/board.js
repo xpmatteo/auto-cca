@@ -95,6 +95,10 @@ export class Board {
         return Array.from(this.#units.values()).filter(unit => unit.side === side);
     }
 
+    neighbors(hex) {
+        return this.subtractOffMap(hex.neighbors());
+    }
+
     clone() {
         let board = new Board();
         this.foreachUnit((unit, hex) => {

@@ -3,17 +3,18 @@ import * as dice from './dice.js';
 
 export class Unit {
     validDestinations(fromHex, board) {
-        let hexes = board.subtractOffMap(fromHex.neighbors());
-        const levelOneMoves = board.subtractOccupiedHexes(hexes);
-        if (this.movement === 2) {
-            const levelTwoMoves = [];
-            levelOneMoves.forEach(hex => {
-                levelTwoMoves.push(...board.subtractOccupiedHexes(hex.neighbors()));
+        let seed = new Set([fromHex]);
+        let result = new Set();
+        for (let i = 0; i <this.movement; i++) {
+            let newSeed = new Set();
+            seed.forEach(hex => {
+                const next = board.subtractOccupiedHexes(board.neighbors(hex));
+                next.forEach(hex => newSeed.add(hex));
             });
-            const set = new Set(levelOneMoves.concat(board.subtractOffMap(levelTwoMoves)));
-            return Array.from(set);
+            newSeed.forEach(hex => result.add(hex));
+            seed = newSeed;
         }
-        return levelOneMoves;
+        return Array.from(result);
     }
 
     validCloseCombatTargets(fromHex, board) {
