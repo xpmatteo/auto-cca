@@ -9,11 +9,11 @@ Run tests by visiting http://localhost:8000/test.html
 
 See the game by visiting http://localhost:8000/
 
-# rules TODO
+# TODO
 
-- it no longer switches side?!?
+- out of memory?
+- too slow
 
-- if auxilia moves 2, it does not fight
 - advance after combat
 - battle again after advance
 - ranged combat line of sight restriction

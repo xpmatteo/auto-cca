@@ -172,6 +172,20 @@ class AuxiliaInfantry extends Unit {
     toString() {
         return `${this.side.name} auxilia infantry`;
     }
+
+    validRangedCombatTargets(fromHex, game) {
+        if (game.unitDistanceMoved(fromHex) > 1) {
+            return [];
+        }
+        return super.validRangedCombatTargets(fromHex, game);
+    }
+
+    validCloseCombatTargets(fromHex, game) {
+        if (game.unitDistanceMoved(fromHex) > 1) {
+            return [];
+        }
+        return super.validCloseCombatTargets(fromHex, game);
+    }
 }
 
 class LightInfantry extends Unit {

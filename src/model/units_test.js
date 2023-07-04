@@ -1,8 +1,11 @@
 
-import { assertEquals, assertTrue, assertFalse, test, xtest } from '../lib/test_lib.js';
+import { assertEquals, assertTrue, assertFalse, test, xtest, assertDeepEquals } from '../lib/test_lib.js';
 import { Side } from './side.js';
 import * as units from './units.js';
 import * as dice from './dice.js';
+import makeGame from "./game.js";
+import { NullScenario } from "./scenarios.js";
+import { hexOf } from "../lib/hexlib.js";
 
 
 test('units', function () {
@@ -24,3 +27,28 @@ test('carthaginian medium infantry', function () {
     assertEquals('car_inf_md.png', unit0.imageName);
     assertEquals(Side.CARTHAGINIAN, unit0.side);
 });
+
+test('Auxilia does range combat if it moves 1 hexes', function () {
+    const game = makeGame(new NullScenario());
+    const unit = new units.RomanAuxiliaInfantry();
+    game.placeUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(2, 0), new units.CarthaginianHeavyInfantry());
+    game.addMovementTrail(hexOf(0, 0), hexOf(0, 1));
+
+    assertDeepEquals([hexOf(2, 0)], unit.validRangedCombatTargets(hexOf(0, 0), game));
+});
+
+test('Auxilia does not range combat if it moves 2 hexes', function () {
+    const game = makeGame(new NullScenario());
+    const unit = new units.RomanAuxiliaInfantry();
+    game.placeUnit(hexOf(0, 0), unit);
+    game.placeUnit(hexOf(2, 0), new units.CarthaginianHeavyInfantry());
+    game.addMovementTrail(hexOf(0, 0), hexOf(0, 2));
+
+    assertDeepEquals([], unit.validRangedCombatTargets(hexOf(0, 0), game));
+});
+
+test('Auxilia kills on a sword result', function () {
+
+});
+
