@@ -206,8 +206,10 @@ class Game {
         this.unitStrengths.set(unit, unit.initialStrength);
     }
 
-    unitStrength(unitOrHex) {
-        let unit = this.__toUnit(unitOrHex);
+    unitStrength(unit) {
+        if (!unit.movement) {
+            throw new Error(`Not an unit ${unit}`);
+        }
         if (!this.unitStrengths.has(unit)) {
             throw new Error(`No unit ${unit} in game`);
         }

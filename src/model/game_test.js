@@ -71,7 +71,7 @@ test("unit strength", () => {
     const game = makeGame(scenario);
 
     assertEquals(4, game.unitStrength(game.unitAt(hexOf(1, 5))));
-    assertEquals(4, game.unitStrength(hexOf(1, 5)));
+    assertEquals(4, game.unitStrength(game.unitAt(hexOf(1, 5))));
 });
 
 test("unit takes damage", () => {
