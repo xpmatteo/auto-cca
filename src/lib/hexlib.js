@@ -8,6 +8,8 @@ const trunc = Math.trunc;
 // thanks https://www.redblobgames.com/grids/hexagons/implementation.html
 
 class Hex {
+    distances = new Map();
+
     constructor(q, r, s = undefined) {
         if (s === undefined) {
             s = -q - r;
@@ -24,7 +26,10 @@ class Hex {
     }
 
     distance(other) {
-        return hex_length(hex_subtract(this, other));
+        if (!this.distances.get(other)) {
+            this.distances.set(other, hex_length(hex_subtract(this, other)));
+        }
+        return this.distances.get(other);
     }
 
     neighbors() {
