@@ -2,8 +2,11 @@ import { Side } from './side.js';
 import * as dice from './dice.js';
 
 export class Unit {
+    isLightFootUnit = false;
+    movement = 1;
+
     validDestinations(fromHex, game) {
-        if (this.weight === dice.RESULT_LIGHT) {
+        if (game.currentCard && game.currentCard.allowsLightFootMovementThroughFriendlies && this.isLightFootUnit) {
             return this.__validDestinationsPassingThroughFriendlies(fromHex, game);
         }
         return this.__validDestinations(fromHex, game);
@@ -168,6 +171,7 @@ class AuxiliaInfantry extends Unit {
     initialStrength = 4;
     movement = 2;
     range = 2;
+    isLightFootUnit = true;
 
     toString() {
         return `${this.side.name} auxilia infantry`;
@@ -195,6 +199,7 @@ class LightInfantry extends Unit {
     initialStrength = 4;
     movement = 2;
     range = 2;
+    isLightFootUnit = true;
 
     toString() {
         return `${this.side.name} light infantry`;
@@ -208,6 +213,7 @@ class LightBowsInfantry extends Unit {
     initialStrength = 4;
     movement = 2;
     range = 3;
+    isLightFootUnit = true;
 
     toString() {
         return `${this.side.name} light infantry`;

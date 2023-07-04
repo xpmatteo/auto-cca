@@ -7,11 +7,13 @@ import { Side } from "../side.js";
 import { MoveCommand } from "../commands/moveCommand.js";
 import { EndPhaseCommand } from "../commands/endPhaseCommand.js";
 import { MovementPhase } from "./MovementPhase.js";
+import { OrderLightTroopsCard } from "../cards.js";
 
 
 function makeGameInMovementPhase() {
     let game = new Game(new NullScenario());
     game.phases = [new MovementPhase()];
+    game.currentCard = new OrderLightTroopsCard();
     return game;
 }
 
@@ -88,7 +90,7 @@ t.test('generate commands for two units, avoiding collisions', function () {
     t.assertEqualsInAnyOrder(expected, commands);
 });
 
-t.test('generate commands for two light units, can pass through friend units', function () {
+t.test('generate commands for a light foot unit, can pass through friendlies', function () {
     let g = makeGameInMovementPhase();
     g.placeUnit(hexOf(0, 0), new units.RomanLightInfantry());
     g.orderUnit(hexOf(0, 0));

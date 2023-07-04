@@ -39,12 +39,14 @@ export class OrderMediumTroopsCard extends Card {
 export class OrderLightTroopsCard extends Card {
     name = "Order Light Troops";
     url = "images/cards/Order Light Troops.gif";
+    allowsLightFootMovementThroughFriendlies = true;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), RESULT_LIGHT); }
 }
 
 export class MoveFireMoveCard extends Card {
     name = "Move Fire Move";
     url = "images/cards/Move-Fire-Move.gif";
+    allowsLightFootMovementThroughFriendlies = true;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), RESULT_LIGHT); }
     phases(game) {
         return [
