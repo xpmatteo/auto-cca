@@ -2,10 +2,8 @@ import { Board } from "./board.js";
 import GameStatus from "./game_status.js";
 import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
-import { OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
+import { MoveFireMoveCard, OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
 import { PlayCardPhase } from "./phases/play_card_phase.js";
-import { BattlePhase } from "./phases/BattlePhase.js";
-import { MovementPhase } from "./phases/MovementPhase.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -17,7 +15,7 @@ export default function makeGame(scenario, dice = new Dice()) {
 // const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
 // const PHASES = [new MovementPhase(), new BattlePhase()];
 const DEFAULT_PHASES = [new PlayCardPhase()];
-const DEFAULT_HAND = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
+const DEFAULT_HAND = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard(), new MoveFireMoveCard()];
 
 class Game {
     board = new Board();
@@ -297,7 +295,6 @@ class Game {
         return trail ? trail.distance : 0;
     }
 
-
     isSupported(hex) {
         const unit = this.unitAt(hex);
         if (!unit) {
@@ -369,16 +366,13 @@ class Game {
     playCard(card) {
         this.__removeCardFromHand(card);
         this.currentCard = card;
-        this.phases = [card.orderPhase(this), new MovementPhase(), new BattlePhase()];
+        this.phases = [card.orderPhase(this)].concat(card.phases());
         return [];
     }
 
     undoPlayCard() {
         this.__addCardToHand(this.currentCard);
         this.currentCard = null;
-        this.shiftPhase();
-        this.shiftPhase();
-        this.shiftPhase();
         this.phases = DEFAULT_PHASES.slice();
         this.orderedUnits = [];
         return [];

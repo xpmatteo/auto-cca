@@ -128,7 +128,7 @@ class LightCavalry extends Unit {
 class HeavyChariot extends Unit {
     acronym = "HCH";
     weight = dice.RESULT_HEAVY;
-    diceCount = 5;
+    diceCount = 4;
     initialStrength = 2;
     movement = 2;
 

@@ -14,13 +14,12 @@ See the game by visiting http://localhost:8000/
 - out of memory?
 - too slow
 
+- "if you don't have any X unit, order a unit of your choice"
 - advance after combat
 - battle again after advance
 - ranged combat line of sight restriction
-- order light units: can move through friendly units
 - flags > 1 should retreat > 1
 - support should let you ignore only 1 flags not all
-- movement of 3 or 4 hexes
 - evasion
 - more cards
 - leaders

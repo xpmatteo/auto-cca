@@ -1,11 +1,10 @@
 import { Phase } from "./Phase.js";
-import {MoveCommand} from "../commands/moveCommand.js";
-import {EndPhaseCommand} from "../commands/endPhaseCommand.js";
+import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
+import { EndPhaseCommand } from "../commands/endPhaseCommand.js";
 
-
-export class MovementPhase extends Phase {
-    constructor(name = "movement") {
-        super(name);
+export class FirePhase extends Phase {
+    constructor() {
+        super("fire");
     }
 
     validCommands(game) {
@@ -17,8 +16,8 @@ export class MovementPhase extends Phase {
             if (game.spentUnits.includes(unit)) {
                 return;
             }
-            unit.validDestinations(hex, game).forEach(to => {
-                commands.push(new MoveCommand(to, hex));
+            unit.validRangedCombatTargets(hex, game).forEach(to => {
+                commands.push(new RangedCombatCommand(to, hex));
             });
         });
         commands.push(new EndPhaseCommand());
