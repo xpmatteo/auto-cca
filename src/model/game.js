@@ -216,11 +216,10 @@ class Game {
         return this.unitStrengths.get(unit);
     }
 
-    takeDamage(unitOrHex, diceRoll, includeFlags = false, includeSwords = true) {
-        let unit = this.__toUnit(unitOrHex);
+    takeDamage(unit, diceRoll, includeFlags = false, includeSwords = true) {
         let damage = unit.takeDamage(diceRoll, includeFlags, includeSwords);
         this.unitStrengths.set(unit, this.unitStrengths.get(unit) - damage);
-        if (this.isDead(unit)) {
+        if (this.isUnitDead(unit)) {
             this.graveyard.bury(unit);
             this.board.removeUnit(this.hexOfUnit(unit));
         }
@@ -253,8 +252,7 @@ class Game {
         throw new Error(`Invalid side ${side}`);
     }
 
-    isDead(unitOrHex) {
-        let unit = this.__toUnit(unitOrHex);
+    isUnitDead(unit) {
         return this.unitStrength(unit) <= 0;
     }
 
@@ -268,17 +266,6 @@ class Game {
 
     addMovementTrail(hexTo, hexFrom) {
         this.movementTrails.push(new MovementTrail(hexTo, hexFrom));
-    }
-
-    __toUnit(unitOrHex) {
-        let unit = unitOrHex;
-        if (unitOrHex.constructor.name === 'Hex') {
-            let hex = unitOrHex;
-            unit = this.unitAt(hex);
-            if (!unit)
-                throw new Error(`No unit at ${hex}`);
-        }
-        return unit;
     }
 
     // Return the total number of strength points removed from the units of the given side.
@@ -301,9 +288,15 @@ class Game {
         return result.toString();
     }
 
-    unitHasMoved(hex) {
-        return this.movementTrails.some(trail => trail.to === hex);
+    unitHasMoved(currentHex) {
+        return this.movementTrails.some(trail => trail.to === currentHex);
     }
+
+    unitDistanceMoved(currentHex) {
+        const trail = this.movementTrails.find(trail => trail.to === currentHex);
+        return trail ? trail.distance : 0;
+    }
+
 
     isSupported(hex) {
         const unit = this.unitAt(hex);
@@ -437,5 +430,9 @@ export class MovementTrail {
 
     toString() {
         return `MovementTrail(${this.from}, ${this.to})`;
+    }
+
+    get distance() {
+        return this.from.distance(this.to);
     }
 }

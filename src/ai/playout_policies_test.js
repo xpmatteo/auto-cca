@@ -21,9 +21,9 @@ function makeGameWithFourUnits() {
 test('inflicted damage ', () => {
     const game = makeGameWithFourUnits();
 
-    game.takeDamage(hexOf(0, 0), 2);
-    game.takeDamage(hexOf(1, 0), 1);
-    game.takeDamage(hexOf(0, 2), 3);
+    game.takeDamage(game.unitAt(hexOf(1, 0)), 1);
+    game.takeDamage(game.unitAt(hexOf(0, 2)), 3);
+    game.takeDamage(game.unitAt(hexOf(0, 0)), 2);
 
     assertEquals(3, game.inflictedDamage(Side.CARTHAGINIAN));
     assertEquals(3, game.inflictedDamage(Side.ROMAN));
@@ -36,17 +36,17 @@ xtest("game score when game is ongoing", () => {
     assertEquals(0, game.score(Side.ROMAN));
 
     // after 1 carthaginian loss
-    game.takeDamage(hexOf(0, 0), 4);
+    game.takeDamage(game.unitAt(hexOf(0, 0)), 4);
     assertEquals(-1, game.score(Side.CARTHAGINIAN));
     assertEquals(1, game.score(Side.ROMAN));
 
     // after 1 loss each
-    game.takeDamage(hexOf(0, 2), 4);
+    game.takeDamage(game.unitAt(hexOf(0, 2)), 4);
     assertEquals(0, game.score(Side.CARTHAGINIAN));
     assertEquals(0, game.score(Side.ROMAN));
 
     // after 2 roman losses and 1 carth.
-    game.takeDamage(hexOf(0, 3), 4);
+    game.takeDamage(game.unitAt(hexOf(0, 3)), 4);
     assertEquals(1, game.score(Side.CARTHAGINIAN));
     assertEquals(-1, game.score(Side.ROMAN));
 });
@@ -57,7 +57,7 @@ xtest("game score when game is over", () => {
     // kill all Roman units
     game.foreachUnit((unit, hex) => {
         if (unit.side === Side.ROMAN) {
-            game.takeDamage(hex, 4);
+            game.takeDamage(game.unitAt(hex), 4);
         }
     })
 
@@ -71,7 +71,7 @@ test("gameStatusEstimation when game is over", () => {
     // kill all Roman units
     game.foreachUnit((unit, hex) => {
         if (unit.side === Side.ROMAN) {
-            game.takeDamage(hex, 4);
+            game.takeDamage(unit, 4);
         }
     })
 

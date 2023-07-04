@@ -33,9 +33,10 @@ test("value of MoveCommand at various distances", () => {
 
 test("value of MoveCommand with weaker target", () => {
     let game = makeGame(new NullScenario());
-    game.placeUnit(hexOf(0, 0), new CarthaginianHeavyInfantry());
+    const unit = new CarthaginianHeavyInfantry();
+    game.placeUnit(hexOf(0, 0), unit);
     game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
-    game.takeDamage(hexOf(0, 0), 3);
+    game.takeDamage(unit, 3);
 
     // distance 1
     assertAlmostEquals(0.2 * 1000 - 0.04 * 1000, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));

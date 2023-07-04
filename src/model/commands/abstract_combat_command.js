@@ -38,12 +38,12 @@ export class AbstractCombatCommand {
             events.push(new FlagIgnoredEvent(defendingUnit, defendingHex));
             diceResults = diceResults.filter(r => r !== dice.RESULT_FLAG);
         }
-        const damage = game.takeDamage(defendingHex,
+        const damage = game.takeDamage(defendingUnit,
             diceResults,
             game.retreatHexes(defendingHex).length === 0,
             this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
         events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, originalDiceResults));
-        if (game.isDead(defendingUnit)) {
+        if (game.isUnitDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
         } else {
             if (game.retreatHexes(defendingHex).length !== 0 && hasFlags) {

@@ -50,7 +50,7 @@ test("execute Attack then battle back", () => {
     ];
     assertDeepEquals(expected, eventNames(actual));
     assertEquals(2, game.unitStrength(defendingUnit));
-    assertTrue(game.isDead(attackingUnit));
+    assertTrue(game.isUnitDead(attackingUnit));
 });
 
 // attack then killed
