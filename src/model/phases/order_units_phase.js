@@ -12,12 +12,16 @@ export class OrderUnitsPhase extends Phase {
     }
 
     validCommands(game) {
+        if (this.__eligibleUnits(game).length <= this.numberOfUnits) {
+            this.__orderAllUnits(game);
+            return [new EndPhaseCommand()];
+        }
         let commands = [];
         if (game.numberOfOrderedUnits >= this.numberOfUnits) {
             return [new EndPhaseCommand()];
         }
         game.foreachUnit((unit, hex) => {
-            if (unit.weight === this.weight && unit.side === game.currentSide && !game.isOrdered(unit)) {
+            if (this.__isEligible(unit, game) && !game.isOrdered(unit)) {
                 commands.push(new OrderUnitCommand(hex));
             }
         });
@@ -45,5 +49,27 @@ export class OrderUnitsPhase extends Phase {
             interactiveGame.orderUnit(hex);
         }
         return [];
+    }
+
+    __isEligible(unit, game) {
+        return unit.weight === this.weight && unit.side === game.currentSide;
+    }
+
+    __eligibleUnits(game) {
+        let units = [];
+        game.foreachUnit((unit, hex) => {
+            if (this.__isEligible(unit, game)) {
+                units.push(unit);
+            }
+        });
+        return units;
+    }
+
+    __orderAllUnits(game) {
+        game.foreachUnit((unit, hex) => {
+            if (this.__isEligible(unit, game) && !game.isOrdered(unit)) {
+                game.orderUnit(hex);
+            }
+        });
     }
 }
