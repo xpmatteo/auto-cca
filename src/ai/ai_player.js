@@ -1,8 +1,6 @@
 import { makeRootNode } from "./monte_carlo_tree_search_node.js";
 import { playoutTillTheEndPolicy } from "./playout_policies.js";
 
-export let aiTree = undefined;
-
 export const performanceObserver = {
     onStartDecideMove: function (aiPlayer) {
         console.log("-------- AI is thinking... ---------");
@@ -29,7 +27,6 @@ export const treeObserver = {
         }
         console.log("---");
         console.log(root.mostVisitedPath1().map(node => `${node.sideExecutingTheMove}\t${node.move} (${node.wins}/${node.visits})`).join("\n"));
-        console.log(root);
     },
 }
 
@@ -162,7 +159,6 @@ export default class AIPlayer {
         notifyStartDecideMove(this);
         let root = this.__doDecideMove(state);
         notifyEndDecideMove(this, root);
-        aiTree = root;
         return [root.mostVisited().move];
     }
 

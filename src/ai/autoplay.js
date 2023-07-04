@@ -53,7 +53,7 @@ export class Autoplay {
                 performanceObserver,
                 treeObserver,
                 winLossObserver,
-                treeObserver1,
+                // treeObserver1, // <-- this one may cause a memory leak
             ],
             playoutPolicy: fastPlayoutPolicy,
         });
