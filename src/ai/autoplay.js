@@ -2,6 +2,7 @@ import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
 import AIPlayer, { performanceObserver, treeObserver, treeObserver1, winLossObserver } from "./ai_player.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
+import GreedyAIPlayer from "./greedy_ai_player.js";
 
 const AUTOPLAY_DELAY = 800;
 const AI_ITERATIONS = 10000;
@@ -45,7 +46,7 @@ export function chooseBestCommand(game) {
 export class Autoplay {
     constructor(game) {
         this.game = game;
-        this.aiPlayer = new AIPlayer({
+        this.aiPlayer = new GreedyAIPlayer({
             game: game,
             iterations: AI_ITERATIONS,
             aiSide: Side.CARTHAGINIAN,
