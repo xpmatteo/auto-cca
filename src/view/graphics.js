@@ -135,6 +135,10 @@ function drawCurrentCard(graphics, game) {
     }
 }
 
+function drawDecorations(graphics, game) {
+    game.decorations.forEach(decoration => decoration.draw(graphics, game));
+}
+
 export function redraw(graphics, game) {
     graphics.drawImage('images/cca_map_hq.jpg', new Point(0, 0));
 
@@ -155,6 +159,7 @@ export function redraw(graphics, game) {
     drawGraveyard(graphics, game);
     drawPlayerHand(graphics, game);
     drawCurrentCard(graphics, game);
+    drawDecorations(graphics, game);
     updateInfoMessage(game);
     enableButtons(game);
 }

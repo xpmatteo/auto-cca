@@ -6,6 +6,7 @@ import { MoveCommand } from "./model/commands/moveCommand.js";
 export class InteractiveGame {
     #game;
     #selectedUnit = undefined;
+    #decorations = [];
 
     constructor(game) {
         this.#game = game;
@@ -120,7 +121,16 @@ export class InteractiveGame {
     }
 
     executeCommand(command) {
-        return this.#game.executeCommand(command);
+        const events = this.#game.executeCommand(command);
+        this.visualizeEvents(events);
+        return events;
+    }
+
+    visualizeEvents(events) {
+        events.forEach(event => {
+            event.addDecorations(this.#decorations);
+        });
+        return events;
     }
 
     moveUnit(hex, fromHex) {
@@ -140,8 +150,9 @@ export class InteractiveGame {
     }
 
     endPhase() {
+        console.log('END PHASE');
         this.deselectUnit();
-        this.#game.endPhase();
+        return this.#game.endPhase();
     }
 
     deselectUnit() {
@@ -210,5 +221,13 @@ export class InteractiveGame {
 
     undoPlayCard() {
         return this.#game.undoPlayCard();
+    }
+
+    get decorations() {
+        return this.#decorations;
+    }
+
+    hexOfUnit(unit) {
+        return this.#game.hexOfUnit(unit);
     }
 }

@@ -4,6 +4,7 @@ import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
 import { MoveFireMoveCard, OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
 import { PlayCardPhase } from "./phases/play_card_phase.js";
+import { SideSwitchedTo } from "./events.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -62,10 +63,14 @@ class Game {
 
     endPhase() {
         if (this.phases.length === 1) {
+            console.log('SWITCHING SIDES');
+
             this.switchSide();
+            return [new SideSwitchedTo(this.currentSide)];
         } else {
             this.phases.shift();
             this.spentUnits = [];
+            return [];
         }
     }
 

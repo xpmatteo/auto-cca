@@ -102,4 +102,19 @@ export class GraphicalContext {
         this.ctx.restore();
     }
 
+    drawCross(pixelCoordinate, lineWidth, color) {
+        this.ctx.save();
+        this.ctx.strokeStyle = color;
+        this.ctx.lineWidth = lineWidth;
+        this.ctx.beginPath();
+        const length = 20;
+        this.ctx.moveTo(pixelCoordinate.x - length, pixelCoordinate.y - length);
+        this.ctx.lineTo(pixelCoordinate.x + length, pixelCoordinate.y + length);
+        this.ctx.moveTo(pixelCoordinate.x + length, pixelCoordinate.y - length);
+        this.ctx.lineTo(pixelCoordinate.x - length, pixelCoordinate.y + length);
+        this.ctx.stroke();
+        this.ctx.closePath();
+        this.ctx.restore();
+    }
+
 }

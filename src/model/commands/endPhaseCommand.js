@@ -4,8 +4,7 @@ export class EndPhaseCommand {
     }
 
     play(game) {
-        game.endPhase();
-        return [];
+        return game.endPhase();
     }
 
     value(game) {
