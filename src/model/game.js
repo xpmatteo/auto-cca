@@ -63,8 +63,6 @@ class Game {
 
     endPhase() {
         if (this.phases.length === 1) {
-            console.log('SWITCHING SIDES');
-
             this.switchSide();
             return [new SideSwitchedTo(this.currentSide)];
         } else {
