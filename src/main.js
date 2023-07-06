@@ -10,6 +10,7 @@ import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas, scalePoint } fro
 import { GraphicalContext } from "./view/graphical_context.js";
 import { CARD_IMAGE_SIZE } from "./model/cards.js";
 import { Point } from "./lib/hexlib.js";
+import { EndPhaseCommand } from "./model/commands/endPhaseCommand.js";
 
 // create canvas
 const canvas = document.createElement('canvas');
@@ -47,7 +48,7 @@ canvas.addEventListener('click', function (event) {
 let autoplay = new Autoplay(interactiveGame);
 
 document.getElementById('end-phase').addEventListener('click', function (event) {
-    interactiveGame.endPhase();
+    interactiveGame.executeCommand(new EndPhaseCommand());
     autoplay.play(graphics);
     redraw(graphics, interactiveGame);
 });
