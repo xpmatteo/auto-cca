@@ -28,7 +28,9 @@ export class DamageEvent extends GameEvent {
     }
 
     draw(graphics, game) {
-        let pixelCoordinate = hex_to_pixel(layout, game.hexOfUnit(this.defendingUnit));
+        const hex = game.hexOfUnit(this.defendingUnit);
+        if (!hex) return;
+        let pixelCoordinate = hex_to_pixel(layout, hex);
         graphics.drawCircle(pixelCoordinate, 20, 'blue');
         graphics.writeText(this.damage, pixelCoordinate.add(new Point(-12, 18)), '30pt Arial', 'white');
     }
@@ -87,7 +89,7 @@ export class SideSwitchedTo extends GameEvent {
     }
 
     toString() {
-        return `Side switched to ${this.currentSide}`;
+        return `Now it's the ${this.currentSide.name} turn`;
     }
 
     addDecorations(decorationsList) {
