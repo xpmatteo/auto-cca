@@ -28,11 +28,18 @@ export class DamageEvent extends GameEvent {
     }
 
     draw(graphics, game) {
-        const hex = game.hexOfUnit(this.defendingUnit);
-        if (!hex) return;
-        let pixelCoordinate = hex_to_pixel(layout, hex);
-        graphics.drawCircle(pixelCoordinate, 20, 'blue');
-        graphics.writeText(this.damage, pixelCoordinate.add(new Point(-12, 18)), '30pt Arial', 'white');
+        const defenderHex = game.hexOfUnit(this.defendingUnit);
+        if (defenderHex) {
+            let defenderPixel = hex_to_pixel(layout, defenderHex);
+            graphics.drawCircle(defenderPixel, 20, 'blue');
+            graphics.writeText(this.damage, defenderPixel.add(new Point(-12, 18)), '30pt Arial', 'white');
+        }
+
+        const attackerHex = game.hexOfUnit(this.attackingUnit);
+        if (attackerHex) {
+            let pixel = hex_to_pixel(layout, attackerHex);
+            graphics.drawImageCentered('images/icons/attacker.png', pixel);
+        }
     }
 }
 

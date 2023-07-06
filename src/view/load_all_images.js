@@ -62,6 +62,7 @@ const IMAGE_URLS = [
     'images/cards/Order Mounted.gif',
     'images/cards/Out Flanked.gif',
 
+    'images/icons/attacker.png',
 ];
 
 export const IMAGES = {}
