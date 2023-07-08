@@ -36,7 +36,7 @@ test("retreat with clear ground NORTH 2 ", () => {
 test("retreat with clear ground NORTH 3 ", () => {
     const game = makeGame(new NullScenario());
 
-    const actual = game.retreatPaths(hexOf(4, 4), 2, Side.CARTHAGINIAN);
+    const actual = game.retreatPaths(hexOf(4, 4), 3, Side.CARTHAGINIAN);
 
     const expected = {
         1: [hexOf(4,3), hexOf(5,3)],
