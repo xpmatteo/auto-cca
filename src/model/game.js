@@ -119,7 +119,7 @@ class Game {
         let seed = [hex];
         let result = {};
         for (let i = 0; i < maxDistance; i++) {
-            seed = Array.from(new Set(seed.flatMap(neighborFunction)));
+            seed = this.subtractOffMap(Array.from(new Set(seed.flatMap(neighborFunction))));
             result[i+1] = seed;
         }
         return result;

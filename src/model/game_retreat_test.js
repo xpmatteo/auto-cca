@@ -46,6 +46,23 @@ test("retreat with clear ground NORTH 3 ", () => {
     assertDeepEqualsObject(expected, actual);
 });
 
+test("retreat north impossible at board edge", () => {
+    const game = makeGame(new NullScenario());
+
+    const actual = game.retreatPaths(hexOf(7, 1), 3, Side.CARTHAGINIAN);
+
+    const expected = {
+        1: [hexOf(7,0), hexOf(8,0)],
+        2: [],
+        3: [],
+    };
+    assertDeepEqualsObject(expected, actual);
+});
+
+
+
+
+
 
 test("retreat with clear ground NORTH", () => {
     const game = makeGame(new NullScenario());
