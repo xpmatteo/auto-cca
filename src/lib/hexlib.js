@@ -41,7 +41,7 @@ class Hex {
     }
 
     get southernNeighbors() {
-        return [this.southEast, this.southWest];
+        return [this.southWest, this.southEast];
     }
 
     get southEast() {

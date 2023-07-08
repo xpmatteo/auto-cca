@@ -75,6 +75,17 @@ but got  ${actual.toString()}`;
     }
 }
 
+export function assertDeepEqualsObject(expected, actual, message="Assertion failed") {
+    let a = JSON.stringify(expected);
+    let b = JSON.stringify(actual);
+    message = `${message}
+Expected ${a} 
+but got  ${b}`;
+    if (a !== b) {
+        throw new AssertionFailed(message);
+    }
+}
+
 export function test(desc, fn) {
     try {
         fn();

@@ -107,13 +107,16 @@ class Game {
         { 1: [hexOf(4,3), hexOf(5,3)], 2: [hexOf(4,2), hexOf(5,2), hexOf(6,2)] }
      */
     retreatPaths(hex, maxDistance, side) {
+        let neighborFunction;
         if (side === this.scenario.sideNorth) {
-            return {1: hex.northernNeighbors}
+            neighborFunction = hex => hex.northernNeighbors;
         } else if (side === this.scenario.sideSouth) {
-            return {1: hex.southernNeighbors}
+            neighborFunction = hex => hex.southernNeighbors;
         } else {
             throw new Error(`Invalid side ${side}`);
         }
+
+        return {1: neighborFunction(hex)};
     }
 
     retreatHexes(hex) {
