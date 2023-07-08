@@ -95,6 +95,27 @@ class Game {
         return this.graveyard.unitsOf(side);
     }
 
+    /*
+        Return the paths that a unit can retreat along, given a maximum distance.
+        The paths are returned as a map from distance to list of hexes that can be retreated to.
+        If there is no retreat path, the set is empty
+        Examples
+        --------
+        If the unit is at 4,4 and retreats north and can retreat 1 hex, the result is:
+        { 1: [hexOf(4,3), hexOf(5,3)] }
+        If it can retreat 2 hexes, the result is:
+        { 1: [hexOf(4,3), hexOf(5,3)], 2: [hexOf(4,2), hexOf(5,2), hexOf(6,2)] }
+     */
+    retreatPaths(hex, maxDistance, side) {
+        if (side === this.scenario.sideNorth) {
+            return {1: hex.northernNeighbors}
+        } else if (side === this.scenario.sideSouth) {
+            return {1: hex.southernNeighbors}
+        } else {
+            throw new Error(`Invalid side ${side}`);
+        }
+    }
+
     retreatHexes(hex) {
         const retreatingUnit = this.board.unitAt(hex);
         if (!retreatingUnit) {

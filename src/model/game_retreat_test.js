@@ -1,8 +1,25 @@
 import { hexOf } from "../lib/hexlib.js";
-import { assertEqualsInAnyOrder, test } from "../lib/test_lib.js";
+import { assertDeepEquals, assertEqualsInAnyOrder, test } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import { NullScenario } from "./scenarios.js";
 import * as units from "./units.js";
+import { Side } from "./side.js";
+
+test("retreat with clear ground NORTH 1 ", () => {
+    const game = makeGame(new NullScenario());
+
+    const actual = game.retreatPaths(hexOf(4, 4), 1, Side.CARTHAGINIAN);
+
+    assertDeepEquals({1: [hexOf(4,3), hexOf(5,3)]}, actual);
+});
+
+test("retreat with clear ground SOUTH 1 ", () => {
+    const game = makeGame(new NullScenario());
+
+    const actual = game.retreatPaths(hexOf(4, 4), 1, Side.ROMAN);
+
+    assertDeepEquals({1: [hexOf(3,5), hexOf(4,5)]}, actual);
+});
 
 
 test("retreat with clear ground NORTH", () => {
