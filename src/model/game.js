@@ -116,7 +116,19 @@ class Game {
             throw new Error(`Invalid side ${side}`);
         }
 
-        return {1: neighborFunction(hex)};
+        if (maxDistance === 1)
+            return {1: neighborFunction(hex)};
+        if (maxDistance === 2) {
+            const firstNeighbors = neighborFunction(hex);
+            const secondNeighbors = Array.from(new Set(firstNeighbors.flatMap(neighborFunction)));
+            return {1: firstNeighbors, 2: secondNeighbors};
+        }
+        if (maxDistance === 3) {
+            const firstNeighbors = neighborFunction(hex);
+            const secondNeighbors = Array.from(new Set(firstNeighbors.flatMap(neighborFunction)));
+            const thirdNeighbors = Array.from(new Set(secondNeighbors.flatMap(neighborFunction)));
+            return {1: firstNeighbors, 2: secondNeighbors, 3: thirdNeighbors};
+        }
     }
 
     retreatHexes(hex) {

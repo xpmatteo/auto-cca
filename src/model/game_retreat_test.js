@@ -21,7 +21,7 @@ test("retreat with clear ground SOUTH 1 ", () => {
     assertDeepEqualsObject({1: [hexOf(3,5), hexOf(4,5)]}, actual);
 });
 
-xtest("retreat with clear ground NORTH 2 ", () => {
+test("retreat with clear ground NORTH 2 ", () => {
     const game = makeGame(new NullScenario());
 
     const actual = game.retreatPaths(hexOf(4, 4), 2, Side.CARTHAGINIAN);
@@ -29,6 +29,19 @@ xtest("retreat with clear ground NORTH 2 ", () => {
     const expected = {
         1: [hexOf(4,3), hexOf(5,3)],
         2: [hexOf(4,2), hexOf(5,2), hexOf(6,2)],
+    };
+    assertDeepEqualsObject(expected, actual);
+});
+
+test("retreat with clear ground NORTH 3 ", () => {
+    const game = makeGame(new NullScenario());
+
+    const actual = game.retreatPaths(hexOf(4, 4), 2, Side.CARTHAGINIAN);
+
+    const expected = {
+        1: [hexOf(4,3), hexOf(5,3)],
+        2: [hexOf(4,2), hexOf(5,2), hexOf(6,2)],
+        3: [hexOf(4,1), hexOf(5,1), hexOf(6,1), hexOf(7,1)],
     };
     assertDeepEqualsObject(expected, actual);
 });
