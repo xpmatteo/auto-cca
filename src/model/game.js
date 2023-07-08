@@ -118,10 +118,16 @@ class Game {
 
         let seed = [hex];
         let result = {};
+        let distance = 0;
         for (let i = 0; i < maxDistance; i++) {
-            seed = this.subtractOffMap(Array.from(new Set(seed.flatMap(neighborFunction))));
+            seed = this.subtractOccupiedHexes(this.subtractOffMap(Array.from(new Set(seed.flatMap(neighborFunction)))));
+            console.log(seed.toString());
             result[i+1] = seed;
+            if (seed.length > 0) {
+                distance++;
+            }
         }
+        result['maxDistance'] = distance;
         return result;
     }
 
