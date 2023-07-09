@@ -5,6 +5,10 @@ export class Unit {
     isLightFootUnit = false;
     movement = 1;
 
+    get retreatHexes() {
+        return this.movement;
+    }
+
     validDestinations(fromHex, game) {
         if (game.currentCard && game.currentCard.allowsLightFootMovementThroughFriendlies && this.isLightFootUnit) {
             return this.__validDestinationsPassingThroughFriendlies(fromHex, game);

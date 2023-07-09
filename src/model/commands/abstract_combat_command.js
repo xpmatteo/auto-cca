@@ -1,6 +1,7 @@
 import { DamageEvent, FlagIgnoredEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
 import { RetreatPhase } from "../phases/RetreatPhase.js";
+import { handleFlags } from "./commands.js";
 
 export class AbstractCombatCommand {
     constructor() {
@@ -32,24 +33,21 @@ export class AbstractCombatCommand {
         let events = [];
         const diceCount = this.decideDiceCount(attackingUnit, game);
         let diceResults = game.roll(diceCount);
-        const originalDiceResults = diceResults.slice();
-        const hasFlags = diceResults.includes(dice.RESULT_FLAG);
-        if (hasFlags && game.isSupported(defendingHex)) {
-            events.push(new FlagIgnoredEvent(defendingUnit, defendingHex));
-            diceResults = diceResults.filter(r => r !== dice.RESULT_FLAG);
-        }
-        const damage = game.takeDamage(defendingUnit,
-            diceResults,
-            game.retreatHexes(defendingHex).length === 0,
-            this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
-        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, damage, originalDiceResults));
+
+        let numberOfFlags = diceResults.filter(r => r === dice.RESULT_FLAG).length;
+        let ignorableFlags = game.isSupported(defendingHex) ? 1 : 0;
+        let maxDistanceRequired = numberOfFlags * defendingUnit.retreatHexes;
+        let retreatPaths = game.retreatPaths(defendingHex, maxDistanceRequired, defendingUnit.side);
+        const flagResult = handleFlags(diceResults, defendingUnit.retreatHexes, ignorableFlags, retreatPaths);
+        const totalDamage = flagResult.damage +
+            defendingUnit.takeDamage(diceResults, false, this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
+
+        game.takeDamage(defendingUnit, totalDamage);
+        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, totalDamage, diceResults));
         if (game.isUnitDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
-        } else {
-            if (game.retreatHexes(defendingHex).length !== 0 && hasFlags) {
-                        const retreatHexes = game.retreatHexes(defendingHex);
-                        game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, retreatHexes));
-                    }
+        } else if (flagResult.retreats.length > 0) {
+            game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, flagResult.retreats));
         }
         return events;
     }
