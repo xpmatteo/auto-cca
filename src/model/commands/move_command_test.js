@@ -3,7 +3,7 @@ import makeGame, {MovementTrail} from "../game.js";
 import {NullScenario} from "../scenarios.js";
 import {CarthaginianHeavyInfantry, RomanHeavyInfantry} from "../units.js";
 import {hexOf} from "../../lib/hexlib.js";
-import {MoveCommand} from "./moveCommand.js";
+import {MoveCommand} from "./move_command.js";
 
 test("MoveCommand play", () => {
     let game = makeGame(new NullScenario());

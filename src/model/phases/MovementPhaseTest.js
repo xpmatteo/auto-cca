@@ -4,7 +4,7 @@ import * as units from "../units.js";
 import Game from '../game.js'
 import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
-import { MoveCommand } from "../commands/moveCommand.js";
+import { MoveCommand } from "../commands/move_command.js";
 import { EndPhaseCommand } from "../commands/end_phase_command.js";
 import { MovementPhase } from "./MovementPhase.js";
 import { OrderLightTroopsCard } from "../cards.js";

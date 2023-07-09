@@ -1,4 +1,4 @@
-import { MoveCommand } from "./model/commands/moveCommand.js";
+import { MoveCommand } from "./model/commands/move_command.js";
 
 /*
     Decorator for Game that adds interactive features.

@@ -7,8 +7,8 @@ import * as units from "../model/units.js";
 import GameStatus from "../model/game_status.js";
 import { NullScenario, Scenario, TestScenario } from "../model/scenarios.js";
 import { RESULT_SWORDS } from "../model/dice.js";
-import { MoveCommand } from "../model/commands/moveCommand.js";
-import { CloseCombatCommand } from "../model/commands/closeCombatCommand.js";
+import { MoveCommand } from "../model/commands/move_command.js";
+import { CloseCombatCommand } from "../model/commands/close_combat_command.js";
 import { makeRootNode } from "./monte_carlo_tree_search_node.js";
 
 // unit tests for the AIPlayer class

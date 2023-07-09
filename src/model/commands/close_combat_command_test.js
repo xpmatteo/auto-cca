@@ -1,10 +1,10 @@
-import {assertDeepEquals, assertEquals, test} from "../../lib/test_lib.js";
+import { assertDeepEquals, assertEquals, test } from "../../lib/test_lib.js";
 import makeGame from "../game.js";
-import {NullScenario} from "../scenarios.js";
-import {CarthaginianHeavyInfantry, RomanHeavyInfantry} from "../units.js";
-import {hexOf} from "../../lib/hexlib.js";
-import {CloseCombatCommand} from "./closeCombatCommand.js";
-import {Side} from "../side.js";
+import { NullScenario } from "../scenarios.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
+import { hexOf } from "../../lib/hexlib.js";
+import { CloseCombatCommand } from "./close_combat_command.js";
+import { Side } from "../side.js";
 
 test("CloseCombatCommand play", () => {
     let game = makeGame(new NullScenario());

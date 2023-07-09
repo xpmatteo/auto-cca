@@ -7,7 +7,7 @@ import * as dice from "./dice.js";
 import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
 import { Side } from "./side.js";
 import {RetreatCommand} from "./commands/retreatCommand.js";
-import {CloseCombatCommand} from "./commands/closeCombatCommand.js";
+import {CloseCombatCommand} from "./commands/close_combat_command.js";
 
 export function diceReturning() {
     let invocations = 0;
