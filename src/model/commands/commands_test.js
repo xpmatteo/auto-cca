@@ -42,6 +42,18 @@ function assertHandleFlags(flags, ignorableFlags, retreatHexesPerFlag, retreatPa
                 2: [hexOf(2, 2)],
                 3: [hexOf(3, 3)],
             }
+            break;
+        case 4:
+            retreatPaths = {
+                maxDistance: 4,
+                1: [hexOf(1, 1)],
+                2: [hexOf(2, 2)],
+                3: [hexOf(3, 3)],
+                4: [hexOf(4, 4)],
+            }
+            break;
+        default:
+            throw new Error("unsupported retreatPathLength: " + retreatPathLength);
     }
     const actualResult = handleFlags(Array(flags).fill(RESULT_FLAG), retreatHexesPerFlag, ignorableFlags, retreatPaths);
 
@@ -50,10 +62,17 @@ function assertHandleFlags(flags, ignorableFlags, retreatHexesPerFlag, retreatPa
 
 test('handleFlags when not ignorable and retreat is clear', () => {
     assertHandleFlags(0, 0, 2, 0, FlagResult.NO_EFFECT, "no flags");
-    assertHandleFlags(1, 0, 1, 2, FlagResult.retreat([hexOf(1,1)]), "retreat 1 flag 1 hex");
+    assertHandleFlags(1, 0, 1, 1, FlagResult.retreat([hexOf(1,1)]), "retreat 1 flag 1 hex");
     assertHandleFlags(1, 0, 2, 2, FlagResult.retreat([hexOf(2,2)]), "retreat 1 flag 2 hexes");
-
+    assertHandleFlags(2, 0, 2, 4, FlagResult.retreat([hexOf(4,4)]), "retreat 2 flag 2 hexes");
 });
+
+test('handleFlags when not ignorable and retreat is blocked', () => {
+    assertHandleFlags(0, 0, 0, 0, FlagResult.NO_EFFECT, "no flags");
+    assertHandleFlags(1, 0, 1, 0, FlagResult.damage(1), "retreat 1 flag x 1 blocked");
+    assertHandleFlags(1, 0, 2, 0, FlagResult.damage(2), "retreat 1 flag x 2 blocked");
+});
+
 
 test('handleFlags', () => {
 
