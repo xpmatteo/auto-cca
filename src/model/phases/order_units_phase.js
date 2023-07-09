@@ -1,4 +1,4 @@
-import { EndPhaseCommand } from "../commands/endPhaseCommand.js";
+import { EndPhaseCommand } from "../commands/end_phase_command.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { Phase } from "./Phase.js";
 import { MAP_WIDTH } from "../../view/map.js";

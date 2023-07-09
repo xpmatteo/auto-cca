@@ -10,7 +10,7 @@ import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas, scalePoint } fro
 import { GraphicalContext } from "./view/graphical_context.js";
 import { CARD_IMAGE_SIZE } from "./model/cards.js";
 import { Point } from "./lib/hexlib.js";
-import { EndPhaseCommand } from "./model/commands/endPhaseCommand.js";
+import { EndPhaseCommand } from "./model/commands/end_phase_command.js";
 
 // create canvas
 const canvas = document.createElement('canvas');

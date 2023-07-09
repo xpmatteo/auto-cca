@@ -6,7 +6,7 @@ import { hexOf } from "../lib/hexlib.js";
 import GameStatus from "../model/game_status.js";
 import { Side } from "../model/side.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
-import { EndPhaseCommand } from "../model/commands/endPhaseCommand.js";
+import { EndPhaseCommand } from "../model/commands/end_phase_command.js";
 
 
 function makeGameWithFourUnits() {

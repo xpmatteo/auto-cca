@@ -8,7 +8,6 @@ import GameStatus from "../model/game_status.js";
 import { NullScenario, Scenario, TestScenario } from "../model/scenarios.js";
 import { RESULT_SWORDS } from "../model/dice.js";
 import { MoveCommand } from "../model/commands/moveCommand.js";
-import { EndPhaseCommand } from "../model/commands/endPhaseCommand.js";
 import { CloseCombatCommand } from "../model/commands/closeCombatCommand.js";
 import { makeRootNode } from "./monte_carlo_tree_search_node.js";
 

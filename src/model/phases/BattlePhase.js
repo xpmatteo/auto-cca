@@ -1,5 +1,5 @@
 import { Phase } from "./Phase.js";
-import {EndPhaseCommand} from "../commands/endPhaseCommand.js";
+import {EndPhaseCommand} from "../commands/end_phase_command.js";
 import {CloseCombatCommand} from "../commands/closeCombatCommand.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
 

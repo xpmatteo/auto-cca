@@ -3,7 +3,7 @@ import Game from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { hexOf, Point } from "../../lib/hexlib.js";
 import * as units from "../units.js";
-import { EndPhaseCommand } from "../commands/endPhaseCommand.js";
+import { EndPhaseCommand } from "../commands/end_phase_command.js";
 import { RESULT_HEAVY } from "../dice.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { OrderUnitsPhase } from "./order_units_phase.js";
