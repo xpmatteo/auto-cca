@@ -42,29 +42,31 @@ export function valueOfHexOverAllEnemyUnits(game, hexToBeEvaluated, friendlySide
 
 
 export class FlagResult {
-    constructor(damage, retreats) {
+    constructor(damage, retreatHexes) {
         this.damage = damage;
-        this.retreats = retreats;
+        this.retreats = retreatHexes;
     }
 
-    static NO_EFFECT = new FlagResult(0, 0);
+    static NO_EFFECT = new FlagResult(0, []);
 
     toString() {
-        return `FlagResult(damage: ${this.damage}, retreat: ${this.retreats})`;
+        return `FlagResult(damage: ${this.damage}, retreatHexes: ${this.retreats})`;
     }
 
-    static retreat(number) {
-        return new FlagResult(0, number);
+    static retreat(hexes) {
+        return new FlagResult(0, hexes);
     }
 
     static damage(number) {
-        return new FlagResult(number, 0);
+        return new FlagResult(number, []);
     }
 }
 
-export function handleFlags(diceResults, ignorableFlags, retreatPathLength) {
-    const flags = diceResults.filter(d => d === RESULT_FLAG).length - ignorableFlags;
-    const damage = flags - retreatPathLength;
-    const retreats = flags - damage;
-    return new FlagResult(damage, retreats);
+export function handleFlags(diceResults, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
+    let flags = diceResults.filter(result => result === RESULT_FLAG).length;
+    if (flags === 0) {
+        return FlagResult.NO_EFFECT;
+    }
+    let requiredRetreatPathLength = flags * retreatHexesPerFlag;
+    return FlagResult.retreat(retreatPaths[requiredRetreatPathLength]);
 }
