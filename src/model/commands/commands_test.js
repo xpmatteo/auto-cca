@@ -71,6 +71,9 @@ test('handleFlags when not ignorable and retreat is blocked', () => {
     assertHandleFlags(0, 0, 0, 0, FlagResult.NO_EFFECT, "no flags");
     assertHandleFlags(1, 0, 1, 0, FlagResult.damage(1), "retreat 1 flag x 1 blocked");
     assertHandleFlags(1, 0, 2, 0, FlagResult.damage(2), "retreat 1 flag x 2 blocked");
+    assertHandleFlags(1, 0, 2, 1, new FlagResult(1, [hexOf(1,1)]), "retreat 1 flag x 2 partially blocked");
+    assertHandleFlags(2, 0, 2, 2, new FlagResult(2, [hexOf(2,2)]), "retreat 1 flag x 2 partially blocked");
+    assertHandleFlags(2, 0, 2, 3, new FlagResult(1, [hexOf(3,3)]), "retreat 1 flag x 2 partially blocked");
 });
 
 
