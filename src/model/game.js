@@ -339,10 +339,10 @@ class Game {
             throw new Error(`No unit at ${hex}`);
         }
         let supportingUnits = 0;
-        let hexes = this.subtractOffMap(hex.neighbors());
+        let hexes = this.neighbors(hex);
         hexes.forEach(h => {
-            let unit = this.unitAt(h);
-            if (unit && unit.side === this.currentSide) {
+            let neighboringUnit = this.unitAt(h);
+            if (neighboringUnit && neighboringUnit.side === unit.side) {
                 supportingUnits++;
             }
         });

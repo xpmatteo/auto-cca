@@ -52,4 +52,8 @@ export class AbstractCombatCommand {
         return events;
     }
 
+    doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
+        throw new Error("Abstract method");
+    }
+
 }
