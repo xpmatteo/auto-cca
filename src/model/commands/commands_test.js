@@ -1,4 +1,4 @@
-import { assertDeepEquals, test } from "../../lib/test_lib.js";
+import { assertDeepEquals, test, xtest } from "../../lib/test_lib.js";
 import { RESULT_FLAG } from "../dice.js";
 import { FlagResult, handleFlags } from "./commands.js";
 import { hexOf } from "../../lib/hexlib.js";
@@ -19,18 +19,21 @@ function assertHandleFlags(flags, ignorableFlags, retreatHexesPerFlag, retreatPa
     switch (retreatPathLength) {
         case 0:
             retreatPaths = {
-                maxDistance: 0
+                maxDistance: 0,
+                0: [hexOf(0, 0)],
             }
             break;
         case 1:
             retreatPaths = {
                 maxDistance: 1,
+                0: [hexOf(0, 0)],
                 1: [hexOf(1, 1)],
             }
             break;
         case 2:
             retreatPaths = {
                 maxDistance: 2,
+                0: [hexOf(0, 0)],
                 1: [hexOf(1, 1)],
                 2: [hexOf(2, 2)],
             }
@@ -38,6 +41,7 @@ function assertHandleFlags(flags, ignorableFlags, retreatHexesPerFlag, retreatPa
         case 3:
             retreatPaths = {
                 maxDistance: 3,
+                0: [hexOf(0, 0)],
                 1: [hexOf(1, 1)],
                 2: [hexOf(2, 2)],
                 3: [hexOf(3, 3)],
@@ -46,6 +50,7 @@ function assertHandleFlags(flags, ignorableFlags, retreatHexesPerFlag, retreatPa
         case 4:
             retreatPaths = {
                 maxDistance: 4,
+                0: [hexOf(0, 0)],
                 1: [hexOf(1, 1)],
                 2: [hexOf(2, 2)],
                 3: [hexOf(3, 3)],
@@ -75,6 +80,17 @@ test('handleFlags when not ignorable and retreat is blocked', () => {
     assertHandleFlags(2, 0, 2, 2, new FlagResult(2, [hexOf(2,2)]), "retreat 1 flag x 2 partially blocked");
     assertHandleFlags(2, 0, 2, 3, new FlagResult(1, [hexOf(3,3)]), "retreat 1 flag x 2 partially blocked");
 });
+
+test('handleFlags when ignorable and no damage', () => {
+    assertHandleFlags(1, 1, 1, 1, FlagResult.retreat([hexOf(0,0), hexOf(1,1)]), "retreat 1 flag 1 hex");
+    assertHandleFlags(1, 1, 2, 2, FlagResult.retreat([hexOf(0,0), hexOf(2,2)]), "retreat 1 flag 1 hex");
+});
+
+xtest('handleFlags when ignorable there is damage', () => {
+    assertHandleFlags(1, 1, 1, 1, FlagResult.retreat([hexOf(0,0), hexOf(1,1)]), "retreat 1 flag 1 hex");
+    assertHandleFlags(1, 1, 2, 2, FlagResult.retreat([hexOf(0,0), hexOf(2,2)]), "retreat 1 flag 1 hex");
+});
+
 
 
 test('handleFlags', () => {

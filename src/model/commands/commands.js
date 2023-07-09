@@ -69,5 +69,9 @@ export function handleFlags(diceResults, retreatHexesPerFlag, ignorableFlags, re
     }
     let requiredRetreatPathLength = flags * retreatHexesPerFlag;
     let damage = requiredRetreatPathLength - retreatPaths.maxDistance;
-    return new FlagResult(damage, retreatPaths[retreatPaths.maxDistance] || []);
+    let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
+    if (ignorableFlags === 1) {
+        retreatHexes = retreatPaths[0].concat(retreatPaths[retreatPaths.maxDistance]);
+    }
+    return new FlagResult(damage, retreatHexes);
 }
