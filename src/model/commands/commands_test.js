@@ -86,9 +86,16 @@ test('handleFlags when ignorable and no damage', () => {
     assertHandleFlags(1, 1, 2, 2, FlagResult.retreat([hexOf(0,0), hexOf(2,2)]), "retreat 1 flag 1 hex");
 });
 
-xtest('handleFlags when ignorable there is damage', () => {
-    assertHandleFlags(1, 1, 1, 1, FlagResult.retreat([hexOf(0,0), hexOf(1,1)]), "retreat 1 flag 1 hex");
-    assertHandleFlags(1, 1, 2, 2, FlagResult.retreat([hexOf(0,0), hexOf(2,2)]), "retreat 1 flag 1 hex");
+xtest('handleFlags when ignorable and there is damage', () => {
+    // flags, ignorableFlags, retreatHexesPerFlag, retreatPathLength
+    assertHandleFlags(1, 1, 1, 0, new FlagResult(0, []), "retreat blocked 1 ignorable flag x 1 hex ");
+    assertHandleFlags(1, 1, 2, 1, new FlagResult(0, []), "retreat blocked 1 ignorable flag x 2 hex ");
+    assertHandleFlags(1, 1, 2, 1, new FlagResult(0, []), "retreat blocked 1 ignorable flag x 2 hex 1 maxDistance ");
+    assertHandleFlags(2, 1, 1, 1, new FlagResult(1, [hexOf(1,1)]), "retreat blocked 2 flags 1 ignored x 1 hex 1 maxDistance ");
+    assertHandleFlags(3, 1, 1, 1, new FlagResult(2, [hexOf(1,1)]), "3, 1, 1, 1");
+    assertHandleFlags(3, 1, 1, 2, new FlagResult(1, [hexOf(2,2)]), "3, 1, 1, 2");
+    assertHandleFlags(2, 1, 2, 3, new FlagResult(1, [hexOf(3,3)]), "2, 1, 2, 3");
+    assertHandleFlags(2, 1, 2, 2, new FlagResult(2, [hexOf(2,2)]), "2, 1, 2, 2");
 });
 
 
