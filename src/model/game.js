@@ -121,7 +121,6 @@ class Game {
         let distance = 0;
         for (let i = 0; i < maxDistance; i++) {
             seed = this.subtractOccupiedHexes(this.subtractOffMap(Array.from(new Set(seed.flatMap(neighborFunction)))));
-            console.log(seed.toString());
             result[i+1] = seed;
             if (seed.length > 0) {
                 distance++;
@@ -129,21 +128,6 @@ class Game {
         }
         result['maxDistance'] = distance;
         return result;
-    }
-
-    retreatHexes(hex) {
-        const retreatingUnit = this.board.unitAt(hex);
-        if (!retreatingUnit) {
-            throw new Error(`No unit at ${hex}`);
-        }
-        const side = retreatingUnit.side;
-        let result;
-        if (side === this.scenario.sideNorth) {
-            result = hex.northernNeighbors;            
-        } else {
-            result = hex.southernNeighbors;
-        }
-        return this.subtractOffMap(this.subtractOccupiedHexes(result));
     }
 
     clone() {

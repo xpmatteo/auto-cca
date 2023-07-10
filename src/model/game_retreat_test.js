@@ -73,6 +73,7 @@ test("no retreat", () => {
     assertDeepEqualsObject(expected, actual);
 });
 
+
 test("retreat partially blocked by units", () => {
     const game = makeGame(new NullScenario());
     game.placeUnit(hexOf(4, 3), new units.CarthaginianHeavyInfantry());
@@ -86,34 +87,4 @@ test("retreat partially blocked by units", () => {
     };
     assertDeepEqualsObject(expected, actual);
 });
-
-
-
-
-test("retreat with clear ground NORTH", () => {
-    const game = makeGame(new NullScenario());
-    const retreatingUnit = new units.CarthaginianHeavyInfantry();
-    game.placeUnit(hexOf(1, 4), retreatingUnit);
-    
-    assertEqualsInAnyOrder([hexOf(1,3), hexOf(2,3)], game.retreatHexes(hexOf(1, 4)));
-});
-
-
-test("retreat with one blocked path", () => {
-    const game = makeGame(new NullScenario());
-    const retreatingUnit = new units.CarthaginianHeavyInfantry();
-    game.placeUnit(hexOf(1, 4), retreatingUnit);
-    game.placeUnit(hexOf(1, 3), new units.CarthaginianHeavyInfantry());
-
-    assertEqualsInAnyOrder([hexOf(2,3)], game.retreatHexes(hexOf(1, 4)));
-});
-
-test("no retreat at board limit!", () => {
-    const game = makeGame(new NullScenario());
-    const retreatingUnit = new units.RomanHeavyInfantry();
-    game.placeUnit(hexOf(0, 8), retreatingUnit);
-
-    assertEqualsInAnyOrder([], game.retreatHexes(hexOf(0, 8)));
-});
-
 
