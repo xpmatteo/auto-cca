@@ -176,9 +176,10 @@ class AuxiliaInfantry extends Unit {
     movement = 2;
     range = 2;
     isLightFootUnit = true;
+    retreatHexes = 1;
 
     toString() {
-        return `${this.side.name} auxilia infantry`;
+        return `${this.side.name} auxilia`;
     }
 
     validRangedCombatTargets(fromHex, game) {
