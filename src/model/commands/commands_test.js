@@ -15,6 +15,9 @@ import { hexOf } from "../../lib/hexlib.js";
 */
 
 function assertHandleFlags(flags, ignorableFlags, retreatHexesPerFlag, retreatPathLength, expectedResult, message) {
+    if (!message) {
+        message = `${flags} ${ignorableFlags} ${retreatHexesPerFlag} ${retreatPathLength}`;
+    }
     let retreatPaths;
     switch (retreatPathLength) {
         case 0:
@@ -82,8 +85,10 @@ test('handleFlags when not ignorable and retreat is blocked', () => {
 });
 
 test('handleFlags when ignorable and no damage', () => {
-    assertHandleFlags(1, 1, 1, 1, FlagResult.retreat([hexOf(0,0), hexOf(1,1)]), "retreat 1 flag 1 hex");
-    assertHandleFlags(1, 1, 2, 2, FlagResult.retreat([hexOf(0,0), hexOf(2,2)]), "retreat 1 flag 1 hex");
+    assertHandleFlags(1, 1, 1, 1, FlagResult.retreat([hexOf(0,0), hexOf(1,1)]));
+    assertHandleFlags(1, 1, 2, 2, FlagResult.retreat([hexOf(0,0), hexOf(2,2)]));
+    assertHandleFlags(2, 1, 1, 2, FlagResult.retreat([hexOf(1,1), hexOf(2,2)]));
+    assertHandleFlags(2, 1, 2, 4, FlagResult.retreat([hexOf(2,2), hexOf(4,4)]));
 });
 
 xtest('handleFlags when ignorable and there is damage', () => {
@@ -98,17 +103,3 @@ xtest('handleFlags when ignorable and there is damage', () => {
     assertHandleFlags(2, 1, 2, 2, new FlagResult(2, [hexOf(2,2)]), "2, 1, 2, 2");
 });
 
-
-
-test('handleFlags', () => {
-
-    // assertHandleFlags(0, 0, 0, FlagResult.NO_EFFECT, "no flags");
-    // assertHandleFlags(1,   0, 1, FlagResult.retreat(1), "retret 1");
-    // assertHandleFlags(2, 0, 2, FlagResult.retreat(2), "retret 2");
-    //
-    // assertHandleFlags(1,              0, 0, FlagResult.damage(1), "damage 1");
-    // assertHandleFlags(2, 0, 0, FlagResult.damage(2), "damage 2");
-    //
-    // assertHandleFlags(1,              1, 0, FlagResult.NO_EFFECT, "ignored 1 flag");
-    // assertHandleFlags(2, 1, 0, FlagResult.damage(1), "ignored 1 flag, damage 1");
-});
