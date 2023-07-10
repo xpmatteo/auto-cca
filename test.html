@@ -49,12 +49,15 @@
       failures++;
     }
 
-    import { failures } from "./src/lib/test_lib.js";
+    import { failures, ignored } from "./src/lib/test_lib.js";
     if (failures > 0) {
-      document.body.style.backgroundColor = "pink";
-      document.getElementById("failures").innerHTML = `${failures} failures`;
+        document.body.style.backgroundColor = "pink";
+        document.getElementById("failures").innerHTML = `${failures} failures`;
+    } else if (ignored > 0) {
+        document.body.style.backgroundColor = "lightyellow";
+        document.getElementById("failures").innerHTML = `${ignored} ignored`;
     } else {
-      document.body.style.backgroundColor = "lightgreen";
+        document.body.style.backgroundColor = "lightgreen";
     }
   </script>
 </body>

@@ -4,6 +4,7 @@
 'use strict';
 
 export let failures = 0;
+export let ignored = 0;
 
 export class AssertionFailed extends Error {
     constructor(message) {
@@ -99,5 +100,6 @@ export function test(desc, fn) {
 }
 
 export function xtest(desc, fn) {
+    ignored++;
     console.log('\x1b[90m%s\x1b[0m', '? ' + desc);
 }
