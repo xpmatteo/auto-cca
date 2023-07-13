@@ -4,7 +4,7 @@ import { hexOf } from "../../lib/hexlib.js";
 
 function assertHandleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPathLength, expectedResult, message) {
     if (!message) {
-        message = `${flags} ${ignorableFlags} ${retreatHexesPerFlag} ${retreatPathLength}`;
+        message = `${flags} ${retreatHexesPerFlag} ${ignorableFlags} ${retreatPathLength}`;
     }
     let retreatPaths;
     switch (retreatPathLength) {

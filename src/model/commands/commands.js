@@ -1,5 +1,3 @@
-import { RESULT_FLAG } from "../dice.js";
-
 const DISTANCE_VALUE_BACKOFF = 0.2;
 
 // Optimization: precompute the values for the backoff function
@@ -66,15 +64,22 @@ export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatP
     if (flags === 0) {
         return FlagResult.NO_EFFECT;
     }
+    let retreatMin = (flags - ignorableFlags) * retreatHexesPerFlag;
+    let retreatMax = flags * retreatHexesPerFlag;
+    console.log(`handleFlags: retreatMin: ${retreatMin}, retreatMax: ${retreatMax}, retreatAvailable: ${(retreatPaths.maxDistance)}`);
 
-    let requiredRetreatPathLength = (flags - ignorableFlags) * retreatHexesPerFlag;
-    if (requiredRetreatPathLength >= retreatPaths.maxDistance) {
+    if (retreatMin >= retreatPaths.maxDistance) {
         // damage and possibly retreat; no choice except retreat as much as possible
-        let damage = requiredRetreatPathLength - retreatPaths.maxDistance;
+        let damage = retreatMax - retreatPaths.maxDistance;
         let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
         console.log("handleFlags: case (1)");
         return new FlagResult(damage, retreatHexes);
     }
+    if (retreatMax > retreatPaths.maxDistance) {
+        console.log("handleFlags: case (2)");
+        return new FlagResult(0, []);
+    }
+
     // no damage -- just retreat
     if (ignorableFlags === 0) {
         let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
@@ -85,7 +90,7 @@ export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatP
     if (retreatPaths.maxDistance === 0) {
         retreatHexes = [];
     } else {
-        retreatHexes = retreatPaths[requiredRetreatPathLength].concat(retreatPaths[retreatPaths.maxDistance]);
+        retreatHexes = retreatPaths[retreatMin].concat(retreatPaths[retreatPaths.maxDistance]);
     }
     console.log("handleFlags: case (4)");
     return new FlagResult(0, retreatHexes);
