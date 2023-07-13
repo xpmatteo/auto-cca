@@ -66,6 +66,7 @@ export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatP
     if (flags === 0) {
         return FlagResult.NO_EFFECT;
     }
+
     let requiredRetreatPathLength = (flags - ignorableFlags) * retreatHexesPerFlag;
     if (requiredRetreatPathLength >= retreatPaths.maxDistance) {
         // damage and possibly retreat; no choice except retreat as much as possible
