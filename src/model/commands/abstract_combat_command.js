@@ -38,7 +38,7 @@ export class AbstractCombatCommand {
         let ignorableFlags = game.isSupported(defendingHex) ? 1 : 0;
         let maxDistanceRequired = numberOfFlags * defendingUnit.retreatHexes;
         let retreatPaths = game.retreatPaths(defendingHex, maxDistanceRequired, defendingUnit.side);
-        const flagResult = handleFlags(diceResults, defendingUnit.retreatHexes, ignorableFlags, retreatPaths);
+        const flagResult = handleFlags(numberOfFlags, defendingUnit.retreatHexes, ignorableFlags, retreatPaths);
         const totalDamage = flagResult.damage +
             defendingUnit.takeDamage(diceResults, false, this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
 

@@ -63,7 +63,7 @@ function assertHandleFlags(flags, ignorableFlags, retreatHexesPerFlag, retreatPa
         default:
             throw new Error("unsupported retreatPathLength: " + retreatPathLength);
     }
-    const actualResult = handleFlags(Array(flags).fill(RESULT_FLAG), retreatHexesPerFlag, ignorableFlags, retreatPaths);
+    const actualResult = handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths);
 
     test(title, () => {
         assertDeepEquals(expectedResult, actualResult, message);

@@ -62,8 +62,7 @@ export class FlagResult {
     }
 }
 
-export function handleFlags(diceResults, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
-    let flags = diceResults.filter(result => result === RESULT_FLAG).length;
+export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
     if (flags === 0) {
         return FlagResult.NO_EFFECT;
     }
