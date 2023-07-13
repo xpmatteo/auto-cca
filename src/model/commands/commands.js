@@ -72,17 +72,13 @@ export function handleFlags(diceResults, retreatHexesPerFlag, ignorableFlags, re
         // damage and possibly retreat; no choice except retreat as much as possible
         let damage = requiredRetreatPathLength - retreatPaths.maxDistance;
         let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
+        console.log("handleFlags: case (1)");
         return new FlagResult(damage, retreatHexes);
-    }
-    let fullRetreatPathLength = flags * retreatHexesPerFlag;
-    if (fullRetreatPathLength >= retreatPaths.maxDistance) {
-        // must ignore the flag or else there is damage
-        let damage = requiredRetreatPathLength - retreatPaths.maxDistance;
-        return new FlagResult(damage, []);
     }
     // no damage -- just retreat
     if (ignorableFlags === 0) {
         let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
+        console.log("handleFlags: case (3)");
         return new FlagResult(0, retreatHexes);
     }
     let retreatHexes;
@@ -91,5 +87,6 @@ export function handleFlags(diceResults, retreatHexesPerFlag, ignorableFlags, re
     } else {
         retreatHexes = retreatPaths[requiredRetreatPathLength].concat(retreatPaths[retreatPaths.maxDistance]);
     }
+    console.log("handleFlags: case (4)");
     return new FlagResult(0, retreatHexes);
 }
