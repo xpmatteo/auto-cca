@@ -90,7 +90,15 @@ export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatP
     if (retreatPaths.maxDistance === 0) {
         retreatHexes = [];
     } else {
-        retreatHexes = retreatPaths[retreatMin].concat(retreatPaths[retreatPaths.maxDistance]);
+        const retreatPathMin = retreatPaths[retreatMin];
+        if (!retreatPathMin) {
+            /*
+            ncaught (in promise) Error: retreatPathMin is undefined: flags 1, retreatHexesPerFlag 2, ignorableFlags 1, retreatPaths {"1":[{"distances":{},"q":0,"r":7}],"2":[{"distances":{},"q":-1,"r":8},{"distances":{},"q":0,"r":8}],"maxDistance":2}
+             */
+            const retreatPathsString = JSON.stringify(retreatPaths);
+            throw new Error(`retreatPathMin is undefined: flags ${flags}, retreatHexesPerFlag ${retreatHexesPerFlag}, ignorableFlags ${ignorableFlags}, retreatPaths ${retreatPathsString}`);
+        }
+        retreatHexes = retreatPathMin.concat(retreatPaths[retreatPaths.maxDistance]);
     }
     console.log("handleFlags: case (4)");
     return new FlagResult(0, retreatHexes);

@@ -16,7 +16,7 @@ export default function makeGame(scenario, dice = new Dice()) {
 // const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
 // const PHASES = [new MovementPhase(), new BattlePhase()];
 const DEFAULT_PHASES = [new PlayCardPhase()];
-const DEFAULT_HAND = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard(), new MoveFireMoveCard()];
+const DEFAULT_HAND = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
 
 class Game {
     board = new Board();
