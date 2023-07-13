@@ -56,4 +56,8 @@ export class AbstractCombatCommand {
         throw new Error("Abstract method");
     }
 
+    decideDiceCount(attackingUnit, game) {
+        throw new Error("Abstract method");
+    }
+
 }

@@ -1,5 +1,13 @@
 import { hexOf } from "../lib/hexlib.js";
-import { assertEquals, assertFalse, assertTrue, assertDeepEquals, assertEqualsInAnyOrder, test } from "../lib/test_lib.js";
+import {
+    assertEquals,
+    assertFalse,
+    assertTrue,
+    assertDeepEquals,
+    assertEqualsInAnyOrder,
+    test,
+    xtest
+} from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as units from "./units.js";
 import { NullScenario } from "./scenarios.js";
@@ -114,13 +122,31 @@ test("close combat with non-ignorable flag and blocked path", () => {
         "DamageEvent",
     ];
     assertDeepEquals(expectedEvents, eventNames(actualEvents));
+    assertEquals(1, game.unitStrength(defendingUnit)); // two damage from flags, one from HEAVY result
 });
 
-// retreat more than one hex
+xtest("close combat with ignorable flag and blocked map NORTH", () => {
+    const diceResults = [dice.RESULT_FLAG, dice.RESULT_FLAG, dice.RESULT_HEAVY, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
+    const battleBackDiceResults = Array(5).fill(dice.RESULT_LIGHT); // no damage from battle back
+    const game = makeGame(new NullScenario(), diceReturning(diceResults, battleBackDiceResults));
+    const defendingUnit = new units.CarthaginianHeavyInfantry();
+    game.placeUnit(hexOf(3, 0), new units.CarthaginianLightInfantry());
+    game.placeUnit(hexOf(4, 0), defendingUnit);
+    game.placeUnit(hexOf(5, 0), new units.CarthaginianLightInfantry());
+    const attackingUnit = new units.RomanHeavyInfantry();
+    game.placeUnit(hexOf(4, 1), attackingUnit);
 
-// battle back with retreat result!!!
+    let actualEvents = game.executeCommand(new CloseCombatCommand(hexOf(4, 0), hexOf(4, 1)));
 
-// flag result and can retreat only partially
+    const expectedEvents = [
+        "DamageEvent",
+        "BattleBackEvent",
+        "DamageEvent",
+    ];
+    assertDeepEquals(expectedEvents, eventNames(actualEvents));
+    assertEquals(2, game.unitStrength(defendingUnit));  // one damage from flag, one from HEAVY result
+    assertEquals(4, game.unitStrength(attackingUnit));  // no damage from battle back
+});
 
-// unit supported, flag can be ignored
+
 

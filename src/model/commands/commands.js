@@ -67,12 +67,29 @@ export function handleFlags(diceResults, retreatHexesPerFlag, ignorableFlags, re
     if (flags === 0) {
         return FlagResult.NO_EFFECT;
     }
-    let requiredRetreatPathLength = flags * retreatHexesPerFlag;
-    let damage = requiredRetreatPathLength - retreatPaths.maxDistance;
-    let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
-    if (ignorableFlags === 1) {
-        let ignorableRetreatPathLength = (flags - 1) * retreatHexesPerFlag;
-        retreatHexes = retreatPaths[ignorableRetreatPathLength].concat(retreatPaths[retreatPaths.maxDistance]);
+    let requiredRetreatPathLength = (flags - ignorableFlags) * retreatHexesPerFlag;
+    if (requiredRetreatPathLength >= retreatPaths.maxDistance) {
+        // damage and possibly retreat; no choice except retreat as much as possible
+        let damage = requiredRetreatPathLength - retreatPaths.maxDistance;
+        let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
+        return new FlagResult(damage, retreatHexes);
     }
-    return new FlagResult(damage, retreatHexes);
+    let fullRetreatPathLength = flags * retreatHexesPerFlag;
+    if (fullRetreatPathLength >= retreatPaths.maxDistance) {
+        // must ignore the flag or else there is damage
+        let damage = requiredRetreatPathLength - retreatPaths.maxDistance;
+        return new FlagResult(damage, []);
+    }
+    // no damage -- just retreat
+    if (ignorableFlags === 0) {
+        let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
+        return new FlagResult(0, retreatHexes);
+    }
+    let retreatHexes;
+    if (retreatPaths.maxDistance === 0) {
+        retreatHexes = [];
+    } else {
+        retreatHexes = retreatPaths[requiredRetreatPathLength].concat(retreatPaths[retreatPaths.maxDistance]);
+    }
+    return new FlagResult(0, retreatHexes);
 }

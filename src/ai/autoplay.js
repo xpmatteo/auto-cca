@@ -1,6 +1,6 @@
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
-import AIPlayer, { performanceObserver, treeObserver, treeObserver1, winLossObserver } from "./ai_player.js";
+import { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
 import GreedyAIPlayer from "./greedy_ai_player.js";
 
