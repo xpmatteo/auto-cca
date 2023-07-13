@@ -65,33 +65,33 @@ function assertHandleFlags(flags, ignorableFlags, retreatHexesPerFlag, retreatPa
     }
     const actualResult = handleFlags(Array(flags).fill(RESULT_FLAG), retreatHexesPerFlag, ignorableFlags, retreatPaths);
 
-    assertDeepEquals(expectedResult, actualResult, message);
+    test(title, () => {
+        assertDeepEquals(expectedResult, actualResult, message);
+    });
 }
 
-test('handleFlags when not ignorable and retreat is clear', () => {
+let title = 'handleFlags when not ignorable and retreat is clear';
     assertHandleFlags(0, 0, 2, 0, FlagResult.NO_EFFECT, "no flags");
-    assertHandleFlags(1, 0, 1, 1, FlagResult.retreat([hexOf(1,1)]), "retreat 1 flag 1 hex");
-    assertHandleFlags(1, 0, 2, 2, FlagResult.retreat([hexOf(2,2)]), "retreat 1 flag 2 hexes");
-    assertHandleFlags(2, 0, 2, 4, FlagResult.retreat([hexOf(4,4)]), "retreat 2 flag 2 hexes");
-});
+    assertHandleFlags(1, 0, 1, 1, FlagResult.retreat([hexOf(1,1)]));
+    assertHandleFlags(1, 0, 2, 2, FlagResult.retreat([hexOf(2,2)]));
+    assertHandleFlags(2, 0, 2, 4, FlagResult.retreat([hexOf(4,4)]));
 
-test('handleFlags when not ignorable and retreat is blocked', () => {
-    assertHandleFlags(0, 0, 0, 0, FlagResult.NO_EFFECT, "no flags");
-    assertHandleFlags(1, 0, 1, 0, FlagResult.damage(1), "retreat 1 flag x 1 blocked");
-    assertHandleFlags(1, 0, 2, 0, FlagResult.damage(2), "retreat 1 flag x 2 blocked");
-    assertHandleFlags(1, 0, 2, 1, new FlagResult(1, [hexOf(1,1)]), "retreat 1 flag x 2 partially blocked");
-    assertHandleFlags(2, 0, 2, 2, new FlagResult(2, [hexOf(2,2)]), "retreat 1 flag x 2 partially blocked");
-    assertHandleFlags(2, 0, 2, 3, new FlagResult(1, [hexOf(3,3)]), "retreat 1 flag x 2 partially blocked");
-});
 
-test('handleFlags when ignorable and no damage', () => {
+title = 'handleFlags when not ignorable and retreat is blocked';
+    assertHandleFlags(0, 0, 0, 0, FlagResult.NO_EFFECT);
+    assertHandleFlags(1, 0, 1, 0, FlagResult.damage(1));
+    assertHandleFlags(1, 0, 2, 0, FlagResult.damage(2));
+    assertHandleFlags(1, 0, 2, 1, new FlagResult(1, [hexOf(1,1)]));
+    assertHandleFlags(2, 0, 2, 2, new FlagResult(2, [hexOf(2,2)]));
+    assertHandleFlags(2, 0, 2, 3, new FlagResult(1, [hexOf(3,3)]));
+
+title = 'handleFlags when ignorable and no damage';
     assertHandleFlags(1, 1, 1, 1, FlagResult.retreat([hexOf(0,0), hexOf(1,1)]));
     assertHandleFlags(1, 1, 2, 2, FlagResult.retreat([hexOf(0,0), hexOf(2,2)]));
     assertHandleFlags(2, 1, 1, 2, FlagResult.retreat([hexOf(1,1), hexOf(2,2)]));
     assertHandleFlags(2, 1, 2, 4, FlagResult.retreat([hexOf(2,2), hexOf(4,4)]));
-});
 
-test('handleFlags when ignorable and there is or would be damage, so the flag MUST be ignored', () => {
+title = 'handleFlags when ignorable and there is or would be damage, so the flag MUST be ignored';
     // flags, ignorableFlags, retreatHexesPerFlag, retreatPathLength
     assertHandleFlags(1, 1, 1, 0, new FlagResult(0, []));
     assertHandleFlags(1, 1, 2, 1, new FlagResult(0, []));
@@ -100,5 +100,4 @@ test('handleFlags when ignorable and there is or would be damage, so the flag MU
     assertHandleFlags(3, 1, 1, 2, new FlagResult(1, [hexOf(2,2)]));
     assertHandleFlags(2, 1, 2, 3, new FlagResult(1, [hexOf(3,3)]));
     assertHandleFlags(2, 1, 2, 2, new FlagResult(2, [hexOf(2,2)]));
-});
 
