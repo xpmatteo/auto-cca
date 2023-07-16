@@ -67,23 +67,13 @@ function handleFlagsNonIgnorable(flags, retreatHexesPerFlag, retreatPaths) {
         let paths = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
         return new FlagResult(damage, paths)
     }
-    return new FlagResult(0, retreatPaths[requiredRetreat]);
+
+    const retreatPath = requiredRetreat === 0 ? [] : retreatPaths[requiredRetreat];
+    return new FlagResult(0, retreatPath);
 }
 
 function handleFlagsWithOneIgnorable(flags, retreatHexesPerFlag, retreatPaths) {
-    const requiredRetreat = flags * retreatHexesPerFlag;
-    const shorterRetreat = (flags - 1) * retreatHexesPerFlag;
-    if (retreatPaths.maxDistance === 0) {
-        let damage = shorterRetreat - retreatPaths.maxDistance;
-        let paths = shorterRetreat === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
-        return new FlagResult(damage, paths)
-    }
-    if (retreatPaths.maxDistance === 1) {
-        let damage = Math.max(0, shorterRetreat - retreatPaths.maxDistance);
-        let paths = shorterRetreat === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
-        return new FlagResult(damage, paths)
-    }
-    console.log("whould not be here");
+    return handleFlagsNonIgnorable(flags - 1, retreatHexesPerFlag, retreatPaths);
 }
 
 export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
