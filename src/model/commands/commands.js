@@ -60,11 +60,7 @@ export class FlagResult {
     }
 }
 
-export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
-    if (flags === 0) {
-        return FlagResult.NO_EFFECT;
-    }
-
+function handleFlagsNonIgnorable(flags, retreatHexesPerFlag, retreatPaths) {
     const requiredRetreat = flags * retreatHexesPerFlag;
     if (retreatPaths.maxDistance < requiredRetreat) {
         let damage = requiredRetreat - retreatPaths.maxDistance;
@@ -72,4 +68,14 @@ export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatP
         return new FlagResult(damage, paths)
     }
     return new FlagResult(0, retreatPaths[requiredRetreat]);
+}
+
+export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
+    if (flags === 0) {
+        return FlagResult.NO_EFFECT;
+    }
+
+    if (ignorableFlags === 0) {
+        return handleFlagsNonIgnorable(flags, retreatHexesPerFlag, retreatPaths);
+    }
 }
