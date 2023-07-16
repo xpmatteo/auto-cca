@@ -61,4 +61,8 @@ export class FlagResult {
 }
 
 export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
+    if (flags === 0) {
+        return FlagResult.NO_EFFECT;
+    }
+    return new FlagResult(0, retreatPaths[retreatHexesPerFlag*flags]);
 }
