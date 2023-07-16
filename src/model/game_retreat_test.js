@@ -12,6 +12,7 @@ test("retreat with clear ground NORTH 1 ", () => {
 
     const expected = {
         maxDistance: 1,
+        0: [hexOf(4, 4)],
         1: [hexOf(4,3), hexOf(5,3)],
     };
     assertDeepEqualsObject(expected, actual);
@@ -22,6 +23,7 @@ test("retreat with clear ground SOUTH 1 ", () => {
 
     const expected = {
         maxDistance: 1,
+        0: [hexOf(4, 4)],
         1: [hexOf(3,5), hexOf(4,5)],
     };
     assertDeepEqualsObject(expected, actual);
@@ -32,6 +34,7 @@ test("retreat with clear ground NORTH 2 ", () => {
 
     const expected = {
         maxDistance: 2,
+        0: [hexOf(4, 4)],
         1: [hexOf(4,3), hexOf(5,3)],
         2: [hexOf(4,2), hexOf(5,2), hexOf(6,2)],
     };
@@ -43,6 +46,7 @@ test("retreat with clear ground NORTH 3 ", () => {
 
     const expected = {
         maxDistance: 3,
+        0: [hexOf(4, 4)],
         1: [hexOf(4,3), hexOf(5,3)],
         2: [hexOf(4,2), hexOf(5,2), hexOf(6,2)],
         3: [hexOf(4,1), hexOf(5,1), hexOf(6,1), hexOf(7,1)],
@@ -55,6 +59,7 @@ test("retreat north impossible at board edge", () => {
 
     const expected = {
         maxDistance: 1,
+        0: [hexOf(7, 1)],
         1: [hexOf(7,0), hexOf(8,0)],
         2: [],
         3: [],
@@ -67,6 +72,7 @@ test("no retreat", () => {
 
     const expected = {
         maxDistance: 0,
+        0: [hexOf(7, 0)],
         1: [],
         2: [],
     };
@@ -81,6 +87,7 @@ test("retreat partially blocked by units", () => {
 
     const expected = {
         maxDistance: 3,
+        0: [hexOf(4, 4)],
         1: [hexOf(5,3)],
         2: [hexOf(5,2), hexOf(6,2)],
         3: [hexOf(5,1), hexOf(6,1), hexOf(7,1)],

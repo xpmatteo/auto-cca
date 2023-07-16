@@ -45,6 +45,10 @@ export class Board {
         if (!this.#units.has(from)) {
             throw new Error(`No unit at ${from}`);
         }
+        if (to === from) {
+            // retreat to same hex
+            return;
+        }
         if (this.#units.has(to)) {
             throw new Error(`Unit already exists at ${to}`);
         }

@@ -78,6 +78,9 @@ function handleFlagsWithOneIgnorable(flags, retreatHexesPerFlag, retreatPaths) {
     if (requiredRetreat === retreatPaths.maxDistance) {
         const notIgnoring = retreatPaths[requiredRetreat];
         const ignoring = retreatPaths[retreatWithIgnoredFlag];
+        if (!ignoring) {
+            throw new Error(`does not work: flags: ${flags}, retreatHexesPerFlag ${retreatHexesPerFlag}, ${JSON.stringify(retreatPaths)}`)
+        }
         return new FlagResult(0, ignoring.concat(notIgnoring));
     }
     return handleFlagsNonIgnorable(flags - 1, retreatHexesPerFlag, retreatPaths);
