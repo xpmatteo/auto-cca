@@ -77,9 +77,8 @@ title = 'handleFlags when ignorable and no damage';
     assertHandleFlags(1, 1, 1, 1, FlagResult.retreat([hexOf(0, 0), hexOf(1, 1)]));
     assertHandleFlags(2, 1, 1, 2, FlagResult.retreat([hexOf(1, 1), hexOf(2, 2)]));
     assertHandleFlags(3, 1, 1, 3, FlagResult.retreat([hexOf(2, 2), hexOf(3, 3)]));
-    // assertHandleFlags(1, 2, 1, 2, FlagResult.retreat([hexOf(0, 0), hexOf(2, 2)]));
-    // assertHandleFlags(2, 1, 1, 2, FlagResult.retreat([hexOf(1, 1), hexOf(2, 2)]));
-    // assertHandleFlags(2, 2, 1, 4, FlagResult.retreat([hexOf(2, 2), hexOf(4, 4)]));
+    assertHandleFlags(1, 2, 1, 2, FlagResult.retreat([hexOf(0, 0), hexOf(2, 2)]));
+    assertHandleFlags(2, 2, 1, 4, FlagResult.retreat([hexOf(2, 2), hexOf(4, 4)]));
 
 title = 'handleFlags when ignorable and there is or would be damage, so the flag MUST be ignored';
     // flags, retreatHexesPerFlag, ignorableFlags, retreatPaths
