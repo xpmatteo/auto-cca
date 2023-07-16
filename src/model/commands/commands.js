@@ -61,45 +61,4 @@ export class FlagResult {
 }
 
 export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
-    if (flags === 0) {
-        return FlagResult.NO_EFFECT;
-    }
-    let retreatMin = (flags - ignorableFlags) * retreatHexesPerFlag;
-    let retreatMax = flags * retreatHexesPerFlag;
-    console.log(`handleFlags: retreatMin: ${retreatMin}, retreatMax: ${retreatMax}, retreatAvailable: ${(retreatPaths.maxDistance)}`);
-
-    if (retreatMin >= retreatPaths.maxDistance) {
-        // damage and possibly retreat; no choice except retreat as much as possible
-        let damage = retreatMax - retreatPaths.maxDistance;
-        let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
-        console.log("handleFlags: case (1)");
-        return new FlagResult(damage, retreatHexes);
-    }
-    if (retreatMax > retreatPaths.maxDistance) {
-        console.log("handleFlags: case (2)");
-        return new FlagResult(0, []);
-    }
-
-    // no damage -- just retreat
-    if (ignorableFlags === 0) {
-        let retreatHexes = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
-        console.log("handleFlags: case (3)");
-        return new FlagResult(0, retreatHexes);
-    }
-    let retreatHexes;
-    if (retreatPaths.maxDistance === 0) {
-        retreatHexes = [];
-    } else {
-        const retreatPathMin = retreatPaths[retreatMin];
-        if (!retreatPathMin) {
-            /*
-            ncaught (in promise) Error: retreatPathMin is undefined: flags 1, retreatHexesPerFlag 2, ignorableFlags 1, retreatPaths {"1":[{"distances":{},"q":0,"r":7}],"2":[{"distances":{},"q":-1,"r":8},{"distances":{},"q":0,"r":8}],"maxDistance":2}
-             */
-            const retreatPathsString = JSON.stringify(retreatPaths);
-            throw new Error(`retreatPathMin is undefined: flags ${flags}, retreatHexesPerFlag ${retreatHexesPerFlag}, ignorableFlags ${ignorableFlags}, retreatPaths ${retreatPathsString}`);
-        }
-        retreatHexes = retreatPathMin.concat(retreatPaths[retreatPaths.maxDistance]);
-    }
-    console.log("handleFlags: case (4)");
-    return new FlagResult(0, retreatHexes);
 }
