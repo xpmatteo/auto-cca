@@ -62,17 +62,24 @@ export class FlagResult {
 
 function handleFlagsNonIgnorable(flags, retreatHexesPerFlag, retreatPaths) {
     const requiredRetreat = flags * retreatHexesPerFlag;
+    let damage = Math.max(0, requiredRetreat - retreatPaths.maxDistance);
     if (retreatPaths.maxDistance < requiredRetreat) {
-        let damage = requiredRetreat - retreatPaths.maxDistance;
         let paths = retreatPaths.maxDistance === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
         return new FlagResult(damage, paths)
     }
 
     const retreatPath = requiredRetreat === 0 ? [] : retreatPaths[requiredRetreat];
-    return new FlagResult(0, retreatPath);
+    return new FlagResult(damage, retreatPath);
 }
 
 function handleFlagsWithOneIgnorable(flags, retreatHexesPerFlag, retreatPaths) {
+    const requiredRetreat = flags * retreatHexesPerFlag;
+    const retreatWithIgnoredFlag = (flags - 1) * retreatHexesPerFlag;
+    if (flags === retreatPaths.maxDistance && retreatHexesPerFlag === 1) {
+        const notIgnoring = retreatPaths[requiredRetreat];
+        const ignoring = retreatPaths[retreatWithIgnoredFlag];
+        return new FlagResult(0, ignoring.concat(notIgnoring));
+    }
     return handleFlagsNonIgnorable(flags - 1, retreatHexesPerFlag, retreatPaths);
 }
 
