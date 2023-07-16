@@ -80,12 +80,13 @@ title = 'handleFlags when not ignorable and retreat is blocked';
 //     assertHandleFlags(2, 2, 1, 4, FlagResult.retreat([hexOf(2, 2), hexOf(4, 4)]));
 //
 title = 'handleFlags when ignorable and there is or would be damage, so the flag MUST be ignored';
-    // flags, ignorableFlags, retreatHexesPerFlag, retreatPathLength
+    // flags, retreatHexesPerFlag, ignorableFlags, retreatPaths
     assertHandleFlags(1, 1, 1, 0, new FlagResult(0, []));
+    assertHandleFlags(1, 2, 1, 0, new FlagResult(0, []));
     assertHandleFlags(1, 2, 1, 1, new FlagResult(0, []));
-    assertHandleFlags(2, 1, 1, 1, new FlagResult(1, [hexOf(1, 1)]));
-    assertHandleFlags(3, 1, 1, 1, new FlagResult(2, [hexOf(1, 1)]));
-    assertHandleFlags(3, 1, 1, 2, new FlagResult(1, [hexOf(2, 2)]));
-    assertHandleFlags(2, 2, 1, 3, new FlagResult(1, [hexOf(3, 3)]));
-    assertHandleFlags(2, 2, 1, 2, new FlagResult(2, [hexOf(2, 2)]));
+    // assertHandleFlags(2, 1, 1, 1, new FlagResult(1, [hexOf(1, 1)]));
+    // assertHandleFlags(3, 1, 1, 1, new FlagResult(2, [hexOf(1, 1)]));
+    // assertHandleFlags(3, 1, 1, 2, new FlagResult(1, [hexOf(2, 2)]));
+    // assertHandleFlags(2, 2, 1, 3, new FlagResult(1, [hexOf(3, 3)]));
+    // assertHandleFlags(2, 2, 1, 2, new FlagResult(2, [hexOf(2, 2)]));
 

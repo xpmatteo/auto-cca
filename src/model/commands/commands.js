@@ -70,12 +70,33 @@ function handleFlagsNonIgnorable(flags, retreatHexesPerFlag, retreatPaths) {
     return new FlagResult(0, retreatPaths[requiredRetreat]);
 }
 
+function handleFlagsWithOneIgnorable(flags, retreatHexesPerFlag, retreatPaths) {
+    const requiredRetreat = flags * retreatHexesPerFlag;
+    const shorterRetreat = (flags - 1) * retreatHexesPerFlag;
+    if (retreatPaths.maxDistance === 0) {
+        let damage = shorterRetreat - retreatPaths.maxDistance;
+        let paths = shorterRetreat === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
+        return new FlagResult(damage, paths)
+    }
+    if (retreatPaths.maxDistance === 1) {
+        let damage = Math.max(0, shorterRetreat - retreatPaths.maxDistance);
+        let paths = shorterRetreat === 0 ? [] : retreatPaths[retreatPaths.maxDistance];
+        return new FlagResult(damage, paths)
+    }
+    console.log("whould not be here");
+}
+
 export function handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths) {
     if (flags === 0) {
         return FlagResult.NO_EFFECT;
     }
 
-    if (ignorableFlags === 0) {
-        return handleFlagsNonIgnorable(flags, retreatHexesPerFlag, retreatPaths);
+    switch (ignorableFlags) {
+        case 0:
+            return handleFlagsNonIgnorable(flags, retreatHexesPerFlag, retreatPaths);
+        case 1:
+            return handleFlagsWithOneIgnorable(flags, retreatHexesPerFlag, retreatPaths);
+        default:
+            throw new Error("unsupported ignorableFlags: " + ignorableFlags);
     }
 }
