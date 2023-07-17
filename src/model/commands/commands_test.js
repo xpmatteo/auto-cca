@@ -82,6 +82,7 @@ title = 'handleFlags when ignorable and no damage';
 
 title = 'handleFlags when ignorable and there is or would be damage, so the flag MUST be ignored';
     // flags, retreatHexesPerFlag, ignorableFlags, retreatPaths
+assertHandleFlags(0, 1, 1, 1, new FlagResult(0, []));
 assertHandleFlags(1, 1, 1, 0, new FlagResult(0, []));
 assertHandleFlags(2, 1, 1, 1, new FlagResult(0, [hexOf(1, 1)]));
 assertHandleFlags(3, 1, 1, 2, new FlagResult(0, [hexOf(2, 2)]));
