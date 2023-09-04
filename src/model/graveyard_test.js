@@ -1,6 +1,5 @@
 "use strict";
 
-import { assertDeepEquals } from "../lib/test_lib.js";
 import { Graveyard } from "./graveyard.js";
 import { Side } from "./side.js";
 import * as units from "./units.js";
@@ -13,7 +12,7 @@ test("add unit to graveyard", function () {
     graveyard.bury(romanUnit);
     graveyard.bury(nonRomanUnit);
 
-    assertDeepEquals([romanUnit], graveyard.unitsOf(Side.ROMAN));
+    expect(graveyard.unitsOf(Side.ROMAN)).toEqual([romanUnit]);
 });
 
 test('clone', () => {
@@ -23,5 +22,5 @@ test('clone', () => {
 
     const graveyardClone = graveyard.clone();
 
-    assertDeepEquals(graveyard.unitsOf(Side.ROMAN), graveyardClone.unitsOf(Side.ROMAN));
+    expect(graveyardClone.unitsOf(Side.ROMAN)).toEqual(graveyard.unitsOf(Side.ROMAN));
 });

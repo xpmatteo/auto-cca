@@ -1,4 +1,3 @@
-import { assertAlmostEquals, assertDeepEquals, assertEquals } from "../../lib/test_lib.js";
 import makeGame, { MovementTrail } from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
@@ -12,10 +11,10 @@ test("MoveCommand play", () => {
 
     game.executeCommand(new MoveCommand(hexOf(1, 4), hexOf(1, 5)));
 
-    assertEquals(undefined, game.unitAt(hexOf(1, 5)));
-    assertEquals(unit, game.unitAt(hexOf(1, 4)));
-    assertDeepEquals([unit], game.spentUnits);
-    assertDeepEquals([new MovementTrail(hexOf(1, 4), hexOf(1, 5))], game.movementTrails);
+    expect(game.unitAt(hexOf(1, 5))).toEqual(undefined);
+    expect(game.unitAt(hexOf(1, 4))).toEqual(unit);
+    expect(game.spentUnits).toEqual([unit]);
+    expect(game.movementTrails).toEqual([new MovementTrail(hexOf(1, 4), hexOf(1, 5))]);
 });
 
 
@@ -25,10 +24,10 @@ test("value of MoveCommand at various distances", () => {
     game.placeUnit(hexOf(0, 2), new RomanHeavyInfantry());
 
     // distance 1
-    assertAlmostEquals(0.2 * 250 - 0.04 * 250, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));
+    expect(new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game)).toBeCloseTo(0.2 * 250 - 0.04 * 250, 0.0000001);
 
     // distance 3: moving away from enemy gives negative score
-    assertAlmostEquals(0.2 * 0.2 * 0.2 * 250 - 0.04 * 250, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
+    expect(new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game)).toBeCloseTo(0.2 * 0.2 * 0.2 * 250 - 0.04 * 250, 0.0000001);
 });
 
 test("value of MoveCommand with weaker target", () => {
@@ -39,10 +38,10 @@ test("value of MoveCommand with weaker target", () => {
     game.takeDamage(unit, 3);
 
     // distance 1
-    assertAlmostEquals(0.2 * 1000 - 0.04 * 1000, new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game));
+    expect(new MoveCommand(hexOf(0, 1), hexOf(0, 2)).value(game)).toBeCloseTo(0.2 * 1000 - 0.04 * 1000, 0.0000001);
 
     // distance 3: moving away from enemy gives negative score
-    assertAlmostEquals(0.2 * 0.2 * 0.2 * 1000 - 0.04 * 1000, new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game));
+    expect(new MoveCommand(hexOf(0, 3), hexOf(0, 2)).value(game)).toBeCloseTo(0.2 * 0.2 * 0.2 * 1000 - 0.04 * 1000, 0.0000001);
 });
 
 test("value of move command, 3 same-distance enemies of different strengths", () => {
@@ -56,11 +55,11 @@ test("value of move command, 3 same-distance enemies of different strengths", ()
 
     const command = new MoveCommand(toHex, fromHex);
 
-    assertAlmostEquals(0.2 * 1000 - 0.04 * 1000, command.value(game));
+    expect(command.value(game)).toBeCloseTo(0.2 * 1000 - 0.04 * 1000, 0.0000001);
 
     function placeEnemyUnit(hex, desiredStrength) {
-        assertEquals(2, hex.distance(fromHex), `distance fromHex of unit at ${hex}`);
-        assertEquals(1, hex.distance(toHex), `distance fromHex of unit at ${hex}`);
+        expect(hex.distance(fromHex)).toEqual(2);
+        expect(hex.distance(toHex)).toEqual(1);
         const enemyUnit = new RomanHeavyInfantry();
         game.placeUnit(hex, enemyUnit);
         game.takeDamage(enemyUnit, 4 - desiredStrength);

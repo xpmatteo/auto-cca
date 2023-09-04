@@ -1,4 +1,3 @@
-import { assertDeepEquals } from "../../lib/test_lib.js";
 import { FlagResult, handleFlags } from "./commands.js";
 import { hexOf } from "../../lib/hexlib.js";
 
@@ -54,7 +53,7 @@ function assertHandleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPa
     const actualResult = handleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPaths);
 
     test(title, () => {
-        assertDeepEquals(expectedResult, actualResult, message);
+        expect(actualResult).toEqual(expectedResult);
     });
 }
 

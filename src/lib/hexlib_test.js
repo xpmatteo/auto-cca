@@ -1,15 +1,14 @@
-import { assertDeepEquals, assertEquals, assertEqualsInAnyOrder } from './test_lib.js';
 import { hex_to_pixel, hexOf, Layout, LAYOUT_POINTY, Point } from './hexlib.js';
 
 test('hex to string', function () {
     let hex = hexOf(1, 2);
-    assertEquals('[1,2]', hex.toString());
+    expect(hex.toString()).toEqual('[1,2]');
 });
 
 test('hex distance', function () {
-    assertEquals(0, hexOf(0, 0).distance(hexOf(0, 0)));
-    assertEquals(1, hexOf(0, 0).distance(hexOf(0, 1)));
-    assertEquals(5, hexOf(1, 0).distance(hexOf(4, 2)));
+    expect(hexOf(0, 0).distance(hexOf(0, 0))).toEqual(0);
+    expect(hexOf(0, 0).distance(hexOf(0, 1))).toEqual(1);
+    expect(hexOf(1, 0).distance(hexOf(4, 2))).toEqual(5);
 });
 
 test('hex neighbors', function () {
@@ -23,25 +22,26 @@ test('hex neighbors', function () {
         hexOf(7, 0),
         hexOf(7, 1),
     ]
-    assertEqualsInAnyOrder(expected, actual)
+    expect(actual.length).toEqual(expected.length);
+    expect(new Set(actual)).toEqual(new Set(expected));
 });
 
 test('hex static constructor', function () {
     let a = hexOf(1, 2);
     let b = hexOf(1, 2);
     let c = hexOf(2, 1);
-    assertEquals(1, a.q);
-    assertEquals(a, b, "should be the same hex");
+    expect(a.q).toEqual(1);
+    expect(b).toEqual(a);
     expect(a !== c).toBe(true);
 })
 
 test('layout', function () {
     const test_layout = new Layout(LAYOUT_POINTY, new Point(50, 60), new Point(10, 100));
-    assertDeepEquals(LAYOUT_POINTY, test_layout.orientation);
-    assertDeepEquals(hex_to_pixel(test_layout, hexOf(0, 0, 0)), new Point(10, 100));
+    expect(test_layout.orientation).toEqual(LAYOUT_POINTY);
+    expect(new Point(10, 100)).toEqual(hex_to_pixel(test_layout, hexOf(0, 0, 0)));
 });
 
 test('computed coordinate s', function () {
-    assertEquals(0, hexOf(1, -1, 0).s);
-    assertEquals(-30, hexOf(10, 20).s);
+    expect(hexOf(1, -1, 0).s).toEqual(0);
+    expect(hexOf(10, 20).s).toEqual(-30);
 });

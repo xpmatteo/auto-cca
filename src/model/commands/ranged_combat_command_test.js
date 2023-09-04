@@ -1,7 +1,6 @@
-import { assertDeepEquals, assertEquals, assertEqualsInAnyOrder } from "../../lib/test_lib.js";
 import makeGame, { MovementTrail } from "../game.js";
 import { NullScenario } from "../scenarios.js";
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry, RomanLightInfantry } from "../units.js";
+import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../units.js";
 import { hexOf } from "../../lib/hexlib.js";
 import { RangedCombatCommand } from "./ranged_combat_command.js";
 import { diceReturning, eventNames } from "../game_combat_test.js";
@@ -18,9 +17,10 @@ test("ranged combat play with 2 dice", () => {
 
     const events = game.executeCommand(new RangedCombatCommand(hexOf(1, 3), hexOf(1, 5)));
 
-    assertDeepEquals([attacker], game.spentUnits);
-    assertEquals(3, game.unitStrength(target));
-    assertEqualsInAnyOrder(["DamageEvent"], eventNames(events));
+    expect(game.spentUnits).toEqual([attacker]);
+    expect(game.unitStrength(target)).toEqual(3);
+    expect(eventNames(events).length).toEqual(["DamageEvent"].length);
+    expect(new Set(eventNames(events))).toEqual(new Set(["DamageEvent"]));
 });
 
 test("ranged combat with 1 die if unit has moved", () => {
@@ -33,7 +33,7 @@ test("ranged combat with 1 die if unit has moved", () => {
 
     game.executeCommand(new RangedCombatCommand(hexOf(1, 3), hexOf(1, 5)));
 
-    assertDeepEquals([attacker], game.spentUnits);
+    expect(game.spentUnits).toEqual([attacker]);
 });
 
 // ranged combat from unit that moved uses 1 die

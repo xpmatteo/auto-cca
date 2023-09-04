@@ -1,4 +1,3 @@
-import { assertEquals } from "../lib/test_lib.js";
 import AIPlayer, { __executeManyTimes } from "./ai_player.js";
 import makeGame from "../model/game.js";
 import { Side } from "../model/side.js";
@@ -56,7 +55,7 @@ test('pushChild deterministic', () => {
     let root = makeRootNode(game, Side.CARTHAGINIAN);
     ai.pushChild(game, new MoveCommand(hexOf(0, 2), hexOf(1, 2)), root);
 
-    assertEquals(1, root.children.length);
+    expect(root.children.length).toEqual(1);
     let child = root.children[0];
     expect(child.state.unitAt(hexOf(0, 2))).toBeDefined();
 });

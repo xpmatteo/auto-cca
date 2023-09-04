@@ -1,5 +1,4 @@
 import { hexOf } from "../lib/hexlib.js";
-import { assertEquals, assertFalse } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import GameStatus from "./game_status.js";
 import * as units from "./units.js";
@@ -32,8 +31,8 @@ const scenario = new SimpleScenario();
 test("game status", () => {
     const game = makeGame(scenario);
 
-    assertEquals(GameStatus.ONGOING, game.gameStatus);
-    assertFalse(game.isTerminal(), "game is not terminal?!?")
+    expect(game.gameStatus).toEqual(GameStatus.ONGOING);
+    expect(game.isTerminal()).toBe(false);
 });
 
 test("executeCommand - game over", () => {
@@ -42,29 +41,29 @@ test("executeCommand - game over", () => {
     game.executeCommand(new EndPhaseCommand());
     game.executeCommand(new MoveCommand(hexOf(0, 5), hexOf(1, 5)));
 
-    assertEquals(GameStatus.ROMAN_WIN, game.gameStatus);
+    expect(game.gameStatus).toEqual(GameStatus.ROMAN_WIN);
     expect(game.isTerminal()).toBe(true);
-    assertEquals(0, game.validCommands().length);
+    expect(game.validCommands().length).toEqual(0);
 });
 
 test("currentSide", () => {
     const cca = makeGame(scenario);
 
-    assertEquals(Side.CARTHAGINIAN, cca.currentSide);
+    expect(cca.currentSide).toEqual(Side.CARTHAGINIAN);
 });
 
 test("opposingSide", () => {
     const game = makeGame(scenario);
 
-    assertEquals(Side.CARTHAGINIAN, game.opposingSide(Side.ROMAN));
-    assertEquals(Side.ROMAN, game.opposingSide(Side.CARTHAGINIAN));
+    expect(game.opposingSide(Side.ROMAN)).toEqual(Side.CARTHAGINIAN);
+    expect(game.opposingSide(Side.CARTHAGINIAN)).toEqual(Side.ROMAN);
 });
 
 test("unit strength", () => {
     const game = makeGame(scenario);
 
-    assertEquals(4, game.unitStrength(game.unitAt(hexOf(1, 5))));
-    assertEquals(4, game.unitStrength(game.unitAt(hexOf(1, 5))));
+    expect(game.unitStrength(game.unitAt(hexOf(1, 5)))).toEqual(4);
+    expect(game.unitStrength(game.unitAt(hexOf(1, 5)))).toEqual(4);
 });
 
 test("unit takes damage", () => {
@@ -73,7 +72,7 @@ test("unit takes damage", () => {
 
     game.takeDamage(unit, 1);
 
-    assertEquals(3, game.unitStrength(unit));
+    expect(game.unitStrength(unit)).toEqual(3);
 });
 
 
@@ -86,24 +85,24 @@ test('clone game', () => {
     const clone = game.clone();
     const end = performance.now();
     console.log("Cloning took " + (end - start) + " milliseconds.");
-    assertEquals(gameBeforeClone, JSON.stringify(clone));
+    expect(JSON.stringify(clone)).toEqual(gameBeforeClone);
 
     const autoplayStart = performance.now();
     new Autoplay(clone).randomPlayout();
     const autoplayEnd = performance.now();
     console.log("Autoplay took " + (autoplayEnd - autoplayStart) + " milliseconds.");
 
-    assertEquals(gameBeforeClone, JSON.stringify(game));
+    expect(JSON.stringify(game)).toEqual(gameBeforeClone);
 });
 
 test('unit support', function () {
     const game = makeGame(new NullScenario());
 
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
-    assertFalse(game.isSupported(hexOf(1, 1)), "unit alone is not supported");
+    expect(game.isSupported(hexOf(1, 1))).toBe(false);
 
     game.placeUnit(hexOf(0, 2), new units.RomanHeavyInfantry());
-    assertFalse(game.isSupported(hexOf(1, 1)), "with just one adjacent unit, unit is not supported");
+    expect(game.isSupported(hexOf(1, 1))).toBe(false);
 
     game.placeUnit(hexOf(1, 2), new units.RomanHeavyInfantry());
     expect(game.isSupported(hexOf(1, 1))).toBe(true);
@@ -115,5 +114,5 @@ test('enemy units do not provide support', function () {
     game.placeUnit(hexOf(0, 2), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
 
-    assertFalse(game.isSupported(hexOf(1, 1)), "enemy units do not provide support");
+    expect(game.isSupported(hexOf(1, 1))).toBe(false);
 });

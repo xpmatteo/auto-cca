@@ -1,4 +1,3 @@
-import { assertDeepEquals, assertEquals, assertEqualsInAnyOrder } from "../../lib/test_lib.js";
 import Game from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { hexOf, Point } from "../../lib/hexlib.js";
@@ -31,7 +30,8 @@ test("order units", () => {
         new OrderUnitCommand(hexOf(1, 4)),
         new EndPhaseCommand(),
     ];
-    assertEqualsInAnyOrder(expected, moves);
+    expect(moves.length).toEqual(expected.length);
+    expect(new Set(moves)).toEqual(new Set(expected));
 });
 
 test("cannot order already ordered", () => {
@@ -45,7 +45,8 @@ test("cannot order already ordered", () => {
         new OrderUnitCommand(hexOf(1, 4)),
         new EndPhaseCommand(),
     ];
-    assertEqualsInAnyOrder(expected, moves);
+    expect(moves.length).toEqual(expected.length);
+    expect(new Set(moves)).toEqual(new Set(expected));
 });
 
 test("cannot order more than two units", () => {
@@ -58,13 +59,14 @@ test("cannot order more than two units", () => {
     let expected = [
         new EndPhaseCommand(),
     ];
-    assertEqualsInAnyOrder(expected, moves);
+    expect(moves.length).toEqual(expected.length);
+    expect(new Set(moves)).toEqual(new Set(expected));
 });
 
 test("highlighted hexes", () => {
     let game = makeGameWithFiveUnits();
 
-    assertDeepEquals(new Set([hexOf(1,2), hexOf(1,3), hexOf(1,4)]), phase.hilightedHexes(game));
+    expect(phase.hilightedHexes(game)).toEqual(new Set([hexOf(1, 2), hexOf(1, 3), hexOf(1, 4)]));
 });
 
 const pointWithinMap = new Point(0, 0);
@@ -74,7 +76,7 @@ test("click to order unit", () => {
 
     phase.onClick(hexOf(1, 2), game, pointWithinMap);
 
-    assertEquals(1, game.orderedUnits.length);
+    expect(game.orderedUnits.length).toEqual(1);
 });
 
 test("click to unorder unit", () => {
@@ -83,7 +85,7 @@ test("click to unorder unit", () => {
     phase.onClick(hexOf(1, 2), game, pointWithinMap);
     phase.onClick(hexOf(1, 2), game, pointWithinMap);
 
-    assertEquals(0, game.orderedUnits.length);
+    expect(game.orderedUnits.length).toEqual(0);
 });
 
 test("ignore click on unit that cannot be ordered", () => {
@@ -91,5 +93,5 @@ test("ignore click on unit that cannot be ordered", () => {
 
     phase.onClick(hexOf(0, 0), game, pointWithinMap);
 
-    assertEquals(0, game.orderedUnits.length);
+    expect(game.orderedUnits.length).toEqual(0);
 });

@@ -1,4 +1,3 @@
-import { assertEquals, fail } from '../lib/test_lib.js';
 import { hexOf } from '../lib/hexlib.js';
 import { Board } from './board.js';
 import { RomanHeavyInfantry } from './units.js';
@@ -17,21 +16,16 @@ test('add units', function () {
 
     let count = 0;
     game.foreachUnit((unit, hex) => { count++; });
-    assertEquals(2, count);
-    assertEquals(unit0, game.unitAt(hexOf(0, 0)));
-    assertEquals(unit1, game.unitAt(hexOf(0, 1)));
+    expect(count).toEqual(2);
+    expect(game.unitAt(hexOf(0, 0))).toEqual(unit0);
+    expect(game.unitAt(hexOf(0, 1))).toEqual(unit1);
 });
 
 test('add unit outside map', () => {
     let game = makeBoard();
     let unit = new RomanHeavyInfantry();
 
-    try {
-        game.placeUnit(hexOf(100, 0), unit);
-        fail("should have thrown exception");
-    } catch (err) {
-        assertEquals('Error: Hex [100,0] outside of map', err.toString());
-    }
+    expect(() => game.placeUnit(hexOf(100, 0), unit)).toThrow('Hex [100,0] outside of map');
 });
 
 test('stacking not allowed', () => {
@@ -40,12 +34,7 @@ test('stacking not allowed', () => {
     let unit1 = new RomanHeavyInfantry();
     game.placeUnit(hexOf(0, 0), unit0);
 
-    try {
-        game.placeUnit(hexOf(0, 0), unit1);
-        fail("should have thrown exception");
-    } catch (err) {
-        assertEquals('Error: Unit already exists at [0,0]', err.toString());
-    }
+    expect(() => game.placeUnit(hexOf(0, 0), unit1)).toThrow('Unit already exists at [0,0]');
 });
 
 test('adding same unit in two places?', () => {
@@ -53,12 +42,7 @@ test('adding same unit in two places?', () => {
     let unit = new RomanHeavyInfantry();
     game.placeUnit(hexOf(0, 0), unit);
 
-    try {
-        game.placeUnit(hexOf(0, 1), unit);
-        fail("should have thrown exception");
-    } catch (err) {
-        assertEquals('Error: Unit added twice', err.toString());
-    }
+    expect(() => game.placeUnit(hexOf(0, 1), unit)).toThrow('Unit added twice');
 });
 
 test('map size', function () {
@@ -69,7 +53,7 @@ test('map size', function () {
         count++;
     });
 
-    assertEquals(5 * 13 + 4 * 12, count);
+    expect(count).toEqual(5 * 13 + 4 * 12);
 });
 
 test('clone board', function () {
@@ -80,6 +64,6 @@ test('clone board', function () {
     let clone = original.clone();
     clone.moveUnit(hexOf(0, 1), hexOf(0, 0));
 
-    assertEquals(unit0, original.unitAt(hexOf(0, 0)));
-    assertEquals(unit0, clone.unitAt(hexOf(0, 1)));
+    expect(original.unitAt(hexOf(0, 0))).toEqual(unit0);
+    expect(clone.unitAt(hexOf(0, 1))).toEqual(unit0);
 });

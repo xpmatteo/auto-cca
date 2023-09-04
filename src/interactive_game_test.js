@@ -1,4 +1,3 @@
-import { assertDeepEquals, assertEquals } from './lib/test_lib.js';
 import { hexOf, Point } from './lib/hexlib.js';
 import makeGame from './model/game.js';
 import { NullScenario } from './model/scenarios.js';
@@ -23,12 +22,12 @@ test('click and select unit', function () {
     game.placeUnit(hexOf(1, 1), unit);
     game.orderUnit(hexOf(1, 1));
     game.placeUnit(hexOf(2, 1), otherUnit());
-    assertEquals(undefined, game.selectedUnit(), "no selected unit at start");
+    expect(game.selectedUnit()).toEqual(undefined);
 
     game.onClick(hexOf(1, 1));
 
-    assertEquals(unit, game.selectedUnit(), "selected unit");
-    assertDeepEquals(hexOf(1, 1), game.selectedHex());
+    expect(game.selectedUnit()).toEqual(unit);
+    expect(game.selectedHex()).toEqual(hexOf(1, 1));
 });
 
 test('cannot select a spent unit', function () {
@@ -40,12 +39,12 @@ test('cannot select a spent unit', function () {
     game.onClick(hexOf(1, 1));
     game.onClick(hexOf(1, 2));
 
-    assertEquals(unit, game.unitAt(hexOf(1, 2)), "unit has moved");
-    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+    expect(game.unitAt(hexOf(1, 2))).toEqual(unit);
+    expect(game.selectedUnit()).toEqual(undefined);
     expect(game.isSpent(unit)).toBe(true);
 
     game.onClick(hexOf(1, 2));
-    assertEquals(undefined, game.selectedUnit(), "should not be able to select a spent unit");
+    expect(game.selectedUnit()).toEqual(undefined);
 });
 
 test('click and deselect unit', function () {
@@ -56,7 +55,7 @@ test('click and deselect unit', function () {
     game.onClick(hexOf(0, 0));
     game.onClick(hexOf(0, 0));
 
-    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+    expect(game.selectedUnit()).toEqual(undefined);
 });
 
 test('click nowhere and deselect', () => {
@@ -66,10 +65,10 @@ test('click nowhere and deselect', () => {
     game.orderUnit(hexOf(0, 0));
 
     game.onClick(hexOf(0, 0));
-    assertEquals(unit, game.selectedUnit(), "unit should be selected");
+    expect(game.selectedUnit()).toEqual(unit);
 
     game.onClick(hexOf(100, 0));
-    assertEquals(undefined, game.selectedUnit(), "should not be selected");
+    expect(game.selectedUnit()).toEqual(undefined);
 });
 
 test('click outside map does not move off-board', () => {
@@ -79,11 +78,11 @@ test('click outside map does not move off-board', () => {
     game.orderUnit(hexOf(0, 0));
 
     game.onClick(hexOf(0, 0));
-    assertEquals(unit, game.selectedUnit(), "unit should be selected");
+    expect(game.selectedUnit()).toEqual(unit);
 
     game.onClick(hexOf(0, -1));
-    assertEquals(undefined, game.selectedUnit(), "should not be selected");
-    assertEquals(unit, game.unitAt(hexOf(0, 0)));
+    expect(game.selectedUnit()).toEqual(undefined);
+    expect(game.unitAt(hexOf(0, 0))).toEqual(unit);
 });
 
 /*
@@ -100,8 +99,8 @@ test('click and move one unit', () => {
     game.onClick(hexOf(1, 5));
 
     game.onClick(hexOf(2, 5));
-    assertEquals(undefined, game.selectedUnit(), "should not be selected");
-    assertEquals(unit, game.unitAt(hexOf(2, 5)));
+    expect(game.selectedUnit()).toEqual(undefined);
+    expect(game.unitAt(hexOf(2, 5))).toEqual(unit);
 });
 
 xtest('hilighted hexes when no unit is selected', () => {
@@ -110,7 +109,7 @@ xtest('hilighted hexes when no unit is selected', () => {
     fakeGame.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
     fakeGame.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());
 
-    assertDeepEquals(new Set([hexOf(0, 1), hexOf(0, 0)]), interactiveGame.hilightedHexes);
+    expect(interactiveGame.hilightedHexes).toEqual(new Set([hexOf(0, 1), hexOf(0, 0)]));
 });
 
 const pointWithinMap = new Point(0, 0);
@@ -121,5 +120,5 @@ xtest('hilighted hexes when a unit is selected', () => {
     fakeGame.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());
     interactiveGame.onClick(hexOf(0, 0), pointWithinMap);
 
-    assertDeepEquals(new Set([hexOf(1, 0), hexOf(0, 1)]), interactiveGame.hilightedHexes);
+    expect(interactiveGame.hilightedHexes).toEqual(new Set([hexOf(1, 0), hexOf(0, 1)]));
 });

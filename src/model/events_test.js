@@ -1,4 +1,3 @@
-import { assertDeepEquals } from "../lib/test_lib.js";
 import { BattleBackEvent, DamageEvent, MutualDamageEvent } from "./events.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "./units.js";
 import { hexOf } from "../lib/hexlib.js";
@@ -17,7 +16,7 @@ test('add damage event removes previous events', () => {
 
     newDamageEvent.addDecorations(decorationsList);
 
-    assertDeepEquals([newDamageEvent], decorationsList);
+    expect(decorationsList).toEqual([newDamageEvent]);
 });
 
 xtest('reciprocal damage from battle back', () => {
@@ -30,5 +29,5 @@ xtest('reciprocal damage from battle back', () => {
 
     battleBackDamageEvent.addDecorations(decorationsList);
 
-    assertDeepEquals([new MutualDamageEvent(attackingUnit, 3, defendingUnit, 2)], decorationsList);
+    expect(decorationsList).toEqual([new MutualDamageEvent(attackingUnit, 3, defendingUnit, 2)]);
 });

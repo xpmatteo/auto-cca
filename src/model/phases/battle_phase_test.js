@@ -1,4 +1,3 @@
-import * as t from '../../lib/test_lib.js';
 import makeGame from '../game.js';
 import { NullScenario } from '../scenarios.js';
 import { hexOf } from '../../lib/hexlib.js';
@@ -21,7 +20,8 @@ test('generate no close combat commands for out of range', function () {
     let expected = [
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, commands);
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 
@@ -38,7 +38,8 @@ test('generate close combat commands for one unit and one target', function () {
         new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, commands);
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 test('generate close combat commands for one unit and two targets', function () {
@@ -56,7 +57,8 @@ test('generate close combat commands for one unit and two targets', function () 
         new CloseCombatCommand(hexOf(1, 2), hexOf(1, 1)),
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, commands);
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 test('generate ranged combat commands for one unit and two targets', function () {
@@ -74,7 +76,8 @@ test('generate ranged combat commands for one unit and two targets', function ()
         new RangedCombatCommand(hexOf(1, 2), hexOf(0, 4)),
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, commands);
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 test('no ranged combat if enemy adjacent', function () {
@@ -91,7 +94,8 @@ test('no ranged combat if enemy adjacent', function () {
         new CloseCombatCommand(hexOf(1, 4), hexOf(0, 4)),
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, commands);
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 test("ranged combat not available to heavies", () => {
@@ -106,7 +110,8 @@ test("ranged combat not available to heavies", () => {
     let expected = [
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, commands);
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 

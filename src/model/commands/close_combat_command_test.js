@@ -1,4 +1,3 @@
-import { assertDeepEquals, assertEquals } from "../../lib/test_lib.js";
 import makeGame from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
@@ -15,7 +14,7 @@ test("CloseCombatCommand play", () => {
 
     game.executeCommand(new CloseCombatCommand(hexOf(1,4), hexOf(1, 5)));
 
-    assertDeepEquals([unit], game.spentUnits);
+    expect(game.spentUnits).toEqual([unit]);
 });
 
 
@@ -26,8 +25,8 @@ test("value of CloseCombatCommand", () => {
     game.placeUnit(hexOf(1, 5), attacker);
     game.placeUnit(hexOf(1, 4), defender);
     let command = new CloseCombatCommand(hexOf(1, 4), hexOf(1, 5));
-    assertEquals(Side.ROMAN, game.currentSide)
+    expect(game.currentSide).toEqual(Side.ROMAN);
 
     // value is 1000 / defender strength
-    assertEquals(250, command.value(game));
+    expect(command.value(game)).toEqual(250);
 });

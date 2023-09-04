@@ -24,7 +24,7 @@ function placeOrderedUnit(game, hex, unit) {
 
 t.test('generate moves for one unit', function () {
     let game = makeGameInMovementPhase();
-    t.assertEquals(Side.ROMAN, game.currentSide);
+    expect(game.currentSide).toEqual(Side.ROMAN);
     placeOrderedUnit(game, hexOf(1, 1), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
 
@@ -40,12 +40,13 @@ t.test('generate moves for one unit', function () {
         new MoveCommand(hexOf(1, 2), hexOf(1, 1)),
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, moves);
+    expect(moves.length).toEqual(expected.length);
+    expect(new Set(moves)).toEqual(new Set(expected));
 });
 
 t.test('only ordered units can move', function () {
     let game = makeGameInMovementPhase();
-    t.assertEquals(Side.ROMAN, game.currentSide);
+    expect(game.currentSide).toEqual(Side.ROMAN);
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
 
@@ -54,7 +55,8 @@ t.test('only ordered units can move', function () {
     let expected = [
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, moves);
+    expect(moves.length).toEqual(expected.length);
+    expect(new Set(moves)).toEqual(new Set(expected));
 });
 
 /*
@@ -87,7 +89,8 @@ t.test('generate commands for two units, avoiding collisions', function () {
 
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, commands);
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 t.test('generate commands for a light foot unit, can pass through friendlies', function () {
@@ -108,7 +111,8 @@ t.test('generate commands for a light foot unit, can pass through friendlies', f
 
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, commands);
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 
@@ -137,5 +141,6 @@ t.test('generate moves for unit of range 2', function () {
         new MoveCommand(hexOf(-1, 2), hexOf(1, 1)),
         new EndPhaseCommand(),
     ];
-    t.assertEqualsInAnyOrder(expected, moves);
+    expect(moves.length).toEqual(expected.length);
+    expect(new Set(moves)).toEqual(new Set(expected));
 });

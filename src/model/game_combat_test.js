@@ -1,5 +1,4 @@
 import { hexOf } from "../lib/hexlib.js";
-import { assertDeepEquals, assertEquals } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as units from "./units.js";
 import { NullScenario } from "./scenarios.js";
@@ -48,8 +47,8 @@ test("execute Attack then battle back", () => {
         "DamageEvent",
         "UnitKilledEvent",
     ];
-    assertDeepEquals(expected, eventNames(actual));
-    assertEquals(2, game.unitStrength(defendingUnit));
+    expect(eventNames(actual)).toEqual(expected);
+    expect(game.unitStrength(defendingUnit)).toEqual(2);
     expect(game.isUnitDead(attackingUnit)).toBe(true);
 });
 
@@ -67,9 +66,9 @@ test("execute Attack and kill defender", () => {
         "DamageEvent",
         "UnitKilledEvent",
     ];
-    assertDeepEquals(expected, eventNames(actual));
+    expect(eventNames(actual)).toEqual(expected);
     expect(game.unitAt(hexOf(1, 4))).toBeUndefined();
-    assertDeepEquals([defendingUnit], game.killedUnitsOfSide(Side.CARTHAGINIAN));
+    expect(game.killedUnitsOfSide(Side.CARTHAGINIAN)).toEqual([defendingUnit]);
 });
 
 test("close combat with non-ignorable flag and unblocked map NORTH", () => {
@@ -82,19 +81,19 @@ test("close combat with non-ignorable flag and unblocked map NORTH", () => {
     let actualEvents = game.executeCommand(new CloseCombatCommand(hexOf(1, 4), hexOf(0, 5)));
 
     // now the currentside is temporarily carthago
-    assertEquals(Side.CARTHAGINIAN, game.currentSide);
+    expect(game.currentSide).toEqual(Side.CARTHAGINIAN);
 
     // and the possible moves are the two retreat hexes
     const expectedValidCommands = [
         new RetreatCommand(hexOf(1, 3), hexOf(1, 4)),
         new RetreatCommand(hexOf(2, 3), hexOf(1, 4)),
     ]
-    assertEquals(expectedValidCommands.toString(), game.validCommands().toString());
+    expect(game.validCommands().toString()).toEqual(expectedValidCommands.toString());
 
     const expectedEvents = [
         "DamageEvent",
     ];
-    assertDeepEquals(expectedEvents, eventNames(actualEvents));
+    expect(eventNames(actualEvents)).toEqual(expectedEvents);
 });
 
 test("close combat with non-ignorable flag and blocked path", () => {
@@ -113,8 +112,8 @@ test("close combat with non-ignorable flag and blocked path", () => {
         "BattleBackEvent",
         "DamageEvent",
     ];
-    assertDeepEquals(expectedEvents, eventNames(actualEvents));
-    assertEquals(1, game.unitStrength(defendingUnit)); // two damage from flags, one from HEAVY result
+    expect(eventNames(actualEvents)).toEqual(expectedEvents);
+    expect(game.unitStrength(defendingUnit)).toEqual(1); // two damage from flags, one from HEAVY result
 });
 
 test("close combat with ignorable flag and blocked map NORTH", () => {
@@ -135,9 +134,9 @@ test("close combat with ignorable flag and blocked map NORTH", () => {
         "BattleBackEvent",
         "DamageEvent",
     ];
-    assertDeepEquals(expectedEvents, eventNames(actualEvents));
-    assertEquals(2, game.unitStrength(defendingUnit));  // one damage from flag, one from HEAVY result
-    assertEquals(4, game.unitStrength(attackingUnit));  // no damage from battle back
+    expect(eventNames(actualEvents)).toEqual(expectedEvents);
+    expect(game.unitStrength(defendingUnit)).toEqual(2);  // one damage from flag, one from HEAVY result
+    expect(game.unitStrength(attackingUnit)).toEqual(4);  // no damage from battle back
 });
 
 

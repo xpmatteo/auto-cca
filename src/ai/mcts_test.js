@@ -1,4 +1,3 @@
-import { assertEquals } from "../lib/test_lib.js";
 import { EndPhaseCommand } from "../model/commands/end_phase_command.js";
 import MCTS from "./mcts.js";
 
@@ -8,7 +7,7 @@ test('do not invoke when game is over', () => {
         isTerminal: () => true,
     }
 
-    assertEquals(undefined, mcts.chooseMove(game));
+    expect(mcts.chooseMove(game)).toEqual(undefined);
 });
 
 
@@ -20,5 +19,5 @@ test('MCTS returns the only possible choice', () => {
         validCommands: () => [endPhaseCommand],
     }
 
-    assertEquals(mcts.chooseMove(game), endPhaseCommand);
+    expect(endPhaseCommand).toEqual(mcts.chooseMove(game));
 });

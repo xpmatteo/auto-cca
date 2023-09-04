@@ -1,5 +1,4 @@
-import { assertEquals, assertDeepEquals } from "../lib/test_lib.js";
-import { Die, Dice, RESULT_HEAVY, RESULT_LEADER, RESULT_LIGHT } from "./dice.js";
+import { Dice, Die, RESULT_HEAVY, RESULT_LEADER, RESULT_LIGHT } from "./dice.js";
 
 test("roll one dice", function () {
     const random = () => { return 0; };
@@ -7,7 +6,7 @@ test("roll one dice", function () {
 
     die.roll();
 
-    assertEquals(RESULT_LIGHT, die.value);
+    expect(die.value).toEqual(RESULT_LIGHT);
 });
 
 test("roll three dice", function () {
@@ -18,5 +17,5 @@ test("roll three dice", function () {
 
     let results = dice.roll(3);
 
-    assertDeepEquals([RESULT_HEAVY, RESULT_LIGHT, RESULT_LEADER], results);
+    expect(results).toEqual([RESULT_HEAVY, RESULT_LIGHT, RESULT_LEADER]);
 });

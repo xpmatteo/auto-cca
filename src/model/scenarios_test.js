@@ -1,9 +1,8 @@
-import { assertEquals } from "../lib/test_lib.js";
 import { hexOf } from "../lib/hexlib.js";
 import * as units from "./units.js";
 import GameStatus from "./game_status.js";
 import { Side } from "./side.js";
-import { Scenario, TestScenario } from "./scenarios.js";
+import { Scenario } from "./scenarios.js";
 import makeGame from "./game.js";
 
 class SomeScenario extends Scenario {
@@ -19,7 +18,7 @@ class SomeScenario extends Scenario {
 const scenario = new SomeScenario();
 
 test ("first side", () => {
-    assertEquals(Side.ROMAN, scenario.firstSide);
+    expect(scenario.firstSide).toEqual(Side.ROMAN);
 });
 
 test("roman win", () => {
@@ -32,7 +31,7 @@ test("roman win", () => {
     game.takeDamage(game.unitAt(hexOf(2, 0)), 4);
     game.takeDamage(game.unitAt(hexOf(3, 0)), 4);
 
-    assertEquals(GameStatus.ROMAN_WIN, scenario.gameStatus(game));
+    expect(scenario.gameStatus(game)).toEqual(GameStatus.ROMAN_WIN);
 });
 
 test("carthaginian win", () => {
@@ -45,7 +44,7 @@ test("carthaginian win", () => {
     game.takeDamage(game.unitAt(hexOf(2, 0)), 4);
     game.takeDamage(game.unitAt(hexOf(3, 0)), 4);
 
-    assertEquals(GameStatus.CARTHAGINIAN_WIN, scenario.gameStatus(game));
+    expect(scenario.gameStatus(game)).toEqual(GameStatus.CARTHAGINIAN_WIN);
 });
 
 test("ongoing", () => {
@@ -54,6 +53,6 @@ test("ongoing", () => {
     game.placeUnit(hexOf(1, 0), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(1, 8), new units.RomanHeavyInfantry());
 
-    assertEquals(GameStatus.ONGOING, scenario.gameStatus(game));
+    expect(scenario.gameStatus(game)).toEqual(GameStatus.ONGOING);
 });
 

@@ -1,4 +1,3 @@
-import { assertEquals } from "../lib/test_lib.js";
 import makeGame from "../model/game.js";
 import { NullScenario, TestScenario } from "../model/scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../model/units.js";
@@ -6,7 +5,6 @@ import { hexOf } from "../lib/hexlib.js";
 import GameStatus from "../model/game_status.js";
 import { Side } from "../model/side.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
-import { EndPhaseCommand } from "../model/commands/end_phase_command.js";
 
 
 function makeGameWithFourUnits() {
@@ -25,30 +23,30 @@ test('inflicted damage ', () => {
     game.takeDamage(game.unitAt(hexOf(0, 2)), 3);
     game.takeDamage(game.unitAt(hexOf(0, 0)), 2);
 
-    assertEquals(3, game.inflictedDamage(Side.CARTHAGINIAN));
-    assertEquals(3, game.inflictedDamage(Side.ROMAN));
+    expect(game.inflictedDamage(Side.CARTHAGINIAN)).toEqual(3);
+    expect(game.inflictedDamage(Side.ROMAN)).toEqual(3);
 });
 
 xtest("game score when game is ongoing", () => {
     const game = makeGameWithFourUnits();
 
-    assertEquals(0, game.score(Side.CARTHAGINIAN));
-    assertEquals(0, game.score(Side.ROMAN));
+    expect(game.score(Side.CARTHAGINIAN)).toEqual(0);
+    expect(game.score(Side.ROMAN)).toEqual(0);
 
     // after 1 carthaginian loss
     game.takeDamage(game.unitAt(hexOf(0, 0)), 4);
-    assertEquals(-1, game.score(Side.CARTHAGINIAN));
-    assertEquals(1, game.score(Side.ROMAN));
+    expect(game.score(Side.CARTHAGINIAN)).toEqual(-1);
+    expect(game.score(Side.ROMAN)).toEqual(1);
 
     // after 1 loss each
     game.takeDamage(game.unitAt(hexOf(0, 2)), 4);
-    assertEquals(0, game.score(Side.CARTHAGINIAN));
-    assertEquals(0, game.score(Side.ROMAN));
+    expect(game.score(Side.CARTHAGINIAN)).toEqual(0);
+    expect(game.score(Side.ROMAN)).toEqual(0);
 
     // after 2 roman losses and 1 carth.
     game.takeDamage(game.unitAt(hexOf(0, 3)), 4);
-    assertEquals(1, game.score(Side.CARTHAGINIAN));
-    assertEquals(-1, game.score(Side.ROMAN));
+    expect(game.score(Side.CARTHAGINIAN)).toEqual(1);
+    expect(game.score(Side.ROMAN)).toEqual(-1);
 });
 
 xtest("game score when game is over", () => {
@@ -61,8 +59,8 @@ xtest("game score when game is over", () => {
         }
     })
 
-    assertEquals(10, game.score(Side.CARTHAGINIAN));
-    assertEquals(-10, game.score(Side.ROMAN));
+    expect(game.score(Side.CARTHAGINIAN)).toEqual(10);
+    expect(game.score(Side.ROMAN)).toEqual(-10);
 });
 
 test("gameStatusEstimation when game is over", () => {
@@ -75,7 +73,7 @@ test("gameStatusEstimation when game is over", () => {
         }
     })
 
-    assertEquals(GameStatus.CARTHAGINIAN_WIN, game.gameStatus, "expected Carthagininan win");
+    expect(game.gameStatus).toEqual(GameStatus.CARTHAGINIAN_WIN);
 });
 
 // test a playout policy "playoutUntilSwitchSidePolicy"
@@ -94,7 +92,7 @@ test("fast playout Until Switch Side Policy", () => {
 
     fastPlayoutPolicy(game);
 
-    assertEquals(1 + MAX_CARTHAGININAN_MOVES, moves, "verify that the game advanced by 4 moves");
+    expect(moves).toEqual(1 + MAX_CARTHAGININAN_MOVES);
 });
 
 test('fast playout will stop when game is over', () => {
@@ -107,7 +105,7 @@ test('fast playout will stop when game is over', () => {
     }
     fastPlayoutPolicy(game);
 
-    assertEquals(1, moves, "stops as soon as game is terminal");
+    expect(moves).toEqual(1);
 });
 
 // test('score in test scenario', () => {
