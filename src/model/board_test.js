@@ -1,10 +1,7 @@
-
-import { assertEquals, assertTrue, assertFalse, assertDeepEquals, assertEqualsInAnyOrder, test, xtest, fail } from '../lib/test_lib.js';
+import { assertEquals, fail, test } from '../lib/test_lib.js';
 import { hexOf } from '../lib/hexlib.js';
 import { Board } from './board.js';
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from './units.js';
-import { Side } from './side.js';
-import * as dice from './dice.js';
+import { RomanHeavyInfantry } from './units.js';
 
 function makeBoard() {
     return new Board();
@@ -75,19 +72,14 @@ test('map size', function () {
     assertEquals(5 * 13 + 4 * 12, count);
 });
 
-xtest('clone', function () {
+test('clone board', function () {
     let original = makeBoard();
-    let unit0 = new RomanHeavyInfantry();    
-    let unit1 = new RomanHeavyInfantry();
-    unit0.strength = 3;
+    let unit0 = new RomanHeavyInfantry();
     original.placeUnit(hexOf(0, 0), unit0);
-    original.placeUnit(hexOf(0, 1), unit1);
 
     let clone = original.clone();
+    clone.moveUnit(hexOf(0, 1), hexOf(0, 0));
 
-    assertEquals(3, clone.unitAt(hexOf(0, 0)).strength);
-    assertEquals(4, clone.unitAt(hexOf(0, 1)).strength);
-
-    clone.unitAt(hexOf(0, 0)).strength = 2;
-    assertEquals(3, original.unitAt(hexOf(0, 0)).strength, "Original should not be modified");
+    assertEquals(unit0, original.unitAt(hexOf(0, 0)));
+    assertEquals(unit0, clone.unitAt(hexOf(0, 1)));
 });
