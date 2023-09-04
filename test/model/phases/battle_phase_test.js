@@ -1,11 +1,11 @@
-import makeGame from '../game.js';
-import { NullScenario } from '../scenarios.js';
-import { hexOf } from '../../lib/hexlib.js';
-import * as units from '../units.js';
-import { BattlePhase } from "./BattlePhase.js";
-import { EndPhaseCommand } from "../commands/end_phase_command.js";
-import { CloseCombatCommand } from "../commands/close_combat_command.js";
-import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
+import makeGame from 'model/game.js';
+import { NullScenario } from 'model/scenarios.js';
+import { hexOf } from 'xlib/hexlib.js';
+import * as units from 'model/units.js';
+import { BattlePhase } from "model/phases/BattlePhase.js";
+import { EndPhaseCommand } from "model/commands/end_phase_command.js";
+import { CloseCombatCommand } from "model/commands/close_combat_command.js";
+import { RangedCombatCommand } from "model/commands/ranged_combat_command.js";
 
 
 test('generate no close combat commands for out of range', function () {

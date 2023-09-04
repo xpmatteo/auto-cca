@@ -1,12 +1,11 @@
-import { test } from "../../lib/test_lib.js";
-import makeGame, { MovementTrail } from "../game.js";
-import { NullScenario } from "../scenarios.js";
-import { CarthaginianHeavyInfantry } from "../units.js";
-import { hexOf } from "../../lib/hexlib.js";
-import { RetreatPhase } from "./RetreatPhase.js";
-import { Side } from "../side.js";
-import { RetreatCommand } from "../commands/retreatCommand.js";
-import { BattlePhase } from "./BattlePhase.js";
+import { NullScenario } from "model/scenarios.js";
+import { CarthaginianHeavyInfantry } from "model/units.js";
+import makeGame, { MovementTrail } from "model/game.js";
+import { hexOf } from "xlib/hexlib.js";
+import { RetreatCommand } from "model/commands/retreatCommand.js";
+import { Side } from "model/side.js";
+import { RetreatPhase } from "model/phases/RetreatPhase.js";
+import { BattlePhase } from "model/phases/BattlePhase.js";
 
 
 test("Retreat play", () => {

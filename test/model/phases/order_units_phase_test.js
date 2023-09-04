@@ -1,11 +1,11 @@
-import Game from "../game.js";
-import { NullScenario } from "../scenarios.js";
-import { hexOf, Point } from "../../lib/hexlib.js";
-import * as units from "../units.js";
-import { EndPhaseCommand } from "../commands/end_phase_command.js";
-import { RESULT_HEAVY } from "../dice.js";
-import { OrderUnitCommand } from "../commands/order_unit_command.js";
-import { OrderUnitsPhase } from "./order_units_phase.js";
+import Game from "model/game.js";
+import { NullScenario } from "model/scenarios.js";
+import { hexOf, Point } from "xlib/hexlib.js";
+import * as units from "model/units.js";
+import { EndPhaseCommand } from "model/commands/end_phase_command.js";
+import { RESULT_HEAVY } from "model/dice.js";
+import { OrderUnitCommand } from "model/commands/order_unit_command.js";
+import { OrderUnitsPhase } from "model/phases/order_units_phase.js";
 
 function makeGameWithFiveUnits() {
     let game = new Game(new NullScenario());
