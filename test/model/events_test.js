@@ -1,6 +1,6 @@
-import { BattleBackEvent, DamageEvent, MutualDamageEvent } from "./events.js";
-import { CarthaginianHeavyInfantry, RomanLightInfantry } from "./units.js";
-import { hexOf } from "../lib/hexlib.js";
+import { BattleBackEvent, DamageEvent, MutualDamageEvent } from "model/events.js";
+import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
+import { hexOf } from "xlib/hexlib.js";
 
 
 let attackingUnit = new RomanLightInfantry();

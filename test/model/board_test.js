@@ -1,6 +1,6 @@
-import { hexOf } from '../lib/hexlib.js';
-import { Board } from './board.js';
-import { RomanHeavyInfantry } from './units.js';
+import { hexOf } from 'xlib/hexlib.js';
+import { Board } from 'model/board.js';
+import { RomanHeavyInfantry } from 'model/units.js';
 
 function makeBoard() {
     return new Board();

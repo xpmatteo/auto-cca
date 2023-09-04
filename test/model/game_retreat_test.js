@@ -1,8 +1,8 @@
-import { hexOf } from "../lib/hexlib.js";
-import makeGame from "./game.js";
-import { NullScenario } from "./scenarios.js";
-import * as units from "./units.js";
-import { Side } from "./side.js";
+import { hexOf } from "xlib/hexlib.js";
+import makeGame from "model/game.js";
+import { NullScenario } from "model/scenarios.js";
+import * as units from "model/units.js";
+import { Side } from "model/side.js";
 
 const game = makeGame(new NullScenario());
 

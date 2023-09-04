@@ -1,12 +1,12 @@
-import { hexOf } from "../lib/hexlib.js";
-import makeGame from "./game.js";
-import * as units from "./units.js";
-import { NullScenario } from "./scenarios.js";
-import * as dice from "./dice.js";
-import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "./events.js";
-import { Side } from "./side.js";
-import { RetreatCommand } from "./commands/retreatCommand.js";
-import { CloseCombatCommand } from "./commands/close_combat_command.js";
+import { hexOf } from "xlib/hexlib.js";
+import makeGame from "model/game.js";
+import * as units from "model/units.js";
+import { NullScenario } from "model/scenarios.js";
+import * as dice from "model/dice.js";
+import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "model/events.js";
+import { Side } from "model/side.js";
+import { RetreatCommand } from "model/commands/retreatCommand.js";
+import { CloseCombatCommand } from "model/commands/close_combat_command.js";
 
 export function diceReturning() {
     let invocations = 0;

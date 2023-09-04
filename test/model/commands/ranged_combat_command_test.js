@@ -1,11 +1,10 @@
-import makeGame, { MovementTrail } from "../game.js";
-import { NullScenario } from "../scenarios.js";
-import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../units.js";
-import { hexOf } from "../../lib/hexlib.js";
-import { RangedCombatCommand } from "./ranged_combat_command.js";
+import makeGame, { MovementTrail } from "model/game.js";
+import { NullScenario } from "model/scenarios.js";
+import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
+import { hexOf } from "xlib/hexlib.js";
+import { RangedCombatCommand } from "model/commands/ranged_combat_command.js";
 import { diceReturning, eventNames } from "../game_combat_test.js";
-import { RESULT_HEAVY, RESULT_LIGHT, RESULT_SWORDS } from "../dice.js";
-import { DamageEvent } from "../events.js";
+import { RESULT_HEAVY, RESULT_LIGHT, RESULT_SWORDS } from "model/dice.js";
 
 
 test("ranged combat play with 2 dice", () => {

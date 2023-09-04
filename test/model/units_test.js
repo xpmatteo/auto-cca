@@ -1,9 +1,9 @@
-import { Side } from './side.js';
-import * as units from './units.js';
-import * as dice from './dice.js';
-import makeGame from "./game.js";
-import { NullScenario } from "./scenarios.js";
-import { hexOf } from "../lib/hexlib.js";
+import { Side } from 'model/side.js';
+import * as units from 'model/units.js';
+import * as dice from 'model/dice.js';
+import makeGame from "model/game.js";
+import { NullScenario } from "model/scenarios.js";
+import { hexOf } from "xlib/hexlib.js";
 
 
 test('units', function () {
