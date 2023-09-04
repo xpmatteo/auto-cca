@@ -1,5 +1,5 @@
-import { EXPANSION_FACTOR, makeRootNode } from './monte_carlo_tree_search_node.js';
-import { Side } from "../model/side.js";
+import { EXPANSION_FACTOR, makeRootNode } from 'ai/monte_carlo_tree_search_node.js';
+import { Side } from "model/side.js";
 
 // unit tests for the MonteCarloTreeSearchNode class
 

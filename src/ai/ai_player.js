@@ -1,5 +1,5 @@
-import { makeRootNode } from "./monte_carlo_tree_search_node.js";
-import { playoutTillTheEndPolicy } from "./playout_policies.js";
+import { makeRootNode } from "ai/monte_carlo_tree_search_node.js";
+import { playoutTillTheEndPolicy } from "ai/playout_policies.js";
 
 export const performanceObserver = {
     onStartDecideMove: function (aiPlayer) {

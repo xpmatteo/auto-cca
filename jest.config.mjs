@@ -6,4 +6,10 @@ export default {
     ],
     testRegex: `test\.js$`,
     // roots: ["<rootDir>/test"],
+    moduleNameMapper: {
+        'ai/(.*)': '<rootDir>/src/ai/$1',
+        'xlib/(.*)': '<rootDir>/src/lib/$1',
+        'model/(.*)': '<rootDir>/src/model/$1',
+    },
+
 };

@@ -1,9 +1,9 @@
-import { hexOf, Point } from './lib/hexlib.js';
-import makeGame from './model/game.js';
-import { NullScenario } from './model/scenarios.js';
-import { InteractiveGame } from "./interactive_game.js";
-import { RomanHeavyInfantry } from './model/units.js';
-import { MovementPhase } from "./model/phases/MovementPhase.js";
+import { hexOf, Point } from 'xlib/hexlib.js';
+import makeGame from 'model/game.js';
+import { NullScenario } from 'model/scenarios.js';
+import { InteractiveGame } from "../src/interactive_game.js";
+import { RomanHeavyInfantry } from 'model/units.js';
+import { MovementPhase } from "model/phases/MovementPhase.js";
 
 function otherUnit() {
     return new RomanHeavyInfantry();

@@ -1,10 +1,10 @@
-import makeGame from "../model/game.js";
-import { NullScenario, TestScenario } from "../model/scenarios.js";
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../model/units.js";
-import { hexOf } from "../lib/hexlib.js";
-import GameStatus from "../model/game_status.js";
-import { Side } from "../model/side.js";
-import { fastPlayoutPolicy } from "./playout_policies.js";
+import makeGame from "model/game.js";
+import { NullScenario, TestScenario } from "model/scenarios.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "model/units.js";
+import { hexOf } from "xlib/hexlib.js";
+import GameStatus from "model/game_status.js";
+import { Side } from "model/side.js";
+import { fastPlayoutPolicy } from "ai/playout_policies.js";
 
 
 function makeGameWithFourUnits() {
@@ -85,7 +85,9 @@ test("fast playout Until Switch Side Policy", () => {
     let moves = 0;
     const game = {
         currentSideRaw: Side.CARTHAGINIAN,
-        executeCommand: () => { if (moves++ === MAX_CARTHAGININAN_MOVES) game.currentSideRaw = Side.ROMAN; },
+        executeCommand: () => {
+            if (moves++ === MAX_CARTHAGININAN_MOVES) game.currentSideRaw = Side.ROMAN;
+        },
         validCommands: () => [{value: () => 0}],
         isTerminal: () => false,
     }
@@ -100,7 +102,9 @@ test('fast playout will stop when game is over', () => {
     const game = {
         currentSideRaw: Side.CARTHAGINIAN,
         isTerminal: () => moves === 1,
-        executeCommand: () => { moves++; },
+        executeCommand: () => {
+            moves++;
+        },
         validCommands: () => [{value: () => 0}],
     }
     fastPlayoutPolicy(game);

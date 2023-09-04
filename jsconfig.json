@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "ai/*": ["src/ai/*"],
+      "model/*": ["src/model/*"],
+      "xlib/*": ["src/lib/*"]
+    }
+  }
+}

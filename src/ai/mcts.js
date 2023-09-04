@@ -2,8 +2,8 @@
 export default class MCTS {
     chooseMove(game) {
         if (game.isTerminal()) {
-            return undefined;
+            return [];
         }
-        return game.validCommands()[0];
+        return [game.validCommands()[0]];
     }
 }

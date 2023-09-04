@@ -1,4 +1,5 @@
-import { hex_to_pixel, hexOf, Layout, LAYOUT_POINTY, Point } from './hexlib.js';
+// noinspection JSFileReferences
+import { hex_to_pixel, hexOf, Layout, LAYOUT_POINTY, Point } from 'xlib/hexlib.js';
 
 test('hex to string', function () {
     let hex = hexOf(1, 2);
