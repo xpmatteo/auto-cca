@@ -1,21 +1,13 @@
 import { hexOf } from "../lib/hexlib.js";
-import {
-    assertEquals,
-    assertFalse,
-    assertTrue,
-    assertDeepEquals,
-    assertEqualsInAnyOrder,
-    test,
-    xtest
-} from "../lib/test_lib.js";
+import { assertDeepEquals, assertEquals, assertFalse, assertTrue, test, xtest } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as units from "./units.js";
 import { NullScenario } from "./scenarios.js";
 import * as dice from "./dice.js";
-import { DamageEvent, BattleBackEvent, UnitKilledEvent } from "./events.js";
+import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "./events.js";
 import { Side } from "./side.js";
-import {RetreatCommand} from "./commands/retreatCommand.js";
-import {CloseCombatCommand} from "./commands/close_combat_command.js";
+import { RetreatCommand } from "./commands/retreatCommand.js";
+import { CloseCombatCommand } from "./commands/close_combat_command.js";
 
 export function diceReturning() {
     let invocations = 0;
@@ -39,7 +31,7 @@ export function eventNames(events) {
 }
 
 test("execute Attack then battle back", () => {
-    const attackDice = 
+    const attackDice =
         [dice.RESULT_HEAVY, dice.RESULT_SWORDS, dice.RESULT_MEDIUM, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
     const battleBackDice = Array(5).fill(dice.RESULT_HEAVY);
     const game = makeGame(new NullScenario(), diceReturning(attackDice, battleBackDice));
@@ -76,7 +68,7 @@ test("execute Attack and kill defender", () => {
         "UnitKilledEvent",
     ];
     assertDeepEquals(expected, eventNames(actual));
-    assertFalse(game.unitAt(hexOf(1, 4)), "defending unit not on board");    
+    assertFalse(game.unitAt(hexOf(1, 4)), "defending unit not on board");
     assertDeepEquals([defendingUnit], game.killedUnitsOfSide(Side.CARTHAGINIAN));
 });
 
@@ -125,7 +117,7 @@ test("close combat with non-ignorable flag and blocked path", () => {
     assertEquals(1, game.unitStrength(defendingUnit)); // two damage from flags, one from HEAVY result
 });
 
-xtest("close combat with ignorable flag and blocked map NORTH", () => {
+test("close combat with ignorable flag and blocked map NORTH", () => {
     const diceResults = [dice.RESULT_FLAG, dice.RESULT_FLAG, dice.RESULT_HEAVY, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
     const battleBackDiceResults = Array(5).fill(dice.RESULT_LIGHT); // no damage from battle back
     const game = makeGame(new NullScenario(), diceReturning(diceResults, battleBackDiceResults));
