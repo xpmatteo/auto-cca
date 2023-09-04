@@ -1,8 +1,8 @@
-import makeGame, { MovementTrail } from "../game.js";
-import { NullScenario } from "../scenarios.js";
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
-import { hexOf } from "../../lib/hexlib.js";
-import { MoveCommand } from "./move_command.js";
+import makeGame, { MovementTrail } from "model/game.js";
+import { NullScenario } from "model/scenarios.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "model/units.js";
+import { hexOf } from "xlib/hexlib.js";
+import { MoveCommand } from "model/commands/move_command.js";
 
 test("MoveCommand play", () => {
     let game = makeGame(new NullScenario());

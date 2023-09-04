@@ -1,9 +1,9 @@
-import makeGame from "../game.js";
-import { NullScenario } from "../scenarios.js";
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
-import { hexOf } from "../../lib/hexlib.js";
-import { CloseCombatCommand } from "./close_combat_command.js";
-import { Side } from "../side.js";
+import makeGame from "model/game.js";
+import { NullScenario } from "model/scenarios.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "model/units.js";
+import { hexOf } from "xlib/hexlib.js";
+import { CloseCombatCommand } from "model/commands/close_combat_command.js";
+import { Side } from "model/side.js";
 
 test("CloseCombatCommand play", () => {
     let game = makeGame(new NullScenario());
