@@ -1,11 +1,10 @@
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
-import { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
+import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
 import { fastPlayoutPolicy } from "./playout_policies.js";
-import GreedyAIPlayer from "./greedy_ai_player.js";
 
 const AUTOPLAY_DELAY = 800;
-const AI_ITERATIONS = 10000;
+const AI_ITERATIONS = 1000;
 
 const textBox = document.getElementById("messages");
 export function displayEvents(events) {
@@ -46,7 +45,7 @@ export function chooseBestCommand(game) {
 export class Autoplay {
     constructor(game) {
         this.game = game;
-        this.aiPlayer = new GreedyAIPlayer({
+        this.aiPlayer = new AIPlayer({
             game: game,
             iterations: AI_ITERATIONS,
             aiSide: Side.CARTHAGINIAN,
@@ -54,7 +53,6 @@ export class Autoplay {
                 performanceObserver,
                 treeObserver,
                 winLossObserver,
-                // treeObserver1, // <-- this one may cause a memory leak
             ],
             playoutPolicy: fastPlayoutPolicy,
         });

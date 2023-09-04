@@ -43,32 +43,6 @@ function renderSearchTree(node, depth, maxDepth) {
     return li;
 }
 
-function makeCollapsible() {
-    document.querySelectorAll('li').forEach(function(listItem){
-        listItem.addEventListener('click', function(e){
-            e.stopPropagation();
-            let firstUl = this.getElementsByTagName("ul")[0];
-            if(firstUl.style.display === "block") {
-                firstUl.style.display = "none";
-            } else {
-                let firstChild = this.children[0];
-                if(firstChild.tagName === "UL") {
-                    firstChild.style.display = "block";
-                }
-            }
-        });
-    });
-}
-
-export const treeObserver1 = {
-    onEndDecideMove: function (aiPlayer, root) {
-        let li = renderSearchTree(root, 0, 3);
-        let ul = document.getElementById("search-tree");
-        ul.appendChild(li);
-        makeCollapsible();
-    },
-}
-
 export const winLossObserver = {
     onStartDecideMove: function (aiPlayer) {
         this.aiWins = 0;
@@ -199,9 +173,6 @@ export default class AIPlayer {
             clone = __executeManyTimes(clone, command);
         }
         node.pushChild(clone, sideExecutingTheMove, command);
-        // if (command.constructor.name === "EndPhaseCommand") {
-        //     node.children[node.children.length - 1].visits = 70;
-        // }
     }
 
     simulate(state) {
