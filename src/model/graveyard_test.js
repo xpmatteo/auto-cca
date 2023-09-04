@@ -1,6 +1,6 @@
 "use strict";
 
-import { test, assertDeepEquals } from "../lib/test_lib.js";
+import { assertDeepEquals } from "../lib/test_lib.js";
 import { Graveyard } from "./graveyard.js";
 import { Side } from "./side.js";
 import * as units from "./units.js";

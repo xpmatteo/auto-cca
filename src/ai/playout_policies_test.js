@@ -1,4 +1,4 @@
-import { assertEquals, test, xtest } from "../lib/test_lib.js";
+import { assertEquals } from "../lib/test_lib.js";
 import makeGame from "../model/game.js";
 import { NullScenario, TestScenario } from "../model/scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../model/units.js";

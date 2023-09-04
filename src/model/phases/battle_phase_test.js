@@ -1,5 +1,4 @@
 import * as t from '../../lib/test_lib.js';
-import { test } from '../../lib/test_lib.js';
 import makeGame from '../game.js';
 import { NullScenario } from '../scenarios.js';
 import { hexOf } from '../../lib/hexlib.js';
@@ -10,7 +9,7 @@ import { CloseCombatCommand } from "../commands/close_combat_command.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
 
 
-t.test('generate no close combat commands for out of range', function () {
+test('generate no close combat commands for out of range', function () {
     const game = makeGame(new NullScenario());
     const phase = new BattlePhase(game);
     game.placeUnit(hexOf(0, 0), new units.RomanHeavyInfantry());
@@ -20,13 +19,13 @@ t.test('generate no close combat commands for out of range', function () {
     let commands = phase.validCommands(game);
 
     let expected = [
-        new EndPhaseCommand(),        
+        new EndPhaseCommand(),
     ];
     t.assertEqualsInAnyOrder(expected, commands);
 });
 
 
-t.test('generate close combat commands for one unit and one target', function () {
+test('generate close combat commands for one unit and one target', function () {
     const game = makeGame(new NullScenario());
     const phase = new BattlePhase(game);
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
@@ -37,12 +36,12 @@ t.test('generate close combat commands for one unit and one target', function ()
 
     let expected = [
         new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
-        new EndPhaseCommand(),        
+        new EndPhaseCommand(),
     ];
     t.assertEqualsInAnyOrder(expected, commands);
 });
 
-t.test('generate close combat commands for one unit and two targets', function () {
+test('generate close combat commands for one unit and two targets', function () {
     const game = makeGame(new NullScenario());
     const phase = new BattlePhase(game);
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
@@ -55,12 +54,12 @@ t.test('generate close combat commands for one unit and two targets', function (
     let expected = [
         new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
         new CloseCombatCommand(hexOf(1, 2), hexOf(1, 1)),
-        new EndPhaseCommand(),        
+        new EndPhaseCommand(),
     ];
     t.assertEqualsInAnyOrder(expected, commands);
 });
 
-t.test('generate ranged combat commands for one unit and two targets', function () {
+test('generate ranged combat commands for one unit and two targets', function () {
     const game = makeGame(new NullScenario());
     const phase = new BattlePhase(game);
     game.placeUnit(hexOf(0, 4), new units.RomanLightInfantry());
@@ -78,7 +77,7 @@ t.test('generate ranged combat commands for one unit and two targets', function 
     t.assertEqualsInAnyOrder(expected, commands);
 });
 
-t.test('no ranged combat if enemy adjacent', function () {
+test('no ranged combat if enemy adjacent', function () {
     const game = makeGame(new NullScenario());
     const phase = new BattlePhase(game);
     game.placeUnit(hexOf(0, 4), new units.RomanLightInfantry());

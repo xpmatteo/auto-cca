@@ -1,5 +1,5 @@
 
-import { assertEquals, assertTrue, assertFalse, test, xtest, assertDeepEquals } from '../lib/test_lib.js';
+import { assertEquals, assertTrue, assertFalse, assertDeepEquals } from '../lib/test_lib.js';
 import { Side } from './side.js';
 import * as units from './units.js';
 import * as dice from './dice.js';

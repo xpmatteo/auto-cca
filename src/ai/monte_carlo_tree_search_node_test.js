@@ -1,5 +1,5 @@
 
-import {assertEquals, assertTrue, assertDeepEquals, test, assertAlmostEquals} from "../lib/test_lib.js";
+import {assertEquals, assertTrue, assertDeepEquals, assertAlmostEquals} from "../lib/test_lib.js";
 import { EXPANSION_FACTOR, makeRootNode } from './monte_carlo_tree_search_node.js';
 import {Side} from "../model/side.js";
 

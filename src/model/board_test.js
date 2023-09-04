@@ -1,4 +1,4 @@
-import { assertEquals, fail, test } from '../lib/test_lib.js';
+import { assertEquals, fail } from '../lib/test_lib.js';
 import { hexOf } from '../lib/hexlib.js';
 import { Board } from './board.js';
 import { RomanHeavyInfantry } from './units.js';

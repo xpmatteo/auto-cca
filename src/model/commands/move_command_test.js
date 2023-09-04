@@ -1,16 +1,16 @@
-import {assertAlmostEquals, assertDeepEquals, assertEquals, test} from "../../lib/test_lib.js";
-import makeGame, {MovementTrail} from "../game.js";
-import {NullScenario} from "../scenarios.js";
-import {CarthaginianHeavyInfantry, RomanHeavyInfantry} from "../units.js";
-import {hexOf} from "../../lib/hexlib.js";
-import {MoveCommand} from "./move_command.js";
+import { assertAlmostEquals, assertDeepEquals, assertEquals } from "../../lib/test_lib.js";
+import makeGame, { MovementTrail } from "../game.js";
+import { NullScenario } from "../scenarios.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
+import { hexOf } from "../../lib/hexlib.js";
+import { MoveCommand } from "./move_command.js";
 
 test("MoveCommand play", () => {
     let game = makeGame(new NullScenario());
     let unit = new RomanHeavyInfantry();
     game.placeUnit(hexOf(1, 5), unit);
 
-    game.executeCommand(new MoveCommand(hexOf(1,4), hexOf(1, 5)));
+    game.executeCommand(new MoveCommand(hexOf(1, 4), hexOf(1, 5)));
 
     assertEquals(undefined, game.unitAt(hexOf(1, 5)));
     assertEquals(unit, game.unitAt(hexOf(1, 4)));
@@ -63,7 +63,7 @@ test("value of move command, 3 same-distance enemies of different strengths", ()
         assertEquals(1, hex.distance(toHex), `distance fromHex of unit at ${hex}`);
         const enemyUnit = new RomanHeavyInfantry();
         game.placeUnit(hex, enemyUnit);
-        game.takeDamage(enemyUnit, 4-desiredStrength);
+        game.takeDamage(enemyUnit, 4 - desiredStrength);
     }
 });
 

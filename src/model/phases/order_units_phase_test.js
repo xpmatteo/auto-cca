@@ -1,4 +1,4 @@
-import { assertDeepEquals, assertEquals, assertEqualsInAnyOrder, test } from "../../lib/test_lib.js";
+import { assertDeepEquals, assertEquals, assertEqualsInAnyOrder } from "../../lib/test_lib.js";
 import Game from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { hexOf, Point } from "../../lib/hexlib.js";

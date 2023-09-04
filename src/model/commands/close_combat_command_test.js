@@ -1,4 +1,4 @@
-import { assertDeepEquals, assertEquals, test } from "../../lib/test_lib.js";
+import { assertDeepEquals, assertEquals } from "../../lib/test_lib.js";
 import makeGame from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";

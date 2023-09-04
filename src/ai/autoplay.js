@@ -6,8 +6,8 @@ import { fastPlayoutPolicy } from "./playout_policies.js";
 const AUTOPLAY_DELAY = 800;
 const AI_ITERATIONS = 1000;
 
-const textBox = document.getElementById("messages");
 export function displayEvents(events) {
+    const textBox = document.getElementById("messages");
     events.forEach(event => {
         textBox.innerHTML += `${event}<br/>`;
         textBox.scrollTop = textBox.scrollHeight;

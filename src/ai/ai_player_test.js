@@ -1,36 +1,15 @@
-import { assertDeepEquals, assertEquals, assertFalse, assertTrue, test, xtest } from "../lib/test_lib.js";
+import { assertEquals } from "../lib/test_lib.js";
 import AIPlayer, { __executeManyTimes } from "./ai_player.js";
 import makeGame from "../model/game.js";
 import { Side } from "../model/side.js";
 import { hexOf } from "../lib/hexlib.js";
 import * as units from "../model/units.js";
 import GameStatus from "../model/game_status.js";
-import { NullScenario, Scenario, TestScenario } from "../model/scenarios.js";
+import { NullScenario, Scenario } from "../model/scenarios.js";
 import { RESULT_SWORDS } from "../model/dice.js";
 import { MoveCommand } from "../model/commands/move_command.js";
 import { CloseCombatCommand } from "../model/commands/close_combat_command.js";
 import { makeRootNode } from "./monte_carlo_tree_search_node.js";
-
-// unit tests for the AIPlayer class
-
-// decideMove
-// test('decideMove', () => {
-//     let state = {
-//         validCommands: () => [1, 2, 3, 4],
-//         currentSide: 'roman',
-//         isTerminal: () => false
-//     };
-//     let ai = new AIPlayer({
-//         iterations: 1
-//     });
-//     let root = {
-//         mostVisitedPathMoves: () => {
-//             return [2];
-//         }
-//     };
-//     ai.__doDecideMove = () => root;
-//     assertDeepEquals([2], ai.decideMove(state));
-// });
 
 class SmallScenario extends Scenario {
     firstSide = Side.CARTHAGINIAN;
@@ -79,7 +58,7 @@ test('pushChild deterministic', () => {
 
     assertEquals(1, root.children.length);
     let child = root.children[0];
-    assertTrue(child.state.unitAt(hexOf(0, 2)), "move was executed");
+    expect(child.state.unitAt(hexOf(0, 2))).toBeDefined();
 });
 
 

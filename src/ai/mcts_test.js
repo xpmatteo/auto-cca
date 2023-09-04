@@ -1,4 +1,4 @@
-import { assertEquals, test } from "../lib/test_lib.js";
+import { assertEquals } from "../lib/test_lib.js";
 import { EndPhaseCommand } from "../model/commands/end_phase_command.js";
 import MCTS from "./mcts.js";
 

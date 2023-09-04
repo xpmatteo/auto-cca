@@ -5,7 +5,7 @@ Graphics are copyright GMT Games, copied from the Vassal CC:A module
 
 Serve locally with `python -m http.server`
 
-Run tests by visiting http://localhost:8000/test.html
+Run tests with `./test.sh`
 
 See the game by visiting http://localhost:8000/
 

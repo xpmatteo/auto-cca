@@ -1,4 +1,4 @@
-import { assertDeepEquals, test } from "../../lib/test_lib.js";
+import { assertDeepEquals } from "../../lib/test_lib.js";
 import { FlagResult, handleFlags } from "./commands.js";
 import { hexOf } from "../../lib/hexlib.js";
 

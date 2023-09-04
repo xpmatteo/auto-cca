@@ -1,12 +1,5 @@
 import { hexOf } from "../lib/hexlib.js";
-import {
-    assertDeepEquals,
-    assertEquals,
-    assertEqualsInAnyOrder,
-    assertFalse,
-    assertTrue,
-    test
-} from "../lib/test_lib.js";
+import { assertEquals, assertFalse } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import GameStatus from "./game_status.js";
 import * as units from "./units.js";
@@ -45,24 +38,24 @@ test("game status", () => {
 
 test("executeCommand - game over", () => {
     const game = makeGame(scenario);
-    
+
     game.executeCommand(new EndPhaseCommand());
     game.executeCommand(new MoveCommand(hexOf(0, 5), hexOf(1, 5)));
 
     assertEquals(GameStatus.ROMAN_WIN, game.gameStatus);
-    assertTrue(game.isTerminal(), "game is not terminal?!?");
+    expect(game.isTerminal()).toBe(true);
     assertEquals(0, game.validCommands().length);
 });
 
 test("currentSide", () => {
     const cca = makeGame(scenario);
-    
+
     assertEquals(Side.CARTHAGINIAN, cca.currentSide);
 });
 
 test("opposingSide", () => {
     const game = makeGame(scenario);
-    
+
     assertEquals(Side.CARTHAGINIAN, game.opposingSide(Side.ROMAN));
     assertEquals(Side.ROMAN, game.opposingSide(Side.CARTHAGINIAN));
 });
@@ -113,7 +106,7 @@ test('unit support', function () {
     assertFalse(game.isSupported(hexOf(1, 1)), "with just one adjacent unit, unit is not supported");
 
     game.placeUnit(hexOf(1, 2), new units.RomanHeavyInfantry());
-    assertTrue(game.isSupported(hexOf(1, 1)), "with just two adjacent units, unit is supported");
+    expect(game.isSupported(hexOf(1, 1))).toBe(true);
 });
 
 test('enemy units do not provide support', function () {

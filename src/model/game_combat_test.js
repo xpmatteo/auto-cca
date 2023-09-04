@@ -1,5 +1,5 @@
 import { hexOf } from "../lib/hexlib.js";
-import { assertDeepEquals, assertEquals, assertFalse, assertTrue, test, xtest } from "../lib/test_lib.js";
+import { assertDeepEquals, assertEquals } from "../lib/test_lib.js";
 import makeGame from "./game.js";
 import * as units from "./units.js";
 import { NullScenario } from "./scenarios.js";
@@ -50,7 +50,7 @@ test("execute Attack then battle back", () => {
     ];
     assertDeepEquals(expected, eventNames(actual));
     assertEquals(2, game.unitStrength(defendingUnit));
-    assertTrue(game.isUnitDead(attackingUnit));
+    expect(game.isUnitDead(attackingUnit)).toBe(true);
 });
 
 // attack then killed
@@ -68,7 +68,7 @@ test("execute Attack and kill defender", () => {
         "UnitKilledEvent",
     ];
     assertDeepEquals(expected, eventNames(actual));
-    assertFalse(game.unitAt(hexOf(1, 4)), "defending unit not on board");
+    expect(game.unitAt(hexOf(1, 4))).toBeUndefined();
     assertDeepEquals([defendingUnit], game.killedUnitsOfSide(Side.CARTHAGINIAN));
 });
 

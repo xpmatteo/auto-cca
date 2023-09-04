@@ -1,4 +1,4 @@
-import { assertEquals, test } from "../../lib/test_lib.js";
+import { assertEquals } from "../../lib/test_lib.js";
 import makeGame from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { EndPhaseCommand } from "./end_phase_command.js";
