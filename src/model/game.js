@@ -52,7 +52,7 @@ class Game {
     }
 
     executeCommand(command) {
-        if (this.isTerminal()) 
+        if (this.isTerminal())
             throw new Error("Cannot execute commands: game is over");
         return command.play(this);
     }
@@ -163,7 +163,7 @@ class Game {
     markUnitSpent(unit) {
         this.spentUnits.push(unit);
     }
-    
+
     unshiftPhase(phase) {
         this.phases.unshift(phase);
     }
@@ -183,7 +183,7 @@ class Game {
     get pointsToWin() {
         return this.scenario.pointsToWin;
     }
-    
+
     get gameStatus() {
         return this.scenario.gameStatus(this);
     }
@@ -244,32 +244,6 @@ class Game {
             this.board.removeUnit(this.hexOfUnit(unit));
         }
         return damage;
-    }
-
-    score(side) {
-        const SCORE_PER_POINT = 10;
-        const SCORE_PER_VICTORY = (this.scenario.pointsToWin + 1) * SCORE_PER_POINT;
-        if (this.isTerminal()) {
-            if (side === this.gameStatus.side) {
-                return SCORE_PER_VICTORY;
-            }
-            if (side !== this.gameStatus.side) {
-                return -SCORE_PER_VICTORY;
-            }
-            throw new Error(`Invalid side ${side}`);
-        }
-        let northPoints = this.graveyard.unitsOf(this.scenario.sideSouth).length * SCORE_PER_POINT +
-            this.inflictedDamage(this.scenario.sideSouth);
-        let southPoints = this.graveyard.unitsOf(this.scenario.sideNorth).length * SCORE_PER_POINT +
-            this.inflictedDamage(this.scenario.sideNorth);
-        let score = (northPoints - southPoints) / SCORE_PER_VICTORY;
-        if (side === this.scenario.sideNorth) {
-            return score;
-        }
-        if (side === this.scenario.sideSouth) {
-            return -score;
-        }
-        throw new Error(`Invalid side ${side}`);
     }
 
     isUnitDead(unit) {

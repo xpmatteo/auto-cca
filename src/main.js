@@ -1,9 +1,7 @@
-"use strict";
-
-import { Autoplay, displayEvents } from "./ai/autoplay.js";
+import { Autoplay, displayEvents, RandomPlayer } from "./ai/autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
-import { AkragasScenario, TestScenario } from "./model/scenarios.js";
+import { AkragasScenario } from "./model/scenarios.js";
 import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas, scalePoint } from "./view/map.js";
@@ -24,13 +22,15 @@ let scenario = new AkragasScenario();
 let game = makeGame(scenario);
 let interactiveGame = new InteractiveGame(game);
 
+// create AI
+const aiPlayer = new RandomPlayer();
+const autoplay = new Autoplay(interactiveGame, aiPlayer);
+
 // draw initial map
 loadAllImagesThen(() => {
     redraw(graphics, interactiveGame);
     resizeCanvas(canvas);
 });
-
-// setup event listeners
 
 // track mouse clicks
 canvas.addEventListener('click', function (event) {
@@ -39,8 +39,6 @@ canvas.addEventListener('click', function (event) {
     displayEvents(events);
     redraw(graphics, interactiveGame);
 });
-
-let autoplay = new Autoplay(interactiveGame);
 
 document.getElementById('end-phase').addEventListener('click', function (event) {
     interactiveGame.executeCommand(new EndPhaseCommand());
@@ -57,7 +55,6 @@ document.getElementById('playout').addEventListener('click', function (event) {
     if (game.isTerminal()) {
         game = makeGame(scenario);
         interactiveGame = new InteractiveGame(game);
-        autoplay = new Autoplay(interactiveGame);
         redraw(graphics, interactiveGame);
     }
     autoplay.playout(graphics);

@@ -167,10 +167,6 @@ export class InteractiveGame {
         return this.#game.makeKey();
     }
 
-    score(side) {
-        return this.#game.score(side);
-    }
-
     get currentSideRaw() {
         return this.#game.currentSideRaw;
     }

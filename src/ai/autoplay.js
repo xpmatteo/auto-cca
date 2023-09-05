@@ -1,7 +1,5 @@
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
-import AIPlayer, { performanceObserver, treeObserver, winLossObserver } from "./ai_player.js";
-import { fastPlayoutPolicy } from "./playout_policies.js";
 
 const AUTOPLAY_DELAY = 800;
 const AI_ITERATIONS = 1000;
@@ -14,7 +12,7 @@ export function displayEvents(events) {
     });
 }
 
-export function chooseRandomCommand(game) {
+function chooseRandomCommand(game) {
     let commands = game.validCommands();
     if (commands.length === 0) {
         throw new Error("No valid commands");
@@ -22,40 +20,17 @@ export function chooseRandomCommand(game) {
     return commands[Math.floor(Math.random() * commands.length)];
 }
 
-export function chooseBestCommand(game) {
-    let commands = game.validCommands();
-    if (commands.length === 0) {
-        throw new Error("No valid commands");
+export class RandomPlayer {
+    decideMove(game) {
+        return [chooseRandomCommand(game)];
     }
-
-    // sort commands by value
-    commands.sort((a, b) => b.value(game) - a.value(game));
-
-    // console.log(`Best commands for ${game.currentSide}:`)
-    // console.log(commands.map(command => `${command}: ${command.value(game)}`).join('\n'))
-
-    // extract all the commands with the highest value
-    let bestCommands = commands.filter(command => command.value(game) === commands[0].value(game));
-
-    // choose randomly from the best commands
-    return bestCommands[Math.floor(Math.random() * bestCommands.length)];
 }
 
 
 export class Autoplay {
-    constructor(game) {
+    constructor(game, aiPlayer) {
         this.game = game;
-        this.aiPlayer = new AIPlayer({
-            game: game,
-            iterations: AI_ITERATIONS,
-            aiSide: Side.CARTHAGINIAN,
-            observers: [
-                performanceObserver,
-                treeObserver,
-                winLossObserver,
-            ],
-            playoutPolicy: fastPlayoutPolicy,
-        });
+        this.aiPlayer = aiPlayer;
     }
 
     randomPlayout() {
