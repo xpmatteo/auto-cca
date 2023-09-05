@@ -84,13 +84,13 @@ test('clone game', () => {
     const start = performance.now();
     const clone = game.clone();
     const end = performance.now();
-    console.log("Cloning took " + (end - start) + " milliseconds.");
+    // console.log("Cloning took " + (end - start) + " milliseconds.");
     expect(JSON.stringify(clone)).toEqual(gameBeforeClone);
 
     const autoplayStart = performance.now();
     new Autoplay(clone).randomPlayout();
     const autoplayEnd = performance.now();
-    console.log("Autoplay took " + (autoplayEnd - autoplayStart) + " milliseconds.");
+    // console.log("Autoplay took " + (autoplayEnd - autoplayStart) + " milliseconds.");
 
     expect(JSON.stringify(game)).toEqual(gameBeforeClone);
 });

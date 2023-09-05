@@ -11,10 +11,6 @@ export class PlayCardCommand {
         return game.playCard(this.card);
     }
 
-    value(game) {
-        return 0;
-    }
-
     isDeterministic() {
         return true;
     }

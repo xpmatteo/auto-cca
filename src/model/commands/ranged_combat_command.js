@@ -1,7 +1,3 @@
-import { hexScore } from "./commands.js";
-import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "../events.js";
-import * as dice from "../dice.js";
-import { RetreatPhase } from "../phases/RetreatPhase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
 export class RangedCombatCommand extends AbstractCombatCommand {
@@ -13,11 +9,6 @@ export class RangedCombatCommand extends AbstractCombatCommand {
 
     toString() {
         return `Ranged Combat from ${this.fromHex} to ${this.toHex}`;
-    }
-
-    value(game) {
-        const defendingUnit = game.unitAt(this.toHex);
-        return hexScore(game.unitStrength(defendingUnit));
     }
 
     play(game) {

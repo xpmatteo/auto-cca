@@ -1,6 +1,5 @@
 import { BattleBackEvent } from "../events.js";
 import { RESULT_LIGHT } from "../dice.js";
-import { hexScore } from "./commands.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
 export class CloseCombatCommand extends AbstractCombatCommand {
@@ -12,11 +11,6 @@ export class CloseCombatCommand extends AbstractCombatCommand {
 
     toString() {
         return `Close Combat from ${this.fromHex} to ${this.toHex}`;
-    }
-
-    value(game) {
-        const defendingUnit = game.unitAt(this.toHex);
-        return hexScore(game.unitStrength(defendingUnit));
     }
 
     play(game) {

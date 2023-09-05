@@ -15,8 +15,4 @@ export class OrderUnitCommand {
     isDeterministic() {
         return true;
     }
-
-    value(game) {
-        return 1;
-    }
 }

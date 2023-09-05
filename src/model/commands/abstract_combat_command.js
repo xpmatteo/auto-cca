@@ -1,4 +1,4 @@
-import { DamageEvent, FlagIgnoredEvent, UnitKilledEvent } from "../events.js";
+import { DamageEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
 import { RetreatPhase } from "../phases/RetreatPhase.js";
 import { handleFlags } from "./commands.js";
