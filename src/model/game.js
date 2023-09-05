@@ -202,6 +202,10 @@ class Game {
         return this.board.foreachUnit(f);
     }
 
+    foreachUnitOfSide(side, f) {
+        return this.board.foreachUnit( (unit, hex) => {if (unit.side === side) f(unit, hex)});
+    }
+
     unitAt(hex) {
         return this.board.unitAt(hex);
     }
