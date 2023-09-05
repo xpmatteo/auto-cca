@@ -12,6 +12,10 @@ export class InteractiveGame {
         this.#game = game;
     }
 
+    toGame() {
+        return this.#game;
+    }
+
     onClick(hex, pixel) {
         if (this.#game.isTerminal())
             return [];

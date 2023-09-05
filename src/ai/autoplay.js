@@ -26,7 +26,6 @@ export class RandomPlayer {
     }
 }
 
-
 export class Autoplay {
     constructor(game, aiPlayer) {
         this.game = game;
@@ -41,7 +40,7 @@ export class Autoplay {
 
     async playout(graphics) {
         while (!this.game.isTerminal()) {
-            let events = await this.executeBestCommand();
+            let events = await this.executeRandomCommand();
             displayEvents(events);
             redraw(graphics, this.game);
             await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));

@@ -42,6 +42,10 @@ class Game {
         this.scenario.placeUnitsOn(this);
     }
 
+    toGame() {
+        return this;
+    }
+
     get currentPhase() {
         return this.phases[0]
     }
