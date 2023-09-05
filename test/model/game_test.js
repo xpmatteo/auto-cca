@@ -116,3 +116,10 @@ test('enemy units do not provide support', function () {
 
     expect(game.isSupported(hexOf(1, 1))).toBe(false);
 });
+
+test('tostring', () =>{
+    const game = makeGame(new NullScenario());
+    game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    console.log(game.board.toString())
+    console.log(game.toString())
+})

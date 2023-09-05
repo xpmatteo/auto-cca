@@ -22,6 +22,10 @@ class Card {
             new BattlePhase(),
         ];
     }
+
+    toString() {
+        return this.name;
+    }
 }
 
 export class OrderHeavyTroopsCard extends Card {

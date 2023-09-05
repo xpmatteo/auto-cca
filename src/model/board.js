@@ -1,10 +1,11 @@
 import { hexOf } from '../lib/hexlib.js';
+import { mapToString, stringify } from "../lib/to_string.js";
 
 function makeMap() {
     function even(n) {
         return n % 2 === 0;
     }
-    
+
     let map = new Set();
     for (let r = 0; r <= 8; r++) {
         let col_start = -Math.trunc(r / 2);
@@ -116,6 +117,10 @@ export class Board {
             board.placeUnit(hex, unit);
         });
         return board;
+    }
+
+    toString() {
+        return mapToString(this.#units);
     }
 }
 

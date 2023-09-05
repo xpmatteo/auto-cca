@@ -2,9 +2,10 @@ import { Board } from "./board.js";
 import GameStatus from "./game_status.js";
 import { Dice } from "./dice.js";
 import { Graveyard } from "./graveyard.js";
-import { MoveFireMoveCard, OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
+import { OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
 import { PlayCardPhase } from "./phases/play_card_phase.js";
 import { SideSwitchedTo } from "./events.js";
+import { mapToString, stringify } from "../lib/to_string.js";
 
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
@@ -40,6 +41,17 @@ class Game {
     initialize() {
         this.currentSideRaw = this.scenario.firstSide;
         this.scenario.placeUnitsOn(this);
+    }
+
+    toString() {
+        return stringify([
+            this.board,
+            this.spentUnits,
+            mapToString(this.unitStrengths),
+            this.orderedUnits,
+            this.handNorth,
+            this.handSouth,
+        ])
     }
 
     toGame() {
