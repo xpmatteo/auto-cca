@@ -6,29 +6,56 @@ class TreeNode {
         this.children = [];
     }
 
-    addChild(game, command) {
-        const clone = game.clone();
-        clone.executeCommand(command);
-        const theScore = score(clone, clone.currentSide);
-        this.children.push(new TreeNode(theScore));
+    bestCommands() {
+        if (this.children.length === 0) {
+            return [];
+        }
+        return [this.bestCommand] + this.bestChild.bestCommands();
+    }
+
+    size() {
+        if (this.children.length === 0) {
+            return 1;
+        }
+        return 1 + this.children.reduce((acc, child) => acc + child.size(), 0);
     }
 }
 
 export class MinimaxPlayer {
     search(game, depth) {
-        if (depth === 0) {
-            const sco = score(game, game.currentSide);
-            return new TreeNode(sco)
+        this.visited = new Set();
+        return this._search(game, game.currentSide, depth);
+    }
+    _search(game, side, depth) {
+        if (depth === 0 || game.currentSide !== side) {
+            const theScore = score(game, game.currentSide);
+            return new TreeNode(theScore)
         }
         const rootNode = new TreeNode();
-        game.validCommands().forEach((command) => {
-            rootNode.addChild(game, command);
-        });
+        this.visited.add(game.toString());
+        const validCommands = game.validCommands();
         rootNode.score = -Infinity;
-        for (let i = 0; i < rootNode.children.length; i++) {
-            const child = rootNode.children[i];
-            rootNode.score = Math.max(rootNode.score, child.score);
-        }
+        validCommands.forEach((command) => {
+            if (!command.isDeterministic()) {
+                return;
+            }
+            const clone = game.clone();
+            clone.executeCommand(command);
+            if (this.alreadySeen(clone)) {
+                return;
+            }
+            const child = this._search(clone, side, depth - 1);
+            rootNode.children.push(child);
+            if (child.score > rootNode.score) {
+                rootNode.score = child.score;
+                rootNode.bestCommand = command;
+                rootNode.bestChild = child;
+            }
+        });
         return rootNode;
+    }
+
+    alreadySeen(game) {
+        return this.visited.has(game.toString());
     }
 }

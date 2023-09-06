@@ -51,6 +51,7 @@ class Game {
             this.orderedUnits,
             this.handNorth,
             this.handSouth,
+            this.phases,
         ])
     }
 
