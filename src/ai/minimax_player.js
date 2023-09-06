@@ -19,6 +19,22 @@ class TreeNode {
         }
         return 1 + this.children.reduce((acc, child) => acc + child.size(), 0);
     }
+
+    shape() {
+        const result = [];
+        function traverse(node, level) {
+            if (!result[level]) {
+                result[level] = 0;
+            }
+            result[level]++;
+            for (const child of node.children) {
+                traverse(child, level + 1);
+            }
+        }
+        traverse(this, 0);
+        return result;
+    }
+
 }
 
 export class MinimaxPlayer {
