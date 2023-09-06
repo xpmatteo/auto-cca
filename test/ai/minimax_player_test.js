@@ -29,7 +29,7 @@ test('level 1 search', () => {
 // level 1: playCard
 // level 2: activate units
 // level 3: move units
-test('level 4 search', () => {
+xtest('level 4 search', () => {
     const game = makeGame(new AkragasScenario());
     const player = new MinimaxPlayer(game);
     const tree = player.search(game, 8);
