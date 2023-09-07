@@ -7,6 +7,8 @@ import { RESULT_HEAVY } from "model/dice.js";
 import { OrderUnitCommand } from "model/commands/order_unit_command.js";
 import { OrderUnitsPhase } from "model/phases/order_units_phase.js";
 
+const PHASE = new OrderUnitsPhase(2, RESULT_HEAVY);
+
 function makeGameWithFiveUnits() {
     let game = new Game(new NullScenario());
     game.placeUnit(hexOf(0, 0), new units.CarthaginianHeavyInfantry());
@@ -14,21 +16,19 @@ function makeGameWithFiveUnits() {
     game.placeUnit(hexOf(1, 2), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(1, 3), new units.RomanHeavyCavalry());
     game.placeUnit(hexOf(1, 4), new units.RomanHeavyCavalry());
-    game.phases = [phase];
+    game.phases = [PHASE];
     return game;
 }
-const phase = new OrderUnitsPhase(2, RESULT_HEAVY);
 
 test("order units", () => {
     let game = makeGameWithFiveUnits();
 
-    let moves = phase.validCommands(game);
+    let moves = PHASE.validCommands(game);
 
     let expected = [
         new OrderUnitCommand(hexOf(1, 2)),
         new OrderUnitCommand(hexOf(1, 3)),
         new OrderUnitCommand(hexOf(1, 4)),
-        new EndPhaseCommand(),
     ];
     expect(moves.length).toEqual(expected.length);
     expect(new Set(moves)).toEqual(new Set(expected));
@@ -38,12 +38,11 @@ test("cannot order already ordered", () => {
     let game = makeGameWithFiveUnits();
     game.executeCommand(new OrderUnitCommand(hexOf(1, 2)));
 
-    let moves = phase.validCommands(game);
+    let moves = PHASE.validCommands(game);
 
     let expected = [
         new OrderUnitCommand(hexOf(1, 3)),
         new OrderUnitCommand(hexOf(1, 4)),
-        new EndPhaseCommand(),
     ];
     expect(moves.length).toEqual(expected.length);
     expect(new Set(moves)).toEqual(new Set(expected));
@@ -54,19 +53,19 @@ test("cannot order more than two units", () => {
     game.executeCommand(new OrderUnitCommand(hexOf(1, 2)));
     game.executeCommand(new OrderUnitCommand(hexOf(1, 3)));
 
-    let moves = phase.validCommands(game);
+    let commands = PHASE.validCommands(game);
 
     let expected = [
         new EndPhaseCommand(),
     ];
-    expect(moves.length).toEqual(expected.length);
-    expect(new Set(moves)).toEqual(new Set(expected));
+    expect(commands.length).toEqual(expected.length);
+    expect(new Set(commands)).toEqual(new Set(expected));
 });
 
 test("highlighted hexes", () => {
     let game = makeGameWithFiveUnits();
 
-    expect(phase.hilightedHexes(game)).toEqual(new Set([hexOf(1, 2), hexOf(1, 3), hexOf(1, 4)]));
+    expect(PHASE.hilightedHexes(game)).toEqual(new Set([hexOf(1, 2), hexOf(1, 3), hexOf(1, 4)]));
 });
 
 const pointWithinMap = new Point(0, 0);
@@ -74,7 +73,7 @@ const pointWithinMap = new Point(0, 0);
 test("click to order unit", () => {
     let game = makeGameWithFiveUnits();
 
-    phase.onClick(hexOf(1, 2), game, pointWithinMap);
+    PHASE.onClick(hexOf(1, 2), game, pointWithinMap);
 
     expect(game.orderedUnits.length).toEqual(1);
 });
@@ -82,8 +81,8 @@ test("click to order unit", () => {
 test("click to unorder unit", () => {
     let game = makeGameWithFiveUnits();
 
-    phase.onClick(hexOf(1, 2), game, pointWithinMap);
-    phase.onClick(hexOf(1, 2), game, pointWithinMap);
+    PHASE.onClick(hexOf(1, 2), game, pointWithinMap);
+    PHASE.onClick(hexOf(1, 2), game, pointWithinMap);
 
     expect(game.orderedUnits.length).toEqual(0);
 });
@@ -91,7 +90,7 @@ test("click to unorder unit", () => {
 test("ignore click on unit that cannot be ordered", () => {
     let game = makeGameWithFiveUnits();
 
-    phase.onClick(hexOf(0, 0), game, pointWithinMap);
+    PHASE.onClick(hexOf(0, 0), game, pointWithinMap);
 
     expect(game.orderedUnits.length).toEqual(0);
 });

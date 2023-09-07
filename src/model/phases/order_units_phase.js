@@ -25,7 +25,8 @@ export class OrderUnitsPhase extends Phase {
                 commands.push(new OrderUnitCommand(hex));
             }
         });
-        commands.push(new EndPhaseCommand());
+        if (commands.length === 0)
+            commands.push(new EndPhaseCommand());
         return commands;
     }
 

@@ -40,7 +40,7 @@ test('MCTS one search expands the initial node', () => {
 
 // TODO
 // DONE score all available moves at expansion time
-// endphase not available until all units are ordered
+// DONE endphase not available until all units are ordered
 // endphase not available until all units are moved or decided to stay
 // deal with non-deterministic moves
 // deal with change of side
