@@ -90,8 +90,8 @@ export class MctsPlayer {
         this.args = args;
     }
 
-    search() {
-        const rootNode = new TreeNode(this.args.game);
+    search(game) {
+        const rootNode = new TreeNode(game);
         for (let i = 0; i < this.args.iterations; i++) {
             let nodes = this._select(rootNode);
             nodes.forEach(node => {
