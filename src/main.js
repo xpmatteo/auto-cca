@@ -10,6 +10,7 @@ import { CARD_IMAGE_SIZE } from "./model/cards.js";
 import { Point } from "./lib/hexlib.js";
 import { EndPhaseCommand } from "./model/commands/end_phase_command.js";
 import { GreedyPlayer } from "./ai/greedy_player.js";
+import { MctsPlayer } from "./ai/mcts_player.js";
 
 // create canvas
 const canvas = document.createElement('canvas');
@@ -24,7 +25,7 @@ let game = makeGame(scenario);
 let interactiveGame = new InteractiveGame(game);
 
 // create AI
-const aiPlayer = new GreedyPlayer();
+const aiPlayer = new MctsPlayer({iterations:15000});
 const autoplay = new Autoplay(interactiveGame, aiPlayer);
 
 // draw initial map

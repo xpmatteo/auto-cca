@@ -1,6 +1,6 @@
 import { score } from "./score.js";
 
-class TreeNode {
+export class TreeNode {
     constructor(game, parent = null) {
         this.game = game;
         this.parent = parent;
@@ -36,15 +36,18 @@ class TreeNode {
         return this.score / this.visits + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
     }
 
-    bestCommands() {
-        if (this.children.length === 0) {
+    bestCommands(side) {
+        if (side && this.game.currentSide !== side) {
             return [];
+        }
+        if (this.children.length === 0) {
+            return [this.command];
         }
         let best = this.mostVisited();
         if (this.command === undefined) {
-            return best.bestCommands();
+            return best.bestCommands(side);
         }
-        return [this.command].concat(best.bestCommands());
+        return [this.command].concat(best.bestCommands(side));
     }
 
     size() {
@@ -90,12 +93,19 @@ export class MctsPlayer {
         this.args = args;
     }
 
+    decideMove(game) {
+        console.log(" ----- AI IS THINKING -----")
+        const rootNode = this.search(game.toGame());
+        return rootNode.bestCommands(game.currentSide);
+    }
+
     search(game) {
+        const originalSide = game.currentSide;
         const rootNode = new TreeNode(game);
         for (let i = 0; i < this.args.iterations; i++) {
             let nodes = this._select(rootNode);
             nodes.forEach(node => {
-                let score = this._simulate(node.game);
+                let score = this._simulate(node.game, originalSide);
                 this._backpropagate(node, score);
             })
         }
@@ -135,7 +145,12 @@ export class MctsPlayer {
         }
     }
 
-    _simulate(game) {
-        return score(game, game.currentSide);
+    _simulate(game, originalSide) {
+        const theScore = score(game, game.currentSide);
+        if (game.currentSide === originalSide) {
+            return theScore;
+        } else {
+            return -theScore;
+        }
     }
 }
