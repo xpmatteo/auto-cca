@@ -72,7 +72,7 @@ class TreeNode {
     toString() {
         const result = [];
         function traverse(node, level) {
-            const nodeDescription = `${" ".repeat(level)}${node.score}/${node.visits}: ${node.game.currentSide} ${node.command}`;
+            const nodeDescription = `${" ".repeat(level)}${node.score}/${node.visits}: ${node.game.currentSide.name} ${node.command}`;
             result.push(nodeDescription);
             for (const child of node.children) {
                 traverse(child, level + 1);
