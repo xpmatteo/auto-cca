@@ -9,6 +9,23 @@ class TreeNode {
         this.children = [];
     }
 
+    bestUctChild(expansionFactor) {
+        let best = this.children[0];
+        for (let child of this.children) {
+            if (child.uct(expansionFactor) > best.uct(expansionFactor)) {
+                best = child;
+            }
+        }
+        return best;
+    }
+
+    uct(expansionFactor) {
+        if (this.visits === 0) {
+            return Infinity;
+        }
+        return this.score / this.visits + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
+    }
+
     size() {
         if (this.children.length === 0) {
             return 1;
@@ -34,7 +51,8 @@ class TreeNode {
     toString() {
         const result = [];
         function traverse(node, level) {
-            result.push(`${" ".repeat(level)}${node.score}/${node.visits}`);
+            const nodeDescription = `${" ".repeat(level)}${node.score}/${node.visits}: ${node.game.currentSide} ${node.command}`;
+            result.push(nodeDescription);
             for (const child of node.children) {
                 traverse(child, level + 1);
             }
@@ -42,7 +60,25 @@ class TreeNode {
         traverse(this, 0);
         return result.join("\n");
     }
+
+    bestCommands() {
+        if (this.children.length === 0) {
+            return [];
+        }
+        let best = this.children[0];
+        for (let child of this.children) {
+            if (child.visits > best.visits) {
+                best = child;
+            }
+        }
+        if (this.command === undefined) {
+            return best.bestCommands();
+        }
+        return [this.command].concat(best.bestCommands());
+    }
 }
+
+const DEFAULT_EXPANSION_FACTOR = 1.4142;
 
 export class MctsPlayer {
     constructor(args) {
@@ -85,7 +121,7 @@ export class MctsPlayer {
             if (node.children.length === 0) {
                 return this._expand(node);
             } else {
-                node = node.bestChild();
+                node = node.bestUctChild(this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR);
             }
         }
         return node;

@@ -11,12 +11,39 @@ test('MCTS one search expands the initial node', () => {
     });
     const tree = player.search();
 
-    console.log(tree.shape());
-    console.log(tree.toString());
-
     expect(tree.children.length).toBe(3);
     expect(tree.size()).toBe(4);
     expect(tree.visits).toBe(1);
     expect(tree.score).toBe(11);
 });
 
+function show(bestCommands) {
+    return bestCommands.map(c => c.toString());
+}
+
+test('MCTS one search expands the initial node', () => {
+    const game = makeGame(new AkragasScenario());
+    const player = new MctsPlayer({
+        game: game,
+        iterations: 1000,
+        // expansionFactor: 1000,
+    });
+    const tree = player.search();
+
+    console.log(tree.shape());
+    console.dir(show(tree.bestCommands()));
+    // console.log(tree.toString());
+
+    // expect(tree.children.length).toBe(3);
+    // expect(tree.size()).toBe(4);
+    // expect(tree.visits).toBe(1);
+    // expect(tree.score).toBe(11);
+});
+
+// TODO
+// score all available moves at expansion time
+// endphase not available until all units are ordered
+// endphase not available until all units are moved or decided to stay
+// deal with non-deterministic moves
+// deal with change of side
+// avoid looping moves
