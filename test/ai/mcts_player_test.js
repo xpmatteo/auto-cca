@@ -13,8 +13,8 @@ test('MCTS one search expands the initial node', () => {
 
     expect(tree.children.length).toBe(3);
     expect(tree.size()).toBe(4);
-    expect(tree.visits).toBe(1);
-    expect(tree.score).toBe(11);
+    expect(tree.visits).toBe(3);
+    expect(tree.score).toBe(33);
 });
 
 function show(bestCommands) {
@@ -25,7 +25,7 @@ test('MCTS one search expands the initial node', () => {
     const game = makeGame(new AkragasScenario());
     const player = new MctsPlayer({
         game: game,
-        iterations: 1000,
+        iterations: 100,
         // expansionFactor: 1000,
     });
     const tree = player.search();

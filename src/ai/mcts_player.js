@@ -93,11 +93,25 @@ export class MctsPlayer {
     search() {
         const rootNode = new TreeNode(this.args.game);
         for (let i = 0; i < this.args.iterations; i++) {
-            let node = this._select(rootNode);
-            let score = this._simulate(node.game);
-            this._backpropagate(node, score);
+            let nodes = this._select(rootNode);
+            nodes.forEach(node => {
+                let score = this._simulate(node.game);
+                this._backpropagate(node, score);
+            })
         }
         return rootNode;
+    }
+
+    _select(node) {
+        while (!node.game.isTerminal()) {
+            if (node.children.length === 0) {
+                return this._expand(node);
+            } else {
+                node = node.bestUctChild(this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR);
+            }
+        }
+        // node is terminal
+        return [node];
     }
 
     _expand(node) {
@@ -110,7 +124,7 @@ export class MctsPlayer {
             childNode.command = command;
             node.children.push(childNode);
         });
-        return node.children[0];
+        return node.children;
     }
 
     _backpropagate(node, score) {
@@ -119,17 +133,6 @@ export class MctsPlayer {
             node.visits++;
             node = node.parent;
         }
-    }
-
-    _select(node) {
-        while (!node.game.isTerminal()) {
-            if (node.children.length === 0) {
-                return this._expand(node);
-            } else {
-                node = node.bestUctChild(this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR);
-            }
-        }
-        return node;
     }
 
     _simulate(game) {
