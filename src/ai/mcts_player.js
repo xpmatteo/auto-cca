@@ -9,6 +9,16 @@ class TreeNode {
         this.children = [];
     }
 
+    mostVisited() {
+        let best = this.children[0];
+        for (let child of this.children) {
+            if (child.visits > best.visits) {
+                best = child;
+            }
+        }
+        return best;
+    }
+
     bestUctChild(expansionFactor) {
         let best = this.children[0];
         for (let child of this.children) {
@@ -24,6 +34,17 @@ class TreeNode {
             return Infinity;
         }
         return this.score / this.visits + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
+    }
+
+    bestCommands() {
+        if (this.children.length === 0) {
+            return [];
+        }
+        let best = this.mostVisited();
+        if (this.command === undefined) {
+            return best.bestCommands();
+        }
+        return [this.command].concat(best.bestCommands());
     }
 
     size() {
@@ -59,22 +80,6 @@ class TreeNode {
         }
         traverse(this, 0);
         return result.join("\n");
-    }
-
-    bestCommands() {
-        if (this.children.length === 0) {
-            return [];
-        }
-        let best = this.children[0];
-        for (let child of this.children) {
-            if (child.visits > best.visits) {
-                best = child;
-            }
-        }
-        if (this.command === undefined) {
-            return best.bestCommands();
-        }
-        return [this.command].concat(best.bestCommands());
     }
 }
 
