@@ -14,7 +14,7 @@ test('MCTS one search expands the initial node', () => {
     expect(tree.children.length).toBe(3);
     expect(tree.size()).toBe(4);
     expect(tree.visits).toBe(3);
-    expect(tree.score).toBe(33);
+    expect(tree.score).toBe(27);
 });
 
 function treeNodeWith(side, command, children) {

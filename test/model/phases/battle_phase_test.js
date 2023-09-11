@@ -74,7 +74,6 @@ test('generate ranged combat commands for one unit and two targets', function ()
     let expected = [
         new RangedCombatCommand(hexOf(2, 2), hexOf(0, 4)),
         new RangedCombatCommand(hexOf(1, 2), hexOf(0, 4)),
-        new EndPhaseCommand(),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));

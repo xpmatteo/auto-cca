@@ -11,6 +11,7 @@ export class BattlePhase extends Phase {
 
     validCommands(game) {
         let commands = [];
+        let haveRangedCombat = false;
         game.foreachUnit((unit, hex) => {
             if (!game.isOrdered(unit)) {
                 return;
@@ -23,9 +24,12 @@ export class BattlePhase extends Phase {
             });
             unit.validRangedCombatTargets(hex, game).forEach(to => {
                 commands.push(new RangedCombatCommand(to, hex));
+                haveRangedCombat = true;
             });
         });
-        commands.push(new EndPhaseCommand());
+        if (!haveRangedCombat) {
+            commands.push(new EndPhaseCommand());
+        }
         return commands;
     }
 

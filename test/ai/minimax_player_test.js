@@ -8,7 +8,7 @@ test('level zero search', () => {
     const player = new MinimaxPlayer(game);
     const tree = player.search(game, 0);
 
-    expect(tree.score).toBe(11);
+    expect(tree.score).toBe(9);
     expect(tree.children.length).toBe(0);
     expect(tree.bestCommands()).toEqual([]);
     expect(tree.size()).toBe(1);
@@ -19,8 +19,8 @@ test('level 1 search', () => {
     const player = new MinimaxPlayer(game);
     const tree = player.search(game, 1);
 
+    expect(tree.score).toBe(9);
     expect(tree.children.length).toBe(3);
-    expect(tree.score).toBe(11);
 });
 
 // test: stop when action is not deterministic
