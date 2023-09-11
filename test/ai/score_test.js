@@ -1,7 +1,7 @@
 import { NullScenario } from "model/scenarios.js";
 import makeGame from "model/game.js";
 import { Side } from "model/side.js";
-import { score } from "ai/score.js";
+import { score, scoreForAdvancingToRow } from "ai/score.js";
 import { hexOf } from "xlib/hexlib.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
 
@@ -61,4 +61,12 @@ test('score 10 for every point of damage', () => {
 
     expect(score(game, Side.ROMAN)).toBe(10);
     expect(score(game, Side.CARTHAGINIAN)).toBe(0);
+});
+
+test('Bonus for advancing', () => {
+    const quantum = 1;
+    expect(scoreForAdvancingToRow(0)).toBe(-quantum);
+    expect(scoreForAdvancingToRow(1)).toBe(0);
+    expect(scoreForAdvancingToRow(2)).toBe(quantum);
+    expect(scoreForAdvancingToRow(3)).toBe(2*quantum);
 });
