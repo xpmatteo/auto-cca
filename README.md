@@ -12,6 +12,7 @@ See the game by visiting http://localhost:8000/
 
 # AI things to try
 
+- positional scoring is all wrong -- it should be symmetric and depend on opponent positions
 - make dice rolling in AI deterministic
 - reduce iterations when the choice is for battle or retreat
 - (make close combat not optional?  or increase the reward for it?)

@@ -19,7 +19,7 @@ export class DamageEvent extends GameEvent {
         this.diceResults = diceResults.slice();
     }
 
-    toString() {        
+    toString() {
         return `${this.attackingUnit} damages ${this.defendingUnit} at ${this.hex} for ${this.damage} damage with ${this.diceResults}`;
     }
 

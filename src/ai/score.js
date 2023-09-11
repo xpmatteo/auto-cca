@@ -4,10 +4,6 @@ const SCORE_FOR_POINT_OF_DAMAGE = 10;
 
 const scoreForRow3 = 100;
 
-function decideDiceCountForRanged(hex, game) {
-    return game.unitHasMoved(hex) ? 1 : 2;
-}
-
 export function scoreForAdvancingToRow(row) {
     const quantum = 1;
     switch (row) {
@@ -21,23 +17,45 @@ export function scoreForAdvancingToRow(row) {
     return 0;
 }
 
+export function scoreForDamageToEnemyUnit(game, unit) {
+    const damage = unit.initialStrength - game.unitStrength(unit);
+    return damage * SCORE_FOR_POINT_OF_DAMAGE;
+}
+
+export function scoreForCloseCombatDice(game, unit, hex) {
+    let score = 0;
+    unit.validCloseCombatTargets(hex, game).forEach(to => {
+        score += unit.diceCount * SCORE_FOR_EACH_DIE;
+    });
+    return score;
+}
+
+export function scoreForRangedCombatDice(game, unit, hex) {
+    let score = 0;
+    unit.validRangedCombatTargets(hex, game).forEach(to => {
+        score += (game.unitHasMoved(hex) ? 1 : 2) * SCORE_FOR_EACH_DIE;
+    });
+    return score;
+}
+
+export function scoreForUnitsWithSupport(game, hex) {
+    let score = 0;
+    if (game.isSupported(hex)) {
+        score += SCORE_FOR_SUPPORTED_UNIT;
+    }
+    return score;
+}
+
 export function score(game, side) {
     let score = 0;
     game.foreachUnit((unit, hex) => {
         if (unit.side === side) {
-            if (game.isSupported(hex)) {
-                score += SCORE_FOR_SUPPORTED_UNIT;
-            }
-            unit.validCloseCombatTargets(hex, game).forEach(to => {
-                score += unit.diceCount * SCORE_FOR_EACH_DIE;
-            });
-            unit.validRangedCombatTargets(hex, game).forEach(to => {
-                score += decideDiceCountForRanged(hex, game) * SCORE_FOR_EACH_DIE;
-            });
+            score += scoreForUnitsWithSupport(game, hex);
+            score += scoreForCloseCombatDice(game, unit, hex);
+            score += scoreForRangedCombatDice(game, unit, hex);
             score += scoreForAdvancingToRow(hex.r);
         } else {
-            const damage = unit.initialStrength - game.unitStrength(unit);
-            score += damage * SCORE_FOR_POINT_OF_DAMAGE;
+            score += scoreForDamageToEnemyUnit(game, unit);
         }
     });
 

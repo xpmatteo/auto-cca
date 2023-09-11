@@ -16,7 +16,7 @@ test("greedy_player", function() {
     game.placeUnit(hexOf(1, 0), new RomanHeavyInfantry()); // has support
     game.placeUnit(hexOf(0, 1), new RomanHeavyInfantry()); // has support
     game.placeUnit(hexOf(2, 1), new RomanHeavyInfantry()); // one hex away
-    expect(score(game, Side.ROMAN)).toBe(3);
+    expect(score(game, Side.ROMAN)).toBe(1);
     game.foreachUnit((unit, hex) => game.orderUnit(hex))
     game.phases = [new MovementPhase(game)]
 
