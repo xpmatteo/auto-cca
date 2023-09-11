@@ -24,7 +24,12 @@ export class InteractiveGame {
 
     get hilightedHexes() {
         // We don't want Game to know about highlighting, so we delegate directly to the current phase.
-        return this.#game.currentPhase.hilightedHexes(this);
+        if (this.#game.currentPhase)
+            return this.#game.currentPhase.hilightedHexes(this);
+        else {
+            console.log(' *** no current phase');
+            return new Set();
+        }
     }
 
     selectedHex() {
