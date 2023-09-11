@@ -28,4 +28,8 @@ export class MovementPhase extends Phase {
     hilightedHexes(game) {
         return this.hilightedHexesForDirectionalCommands(game);
     }
+
+    requiresDeepThought() {
+        return true;
+    }
 }

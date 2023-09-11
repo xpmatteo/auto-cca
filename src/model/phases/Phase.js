@@ -44,4 +44,8 @@ export class Phase {
         }
         return events;
     }
+
+    requiresDeepThought() {
+        return false;
+    }
 }

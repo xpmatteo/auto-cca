@@ -106,16 +106,18 @@ export class MctsPlayer {
         if (game.validCommands().length === 1) {
             return [game.validCommands()[0]];
         }
-        const rootNode = this.search(game.toGame());
+        const iterations = (game.currentPhase.requiresDeepThought()) ?
+            this.args.iterations : 1000;
+        const rootNode = this.search(game.toGame(), iterations);
         console.log(rootNode.toString(2));
         console.log("Time taken: " + (Date.now() - startTime)/1000 + "s");
         return rootNode.bestCommands(game.currentSide);
     }
 
-    search(game) {
+    search(game, iterations = this.args.iterations) {
         const originalSide = game.currentSide;
         const rootNode = new TreeNode(game);
-        for (let i = 0; i < this.args.iterations; i++) {
+        for (let i = 0; i < iterations; i++) {
             let nodes = this._select(rootNode);
             nodes.forEach(node => {
                 let score = this._simulate(node.game, originalSide);

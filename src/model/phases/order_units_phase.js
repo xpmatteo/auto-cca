@@ -73,4 +73,8 @@ export class OrderUnitsPhase extends Phase {
             }
         });
     }
+
+    requiresDeepThought() {
+        return true;
+    }
 }

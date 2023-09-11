@@ -30,4 +30,8 @@ export class PlayCardPhase extends Phase {
         return commands[index].play(game);
     }
 
+    requiresDeepThought() {
+        return true;
+    }
+
 }
