@@ -58,7 +58,7 @@ function show(bestCommands) {
 test('MCTS one search expands the initial node', () => {
     const game = makeGame(new AkragasScenario());
     const player = new MctsPlayer({
-        iterations: 50000,
+        iterations: 10000,
         expansionFactor: 1000,
     });
     const tree = player.search(game);

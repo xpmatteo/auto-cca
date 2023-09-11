@@ -67,7 +67,7 @@ export class TestScenario extends Scenario {
 }
 
 export class AkragasScenario extends Scenario {
-    firstSide = Side.SYRACUSAN;
+    firstSide = Side.CARTHAGINIAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.SYRACUSAN;
     pointsToWin = 5;

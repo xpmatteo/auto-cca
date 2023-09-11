@@ -1,4 +1,4 @@
-import { Autoplay, displayEvents, RandomPlayer } from "./ai/autoplay.js";
+import { Autoplay, displayEvents } from "./ai/autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
 import { AkragasScenario } from "./model/scenarios.js";
@@ -9,7 +9,6 @@ import { GraphicalContext } from "./view/graphical_context.js";
 import { CARD_IMAGE_SIZE } from "./model/cards.js";
 import { Point } from "./lib/hexlib.js";
 import { EndPhaseCommand } from "./model/commands/end_phase_command.js";
-import { GreedyPlayer } from "./ai/greedy_player.js";
 import { MctsPlayer } from "./ai/mcts_player.js";
 
 // create canvas
@@ -32,6 +31,11 @@ const autoplay = new Autoplay(interactiveGame, aiPlayer);
 loadAllImagesThen(() => {
     redraw(graphics, interactiveGame);
     resizeCanvas(canvas);
+
+    redraw(graphics, interactiveGame);
+    setTimeout(() => {
+        autoplay.play(graphics);
+    });
 });
 
 // track mouse clicks
