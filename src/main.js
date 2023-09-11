@@ -24,18 +24,13 @@ let game = makeGame(scenario);
 let interactiveGame = new InteractiveGame(game);
 
 // create AI
-const aiPlayer = new MctsPlayer({iterations:15000});
+const aiPlayer = new MctsPlayer({iterations: 35000});
 const autoplay = new Autoplay(interactiveGame, aiPlayer);
 
 // draw initial map
 loadAllImagesThen(() => {
     redraw(graphics, interactiveGame);
     resizeCanvas(canvas);
-
-    redraw(graphics, interactiveGame);
-    setTimeout(() => {
-        autoplay.play(graphics);
-    });
 });
 
 // track mouse clicks

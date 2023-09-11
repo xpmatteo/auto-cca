@@ -12,11 +12,15 @@ export class TreeNode {
     mostVisited() {
         let best = this.children[0];
         for (let child of this.children) {
-            if (child.visits > best.visits) {
+            if (child.finalScore() > best.finalScore()) {
                 best = child;
             }
         }
         return best;
+    }
+
+    finalScore() {
+        return this.score / this.visits;
     }
 
     bestUctChild(expansionFactor) {
@@ -97,12 +101,14 @@ export class MctsPlayer {
     }
 
     decideMove(game) {
+        const startTime = Date.now();
         console.log(" ----- AI IS THINKING -----")
         if (game.validCommands().length === 1) {
             return [game.validCommands()[0]];
         }
         const rootNode = this.search(game.toGame());
         console.log(rootNode.toString(2));
+        console.log("Time taken: " + (Date.now() - startTime)/1000 + "s");
         return rootNode.bestCommands(game.currentSide);
     }
 
