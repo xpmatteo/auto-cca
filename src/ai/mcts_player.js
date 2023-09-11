@@ -72,9 +72,12 @@ export class TreeNode {
         return result;
     }
 
-    toString() {
+    toString(maxLevel = 10000) {
         const result = [];
         function traverse(node, level) {
+            if (level > maxLevel) {
+                return;
+            }
             const nodeDescription = `${" ".repeat(level)}${node.score}/${node.visits}: ${node.game.currentSide.name} ${node.command}`;
             result.push(nodeDescription);
             for (const child of node.children) {
@@ -95,7 +98,11 @@ export class MctsPlayer {
 
     decideMove(game) {
         console.log(" ----- AI IS THINKING -----")
+        if (game.validCommands().length === 1) {
+            return [game.validCommands()[0]];
+        }
         const rootNode = this.search(game.toGame());
+        console.log(rootNode.toString(2));
         return rootNode.bestCommands(game.currentSide);
     }
 

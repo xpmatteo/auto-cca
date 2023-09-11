@@ -51,7 +51,7 @@ export class Autoplay {
         while (this.game.currentSide === Side.CARTHAGINIAN && !this.game.isTerminal()) {
             const commands = this.aiPlayer.decideMove(this.game);
             if (commands.length === 0) {
-                throw new Error("No valid commands");
+                return;
             }
             for (let command of commands) {
                 console.log("Executing command: " + command);
@@ -69,12 +69,6 @@ export class Autoplay {
             throw new Error("No valid commands");
         }
         let command = commands[Math.floor(Math.random() * commands.length)];
-        return this.game.executeCommand(command);
-    }
-
-    executeBestCommand() {
-        let command = chooseBestCommand(this.game);
-
         return this.game.executeCommand(command);
     }
 }
