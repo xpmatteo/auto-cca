@@ -9,10 +9,13 @@ Run tests with `./test.sh`
 
 See the game by visiting http://localhost:8000/
 
-
 # AI things to try
 
-- BUG AI retreat no longer works
+- scoring of enemy moves is always from the POV of the AI player -- this makes the AI choose poor moves for the human player.  Perhaps it should always be scored for the current player, so the choice of best moves is computed correctly
+
+- Make the AI give preference to moving/battling with the most constrained unit
+
+- BUG AI retreat no longer works?
 - positional scoring is all wrong -- it should be symmetric and depend on opponent positions
 - make dice rolling in AI deterministic
 - (make close combat not optional?  or increase the reward for it?)
