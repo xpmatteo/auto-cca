@@ -1,7 +1,6 @@
 import { Autoplay, displayEvents } from "./ai/autoplay.js";
 import { InteractiveGame } from "./interactive_game.js";
 import makeGame from "./model/game.js";
-import { AkragasScenario } from "./model/scenarios.js";
 import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas, scalePoint } from "./view/map.js";
@@ -10,6 +9,8 @@ import { CARD_IMAGE_SIZE } from "./model/cards.js";
 import { Point } from "./lib/hexlib.js";
 import { EndPhaseCommand } from "./model/commands/end_phase_command.js";
 import { MctsPlayer } from "./ai/mcts_player.js";
+import getParameterByName from "./lib/query_string.js";
+import { makeScenario } from "./model/scenarios.js";
 
 // create canvas
 const canvas = document.createElement('canvas');
@@ -19,7 +20,7 @@ document.body.appendChild(canvas);
 const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game
-let scenario = new AkragasScenario();
+const scenario = makeScenario(getParameterByName("scenario"));
 let game = makeGame(scenario);
 let interactiveGame = new InteractiveGame(game);
 

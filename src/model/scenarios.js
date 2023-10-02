@@ -36,8 +36,8 @@ export class NullScenario extends Scenario {
     }
 }
 
-export class TestScenario extends Scenario {
-    firstSide = Side.ROMAN;
+export class MeleeScenario extends Scenario {
+    firstSide = Side.CARTHAGINIAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
     pointsToWin = 3;
@@ -107,4 +107,13 @@ export class AkragasScenario extends Scenario {
         placeSyracusanUnit(hexOf(3, 6), new units.RomanLightBowsInfantry());
         placeSyracusanUnit(hexOf(7, 6), new units.RomanLightInfantry());
     }
+}
+
+const SCENARIOS = {
+    akragas: new AkragasScenario(),
+    melee: new MeleeScenario(),
+}
+
+export function makeScenario(name) {
+    return SCENARIOS[name] || new AkragasScenario();
 }

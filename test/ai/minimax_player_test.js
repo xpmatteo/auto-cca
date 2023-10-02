@@ -1,5 +1,5 @@
 import makeGame from "model/game.js";
-import { AkragasScenario, TestScenario } from "model/scenarios.js";
+import { AkragasScenario, MeleeScenario } from "model/scenarios.js";
 import { MinimaxPlayer } from "ai/minimax_player.js";
 
 

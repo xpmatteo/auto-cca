@@ -8,10 +8,7 @@ server:
 
 open:
 	@open -a "Google Chrome" http://localhost:8000
-
-arkit:
-	@npx arkit -f src/main.js -o arkit.svg
-	@open -a "Google Chrome" arkit.svg
+	@open -a "Google Chrome" http://localhost:8000?scenario=melee
 
 madge:
 	@npx madge --image madge.svg src/main.js

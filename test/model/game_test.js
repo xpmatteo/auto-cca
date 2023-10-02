@@ -3,7 +3,7 @@ import makeGame from "model/game.js";
 import GameStatus from "model/game_status.js";
 import * as units from "model/units.js";
 import { Side } from "model/side.js";
-import { NullScenario, TestScenario } from "model/scenarios.js";
+import { NullScenario, MeleeScenario } from "model/scenarios.js";
 import { Autoplay } from "ai/autoplay.js";
 import { MoveCommand } from "model/commands/move_command.js";
 import { EndPhaseCommand } from "model/commands/end_phase_command.js";
@@ -77,7 +77,7 @@ test("unit takes damage", () => {
 
 
 test('clone game', () => {
-    const game = makeGame(new TestScenario());
+    const game = makeGame(new MeleeScenario());
     const gameBeforeClone = JSON.stringify(game);
 
     // measure the time it takes to clone the game
