@@ -54,17 +54,23 @@ export class MeleeScenario extends Scenario {
         board.placeUnit(hexOf(4, 2), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(4, 3), new units.CarthaginianHeavyInfantry());
     }
+}
 
-    gameStatus(game) {
-        if (game.killedUnitsOfSide(Side.CARTHAGINIAN).length === this.pointsToWin) {
-            return GameStatus.ROMAN_WIN;
-        }
-        if (game.killedUnitsOfSide(Side.ROMAN).length === this.pointsToWin) {
-            return GameStatus.CARTHAGINIAN_WIN;
-        }
-        return GameStatus.ONGOING;
+export class OneToOneMeleeScenario extends Scenario {
+    firstSide = Side.CARTHAGINIAN;
+    sideNorth = Side.CARTHAGINIAN;
+    sideSouth = Side.ROMAN;
+    pointsToWin = 1;
+    commandNorth = 3;
+    commandSouth = 3;
+
+    placeUnitsOn(board) {
+        board.placeUnit(hexOf(1, 4), new units.RomanLightInfantry());
+
+        board.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
     }
 }
+
 
 export class AkragasScenario extends Scenario {
     firstSide = Side.CARTHAGINIAN;
@@ -112,6 +118,7 @@ export class AkragasScenario extends Scenario {
 const SCENARIOS = {
     akragas: new AkragasScenario(),
     melee: new MeleeScenario(),
+    oneToOneMelee: new OneToOneMeleeScenario(),
 }
 
 export function makeScenario(name) {

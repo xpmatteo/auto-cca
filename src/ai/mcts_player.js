@@ -106,12 +106,17 @@ export class MctsPlayer {
         if (game.validCommands().length === 1) {
             return [game.validCommands()[0]];
         }
-        const iterations = (game.currentPhase.requiresDeepThought()) ?
-            this.args.iterations : 1000;
-        const rootNode = this.search(game.toGame(), iterations);
-        console.log(rootNode.toString(2));
+        const rootNode = this._doDecideMove(game);
+        console.log(rootNode.toString(4));
+        console.log(rootNode.bestCommands(game.currentSide).toString().replaceAll(", ", "\n"));
         console.log("Time taken: " + (Date.now() - startTime)/1000 + "s");
         return rootNode.bestCommands(game.currentSide);
+    }
+
+    _doDecideMove(game) {
+        const iterations = (game.currentPhase.requiresDeepThought()) ?
+            this.args.iterations : 1000;
+        return this.search(game.toGame(), iterations);
     }
 
     search(game, iterations = this.args.iterations) {

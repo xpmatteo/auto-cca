@@ -33,7 +33,7 @@ export class Die {
     constructor(random = Math.random) {
         this.#random = random;
     }
-    
+
     roll() {
         this.#value = values[Math.floor(this.#random() * 6)];
     }
@@ -59,5 +59,17 @@ export class Dice {
         }
         results.sort((a, b) => a.value - b.value);
         return results;
+    }
+}
+
+/**
+ * @param {fixedResults: DiceResult[]} fixedResults
+ * @returns {{roll: (function(*): DiceResult[])}}
+ */
+export function diceReturning(fixedResults) {
+    return {
+        roll: function (count) {
+            return fixedResults.slice(0, count);
+        }
     }
 }

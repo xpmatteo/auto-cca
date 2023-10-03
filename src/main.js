@@ -11,6 +11,7 @@ import { EndPhaseCommand } from "./model/commands/end_phase_command.js";
 import { MctsPlayer } from "./ai/mcts_player.js";
 import getParameterByName from "./lib/query_string.js";
 import { makeScenario } from "./model/scenarios.js";
+import { diceReturning, RESULT_FLAG, RESULT_HEAVY, RESULT_MEDIUM } from "./model/dice.js";
 
 // create canvas
 const canvas = document.createElement('canvas');
@@ -21,7 +22,7 @@ const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game
 const scenario = makeScenario(getParameterByName("scenario"));
-let game = makeGame(scenario);
+let game = makeGame(scenario, diceReturning([RESULT_HEAVY,RESULT_HEAVY,RESULT_MEDIUM,RESULT_FLAG,RESULT_FLAG]));
 let interactiveGame = new InteractiveGame(game);
 
 // create AI

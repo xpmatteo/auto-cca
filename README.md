@@ -14,7 +14,11 @@ Also, keep an AI on the status text on top that tells you which phase the game i
 In the main scenario (Akragas), you play the Syracusan (bottom) while the AI plays 
 the Carthaginian (top). 
 
-# AI things to try
+# AI 
+
+- BUG the AI puts nondeterministic moves in the move tree, and then executes them?
+- BUG bestcommands does not stop after the first nondeterministic move
+- BUG bestcommands sometimes does not return anything
 
 - scoring of enemy moves is always from the POV of the AI player -- this makes the AI choose poor moves for the human player.  Perhaps it should always be scored for the current player, so the choice of best moves is computed correctly
 - Make the AI give preference to moving/battling with the most constrained unit
