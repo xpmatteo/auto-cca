@@ -3,11 +3,11 @@ Graphics are copyright GMT Games, copied from the Vassal CC:A module
 
 # How to
 
-Serve locally with `python -m http.server`
+Serve locally with `make server`
 
-Run tests with `./test.sh`
+Run tests with `make test`
 
-See the game by visiting http://localhost:8000/
+See the game with `nake open`
 
 # AI things to try
 
