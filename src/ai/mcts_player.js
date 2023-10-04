@@ -1,15 +1,15 @@
 import { score } from "./score.js";
 
 export class TreeNode {
-    constructor(game, parent = null) {
+    constructor(game, parent = null, score, visits, children) {
         this.game = game;
         this.parent = parent;
-        this.score = 0;
-        this.visits = 0;
-        this.children = [];
+        this.score = score || 0;
+        this.visits = visits || 0;
+        this.children = children || [];
     }
 
-    mostVisited() {
+    bestAbsoluteChild() {
         let best = this.children[0];
         for (let child of this.children) {
             if (child.finalScore() > best.finalScore()) {
@@ -40,14 +40,24 @@ export class TreeNode {
         return this.score / this.visits + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
     }
 
+    /**
+     * Returns the best commands sequence for the AI, stopping at the first non-deterministic command.
+     * @param {Side} side
+     * @returns {[]|[*]|[*]|*|*[]|*[]}
+     */
     bestCommands(side) {
         if (side && this.game.currentSide !== side) {
-            return [];
+            // stop because *after* this command, the side will change
+            return [this.command];
         }
         if (this.children.length === 0) {
             return [this.command];
         }
-        let best = this.mostVisited();
+        if (this.command && !this.command.isDeterministic()) {
+            // stop because *after* this command, we don't know what the actual situation will be
+            return [this.command];
+        }
+        let best = this.bestAbsoluteChild();
         if (this.command === undefined) {
             return best.bestCommands(side);
         }
@@ -95,6 +105,10 @@ export class TreeNode {
 
 const DEFAULT_EXPANSION_FACTOR = 1.4142;
 
+function showBestCommands(comands) {
+    return "Best commands: \n - " + comands.join("\n - ") + "\nEnd best commands";
+}
+
 export class MctsPlayer {
     constructor(args) {
         this.args = args;
@@ -107,10 +121,11 @@ export class MctsPlayer {
             return [game.validCommands()[0]];
         }
         const rootNode = this._doDecideMove(game);
-        console.log(rootNode.toString(4));
-        console.log(rootNode.bestCommands(game.currentSide).toString().replaceAll(", ", "\n"));
+        const bestCommands = rootNode.bestCommands(game.currentSide);
+        console.log(showBestCommands(bestCommands));
+        //console.log(rootNode.toString(4));
         console.log("Time taken: " + (Date.now() - startTime)/1000 + "s");
-        return rootNode.bestCommands(game.currentSide);
+        return bestCommands;
     }
 
     _doDecideMove(game) {

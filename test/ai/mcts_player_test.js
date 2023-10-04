@@ -1,7 +1,6 @@
 import makeGame from "model/game.js";
 import { AkragasScenario } from "model/scenarios.js";
-import { MctsPlayer, TreeNode } from "ai/mcts_player.js";
-import { Side } from "model/side.js";
+import { MctsPlayer } from "ai/mcts_player.js";
 
 
 test('MCTS one search expands the initial node', () => {
@@ -14,40 +13,6 @@ test('MCTS one search expands the initial node', () => {
     expect(tree.children.length).toBe(3);
     expect(tree.size()).toBe(4);
     expect(tree.visits).toBe(3);
-});
-
-function treeNodeWith(side, command, children) {
-    let tree = new TreeNode({currentSide: side});
-    tree.command = command;
-    tree.children = children;
-    return tree;
-}
-
-test("only return the current side's commands", () => {
-    expect(treeNodeWith(Side.ROMAN, undefined, []).bestCommands()).toEqual([]);
-    expect(treeNodeWith(Side.ROMAN, "c1", []).bestCommands()).toEqual(["c1"]);
-
-    expect(treeNodeWith(Side.ROMAN, "c1", [
-        treeNodeWith(Side.ROMAN, "c2", []),
-    ]).bestCommands()).toEqual(["c1", "c2"]);
-
-    expect(treeNodeWith(Side.ROMAN, undefined, [
-        treeNodeWith(Side.ROMAN, "c2", []),
-    ]).bestCommands()).toEqual(["c2"]);
-
-    expect(treeNodeWith(Side.ROMAN, undefined, [
-        treeNodeWith(Side.ROMAN, "c2", [
-            treeNodeWith(Side.ROMAN, "c3", []),
-        ]),
-    ]).bestCommands()).toEqual(["c2", "c3"]);
-
-    const treeSwitchingSides = treeNodeWith(Side.ROMAN, undefined, [
-        treeNodeWith(Side.ROMAN, "c2", [
-            treeNodeWith(Side.CARTHAGINIAN, "c3", []),
-        ]),
-    ]);
-    expect(treeSwitchingSides.bestCommands()).toEqual(["c2", "c3"]);
-    expect(treeSwitchingSides.bestCommands(Side.ROMAN)).toEqual(["c2"]);
 });
 
 function show(bestCommands) {

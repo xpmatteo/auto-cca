@@ -51,14 +51,19 @@ export class Autoplay {
         while (this.game.currentSide === Side.CARTHAGINIAN && !this.game.isTerminal()) {
             const commands = this.aiPlayer.decideMove(this.game);
             if (commands.length === 0) {
+                console.log("????? AI returned no commands");
                 return;
             }
             for (let command of commands) {
-                console.log("Executing command: " + command);
-                let events = this.game.executeCommand(command);
-                displayEvents(events);
-                redraw(graphics, this.game);
-                await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
+                try {
+                    console.log("Executing command: " + command);
+                    let events = this.game.executeCommand(command);
+                    displayEvents(events);
+                    redraw(graphics, this.game);
+                    await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
+                } catch (error) {
+                    console.log(" ****** Error executing command: " + error);
+                }
             }
         }
     }
