@@ -123,6 +123,7 @@ export class MctsPlayer {
         const rootNode = this._doDecideMove(game);
         const bestCommands = rootNode.bestCommands(game.currentSide);
         console.log(showBestCommands(bestCommands));
+        console.log(rootNode.shape());
         //console.log(rootNode.toString(4));
         console.log("Time taken: " + (Date.now() - startTime)/1000 + "s");
         return bestCommands;

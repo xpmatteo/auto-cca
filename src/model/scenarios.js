@@ -1,9 +1,7 @@
-
-import { Side } from "./side.js";
 import { hexOf } from "../lib/hexlib.js";
 import GameStatus from "./game_status.js";
+import { Side } from "./side.js";
 import * as units from "./units.js";
-import { CarthaginianAuxiliaInfantry, CarthaginianHeavyChariot, CarthaginianLightCavalry } from "./units.js";
 
 export class Scenario {
     opposingSide(side) {
@@ -41,7 +39,7 @@ export class MeleeScenario extends Scenario {
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
     pointsToWin = 3;
-    commandNorth = 3;
+    commandNorth = 4;
     commandSouth = 3;
 
     placeUnitsOn(board) {

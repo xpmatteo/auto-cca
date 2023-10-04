@@ -1,8 +1,9 @@
 'use strict';
 
+import { score } from "../ai/score.js";
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
-import { layout, MAP_HEIGHT, MAP_WIDTH } from "./map.js";
 import { CARD_IMAGE_SIZE } from "../model/cards.js";
+import { layout, MAP_HEIGHT, MAP_WIDTH } from "./map.js";
 
 export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected, isOrdered) {
     function displayStrength() {
@@ -16,7 +17,7 @@ export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelect
 
     let url = `images/units/${unit.imageName}`;
     const size = graphics.drawImageCentered(url, pixelCoordinate);
-    
+
     let shift = 2;
     const pixelStrength = pixelCoordinate.add(new Point(size.x/2 - 30, size.y / 2 - 10));
     const pixelStrengthShadow = pixelStrength.add(new Point(-shift, shift));
@@ -79,7 +80,7 @@ function drawGraveyardHex(graphics, game, index, hex, unit) {
     const pixel = hex_to_pixel(layout, hex);
     graphics.drawCircle(pixel, layout.size.x * 0.7, 'darkgray');
     const adjustment = GRAVEYARD_ADJUSTMENTS[index];
-    graphics.writeText(GRAVEYARD_LABELS[index], 
+    graphics.writeText(GRAVEYARD_LABELS[index],
         pixel.add(new Point(adjustment, 10)), "30pt Times", "white");
     if (unit) {
         drawUnit(graphics, pixel, unit, 0, false);
@@ -96,7 +97,7 @@ function drawGraveyardHexNorth(graphics, game, index, unit) {
     drawGraveyardHex(graphics, game, index, hex, unit);
 }
 
-function drawGraveyard(graphics, game) {    
+function drawGraveyard(graphics, game) {
     const graveyardSize = game.pointsToWin;
     for (let i = 0; i < graveyardSize; i++) {
         drawGraveyardHexSouth(graphics, game, i, game.deadUnitsNorth[i]);
@@ -139,6 +140,18 @@ function drawDecorations(graphics, game) {
     game.decorations.forEach(decoration => decoration.draw(graphics, game));
 }
 
+/**
+ * @param {GraphicalContext} graphics
+ * @param {Game} game
+ */
+function drawScores(graphics, game) {
+    const label = "Score: ";
+    const scoreNorth = score(game.toGame(), game.toGame().scenario.sideNorth);
+    const scoreSouth = score(game.toGame(), game.toGame().scenario.sideSouth);
+    graphics.writeText(label + scoreNorth, new Point(100, 150), "20pt Arial");
+    graphics.writeText(label + scoreSouth, new Point(100, 1080), "20pt Arial");
+}
+
 export function redraw(graphics, game) {
     graphics.drawImage('images/cca_map_hq.jpg', new Point(0, 0));
 
@@ -162,5 +175,6 @@ export function redraw(graphics, game) {
     drawDecorations(graphics, game);
     updateInfoMessage(game);
     enableButtons(game);
+    drawScores(graphics, game)
 }
 

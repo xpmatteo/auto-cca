@@ -12,6 +12,9 @@ export class InteractiveGame {
         this.#game = game;
     }
 
+    /**
+     * @returns {Game}
+     */
     toGame() {
         return this.#game;
     }

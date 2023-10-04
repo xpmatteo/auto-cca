@@ -33,6 +33,11 @@ class Game {
     currentCard = null;
     turnCount = 0;
 
+    /**
+     *
+     * @param {Scenario} scenario
+     * @param dice
+     */
     constructor(scenario, dice) {
         this.scenario = scenario;
         this.dice = dice;
@@ -55,6 +60,9 @@ class Game {
         ])
     }
 
+    /**
+     * @returns {Game}
+     */
     toGame() {
         return this;
     }
