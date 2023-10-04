@@ -22,7 +22,8 @@ const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game
 const scenario = makeScenario(getParameterByName("scenario"));
-let game = makeGame(scenario, diceReturning([RESULT_HEAVY,RESULT_HEAVY,RESULT_MEDIUM,RESULT_FLAG,RESULT_FLAG]));
+//let game = makeGame(scenario, diceReturning([RESULT_HEAVY,RESULT_HEAVY,RESULT_MEDIUM,RESULT_FLAG,RESULT_FLAG]));
+let game = makeGame(scenario);
 let interactiveGame = new InteractiveGame(game);
 
 // create AI
