@@ -5,7 +5,8 @@ Graphics are copyright GMT Games, copied from the Vassal CC:A module
 
 Serve locally with `make server`
 
-Run tests with `make test` (you should `npm install jest` first)
+Run tests with `make test` (you should `npm install jest` first).  
+You may run a single test suite with `./test.sh test/whatever.js`
 
 Play the game with `make open`. Notice the "End phase" and "AI continue" 
 buttons, you will need to click them at appropriate times to get the game to proceed. 
