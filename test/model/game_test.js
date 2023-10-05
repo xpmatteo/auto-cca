@@ -4,7 +4,7 @@ import GameStatus from "model/game_status.js";
 import * as units from "model/units.js";
 import { Side } from "model/side.js";
 import { NullScenario, MeleeScenario } from "model/scenarios.js";
-import { Autoplay } from "ai/autoplay.js";
+import { Autoplay, RandomPlayer } from "ai/autoplay.js";
 import { MoveCommand } from "model/commands/move_command.js";
 import { EndPhaseCommand } from "model/commands/end_phase_command.js";
 
@@ -87,10 +87,7 @@ test('clone game', () => {
     // console.log("Cloning took " + (end - start) + " milliseconds.");
     expect(JSON.stringify(clone)).toEqual(gameBeforeClone);
 
-    const autoplayStart = performance.now();
-    new Autoplay(clone).randomPlayout();
-    const autoplayEnd = performance.now();
-    // console.log("Autoplay took " + (autoplayEnd - autoplayStart) + " milliseconds.");
+    clone.executeCommand(new RandomPlayer().decideMove(clone)[0]);
 
     expect(JSON.stringify(game)).toEqual(gameBeforeClone);
 });

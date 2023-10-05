@@ -17,6 +17,12 @@ the Carthaginian (top).
 
 # AI 
 
+- Improve greedy player
+  - improve GreedyPlayer#scoreCommand by running a nondeterministic command 10 times and average the scores
+  - ensure the greedy player goes for rolling as many dice as possible
+- Use the greedy player as a benchmark
+- Make the playout button pit greedy vs mcts
+
 - BUG the AI puts nondeterministic moves in the move tree, and then executes them?
 - BUG bestcommands does not stop after the first nondeterministic move
 - BUG bestcommands sometimes does not return anything

@@ -23,8 +23,8 @@ const graphics = new GraphicalContext(canvas.getContext('2d'));
 // create game
 const scenario = makeScenario(getParameterByName("scenario"));
 //let game = makeGame(scenario, diceReturning([RESULT_HEAVY,RESULT_HEAVY,RESULT_MEDIUM,RESULT_FLAG,RESULT_FLAG]));
-let game = makeGame(scenario);
-let interactiveGame = new InteractiveGame(game);
+const game = makeGame(scenario);
+const interactiveGame = new InteractiveGame(game);
 
 // create AI
 const aiPlayer = new MctsPlayer({iterations: 150000});
@@ -56,11 +56,6 @@ document.getElementById('ai-continue').addEventListener('click', function (event
 });
 
 document.getElementById('playout').addEventListener('click', function (event) {
-    if (game.isTerminal()) {
-        game = makeGame(scenario);
-        interactiveGame = new InteractiveGame(game);
-        redraw(graphics, interactiveGame);
-    }
     autoplay.playout(graphics);
 });
 

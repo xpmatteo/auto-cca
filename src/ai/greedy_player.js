@@ -1,8 +1,18 @@
 import { score } from "./score.js";
 
 export class GreedyPlayer {
+    /**
+     * @param {Side} side
+     */
+    constructor(side) {
+        this.side = side;
+    }
+
     decideMove(interactiveGame) {
         const game = interactiveGame.toGame()
+        if (interactiveGame.currentSide !== this.side) {
+            throw new Error("Not my turn");
+        }
         const commands = game.validCommands();
         if (commands.length === 0) {
             throw new Error("No valid commands");
@@ -22,6 +32,6 @@ export class GreedyPlayer {
     scoreCommand(game, command) {
         const gameAfterCommand = game.clone();
         gameAfterCommand.executeCommand(command);
-        return score(gameAfterCommand, gameAfterCommand.currentSide);
+        return score(gameAfterCommand, this.side);
     }
 }

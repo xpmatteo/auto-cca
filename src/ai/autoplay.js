@@ -1,3 +1,4 @@
+import { GreedyPlayer } from "./greedy_player.js";
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
 
@@ -12,17 +13,14 @@ export function displayEvents(events) {
     });
 }
 
-function chooseRandomCommand(game) {
-    let commands = game.validCommands();
-    if (commands.length === 0) {
-        throw new Error("No valid commands");
-    }
-    return commands[Math.floor(Math.random() * commands.length)];
-}
-
 export class RandomPlayer {
     decideMove(game) {
-        return [chooseRandomCommand(game)];
+        let commands = game.validCommands();
+        if (commands.length === 0) {
+            throw new Error("No valid commands");
+        }
+        const chosen = commands[Math.floor(Math.random() * commands.length)];
+        return [chosen];
     }
 }
 
@@ -39,11 +37,17 @@ export class Autoplay {
     }
 
     async playout(graphics) {
+        const game = this.game.toGame();
+        const sideNorth = game.scenario.sideNorth;
+        const sideSouth = game.scenario.sideSouth;
+        const northPlayer = new GreedyPlayer(sideNorth);
+        const southPlayer = new GreedyPlayer(sideSouth);
         while (!this.game.isTerminal()) {
-            let events = await this.executeRandomCommand();
-            displayEvents(events);
-            redraw(graphics, this.game);
-            await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
+            const player = this.game.currentSide === sideNorth ? northPlayer : southPlayer;
+            const commands = player.decideMove(game);
+            for (let command of commands) {
+                await this.doExecuteCommand(command, graphics);
+            }
         }
     }
 
@@ -55,25 +59,20 @@ export class Autoplay {
                 return;
             }
             for (let command of commands) {
-                try {
-                    console.log("Executing command: " + command);
-                    let events = this.game.executeCommand(command);
-                    displayEvents(events);
-                    redraw(graphics, this.game);
-                    await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
-                } catch (error) {
-                    console.log(" ****** Error executing command: " + error);
-                }
+                await this.doExecuteCommand(command, graphics);
             }
         }
     }
 
-    executeRandomCommand() {
-        let commands = this.game.validCommands();
-        if (commands.length === 0) {
-            throw new Error("No valid commands");
+    async doExecuteCommand(command, graphics) {
+        try {
+            console.log("Executing command: " + command);
+            const events = this.game.executeCommand(command);
+            displayEvents(events);
+            redraw(graphics, this.game);
+            await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
+        } catch (error) {
+            console.log(" ****** Error executing command: " + error);
         }
-        let command = commands[Math.floor(Math.random() * commands.length)];
-        return this.game.executeCommand(command);
     }
 }

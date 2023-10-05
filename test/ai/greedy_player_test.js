@@ -10,7 +10,7 @@ import { MovementPhase } from "model/phases/MovementPhase.js";
 
 
 test("greedy_player", function() {
-    const player = new GreedyPlayer();
+    const player = new GreedyPlayer(Side.ROMAN);
     const game = makeGame(new NullScenario());
     game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry()); // has support
     game.placeUnit(hexOf(1, 0), new RomanHeavyInfantry()); // has support
