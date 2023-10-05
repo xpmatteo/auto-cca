@@ -2,12 +2,14 @@ import {
     attackProximityScoreForHex,
     score,
     scoreForCloseCombatDice,
-    scoreForDamageToEnemyUnit,
+    scoreForDamageToEnemyUnit, scoreForOrderedUnits,
     scoreForRangedCombatDice,
     scoreForUnitsWithSupport
 } from "ai/score.js";
+import { OrderHeavyTroopsCard, OrderLightTroopsCard } from "model/cards.js";
+import { PlayCardCommand } from "model/commands/play_card_command.js";
 import makeGame from "model/game.js";
-import { NullScenario } from "model/scenarios.js";
+import { MeleeScenario, NullScenario } from "model/scenarios.js";
 import { Side } from "model/side.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
 import { hexOf } from "xlib/hexlib.js";
@@ -82,4 +84,14 @@ describe('attack proximity value', () => {
         expect(attackProximityScoreForHex(game, hexOf(2, 0), Side.CARTHAGINIAN)).toBeCloseTo(50);
         expect(attackProximityScoreForHex(game, hexOf(3, 0), Side.CARTHAGINIAN)).toBeCloseTo(10);
     });
+});
+
+test('score for orderable units', () => {
+    const game = makeGame(new NullScenario());
+    game.placeUnit(hexOf(0, 0), new RomanLightInfantry());
+    game.currentCard = new OrderHeavyTroopsCard();
+    expect(scoreForOrderedUnits(game)).toBe(0);
+
+    game.currentCard = new OrderLightTroopsCard();
+    expect(scoreForOrderedUnits(game)).toBe(1);
 });

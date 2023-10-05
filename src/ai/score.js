@@ -1,4 +1,5 @@
 const SCORE_FOR_SUPPORTED_UNIT = 1;
+const SCORE_FOR_ORDERED_UNIT = 0.1;
 const SCORE_FOR_EACH_DIE = 1;
 const SCORE_FOR_POINT_OF_DAMAGE = 10;
 
@@ -30,6 +31,10 @@ export function scoreForUnitsWithSupport(game, hex) {
         score += SCORE_FOR_SUPPORTED_UNIT;
     }
     return score;
+}
+
+export function scoreForOrderedUnits(game) {
+    return game.currentCard.eligibleUnits(game) * SCORE_FOR_ORDERED_UNIT;
 }
 
 // Optimization: precompute the values for the backoff function
@@ -79,6 +84,6 @@ export function score(game, side) {
             score += scoreForDamageToEnemyUnit(game, unit);
         }
     });
-
+    score += scoreForOrderedUnits(game);
     return score;
 }

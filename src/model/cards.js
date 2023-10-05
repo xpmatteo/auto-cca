@@ -26,6 +26,10 @@ class Card {
     toString() {
         return this.name;
     }
+
+    eligibleUnits(game) {
+        return orderPhase(game).__eligibleUnits(game);
+    }
 }
 
 export class OrderHeavyTroopsCard extends Card {
