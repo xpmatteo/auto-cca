@@ -46,6 +46,11 @@ export function scoreForUnitsWithSupport(game, hex) {
     return score;
 }
 
+/**
+ * @param {Game} game
+ * @param {Side} side
+ * @returns {number}
+ */
 export function score(game, side) {
     let score = 0;
     game.foreachUnit((unit, hex) => {

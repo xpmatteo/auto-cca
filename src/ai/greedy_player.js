@@ -21,6 +21,7 @@ export class GreedyPlayer {
         let bestCommand = undefined;
         for (let command of commands) {
             const score = this.scoreCommand(game, command);
+            console.log(" greedy player considering command", command.toString(), "score", result);
             if (score > bestScore) {
                 bestScore = score;
                 bestCommand = command;

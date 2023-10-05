@@ -77,3 +77,48 @@ test('Bonus for advancing', () => {
     expect(scoreForAdvancingToRow(2)).toBe(quantum);
     expect(scoreForAdvancingToRow(3)).toBe(2*quantum);
 });
+
+const DISTANCE_VALUE_BACKOFF = 0.2;
+
+// Optimization: precompute the values for the backoff function
+function backoffValues(number) {
+    let values = [0];
+    for (let i = 0; i < number; i++) {
+        values.push(Math.pow(DISTANCE_VALUE_BACKOFF, i));
+    }
+    return values;
+}
+const SCORE_REDUCTION_FACTORS_BY_DISTANCE = backoffValues(17);
+
+const ATTACK_PROXIMITY_SCORE_BY_ENEMY_STRENGTH = [undefined, 1000, 750, 500, 250];
+
+/**
+ * @param {Game} game
+ * @param {Hex} hexToBeScored
+ * @param {Side} attackingSide
+ * @returns {number}
+ */
+function attackProximityScoreForHex(game, hexToBeScored, attackingSide) {
+    const defendingSide = game.opposingSide(attackingSide);
+    let result = 0;
+    game.foreachUnitOfSide(defendingSide, (unit, unitHex) => {
+        const distance = hexToBeScored.distance(unitHex);
+        result += ATTACK_PROXIMITY_SCORE_BY_ENEMY_STRENGTH[unit.initialStrength] *
+            SCORE_REDUCTION_FACTORS_BY_DISTANCE[distance];
+    });
+    return result;
+}
+
+describe('attack proximity value', () => {
+    test('single enemy unit', () => {
+        const game = makeGame(new NullScenario());
+        game.placeUnit(hexOf(0, 0), new RomanLightInfantry());
+        game.placeUnit(hexOf(0, 2), new CarthaginianHeavyInfantry());
+
+        // expect(attackProximityScoreForHex(game, hexOf(0,0), Side.CARTHAGINIAN)).toBe(0);
+        expect(attackProximityScoreForHex(game, hexOf(0, 0), Side.CARTHAGINIAN)).toBe(0);
+        expect(attackProximityScoreForHex(game, hexOf(1,0), Side.CARTHAGINIAN)).toBe(250);
+        expect(attackProximityScoreForHex(game, hexOf(2,0), Side.CARTHAGINIAN)).toBeCloseTo(50);
+        expect(attackProximityScoreForHex(game, hexOf(3,0), Side.CARTHAGINIAN)).toBeCloseTo(10);
+    });
+});
