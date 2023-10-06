@@ -1,6 +1,8 @@
+import { Command } from "./commands.js";
 
-export class RetreatCommand {
+export class RetreatCommand extends Command {
     constructor(toHex, fromHex) {
+        super();
         this.toHex = toHex;
         this.fromHex = fromHex;
     }

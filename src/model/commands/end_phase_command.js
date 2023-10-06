@@ -1,4 +1,6 @@
-export class EndPhaseCommand {
+import { Command } from "./commands.js";
+
+export class EndPhaseCommand extends Command {
     toString() {
         return `End phase`;
     }

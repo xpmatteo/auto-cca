@@ -1,5 +1,8 @@
-export class MoveCommand {
+import { Command } from "./commands.js";
+
+export class MoveCommand extends Command {
     constructor(toHex, fromHex) {
+        super();
         this.toHex = toHex;
         this.fromHex = fromHex;
     }

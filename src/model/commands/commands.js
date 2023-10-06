@@ -3,6 +3,15 @@
     They are used by both the human player and the AI to execute a move.
 */
 
+export class Command {
+    /**
+     * @param {Game} game
+     */
+    play(game) {
+        throw new Error("abstract method");
+    }
+}
+
 export class FlagResult {
     constructor(damage, retreatHexes) {
         this.damage = damage;

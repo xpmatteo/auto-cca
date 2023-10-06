@@ -1,5 +1,8 @@
-export class PlayCardCommand {
+import { Command } from "./commands.js";
+
+export class PlayCardCommand extends Command {
     constructor(card) {
+        super();
         this.card = card;
     }
 

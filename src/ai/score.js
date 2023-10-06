@@ -1,5 +1,4 @@
 const SCORE_FOR_SUPPORTED_UNIT = 1;
-const SCORE_FOR_ORDERED_UNIT = 0.1;
 const SCORE_FOR_EACH_DIE = 1;
 const SCORE_FOR_POINT_OF_DAMAGE = 10;
 
@@ -47,16 +46,18 @@ const ATTACK_PROXIMITY_SCORE_BY_ENEMY_STRENGTH = [undefined, 1000, 750, 500, 250
 
 /**
  * @param {Game} game
+ * @param {Unit} ourUnit
  * @param {Hex} hexToBeScored
- * @param {Side} attackingSide
  * @returns {number}
  */
-export function attackProximityScoreForHex(game, hexToBeScored, attackingSide) {
-    const defendingSide = game.opposingSide(attackingSide);
+export function attackProximityScoreForHex(game, ourUnit, hexToBeScored) {
+    const opponentSide = game.opposingSide(ourUnit.side);
     let result = 0;
-    game.foreachUnitOfSide(defendingSide, (unit, unitHex) => {
+    game.foreachUnitOfSide(opponentSide, (unit, unitHex) => {
         const distance = hexToBeScored.distance(unitHex);
-        result += ATTACK_PROXIMITY_SCORE_BY_ENEMY_STRENGTH[unit.initialStrength] *
+        result +=
+            ATTACK_PROXIMITY_SCORE_BY_ENEMY_STRENGTH[unit.initialStrength] *
+            ourUnit.diceCount *
             SCORE_REDUCTION_FACTORS_BY_DISTANCE[distance];
     });
     return result;
@@ -75,7 +76,7 @@ export function score(game, side) {
             score += scoreForUnitsWithSupport(game, hex);
             score += scoreForCloseCombatDice(game, unit, hex);
             score += scoreForRangedCombatDice(game, unit, hex);
-            score += attackProximityScoreForHex(game, hex, side);
+            score += attackProximityScoreForHex(game, unit, hex);
         } else {
             score += scoreForDamageToEnemyUnit(game, unit);
         }

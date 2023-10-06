@@ -1,10 +1,11 @@
 import { DamageEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
 import { RetreatPhase } from "../phases/RetreatPhase.js";
-import { handleFlags } from "./commands.js";
+import { Command, handleFlags } from "./commands.js";
 
-export class AbstractCombatCommand {
+export class AbstractCombatCommand extends Command {
     constructor() {
+        super();
         if (this.constructor === AbstractCombatCommand) {
             throw new Error("AbstractCombatCommand is abstract");
         }

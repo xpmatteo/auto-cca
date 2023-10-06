@@ -19,6 +19,8 @@ the Carthaginian (top).
 
 Melee scenario:
  - half the units attack, half flee?!
+ - it does not maximize dice
+ - it does not order attacks so to maximize dice in case of retreat 
 
  - it does not concentrate fire
  - it does not move troops together
@@ -30,6 +32,7 @@ Akragas:
 
 # TODO AI 
 
+- score for a position depends on how many dice I can use to attack
 - limit depth of exploration: try to ensure we evaluate multiple times the next moves rather than going too far down
 
 - the evaluation of a position is done on a single roll of dice

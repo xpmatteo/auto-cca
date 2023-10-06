@@ -59,10 +59,17 @@ export class MeleeScenario extends Scenario {
     commandSouth = 3;
 
     placeUnitsOn(board) {
+        // 1522
         board.placeUnit(hexOf(0, 5), new units.RomanHeavyInfantry());
         board.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
         board.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
         board.placeUnit(hexOf(3, 5), new units.RomanHeavyInfantry());
+
+        // 6422
+        // board.placeUnit(hexOf(1, 4), new units.RomanHeavyInfantry());
+        // board.placeUnit(hexOf(2, 4), new units.RomanHeavyInfantry());
+        // board.placeUnit(hexOf(3, 4), new units.RomanHeavyInfantry());
+        // board.placeUnit(hexOf(4, 4), new units.RomanHeavyInfantry());
 
         board.placeUnit(hexOf(2, 3), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(4, 2), new units.CarthaginianHeavyInfantry());

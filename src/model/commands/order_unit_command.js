@@ -1,5 +1,8 @@
-export class OrderUnitCommand {
+import { Command } from "./commands.js";
+
+export class OrderUnitCommand extends Command {
     constructor(hex) {
+        super();
         this.hex = hex;
     }
 

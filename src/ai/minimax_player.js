@@ -6,6 +6,9 @@ class TreeNode {
         this.children = [];
     }
 
+    /**
+     * @returns {[Command]}
+     */
     bestCommands() {
         if (this.children.length === 0) {
             return [];
@@ -13,6 +16,9 @@ class TreeNode {
         return [this.bestCommand] + this.bestChild.bestCommands();
     }
 
+    /**
+     * @returns {number}
+     */
     size() {
         if (this.children.length === 0) {
             return 1;
@@ -20,6 +26,9 @@ class TreeNode {
         return 1 + this.children.reduce((acc, child) => acc + child.size(), 0);
     }
 
+    /**
+     * @returns {[number]}
+     */
     shape() {
         const result = [];
         function traverse(node, level) {
@@ -38,6 +47,21 @@ class TreeNode {
 }
 
 export class MinimaxPlayer {
+    constructor(depth) {
+        this.depth = depth;
+    }
+
+    decideMove(game) {
+        const bestCommands = this.search(game, this.depth).bestCommands();
+        console.log(bestCommands);
+        return bestCommands;
+    }
+
+    /**
+     * @param {Game} game
+     * @param {number} depth
+     * @returns {TreeNode}
+     */
     search(game, depth) {
         this.visited = new Set();
         return this._search(game, game.currentSide, depth);

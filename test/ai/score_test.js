@@ -75,12 +75,13 @@ describe('attack proximity value', () => {
     test('single enemy unit', () => {
         const game = makeGame(new NullScenario());
         game.placeUnit(hexOf(0, 0), new RomanLightInfantry());
-        game.placeUnit(hexOf(0, 2), new CarthaginianHeavyInfantry());
+        const unit = new CarthaginianHeavyInfantry();
+        game.placeUnit(hexOf(0, 2), unit);
 
-        expect(attackProximityScoreForHex(game, hexOf(0, 0), Side.CARTHAGINIAN)).toBe(0);
-        expect(attackProximityScoreForHex(game, hexOf(1, 0), Side.CARTHAGINIAN)).toBe(250);
-        expect(attackProximityScoreForHex(game, hexOf(2, 0), Side.CARTHAGINIAN)).toBeCloseTo(50);
-        expect(attackProximityScoreForHex(game, hexOf(3, 0), Side.CARTHAGINIAN)).toBeCloseTo(10);
+        expect(attackProximityScoreForHex(game, unit, hexOf(0, 0))).toBe(0);
+        expect(attackProximityScoreForHex(game, unit, hexOf(1, 0))).toBe(1250);
+        expect(attackProximityScoreForHex(game, unit, hexOf(2, 0))).toBeCloseTo(250);
+        expect(attackProximityScoreForHex(game, unit, hexOf(3, 0))).toBeCloseTo(50);
     });
 });
 

@@ -5,7 +5,7 @@ import { MinimaxPlayer } from "ai/minimax_player.js";
 
 test('level zero search', () => {
     const game = makeGame(new AkragasScenario());
-    const player = new MinimaxPlayer(game);
+    const player = new MinimaxPlayer(0);
     const tree = player.search(game, 0);
 
     // expect(tree.score).toBe(9);
@@ -22,6 +22,15 @@ test('level 1 search', () => {
     // expect(tree.score).toBe(9);
     expect(tree.children.length).toBe(3);
 });
+
+xtest('bestcommands', () => {
+    const game = makeGame(new MeleeScenario());
+    const player = new MinimaxPlayer(3);
+    const best = player.decideMove(game);
+
+    expect(best.length).toBe(3);
+});
+
 
 // test: stop when action is not deterministic
 // test: stop when acion changes current side

@@ -1,3 +1,4 @@
+import { MinimaxPlayer } from "./minimax_player.js";
 import { MctsPlayer } from "./mcts_player.js";
 import { GreedyPlayer } from "./greedy_player.js";
 import { Side } from "../model/side.js";
@@ -46,7 +47,8 @@ export class Autoplay {
         const sideNorth = game.scenario.sideNorth;
         const sideSouth = game.scenario.sideSouth;
         const northPlayer = new GreedyPlayer(sideNorth);
-        const southPlayer = new MctsPlayer({iterations: 150000});
+        //const southPlayer = new MctsPlayer({iterations: 150000});
+        const southPlayer = new MinimaxPlayer(6);
         while (!this.game.isTerminal() && !paused()) {
             const player = this.game.currentSide === sideNorth ? northPlayer : southPlayer;
             const commands = player.decideMove(game);
