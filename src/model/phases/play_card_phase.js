@@ -10,7 +10,7 @@ export class PlayCardPhase extends Phase {
         super("play one card");
     }
 
-    validCommands(game, board) {
+    validCommands(game) {
         return game.hand().map(card => new PlayCardCommand(card));
     }
 

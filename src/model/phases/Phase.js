@@ -12,7 +12,10 @@ export class Phase {
         return this.#name;
     }
 
-    validCommands(turn, board) {
+    /**
+     * @param {Game} game
+     */
+    validCommands(game) {
         return [];
     }
 

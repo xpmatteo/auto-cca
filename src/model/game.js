@@ -73,7 +73,7 @@ class Game {
 
     validCommands() {
         if (this.isTerminal()) return [];
-        return this.currentPhase.validCommands(this, this.board);
+        return this.currentPhase.validCommands(this);
     }
 
     executeCommand(command) {

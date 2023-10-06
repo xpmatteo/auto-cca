@@ -10,7 +10,7 @@ export class RetreatPhase extends Phase {
         this.temporarySide = temporarySide;
     }
 
-    validCommands(turn, board) {
+    validCommands(game) {
         return this.toHexes.map(toHex => new RetreatCommand(toHex, this.fromHex));
     }
 
