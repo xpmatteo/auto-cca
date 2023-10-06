@@ -4,9 +4,18 @@ import { Side } from "./side.js";
 import * as units from "./units.js";
 
 export class Scenario {
+    /**
+     * @param side
+     * @returns {Side}
+     */
     opposingSide(side) {
         return side === this.sideNorth ? this.sideSouth : this.sideNorth;
     }
+
+    /**
+     * @param {Game} game
+     * @returns {GameStatus}
+     */
     gameStatus(game) {
         if (game.killedUnitsOfSide(Side.CARTHAGINIAN).length === this.pointsToWin) {
             return GameStatus.ROMAN_WIN;
@@ -15,6 +24,13 @@ export class Scenario {
             return GameStatus.CARTHAGINIAN_WIN;
         }
         return GameStatus.ONGOING;
+    }
+
+    /**
+     * @param {Board|Game} board
+     */
+    placeUnitsOn(board) {
+        throw new Error("Subclass must implement");
     }
 }
 
@@ -55,7 +71,7 @@ export class MeleeScenario extends Scenario {
 }
 
 export class OneToOneMeleeScenario extends Scenario {
-    firstSide = Side.CARTHAGINIAN;
+    firstSide = Side.ROMAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
     pointsToWin = 1;
@@ -63,9 +79,8 @@ export class OneToOneMeleeScenario extends Scenario {
     commandSouth = 3;
 
     placeUnitsOn(board) {
-        board.placeUnit(hexOf(1, 4), new units.RomanLightInfantry());
-
         board.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(1, 4), new units.RomanLightBowsInfantry());
     }
 }
 
