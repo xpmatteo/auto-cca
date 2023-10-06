@@ -23,7 +23,7 @@ test('level 1 search', () => {
     expect(tree.children.length).toBe(3);
 });
 
-xtest('bestcommands', () => {
+test('bestcommands', () => {
     const game = makeGame(new MeleeScenario());
     const player = new MinimaxPlayer(3);
     const best = player.decideMove(game);

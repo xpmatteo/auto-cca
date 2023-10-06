@@ -36,7 +36,7 @@ export class GreedyPlayer {
         gameAfterCommand.executeCommand(command);
         const number = score(gameAfterCommand, this.side);
         if (command instanceof AbstractCombatCommand) {
-            return number + 1000;
+            return number + 10000;
         }
         return number;
     }

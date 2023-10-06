@@ -13,7 +13,7 @@ class TreeNode {
         if (this.children.length === 0) {
             return [];
         }
-        return [this.bestCommand] + this.bestChild.bestCommands();
+        return [this.bestCommand].concat(this.bestChild.bestCommands());
     }
 
     /**
@@ -51,8 +51,14 @@ export class MinimaxPlayer {
         this.depth = depth;
     }
 
+    /**
+     * @param {Game} game
+     * @returns {[Command]}
+     */
     decideMove(game) {
-        const bestCommands = this.search(game, this.depth).bestCommands();
+        const treeRoot = this.search(game, this.depth);
+        console.log("Minimax player Tree size: ", treeRoot.size(), " shape: ", treeRoot.shape());
+        const bestCommands = treeRoot.bestCommands();
         console.log(bestCommands);
         return bestCommands;
     }
@@ -76,9 +82,9 @@ export class MinimaxPlayer {
         const validCommands = game.validCommands();
         rootNode.score = -Infinity;
         validCommands.forEach((command) => {
-            if (!command.isDeterministic()) {
-                return;
-            }
+            // if (!command.isDeterministic()) {
+            //     return;
+            // }
             const clone = game.clone();
             clone.executeCommand(command);
             if (this.alreadySeen(clone)) {
