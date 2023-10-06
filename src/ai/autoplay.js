@@ -1,3 +1,4 @@
+import { MctsPlayer } from "./mcts_player.js";
 import { GreedyPlayer } from "./greedy_player.js";
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
@@ -24,6 +25,10 @@ export class RandomPlayer {
     }
 }
 
+function paused() {
+    return document.getElementById("pause").checked;
+}
+
 export class Autoplay {
     constructor(game, aiPlayer) {
         this.game = game;
@@ -41,8 +46,8 @@ export class Autoplay {
         const sideNorth = game.scenario.sideNorth;
         const sideSouth = game.scenario.sideSouth;
         const northPlayer = new GreedyPlayer(sideNorth);
-        const southPlayer = new GreedyPlayer(sideSouth);
-        while (!this.game.isTerminal()) {
+        const southPlayer = new MctsPlayer({iterations: 150000});
+        while (!this.game.isTerminal() && !paused()) {
             const player = this.game.currentSide === sideNorth ? northPlayer : southPlayer;
             const commands = player.decideMove(game);
             for (let command of commands) {

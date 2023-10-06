@@ -1,3 +1,4 @@
+import { AbstractCombatCommand } from "../model/commands/abstract_combat_command.js";
 import { score } from "./score.js";
 
 export class GreedyPlayer {
@@ -33,6 +34,10 @@ export class GreedyPlayer {
     scoreCommand(game, command) {
         const gameAfterCommand = game.clone();
         gameAfterCommand.executeCommand(command);
-        return score(gameAfterCommand, this.side);
+        const number = score(gameAfterCommand, this.side);
+        if (command instanceof AbstractCombatCommand) {
+            return number + 1000;
+        }
+        return number;
     }
 }

@@ -51,7 +51,7 @@ export class NullScenario extends Scenario {
 }
 
 export class MeleeScenario extends Scenario {
-    firstSide = Side.CARTHAGINIAN;
+    firstSide = Side.ROMAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
     pointsToWin = 3;
@@ -59,11 +59,11 @@ export class MeleeScenario extends Scenario {
     commandSouth = 3;
 
     placeUnitsOn(board) {
-        board.placeUnit(hexOf(1, 4), new units.RomanLightInfantry());
-        board.placeUnit(hexOf(2, 4), new units.RomanHeavyInfantry());
-        board.placeUnit(hexOf(3, 4), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(0, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(3, 5), new units.RomanHeavyInfantry());
 
-        board.placeUnit(hexOf(1, 3), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(2, 3), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(4, 2), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(4, 3), new units.CarthaginianHeavyInfantry());
@@ -86,7 +86,7 @@ export class OneToOneMeleeScenario extends Scenario {
 
 
 export class AkragasScenario extends Scenario {
-    firstSide = Side.CARTHAGINIAN;
+    firstSide = Side.SYRACUSAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.SYRACUSAN;
     pointsToWin = 5;

@@ -5,7 +5,7 @@
     <style>
     body {
         font-family: sans-serif;
-    }  
+    }
     .float-child {
         float: left;
         height: 80px;
@@ -18,10 +18,10 @@
         width: 900px;
         background-color: lightgrey;
         /* add a vertical scrollbar */
-        height: 80px;        
+        height: 80px;
         overflow-y: scroll;
         /* ensure it scrolls to the bottom */
-        scroll-behavior: smooth;        
+        scroll-behavior: smooth;
     }
 
     #search-tree ul>li>ul {
@@ -30,15 +30,17 @@
     </style>
 </head>
 <body>
-    <div class="float-child" style="width: 250px">
+    <div class="float-child" style="width: 350px">
         <p id="info">&nbsp;</p>
-        <p>        
+        <p>
             <button id="end-phase">End Phase</button>
             <button id="ai-continue">AI Continue</button>
             <button id="playout">Playout</button>
+            <input type="checkbox" id="pause" name="pause" value="pause">
+            <label for="pause">Pause</label>
         </p>
     </div>
-    <div id="messages" class="float-child"></div>    
+    <div id="messages" class="float-child"></div>
 
     <script type="module" src="src/main.js"></script>
 </body>
