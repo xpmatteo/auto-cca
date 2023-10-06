@@ -11,7 +11,9 @@ export class PlayCardPhase extends Phase {
     }
 
     validCommands(game) {
-        return game.hand().map(card => new PlayCardCommand(card));
+        return game.hand().
+            filter(card => card.eligibleUnits(game).length > 0).
+            map(card => new PlayCardCommand(card));
     }
 
     hilightedHexes(game) {
