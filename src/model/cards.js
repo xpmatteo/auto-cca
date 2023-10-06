@@ -27,8 +27,12 @@ class Card {
         return this.name;
     }
 
+    orderPhase(game) {
+        throw new Error("Must be implemented by subclass");
+    }
+
     eligibleUnits(game) {
-        return orderPhase(game).__eligibleUnits(game);
+        return this.orderPhase(game).__eligibleUnits(game);
     }
 }
 

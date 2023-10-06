@@ -33,10 +33,6 @@ export function scoreForUnitsWithSupport(game, hex) {
     return score;
 }
 
-export function scoreForOrderedUnits(game) {
-    return game.currentCard.eligibleUnits(game) * SCORE_FOR_ORDERED_UNIT;
-}
-
 // Optimization: precompute the values for the backoff function
 function backoffValues(number) {
     let values = [0];
@@ -84,6 +80,5 @@ export function score(game, side) {
             score += scoreForDamageToEnemyUnit(game, unit);
         }
     });
-    score += scoreForOrderedUnits(game);
     return score;
 }

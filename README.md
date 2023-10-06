@@ -18,6 +18,8 @@ the Carthaginian (top).
 # AI 
 
 - Improve greedy player
+  - no playcard command available when there are no eligible units
+  - make combat commands always more attractive than end phase
   - improve GreedyPlayer#scoreCommand by running a nondeterministic command 10 times and average the scores
   - ensure the greedy player goes for rolling as many dice as possible
 - Use the greedy player as a benchmark
