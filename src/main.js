@@ -2,7 +2,7 @@ import { Autoplay, displayEvents } from "./ai/autoplay.js";
 import { MctsPlayer } from "./ai/mcts_player.js";
 import { InteractiveGame } from "./interactive_game.js";
 import { Point } from "./lib/hexlib.js";
-import getParameterByName from "./lib/query_string.js";
+import getQueryParameter from "./lib/query_string.js";
 import { CARD_IMAGE_SIZE } from "./model/cards.js";
 import { EndPhaseCommand } from "./model/commands/end_phase_command.js";
 import { Dice } from "./model/dice.js";
@@ -21,7 +21,7 @@ document.body.appendChild(canvas);
 const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game and AI
-const scenario = makeScenario(getParameterByName("scenario"));
+const scenario = makeScenario(getQueryParameter("scenario"));
 const aiPlayer = new MctsPlayer({iterations: 150000});
 
 let game;
