@@ -93,7 +93,7 @@ export function score(game, side) {
  * @param {Side} ourSide
  * @returns {number}
  */
-export function scoreMcts(game, ourSide) {
+export function scoreMcts(game, ourSide= game.currentSide) {
     const scoreforpointofdamage = 10;
     const scoreForUnitInGraveyard = 200;
     let score = 0;

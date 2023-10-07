@@ -1,3 +1,5 @@
+import { DEFAULT_EXPANSION_FACTOR, MCTS_ITERATIONS } from "./main.js";
+import { scoreMcts } from "./ai/score.js";
 import { Autoplay, displayEvents } from "./ai/autoplay.js";
 import { MctsPlayer } from "./ai/mcts_player.js";
 import { InteractiveGame } from "./interactive_game.js";
@@ -53,23 +55,35 @@ canvas.addEventListener('click', function (event) {
 document.getElementById('draw-tree').addEventListener('click', drawTree);
 
 function drawTree() {
-    const player = new MctsPlayer({iterations: 40});
+    const player = new MctsPlayer({iterations: MCTS_ITERATIONS, expansionFactor: DEFAULT_EXPANSION_FACTOR});
     console.log("AI IS THINKING")
     const rootNode = player.search(game.toGame());
-    console.log("AI HAS FINISHED THINKING: ", rootNode.size(), "nodes");
+    console.log("AI HAS FINISHED THINKING: ", rootNode.size(), "nodes", rootNode.shape().toString());
 
     // Convert TreeNode to vis.js data
     const nodes = [];
     const edges = [];
 
+    // hand picked
+    const BEST_MOVES = [
+        "Move [1,4] to [-1,4]",
+        "Move [1,4] to [-1,5]",
+        "Move [1,4] to [0,5]",
+        "Move [1,4] to [1,5]",
+        "Move [1,4] to [2,5]",
+        "Move [1,4] to [3,4]",
+    ];
+
     /**
      * @param {TreeNode} node
      */
     function traverse(node) {
-        if (node.score === 0 || node.visits < 2) return;
+        if (node.score === 0 || node.visits < 100) return;
         const color = node.game.currentSide === game.toGame().scenario.sideSouth ? "lightblue" : "pink";
-        const label = `${node.score}/${node.visits}`;
-        nodes.push({id: node.id, label: label, color: color});
+        const label = `${node.score}/${node.visits}\n${scoreMcts(node.game)}`;
+        const isBestMove = node.command && BEST_MOVES.includes(node.command.toString());
+        const shape = isBestMove? "box" : "circle";
+        nodes.push({id: node.id, label: label, color: color, shape: shape});
 
         for (const child of node.children) {
             const edgeLabel = child.command.toString();

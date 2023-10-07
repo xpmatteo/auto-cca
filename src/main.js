@@ -13,6 +13,9 @@ import { redraw } from "./view/graphics.js";
 import loadAllImagesThen from "./view/load_all_images.js";
 import { findHexFromPixel, MAP_HEIGHT, MAP_WIDTH, resizeCanvas, scalePoint } from "./view/map.js";
 
+export const DEFAULT_EXPANSION_FACTOR = 40;
+export const MCTS_ITERATIONS = 5000;
+
 // create canvas
 const canvas = document.createElement('canvas');
 canvas.width = MAP_WIDTH + CARD_IMAGE_SIZE.x;
@@ -22,7 +25,7 @@ const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game and AI
 const scenario = makeScenario(getQueryParameter("scenario"));
-const aiPlayer = new MctsPlayer({iterations: 50000});
+const aiPlayer = new MctsPlayer({iterations: MCTS_ITERATIONS, expansionFactor: DEFAULT_EXPANSION_FACTOR});
 
 let game;
 let autoplay;

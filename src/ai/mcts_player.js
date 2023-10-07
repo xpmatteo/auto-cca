@@ -105,8 +105,6 @@ export class TreeNode {
     }
 }
 
-const DEFAULT_EXPANSION_FACTOR = 1.4142;
-
 function showBestCommands(comands) {
     return "Best commands: \n - " + comands.join("\n - ") + "\nEnd best commands";
 }
@@ -155,7 +153,7 @@ export class MctsPlayer {
             if (node.children.length === 0) {
                 return this._expand(node);
             } else {
-                node = node.bestUctChild(this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR);
+                node = node.bestUctChild(this.args.expansionFactor);
             }
         }
         // node is terminal
