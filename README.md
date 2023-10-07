@@ -15,6 +15,15 @@ Also, keep an AI on the status text on top that tells you which phase the game i
 In the main scenario (Akragas), you play the Syracusan (bottom) while the AI plays 
 the Carthaginian (top). 
 
+# AI TESTS
+
+  - Early game
+    - The AI advances compactly -- no weird backward movements
+    - The AI advances with all units -- not only the light ones
+  - Melee
+    - Choose attacking a weak unit over a strong one
+    - Order combat to maximize potential dice
+
 # PROBLEMS AI
 
 Melee scenario:
@@ -31,10 +40,6 @@ Akragas:
  
 
 # TODO AI 
-
- - CHECK: choose between attacking a weak unit and a strong one
- - CHECK: order combat to maximize potential dice
-
 
 - score for a position depends on how many dice I can use to attack
 - limit depth of exploration: try to ensure we evaluate multiple times the next moves rather than going too far down
