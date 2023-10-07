@@ -50,8 +50,8 @@ export class Autoplay {
         const sideNorth = game.scenario.sideNorth;
         const sideSouth = game.scenario.sideSouth;
         const northPlayer = new GreedyPlayer(sideNorth);
-        //const southPlayer = new MctsPlayer({iterations: 150000});
-        const southPlayer = new MinimaxPlayer(8);
+        const southPlayer = new MctsPlayer({iterations: 150000});
+        // const southPlayer = new MinimaxPlayer(8);
         while (!this.game.isTerminal() && !paused()) {
             const player = this.game.currentSide === sideNorth ? northPlayer : southPlayer;
             const commands = player.decideMove(game);
