@@ -20,9 +20,12 @@ the Carthaginian (top).
   - Early game
     - The AI advances compactly -- no weird backward movements
     - The AI advances with all units -- not only the light ones
-  - Melee
+  - 2on2 Melee
+    - advance compactly 
     - Choose attacking a weak unit over a strong one
     - Order combat to maximize potential dice
+  - 1to1 Melee
+    - light unit avoid close combat
 
 # PROBLEMS AI
 

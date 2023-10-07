@@ -91,7 +91,7 @@ export class OneToOneMeleeScenario extends Scenario {
     }
 }
 
-export class CloseCombatDetailScenario extends Scenario {
+export class TwoOnTwoMeleeScenario extends Scenario {
     firstSide = Side.ROMAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
@@ -100,8 +100,8 @@ export class CloseCombatDetailScenario extends Scenario {
     commandSouth = 3;
 
     placeUnitsOn(board) {
-        board.placeUnit(hexOf(0, 5), new units.RomanHeavyInfantry());
-        board.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(-1, 6), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(0, 6), new units.RomanHeavyInfantry());
 
         board.placeUnit(hexOf(0, 4), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(1, 4), new units.CarthaginianHeavyInfantry());
@@ -156,7 +156,7 @@ const SCENARIOS = {
     akragas: new AkragasScenario(),
     melee: new MeleeScenario(),
     oneToOneMelee: new OneToOneMeleeScenario(),
-    closeCombatDetail: new CloseCombatDetailScenario(),
+    twoOnTwoMelee: new TwoOnTwoMeleeScenario(),
 }
 
 export function makeScenario(name) {

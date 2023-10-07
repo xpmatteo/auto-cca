@@ -11,7 +11,7 @@ open:
 	@open -a "Google Chrome" http://localhost:8000?scenario=akragas
 	@open -a "Google Chrome" http://localhost:8000?scenario=melee
 	@open -a "Google Chrome" http://localhost:8000?scenario=oneToOneMelee
-	@open -a "Google Chrome" http://localhost:8000?scenario=closeCombatDetail
+	@open -a "Google Chrome" http://localhost:8000?scenario=twoOnTwoMelee
 
 madge:
 	@npx madge --image madge.svg src/main.js
