@@ -95,7 +95,7 @@ export class CloseCombatDetailScenario extends Scenario {
     firstSide = Side.ROMAN;
     sideNorth = Side.CARTHAGINIAN;
     sideSouth = Side.ROMAN;
-    pointsToWin = 3;
+    pointsToWin = 2;
     commandNorth = 4;
     commandSouth = 3;
 
@@ -106,7 +106,6 @@ export class CloseCombatDetailScenario extends Scenario {
         board.placeUnit(hexOf(0, 4), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(1, 4), new units.CarthaginianHeavyInfantry());
     }
-
 }
 
 

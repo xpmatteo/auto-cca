@@ -4,7 +4,6 @@ import { GreedyPlayer } from "./greedy_player.js";
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
 
-const AUTOPLAY_DELAY = 800;
 const AI_ITERATIONS = 1000;
 
 export function displayEvents(events) {
@@ -28,6 +27,10 @@ export class RandomPlayer {
 
 function paused() {
     return document.getElementById("pause").checked;
+}
+
+function delay() {
+    return new Number(document.getElementById("delay").value);
 }
 
 export class Autoplay {
@@ -77,7 +80,7 @@ export class Autoplay {
             const events = this.game.executeCommand(command);
             displayEvents(events);
             redraw(graphics, this.game);
-            await new Promise(resolve => setTimeout(resolve, AUTOPLAY_DELAY));
+            await new Promise(resolve => setTimeout(resolve, delay()));
         } catch (error) {
             console.log(" ****** Error executing command: " + error);
         }
