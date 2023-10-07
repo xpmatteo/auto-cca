@@ -22,7 +22,7 @@ const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game and AI
 const scenario = makeScenario(getQueryParameter("scenario"));
-const aiPlayer = new MctsPlayer({iterations: 150000});
+const aiPlayer = new MctsPlayer({iterations: 50000});
 
 let game;
 let autoplay;

@@ -1,7 +1,9 @@
 import { score, scoreMcts } from "./score.js";
 
+let nextNodeId = 0;
 export class TreeNode {
     constructor(game, parent = null, score, visits, children) {
+        this.id = nextNodeId++;
         this.game = game;
         this.parent = parent;
         this.score = score || 0;
