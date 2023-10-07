@@ -32,6 +32,10 @@ Akragas:
 
 # TODO AI 
 
+ - CHECK: choose between attacking a weak unit and a strong one
+ - CHECK: order combat to maximize potential dice
+
+
 - score for a position depends on how many dice I can use to attack
 - limit depth of exploration: try to ensure we evaluate multiple times the next moves rather than going too far down
 
