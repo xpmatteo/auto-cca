@@ -3,9 +3,13 @@ const SCORE_FOR_EACH_DIE = 1;
 const SCORE_FOR_POINT_OF_DAMAGE = 10;
 
 
-export function scoreForDamageToEnemyUnit(game, unit) {
+export function scoreForDamageToUnit(game, unit, scoreforpointofdamage = SCORE_FOR_POINT_OF_DAMAGE) {
     const damage = unit.initialStrength - game.unitStrength(unit);
-    return damage * SCORE_FOR_POINT_OF_DAMAGE;
+    return damage * scoreforpointofdamage;
+}
+
+export function scoreForUnitsInGraveyard(game, side, scoreForUnitInGraveyard) {
+    return game.graveyard.unitsOf(side).length * scoreForUnitInGraveyard;
 }
 
 export function scoreForCloseCombatDice(game, unit, hex) {
@@ -78,8 +82,30 @@ export function score(game, side) {
             score += scoreForRangedCombatDice(game, unit, hex);
             score += attackProximityScoreForHex(game, unit, hex);
         } else {
-            score += scoreForDamageToEnemyUnit(game, unit);
+            score += scoreForDamageToUnit(game, unit);
         }
     });
+    return score;
+}
+
+/**
+ * @param {Game} game
+ * @param {Side} ourSide
+ * @returns {number}
+ */
+export function scoreMcts(game, ourSide) {
+    const scoreforpointofdamage = 10;
+    const scoreForUnitInGraveyard = 200;
+    let score = 0;
+    game.foreachUnit((unit, hex) => {
+        if (unit.side === ourSide) {
+            score -= scoreForDamageToUnit(game, unit, scoreforpointofdamage);
+        } else {
+            score += scoreForDamageToUnit(game, unit, scoreforpointofdamage);
+        }
+    });
+    const theirSide = game.opposingSide(ourSide);
+    score -= scoreForUnitsInGraveyard(game, ourSide, scoreForUnitInGraveyard);
+    score += scoreForUnitsInGraveyard(game, theirSide, scoreForUnitInGraveyard);
     return score;
 }

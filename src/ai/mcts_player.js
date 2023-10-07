@@ -1,4 +1,4 @@
-import { score } from "./score.js";
+import { score, scoreMcts } from "./score.js";
 
 export class TreeNode {
     constructor(game, parent = null, score, visits, children) {
@@ -182,7 +182,7 @@ export class MctsPlayer {
     }
 
     _simulate(game, originalSide) {
-        const theScore = score(game, game.currentSide);
+        const theScore = scoreMcts(game, game.currentSide);
         if (game.currentSide === originalSide) {
             return theScore;
         } else {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { score } from "../ai/score.js";
+import { score, scoreMcts } from "../ai/score.js";
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
 import { CARD_IMAGE_SIZE } from "../model/cards.js";
 import { layout, MAP_HEIGHT, MAP_WIDTH } from "./map.js";
@@ -146,8 +146,8 @@ function drawDecorations(graphics, game) {
  */
 function drawScores(graphics, game) {
     const label = "Score: ";
-    const scoreNorth = score(game.toGame(), game.toGame().scenario.sideNorth);
-    const scoreSouth = score(game.toGame(), game.toGame().scenario.sideSouth);
+    const scoreNorth = scoreMcts(game.toGame(), game.toGame().scenario.sideNorth).toFixed(1);
+    const scoreSouth = scoreMcts(game.toGame(), game.toGame().scenario.sideSouth).toFixed(1);
     graphics.writeText(label + scoreNorth, new Point(100, 150), "20pt Arial");
     graphics.writeText(label + scoreSouth, new Point(100, 1080), "20pt Arial");
 }

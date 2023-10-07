@@ -2,7 +2,7 @@ import {
     attackProximityScoreForHex,
     score,
     scoreForCloseCombatDice,
-    scoreForDamageToEnemyUnit,
+    scoreForDamageToUnit,
     scoreForRangedCombatDice,
     scoreForUnitsWithSupport
 } from "ai/score.js";
@@ -68,7 +68,7 @@ test('score 10 for every point of damage', () => {
     game.placeUnit(hexOf(10, 0), carthaginianHeavyInfantry);
     game.takeDamage(carthaginianHeavyInfantry, 1);
 
-    expect(scoreForDamageToEnemyUnit(game, carthaginianHeavyInfantry)).toBe(10);
+    expect(scoreForDamageToUnit(game, carthaginianHeavyInfantry)).toBe(10);
 });
 
 describe('attack proximity value', () => {
