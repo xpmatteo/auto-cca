@@ -28,9 +28,9 @@ let game;
 let autoplay;
 
 function reset() {
-    //cosnst dice = diceReturning([RESULT_HEAVY,RESULT_HEAVY,RESULT_MEDIUM,RESULT_FLAG,RESULT_FLAG]);
+    //const dice = diceReturning([RESULT_HEAVY,RESULT_HEAVY,RESULT_MEDIUM,RESULT_FLAG,RESULT_FLAG]);
     const dice = new Dice();
-    game = new InteractiveGame(makeGame(scenario))
+    game = new InteractiveGame(makeGame(scenario), dice)
     autoplay = new Autoplay(game, aiPlayer);
 }
 reset();
