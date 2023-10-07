@@ -15,6 +15,8 @@ Also, keep an AI on the status text on top that tells you which phase the game i
 In the main scenario (Akragas), you play the Syracusan (bottom) while the AI plays 
 the Carthaginian (top). 
 
+# TODO: scoreMcts must ensure a score boost for the winner!!!
+
 # AI TESTS
 
   - Early game

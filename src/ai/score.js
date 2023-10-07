@@ -107,5 +107,8 @@ export function scoreMcts(game, ourSide= game.currentSide) {
     const theirSide = game.opposingSide(ourSide);
     score -= scoreForUnitsInGraveyard(game, ourSide, scoreForUnitInGraveyard);
     score += scoreForUnitsInGraveyard(game, theirSide, scoreForUnitInGraveyard);
+    if (game.isTerminal()) {
+        score *= 0.5;
+    }
     return score;
 }
