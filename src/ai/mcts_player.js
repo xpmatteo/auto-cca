@@ -4,12 +4,12 @@ import { score, scoreMcts } from "./score.js";
  A tree node contains
    - a game state,
    - the command that produced that state
-   - the cumulated score *from the point of view of the side being played by the AI*
+   - the cumulated score *from the point of view of the this.game.currentSide*
    - the number of visits
  */
 let nextNodeId = 0;
 export class TreeNode {
-    constructor(game, parent = null, score, visits, children) {
+    constructor(game, parent = null, score=0, visits=0, children=[]) {
         this.id = nextNodeId++;
         this.game = game;
         this.parent = parent;
@@ -117,6 +117,16 @@ export class TreeNode {
         traverse(this, 0);
         return result.join("\n");
     }
+
+    backPropagate(score, side) {
+        let node = this;
+        while (node !== null) {
+            const factor = (node.game.currentSide === side) ? 1 : -1;
+            node.score += factor * score;
+            node.visits++;
+            node = node.parent;
+        }
+    }
 }
 
 function showBestCommands(comands) {
@@ -128,7 +138,7 @@ export class MctsPlayer {
     constructor(args) {
         this.args = args;
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
-        if (!this.args.iterations) throw new Error("iterations is required")
+        this.args.iterations = this.args.iterations || 1000;
     }
 
     decideMove(game) {
@@ -158,8 +168,8 @@ export class MctsPlayer {
         for (let i = 0; i < iterations; i++) {
             let nodes = this._select(rootNode);
             nodes.forEach(node => {
-                let score = this._simulate(node.game, originalSide);
-                this._backpropagate(node, score);
+                let score = this._simulate(node.game);
+                node.backPropagate(score, node.game.currentSide);
             })
         }
         return rootNode;
@@ -190,15 +200,7 @@ export class MctsPlayer {
         return node.children;
     }
 
-    _backpropagate(node, score) {
-        while (node !== null) {
-            node.score += score;
-            node.visits++;
-            node = node.parent;
-        }
-    }
-
-    _simulate(game, originalSide) {
-        return scoreMcts(game, originalSide);
+    _simulate(game) {
+        return scoreMcts(game, game.currentSide);
     }
 }

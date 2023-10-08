@@ -1,10 +1,3 @@
-
-//
-
-// CloseCombat > Retreat should return just CloseCombat
-
-// EndPhase > CloseCombat1 > CloseCombat2 should return EndPhase > CloseCombat1
-
 import { TreeNode } from "ai/mcts_player.js";
 
 function gameWithSide(side) {
@@ -97,7 +90,7 @@ describe('TreeNode', () => {
     });
 
     describe('best uct child', () => {
-         test('when all children are the same side as the current node', () => {
+        test('when all children are the same side as the current node', () => {
             const rootNode = new TreeNode(game);
             rootNode.game = gameWithSide('A');
 
@@ -108,13 +101,46 @@ describe('TreeNode', () => {
 
             const child2 = new TreeNode(game, rootNode, 4, 1);
             child2.game = gameWithSide('A');
-             child1.score = 90;
-             child1.visits = 1;
+            child1.score = 90;
+            child1.visits = 1;
 
             rootNode.children = [child1, child2];
 
             const result = rootNode.bestUctChild(1);
             expect(result).toEqual(child1);
-         });
+        });
+
+        test('when all children are the opposite side as the current node', () => {
+            const rootNode = new TreeNode(game);
+            rootNode.game = gameWithSide('A');
+
+            const child1 = new TreeNode(game, rootNode, 3, 1);
+            child1.game = gameWithSide('A');
+            child1.score = 100;
+            child1.visits = 1;
+
+            const child2 = new TreeNode(game, rootNode, 4, 1);
+            child2.game = gameWithSide('A');
+            child1.score = 90;
+            child1.visits = 1;
+
+            rootNode.children = [child1, child2];
+
+            const result = rootNode.bestUctChild(1);
+            expect(result).toEqual(child1);
+        });
+    });
+
+    test('back propagation', () => {
+        const rootNode = new TreeNode(gameWithSide('A'), null, 200, 1);
+        const child1 = new TreeNode(gameWithSide('B'), rootNode, 100, 1);
+        const child2 = new TreeNode(gameWithSide('A'), child1, 0, 1);
+
+        child2.backPropagate(10, 'A');
+        console.log(rootNode);
+
+        expect(child2.score).toBe(10);
+        expect(child1.score).toBe(90);
+        expect(rootNode.score).toBe(210);
     });
 });
