@@ -4,8 +4,6 @@ import { redraw } from "../view/graphics.js";
 import { GreedyPlayer } from "./greedy_player.js";
 import { MctsPlayer } from "./mcts_player.js";
 
-const AI_ITERATIONS = 1000;
-
 export function displayEvents(events) {
     const textBox = document.getElementById("messages");
     events.forEach(event => {
