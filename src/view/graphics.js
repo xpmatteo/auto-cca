@@ -1,8 +1,8 @@
 'use strict';
 
+import { CARD_IMAGE_SIZE } from "../config.js";
 import { score, scoreMcts } from "../ai/score.js";
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
-import { CARD_IMAGE_SIZE } from "../model/cards.js";
 import { layout, MAP_HEIGHT, MAP_WIDTH } from "./map.js";
 
 export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected, isOrdered) {

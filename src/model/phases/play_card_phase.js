@@ -1,7 +1,7 @@
+import { CARD_IMAGE_SIZE } from "../../config.js";
 import { Phase } from "./Phase.js";
 import { PlayCardCommand } from "../commands/play_card_command.js";
 import { MAP_HEIGHT } from "../../view/map.js";
-import { CARD_IMAGE_SIZE } from "../cards.js";
 
 const EMPTY_SET = new Set();
 

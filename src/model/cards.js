@@ -1,9 +1,8 @@
-import { OrderUnitsPhase } from "./phases/order_units_phase.js";
 import { RESULT_HEAVY, RESULT_LIGHT, RESULT_MEDIUM } from "./dice.js";
-import { Point } from "../lib/hexlib.js";
-import { MovementPhase } from "./phases/MovementPhase.js";
 import { BattlePhase } from "./phases/BattlePhase.js";
 import { FirePhase } from "./phases/fire_phase.js";
+import { MovementPhase } from "./phases/MovementPhase.js";
+import { OrderUnitsPhase } from "./phases/order_units_phase.js";
 
 /*
     Cards are used to order units during the order phase.
@@ -14,7 +13,6 @@ import { FirePhase } from "./phases/fire_phase.js";
     Cards are stateless and immutable.
 */
 
-export const CARD_IMAGE_SIZE = new Point(400, 560);
 class Card {
     phases(game) {
         return [

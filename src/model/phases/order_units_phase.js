@@ -1,8 +1,8 @@
+import { CARD_IMAGE_SIZE } from "../../config.js";
 import { EndPhaseCommand } from "../commands/end_phase_command.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { Phase } from "./Phase.js";
 import { MAP_WIDTH } from "../../view/map.js";
-import { CARD_IMAGE_SIZE } from "../cards.js";
 
 export class OrderUnitsPhase extends Phase {
     constructor(numberOfUnits, weight) {
