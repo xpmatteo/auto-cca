@@ -1,8 +1,8 @@
-import { MinimaxPlayer } from "./minimax_player.js";
-import { MctsPlayer } from "./mcts_player.js";
-import { GreedyPlayer } from "./greedy_player.js";
+import { MCTS_ITERATIONS } from "../config.js";
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
+import { GreedyPlayer } from "./greedy_player.js";
+import { MctsPlayer } from "./mcts_player.js";
 
 const AI_ITERATIONS = 1000;
 
@@ -50,7 +50,7 @@ export class Autoplay {
         const sideNorth = game.scenario.sideNorth;
         const sideSouth = game.scenario.sideSouth;
         const northPlayer = new GreedyPlayer(sideNorth);
-        const southPlayer = new MctsPlayer({iterations: 150000});
+        const southPlayer = new MctsPlayer({iterations: MCTS_ITERATIONS, exoaansionFactor: MCTS_ITERATIONS});
         // const southPlayer = new MinimaxPlayer(8);
         while (!this.game.isTerminal() && !paused()) {
             const player = this.game.currentSide === sideNorth ? northPlayer : southPlayer;
