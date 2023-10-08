@@ -123,9 +123,12 @@ function showBestCommands(comands) {
     return "Best commands: \n - " + comands.join("\n - ") + "\nEnd best commands";
 }
 
+const DEFAULT_EXPANSION_FACTOR = 2;
 export class MctsPlayer {
     constructor(args) {
         this.args = args;
+        this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
+        if (!this.args.iterations) throw new Error("iterations is required")
     }
 
     decideMove(game) {

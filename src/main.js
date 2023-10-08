@@ -1,5 +1,5 @@
 import { CARD_IMAGE_SIZE } from "./config.js";
-import { DEFAULT_EXPANSION_FACTOR, MCTS_ITERATIONS } from "./config.js";
+import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "./config.js";
 import { Autoplay, displayEvents } from "./ai/autoplay.js";
 import { MctsPlayer } from "./ai/mcts_player.js";
 import { InteractiveGame } from "./interactive_game.js";
@@ -23,7 +23,7 @@ const graphics = new GraphicalContext(canvas.getContext('2d'));
 
 // create game and AI
 const scenario = makeScenario(getQueryParameter("scenario"));
-const aiPlayer = new MctsPlayer({iterations: MCTS_ITERATIONS, expansionFactor: DEFAULT_EXPANSION_FACTOR});
+const aiPlayer = new MctsPlayer({iterations: MCTS_ITERATIONS, expansionFactor: MCTS_EXPANSION_FACTOR});
 
 let game;
 let autoplay;
