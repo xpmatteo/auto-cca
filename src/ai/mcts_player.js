@@ -38,11 +38,15 @@ export class TreeNode {
     /*
         This decides which is the most likely command to explore during tree search
      */
-    bestUctChild(expansionFactor) {
-        let best = this.children[0];
+    bestUctChild(expansionFactor = DEFAULT_EXPANSION_FACTOR) {
+        let best = undefined;
+        let bestScore = -Infinity;
         for (let child of this.children) {
-            if (child.uct(expansionFactor) > best.uct(expansionFactor)) {
+            const factor = (child.game.currentSide === this.game.currentSide) ? 1 : -1;
+            const currentScore = factor * child.uct(expansionFactor);
+            if (currentScore > bestScore) {
                 best = child;
+                bestScore = currentScore;
             }
         }
         return best;

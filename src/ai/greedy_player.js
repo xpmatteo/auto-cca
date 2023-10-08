@@ -22,7 +22,7 @@ export class GreedyPlayer {
         let bestCommand = undefined;
         for (let command of commands) {
             const score = this.scoreCommand(game, command);
-            console.log(` greedy ${this.side.name} considering ${command}\tscore: ${score}`);
+            // console.log(` greedy ${this.side.name} considering ${command}\tscore: ${score}`);
             if (score > bestScore) {
                 bestScore = score;
                 bestCommand = command;

@@ -25,9 +25,10 @@ function names(commands) {
 }
 
 describe('TreeNode', () => {
-    let game = gameWithSide('A');
 
     describe('bestCommands', () => {
+        let game = gameWithSide('A');
+
         it('should return the best commands sequence from root to leaf', () => {
             const rootNode = new TreeNode(game);
             rootNode.command = undefined;
@@ -91,43 +92,38 @@ describe('TreeNode', () => {
 
     describe('best uct child', () => {
         test('when all children are the same side as the current node', () => {
-            const rootNode = new TreeNode(game);
-            rootNode.game = gameWithSide('A');
-
-            const child1 = new TreeNode(game, rootNode, 3, 1);
-            child1.game = gameWithSide('A');
-            child1.score = 100;
-            child1.visits = 1;
-
-            const child2 = new TreeNode(game, rootNode, 4, 1);
-            child2.game = gameWithSide('A');
-            child1.score = 90;
-            child1.visits = 1;
-
+            const rootNode = new TreeNode(gameWithSide('A'), null, 0, 1);
+            const child1 = new TreeNode(gameWithSide('A'), rootNode, 100, 1);
+            const child2 = new TreeNode(gameWithSide('A'), rootNode, 90, 1);
             rootNode.children = [child1, child2];
 
-            const result = rootNode.bestUctChild(1);
-            expect(result).toEqual(child1);
+            const result = rootNode.bestUctChild();
+
+            expect(result).toBe(child1);
         });
 
-        test('when all children are the opposite side as the current node', () => {
-            const rootNode = new TreeNode(game);
-            rootNode.game = gameWithSide('A');
+        describe('when some children are the opposite side as the current node', () => {
+            test('the best command keeps control to current side', () => {
+                const rootNode = new TreeNode(gameWithSide('A'), null, 0, 1);
+                const child1 = new TreeNode(gameWithSide('B'), rootNode, 100, 1);
+                const child2 = new TreeNode(gameWithSide('A'), rootNode, 90, 1);
+                rootNode.children = [child1, child2];
 
-            const child1 = new TreeNode(game, rootNode, 3, 1);
-            child1.game = gameWithSide('A');
-            child1.score = 100;
-            child1.visits = 1;
+                const result = rootNode.bestUctChild();
 
-            const child2 = new TreeNode(game, rootNode, 4, 1);
-            child2.game = gameWithSide('A');
-            child1.score = 90;
-            child1.visits = 1;
+                expect(result).toBe(child2);
+            });
 
-            rootNode.children = [child1, child2];
+            test('the best command ends the turn', () => {
+                const rootNode = new TreeNode(gameWithSide('A'), null, 0, 1);
+                const child1 = new TreeNode(gameWithSide('B'), rootNode, -100, 1);
+                const child2 = new TreeNode(gameWithSide('A'), rootNode, 90, 1);
+                rootNode.children = [child1, child2];
 
-            const result = rootNode.bestUctChild(1);
-            expect(result).toEqual(child1);
+                const result = rootNode.bestUctChild();
+
+                expect(result).toBe(child1);
+            });
         });
     });
 
@@ -137,7 +133,6 @@ describe('TreeNode', () => {
         const child2 = new TreeNode(gameWithSide('A'), child1, 0, 1);
 
         child2.backPropagate(10, 'A');
-        console.log(rootNode);
 
         expect(child2.score).toBe(10);
         expect(child1.score).toBe(90);
