@@ -1,5 +1,12 @@
 import { score, scoreMcts } from "./score.js";
 
+/*
+ A tree node contains
+   - a game state,
+   - the command that produced that state
+   - the cumulated score *from the point of view of the side being played by the AI*
+   - the number of visits
+ */
 let nextNodeId = 0;
 export class TreeNode {
     constructor(game, parent = null, score, visits, children) {
@@ -11,6 +18,9 @@ export class TreeNode {
         this.children = children || [];
     }
 
+    /*
+        This decides which is the best command for the real game
+     */
     bestAbsoluteChild() {
         let best = this.children[0];
         for (let child of this.children) {
@@ -25,6 +35,9 @@ export class TreeNode {
         return this.score / this.visits;
     }
 
+    /*
+        This decides which is the most likely command to explore during tree search
+     */
     bestUctChild(expansionFactor) {
         let best = this.children[0];
         for (let child of this.children) {
@@ -43,9 +56,10 @@ export class TreeNode {
     }
 
     /**
-     * Returns the best commands sequence for the AI, stopping at the first non-deterministic command.
+     * Returns the best commands sequence for the real game, stopping after the first non-deterministic command,
+     * and before the game changes side
      * @param {Side} side
-     * @returns {[]|[*]|[*]|*|*[]|*[]}
+     * @returns {[Command]}
      */
     bestCommands(side) {
         if (side && this.game.currentSide !== side) {
@@ -182,11 +196,6 @@ export class MctsPlayer {
     }
 
     _simulate(game, originalSide) {
-        const theScore = scoreMcts(game, game.currentSide);
-        if (game.currentSide === originalSide) {
-            return theScore;
-        } else {
-            return -theScore;
-        }
+        return scoreMcts(game, originalSide);
     }
 }

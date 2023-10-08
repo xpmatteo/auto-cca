@@ -94,6 +94,27 @@ describe('TreeNode', () => {
             const result = rootNode.bestCommands('A');
             expect(names(result)).toEqual(['rootCommand', 'child1Command']);
         });
+    });
 
+    describe('best uct child', () => {
+         test('when all children are the same side as the current node', () => {
+            const rootNode = new TreeNode(game);
+            rootNode.game = gameWithSide('A');
+
+            const child1 = new TreeNode(game, rootNode, 3, 1);
+            child1.game = gameWithSide('A');
+            child1.score = 100;
+            child1.visits = 1;
+
+            const child2 = new TreeNode(game, rootNode, 4, 1);
+            child2.game = gameWithSide('A');
+             child1.score = 90;
+             child1.visits = 1;
+
+            rootNode.children = [child1, child2];
+
+            const result = rootNode.bestUctChild(1);
+            expect(result).toEqual(child1);
+         });
     });
 });
