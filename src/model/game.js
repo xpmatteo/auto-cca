@@ -60,6 +60,14 @@ class Game {
         ])
     }
 
+    describeCurrentPhase() {
+        if (this.isTerminal()) {
+            return `Game over. ${this.gameStatus}`;
+        } else {
+            return this.currentPhaseName;
+        }
+    }
+
     /**
      * @returns {Game}
      */

@@ -58,13 +58,12 @@ function enableButtons(game) {
     aiContinueButton.disabled = game.currentSide === game.sideSouth || game.isTerminal();
 }
 
+/**
+ * @param {Game} game
+ */
 function updateInfoMessage(game) {
     let info = document.getElementById("info");
-    if (game.isTerminal()) {
-        info.innerHTML = `Game over. ${game.gameStatus}`;
-    } else {
-        info.innerHTML = game.currentPhaseName;
-    }
+    info.innerHTML = game.describeCurrentPhase();
 }
 
 function drawCoordinates(graphics, hex) {
@@ -173,7 +172,7 @@ export function redraw(graphics, game) {
     drawPlayerHand(graphics, game);
     drawCurrentCard(graphics, game);
     drawDecorations(graphics, game);
-    updateInfoMessage(game);
+    updateInfoMessage(game.toGame());
     enableButtons(game);
     drawScores(graphics, game)
 }

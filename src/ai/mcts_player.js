@@ -112,7 +112,7 @@ export class TreeNode {
             if (level > maxLevel) {
                 return;
             }
-            const nodeDescription = `${" ".repeat(level)}${node.score}/${node.visits}: ${node.game.currentSide.name} ${node.command}`;
+            const nodeDescription = " ".repeat(level) + node.describeNode();
             result.push(nodeDescription);
             for (const child of node.children) {
                 traverse(child, level + 1);
@@ -131,6 +131,10 @@ export class TreeNode {
             node = node.parent;
         }
     }
+
+    describeNode() {
+        return `${this.score}/${this.visits}: ${this.command} -> ${this.game.describeCurrentPhase()} -> ${this.children.length}`;
+    }
 }
 
 function showBestCommands(comands) {
@@ -139,7 +143,7 @@ function showBestCommands(comands) {
 
 const DEFAULT_EXPANSION_FACTOR = 2;
 export class MctsPlayer {
-    constructor(args) {
+    constructor(args = {}) {
         this.args = args;
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
         this.args.iterations = this.args.iterations || 1000;
@@ -167,16 +171,19 @@ export class MctsPlayer {
     }
 
     search(game, iterations = this.args.iterations) {
-        const originalSide = game.currentSide;
         const rootNode = new TreeNode(game);
         for (let i = 0; i < iterations; i++) {
-            let nodes = this._select(rootNode);
-            nodes.forEach(node => {
-                let score = this._simulate(node.game);
-                node.backPropagate(score, node.game.currentSide);
-            })
+            this.iterate(rootNode);
         }
         return rootNode;
+    }
+
+    iterate(rootNode) {
+        let nodes = this._select(rootNode);
+        nodes.forEach(node => {
+            let score = this._simulate(node.game);
+            node.backPropagate(score, node.game.currentSide);
+        })
     }
 
     _select(node) {
