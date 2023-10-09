@@ -1,4 +1,4 @@
-import { score, scoreMcts } from "./score.js";
+import { scoreMcts } from "./score.js";
 
 /*
  A tree node contains
@@ -9,13 +9,14 @@ import { score, scoreMcts } from "./score.js";
  */
 let nextNodeId = 0;
 export class TreeNode {
-    constructor(game, parent = null, score=0, visits=0, children=[]) {
+    constructor(game, parent = null, score=0, visits=0, children=[], command=undefined) {
         this.id = nextNodeId++;
         this.game = game;
         this.parent = parent;
-        this.score = score || 0;
-        this.visits = visits || 0;
-        this.children = children || [];
+        this.score = score;
+        this.visits = visits;
+        this.children = children;
+        this.command = command;
     }
 
     /*
@@ -181,8 +182,7 @@ export class MctsPlayer {
     iterate(rootNode) {
         let nodes = this._select(rootNode);
         nodes.forEach(node => {
-            let score = this._simulate(node.game);
-            node.backPropagate(score, node.game.currentSide);
+            node.parent.backPropagate(node.score, node.game.currentSide);
         })
     }
 
@@ -202,16 +202,48 @@ export class MctsPlayer {
         const game = node.game;
         const validCommands = game.validCommands();
         validCommands.forEach((command) => {
-            const clone = game.clone();
-            clone.executeCommand(command);
-            const childNode = new TreeNode(clone, node);
-            childNode.command = command;
+            const {clone, score} = this._executeCommand(game, command);
+            const childNode = new TreeNode(clone, node, score, 1, [], command);
             node.children.push(childNode);
         });
         return node.children;
     }
 
-    _simulate(game) {
-        return scoreMcts(game, game.currentSide);
+    /**
+     * Returns a clone of the game with the command executed, and the resulting score
+     * @param {Game} game
+     * @param {Command} command
+     * @returns {{score: number, clone: Game}}
+     * @private
+     */
+    _executeCommand(game, command) {
+        if (command.isDeterministic()) {
+            return this._executeDeterministicCommand(game, command);
+        } else {
+            return this._executeNonDeterministicCommand(game, command);
+        }
+    }
+
+    /**
+     * @param {Game} game
+     * @param {Command} command
+     * @returns {{score: number, clone: Game}}
+     * @private
+     */
+    _executeDeterministicCommand(game, command) {
+        const clone = game.clone();
+        clone.executeCommand(command);
+        const score = scoreMcts(clone, clone.currentSide);
+        return {clone, score};
+    }
+
+    /**
+     * @param {Game} game
+     * @param {Command} command
+     * @returns {{score: number, clone: Game}}
+     * @private
+     */
+    _executeNonDeterministicCommand(game, command) {
+        return this._executeDeterministicCommand(game, command);
     }
 }
