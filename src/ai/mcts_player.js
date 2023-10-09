@@ -134,7 +134,7 @@ export class TreeNode {
     }
 
     describeNode() {
-        return `${this.score}/${this.visits}: ${this.command} -> ${this.game.describeCurrentPhase()} -> ${this.children.length}`;
+        return `${this.score.toFixed(0)}/${this.visits}: ${this.command} -> ${this.game.describeCurrentPhase()} -> ${this.children.length}`;
     }
 }
 
@@ -148,6 +148,7 @@ export class MctsPlayer {
         this.args = args;
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
         this.args.iterations = this.args.iterations || 1000;
+        this.args.nonDeterministicCommandRepetitions = this.args.nonDeterministicCommandRepetitions || 10000;
     }
 
     decideMove(game) {
@@ -238,12 +239,49 @@ export class MctsPlayer {
     }
 
     /**
+     * Execute the command 100 times.
+     * Return the weighted average score and a representative of the clones with the score occurring most often
      * @param {Game} game
      * @param {Command} command
      * @returns {{score: number, clone: Game}}
      * @private
      */
     _executeNonDeterministicCommand(game, command) {
-        return this._executeDeterministicCommand(game, command);
+        // execute the command 100 times, group the results by score
+        const scores = new Map();
+        const clones = new Map();
+        for (let i = 0; i < this.args.nonDeterministicCommandRepetitions; i++) {
+            const clone = game.clone();
+            clone.executeCommand(command);
+            const score = scoreMcts(clone, game.currentSide);
+            if (!scores.has(score)) {
+                scores.set(score, 1);
+                clones.set(score, clone);
+            } else {
+                scores.set(score, scores.get(score) + 1);
+            }
+        }
+
+        // compute the weighted average of the scores
+        let total = 0;
+        let totalWeight = 0;
+        for (const [score, weight] of scores.entries()) {
+            total += score * weight;
+            totalWeight += weight;
+        }
+        const averageScore = total / totalWeight;
+
+        // find the score occurring most often
+        let maxOccurrences = -Infinity;
+        let clone = undefined;
+        for (const [score, occurrences] of scores.entries()) {
+            if (occurrences > maxOccurrences) {
+                maxOccurrences = occurrences;
+                clone = clones.get(score);
+            }
+        }
+        console.log(scores, averageScore.toFixed(1), scoreMcts(clone));
+
+        return {clone, score: averageScore};
     }
 }
