@@ -35,7 +35,7 @@ function drawTree() {
     function traverse(node) {
         if (node.visits < 2) return;
         const color = node.game.currentSide === game.toGame().scenario.sideSouth ? "lightblue" : "pink";
-        const label = `${node.score.toFixed(0)}/${node.visits}\n${scoreMcts(node.game)}`;
+        const label = `${node.score.toFixed(1)}/${node.visits}\n${scoreMcts(node.game)}`;
         const isBestMove = node.command && BEST_MOVES.includes(node.command.toString());
         const shape = isBestMove? "box" : "circle";
         nodes.push({id: node.id, label: label, color: color, shape: shape});
