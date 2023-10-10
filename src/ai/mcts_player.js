@@ -249,6 +249,7 @@ export class MctsPlayer {
      */
     _executeNonDeterministicCommand(game, command) {
         const results = executeCommandManyTimes(game, command, this.args.nonDeterministicCommandRepetitions);
+        results.delete(scoreMcts(game, game.currentSide));
         return results.closestCloneToAverageScore();
     }
 }
@@ -297,6 +298,13 @@ class NondeterministicResults {
         return total / totalWeight;
     }
 
+    delete(score) {
+        if (this.scores.has(score) && this.scores.size > 1) {
+            this.scores.delete(score);
+            this.clones.delete(score);
+        }
+    }
+
     closestScoreToAverageScore() {
         const averageScore = this.averageScore();
         let minDelta = Infinity;
@@ -315,7 +323,7 @@ class NondeterministicResults {
         return this.clones.get(this.closestScoreToAverageScore());
     }
 
-    tabulateScores() {
+    toString() {
         const sortedKeys = Array.from(this.scores.keys()).sort((a, b) => b - a);
         const result = [];
         for (const key of sortedKeys) {

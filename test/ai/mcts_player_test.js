@@ -83,9 +83,10 @@ describe('Non deterministic results', () => {
         game.placeUnit(hexOf(2, 3), new RomanLightInfantry());
 
         const nondeterministicResults = executeCommandManyTimes(game, new CloseCombatCommand(hexOf(2, 2), hexOf(2, 3)), 10000);
+        nondeterministicResults.delete(0);
 
-        expect(nondeterministicResults.averageScore()).toBeCloseTo(-13.5, 0);
-        expect(nondeterministicResults.closestScoreToAverageScore()).toBe(-10);
+        expectBetween(nondeterministicResults.averageScore(), -23, -21);
+        expect(nondeterministicResults.closestScoreToAverageScore()).toBe(-20);
     });
 
     function expectBetween(actual, lowerBound, upperBound) {
@@ -100,9 +101,10 @@ describe('Non deterministic results', () => {
         game.placeUnit(hexOf(2, 3), new RomanHeavyInfantry());
 
         const nondeterministicResults = executeCommandManyTimes(game, new CloseCombatCommand(hexOf(2, 2), hexOf(2, 3)), 10000);
+        nondeterministicResults.delete(0);
 
-        console.log(nondeterministicResults.tabulateScores());
-        expectBetween(nondeterministicResults.averageScore(), 15, 19);
+        //console.log(nondeterministicResults.toString());
+        expectBetween(nondeterministicResults.averageScore(), 18, 21);
         expect(nondeterministicResults.closestScoreToAverageScore()).toBe(20);
     });
 
@@ -112,9 +114,10 @@ describe('Non deterministic results', () => {
         game.placeUnit(hexOf(2, 4), new RomanLightInfantry());
 
         const nondeterministicResults = executeCommandManyTimes(game, new RangedCombatCommand(hexOf(2, 2), hexOf(2, 4)), 10000);
+        nondeterministicResults.delete(0);
 
-        console.log(nondeterministicResults.tabulateScores());
-        expectBetween(nondeterministicResults.averageScore(), 3, 4);
+        //console.log(nondeterministicResults.toString());
+        expectBetween(nondeterministicResults.averageScore(), 9, 11);
         expect(nondeterministicResults.closestScoreToAverageScore()).toBe(10);
     });
 

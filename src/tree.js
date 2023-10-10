@@ -57,20 +57,20 @@ function drawTree() {
         edges: new vis.DataSet(edges)
     };
     const options = {
-        layout: {
-            hierarchical: {
-                direction: 'LR',
-                sortMethod: 'directed',
-                shakeTowards: 'roots',
-                levelSeparation: 100,
-                nodeSpacing: 100,
-                treeSpacing: 300,
-            }
-        },
-        nodes: {
-            shape: 'circle',
-            size: 30
-        },
+        // layout: {
+        //     hierarchical: {
+        //         direction: 'LR',
+        //         sortMethod: 'directed',
+        //         shakeTowards: 'roots',
+        //         levelSeparation: 100,
+        //         nodeSpacing: 100,
+        //         treeSpacing: 300,
+        //     }
+        // },
+        // nodes: {
+        //     shape: 'circle',
+        //     size: 30
+        // },
         edges: {
             arrows: {
                 to: {
