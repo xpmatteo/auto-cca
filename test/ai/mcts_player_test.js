@@ -1,9 +1,16 @@
-import { MctsPlayer, TreeNode } from "ai/mcts_player.js";
+import { executeCommandManyTimes, MctsPlayer, TreeNode } from "ai/mcts_player.js";
 import { OrderHeavyTroopsCard } from "model/cards.js";
+import { CloseCombatCommand } from "model/commands/close_combat_command.js";
+import { RangedCombatCommand } from "model/commands/ranged_combat_command.js";
 import { Dice, diceReturning, RESULT_FLAG, RESULT_HEAVY, RESULT_LIGHT, RESULT_MEDIUM } from "model/dice.js";
 import makeGame from "model/game.js";
 import { NullScenario } from "model/scenarios.js";
-import { CarthaginianHeavyInfantry, CarthaginianMediumInfantry, RomanHeavyInfantry } from "model/units.js";
+import {
+    CarthaginianHeavyInfantry,
+    CarthaginianMediumInfantry,
+    RomanHeavyInfantry,
+    RomanLightInfantry
+} from "model/units.js";
 import { hexOf } from "xlib/hexlib.js";
 
 
@@ -67,4 +74,48 @@ test('select the best uct child and then battles', () => {
     expect(root.children[0].children[0].children[1].describeNode()).toBe("30/3: End phase -> Roman battle -> 2");
     expect(root.children[0].children[0].children[1].children[0].describeNode()).toMatch(/30\/1: Close Combat from \[0,0\] to \[1,0\] -> Roman (battle|retreat) -> 0/);
     expect(root.children[0].children[0].children[1].children[1].describeNode()).toBe("0/1: End phase -> Carthaginian play one card -> 0");
+});
+
+describe('Non deterministic results', () => {
+    test('close combat from light to heavy', () => {
+        const game = makeGame(new NullScenario());
+        game.placeUnit(hexOf(2, 2), new CarthaginianHeavyInfantry());
+        game.placeUnit(hexOf(2, 3), new RomanLightInfantry());
+
+        const nondeterministicResults = executeCommandManyTimes(game, new CloseCombatCommand(hexOf(2, 2), hexOf(2, 3)), 10000);
+
+        expect(nondeterministicResults.averageScore()).toBeCloseTo(-13.5, 0);
+        expect(nondeterministicResults.closestScoreToAverageScore()).toBe(-10);
+    });
+
+    function expectBetween(actual, lowerBound, upperBound) {
+        if (actual < lowerBound || actual > upperBound) {
+            throw new Error(`${actual} is not between ${lowerBound} and ${upperBound}`);
+        }
+    }
+
+    test('close combat from heavy to heavy', () => {
+        const game = makeGame(new NullScenario());
+        game.placeUnit(hexOf(2, 2), new CarthaginianHeavyInfantry());
+        game.placeUnit(hexOf(2, 3), new RomanHeavyInfantry());
+
+        const nondeterministicResults = executeCommandManyTimes(game, new CloseCombatCommand(hexOf(2, 2), hexOf(2, 3)), 10000);
+
+        console.log(nondeterministicResults.tabulateScores());
+        expectBetween(nondeterministicResults.averageScore(), 15, 19);
+        expect(nondeterministicResults.closestScoreToAverageScore()).toBe(20);
+    });
+
+    test('ranged combat', () => {
+        const game = makeGame(new NullScenario());
+        game.placeUnit(hexOf(2, 2), new CarthaginianHeavyInfantry());
+        game.placeUnit(hexOf(2, 4), new RomanLightInfantry());
+
+        const nondeterministicResults = executeCommandManyTimes(game, new RangedCombatCommand(hexOf(2, 2), hexOf(2, 4)), 10000);
+
+        console.log(nondeterministicResults.tabulateScores());
+        expectBetween(nondeterministicResults.averageScore(), 3, 4);
+        expect(nondeterministicResults.closestScoreToAverageScore()).toBe(10);
+    });
+
 });

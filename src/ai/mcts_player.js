@@ -297,17 +297,32 @@ class NondeterministicResults {
         return total / totalWeight;
     }
 
-    closestCloneToAverageScore() {
+    closestScoreToAverageScore() {
         const averageScore = this.averageScore();
         let minDelta = Infinity;
-        let clone = undefined;
-        for (const [score, occurrences] of this.scores.entries()) {
-            const delta = Math.abs(score - averageScore);
+        let score = undefined;
+        for (const [key, occurrences] of this.scores.entries()) {
+            const delta = Math.abs(key - averageScore);
             if (delta < minDelta) {
                 minDelta = delta;
-                clone = this.clones.get(score);
+                score = key;
             }
         }
-        return clone;
+        return score;
+    }
+
+    closestCloneToAverageScore() {
+        return this.clones.get(this.closestScoreToAverageScore());
+    }
+
+    tabulateScores() {
+        const sortedKeys = Array.from(this.scores.keys()).sort((a, b) => b - a);
+        const result = [];
+        for (const key of sortedKeys) {
+            result.push(`${key}: ${this.scores.get(key)}`);
+        }
+        result.push(`Average score: ${this.averageScore().toFixed(2)}`);
+        result.push(`Closest score to average: ${this.closestScoreToAverageScore()}`);
+        return result.join("\n");
     }
 }
