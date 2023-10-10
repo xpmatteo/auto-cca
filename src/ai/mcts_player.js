@@ -183,7 +183,8 @@ export class MctsPlayer {
     iterate(rootNode) {
         let nodes = this._select(rootNode);
         nodes.forEach(node => {
-            node.parent.backPropagate(node.score, node.game.currentSide);
+            const score = scoreMcts(node.game, node.game.currentSide);
+            node.backPropagate(score, node.game.currentSide);
         })
     }
 
@@ -203,8 +204,8 @@ export class MctsPlayer {
         const game = node.game;
         const validCommands = game.validCommands();
         validCommands.forEach((command) => {
-            const {clone, score} = this._executeCommand(game, command);
-            const childNode = new TreeNode(clone, node, score, 1, [], command);
+            const clone = this._executeCommand(game, command);
+            const childNode = new TreeNode(clone, node, 0, 0, [], command);
             node.children.push(childNode);
         });
         return node.children;
@@ -214,7 +215,7 @@ export class MctsPlayer {
      * Returns a clone of the game with the command executed, and the resulting score
      * @param {Game} game
      * @param {Command} command
-     * @returns {{score: number, clone: Game}}
+     * @returns {Game}
      * @private
      */
     _executeCommand(game, command) {
@@ -228,14 +229,13 @@ export class MctsPlayer {
     /**
      * @param {Game} game
      * @param {Command} command
-     * @returns {{score: number, clone: Game}}
+     * @returns {Game}
      * @private
      */
     _executeDeterministicCommand(game, command) {
         const clone = game.clone();
         clone.executeCommand(command);
-        const score = scoreMcts(clone, clone.currentSide);
-        return {clone, score};
+        return clone;
     }
 
     /**
@@ -243,7 +243,7 @@ export class MctsPlayer {
      * Return the weighted average score and a representative of the clones with the score occurring most often
      * @param {Game} game
      * @param {Command} command
-     * @returns {{score: number, clone: Game}}
+     * @returns {Game}
      * @private
      */
     _executeNonDeterministicCommand(game, command) {
@@ -256,7 +256,7 @@ export class MctsPlayer {
             results.add(score, clone);
         }
 
-        return {clone: results.closestCloneToAverageScore(), score: results.averageScore()};
+        return results.closestCloneToAverageScore();
     }
 }
 

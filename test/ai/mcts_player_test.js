@@ -59,12 +59,12 @@ test('select the best uct child and then battles', () => {
     //        43/3: End phase -> Roman battle -> 2
     //         43/1: Close Combat from [0,0] to [1,0] -> Roman battle -> 0
     //         0/1: End phase -> Carthaginian play one card -> 0
-    expect(root.describeNode()).toMatch(/4\d\/7: undefined -> Roman play one card -> 1/);
-    expect(root.children[0].describeNode()).toMatch(/4\d\/7: PlayCard\(Order Heavy Troops\) -> Roman order 1 heavy units -> 1/);
-    expect(root.children[0].children[0].describeNode()).toMatch(/4\d\/6: End phase -> Roman movement -> 2/);
+    expect(root.describeNode()).toBe("30/7: undefined -> Roman play one card -> 1");
+    expect(root.children[0].describeNode()).toBe("30/7: PlayCard\(Order Heavy Troops\) -> Roman order 1 heavy units -> 1");
+    expect(root.children[0].children[0].describeNode()).toBe("30/6: End phase -> Roman movement -> 2");
     expect(root.children[0].children[0].children[0].describeNode()).toBe("0/2: Move [0,0] to [0,1] -> Roman movement -> 1");
     expect(root.children[0].children[0].children[0].children[0].describeNode()).toBe("0/1: End phase -> Roman battle -> 0");
-    expect(root.children[0].children[0].children[1].describeNode()).toMatch(/4\d\/3: End phase -> Roman battle -> 2/);
-    expect(root.children[0].children[0].children[1].children[0].describeNode()).toMatch(/4\d\/1: Close Combat from \[0,0\] to \[1,0\] -> Roman (battle|retreat) -> 0/);
+    expect(root.children[0].children[0].children[1].describeNode()).toBe("30/3: End phase -> Roman battle -> 2");
+    expect(root.children[0].children[0].children[1].children[0].describeNode()).toMatch(/30\/1: Close Combat from \[0,0\] to \[1,0\] -> Roman (battle|retreat) -> 0/);
     expect(root.children[0].children[0].children[1].children[1].describeNode()).toBe("0/1: End phase -> Carthaginian play one card -> 0");
 });
