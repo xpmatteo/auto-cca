@@ -239,7 +239,7 @@ export class MctsPlayer {
     }
 
     /**
-     * Execute the command 100 times.
+     * Execute the command N times.
      * Return the weighted average score and a representative of the clones with the score occurring most often
      * @param {Game} game
      * @param {Command} command
@@ -247,9 +247,9 @@ export class MctsPlayer {
      * @private
      */
     _executeNonDeterministicCommand(game, command) {
-        // execute the command 100 times, group the results by score
-        const scores = new Map();
-        const clones = new Map();
+        // execute the command N times, group the results by score
+        const scores = new Map(); // counts occurrences of each score
+        const clones = new Map(); // a representative clone of each score
         for (let i = 0; i < this.args.nonDeterministicCommandRepetitions; i++) {
             const clone = game.clone();
             clone.executeCommand(command);
@@ -271,12 +271,16 @@ export class MctsPlayer {
         }
         const averageScore = total / totalWeight;
 
-        // find the score occurring most often
-        let maxOccurrences = -Infinity;
+        // avoid choosing the score same as previous state score if there are other scores, because it encourages passivity
+        if (scores.has(scoreMcts(game)) && scores.size > 1) scores.delete(scoreMcts(game));
+
+        // find the score closest to the average
+        let minDelta = Infinity;
         let clone = undefined;
         for (const [score, occurrences] of scores.entries()) {
-            if (occurrences > maxOccurrences) {
-                maxOccurrences = occurrences;
+            const delta = Math.abs(score - averageScore);
+            if (delta < minDelta) {
+                minDelta = delta;
                 clone = clones.get(score);
             }
         }

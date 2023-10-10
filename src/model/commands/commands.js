@@ -10,6 +10,10 @@ export class Command {
     play(game) {
         throw new Error("abstract method");
     }
+
+    isDeterministic() {
+        return true;
+    }
 }
 
 export class FlagResult {
