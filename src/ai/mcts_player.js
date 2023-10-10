@@ -143,6 +143,7 @@ function showBestCommands(comands) {
 }
 
 const DEFAULT_EXPANSION_FACTOR = 2;
+
 export class MctsPlayer {
     constructor(args = {}) {
         this.args = args;
@@ -247,20 +248,31 @@ export class MctsPlayer {
      * @private
      */
     _executeNonDeterministicCommand(game, command) {
-        // execute the command N times, group the results by score
-        const results = new NondeterministicResults();
-        for (let i = 0; i < this.args.nonDeterministicCommandRepetitions; i++) {
-            const clone = game.clone();
-            clone.executeCommand(command);
-            const score = scoreMcts(clone, game.currentSide);
-            results.add(score, clone);
-        }
-
+        const results = executeCommandManyTimes(game, command, this.args.nonDeterministicCommandRepetitions);
         return results.closestCloneToAverageScore();
     }
 }
 
-export class NondeterministicResults {
+/**
+ * Execute the command N times, group the results by score
+ *
+ * @param {Game} game
+ * @param {Command} command
+ * @param {number} repetitions
+ * @returns {NondeterministicResults}
+ */
+export function executeCommandManyTimes(game, command, repetitions) {
+    const results = new NondeterministicResults();
+    for (let i = 0; i < repetitions; i++) {
+        const clone = game.clone();
+        clone.executeCommand(command);
+        const score = scoreMcts(clone, game.currentSide);
+        results.add(score, clone);
+    }
+    return results;
+}
+
+class NondeterministicResults {
     constructor() {
         this.scores = new Map();
         this.clones = new Map();
