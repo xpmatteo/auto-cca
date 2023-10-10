@@ -1,5 +1,5 @@
 import {
-    attackProximityScoreForHex, MctsScore,
+    attackProximityScoreForHex,
     score,
     scoreForCloseCombatDice,
     scoreForDamageToUnit,
@@ -82,29 +82,6 @@ describe('attack proximity value', () => {
         expect(attackProximityScoreForHex(game, unit, hexOf(1, 0))).toBe(1250);
         expect(attackProximityScoreForHex(game, unit, hexOf(2, 0))).toBeCloseTo(250);
         expect(attackProximityScoreForHex(game, unit, hexOf(3, 0))).toBeCloseTo(50);
-    });
-});
-
-describe("The MctsScore class", () => {
-    test('Adding another of the same side', () => {
-        const a = new MctsScore(1, Side.ROMAN);
-        const b = new MctsScore(2, Side.ROMAN);
-
-        expect(a.plus(b)).toEqual(new MctsScore(3, Side.ROMAN));
-    });
-
-    test('Adding another of the opposite side', () => {
-        const a = new MctsScore(1, Side.ROMAN);
-        const b = new MctsScore(2, Side.CARTHAGINIAN);
-
-        expect(a.plus(b)).toEqual(new MctsScore(-1, Side.ROMAN));
-    });
-
-    test('getting the score for a side', () => {
-        const a = new MctsScore(1, Side.ROMAN);
-
-        expect(a.forSide(Side.ROMAN)).toBe(1);
-        expect(a.forSide(Side.CARTHAGINIAN)).toBe(-1);
     });
 });
 

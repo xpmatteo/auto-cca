@@ -67,40 +67,6 @@ export function attackProximityScoreForHex(game, ourUnit, hexToBeScored) {
     return result;
 }
 
-export class MctsScore {
-    /**
-     * @param {number} value
-     * @param {Side} side
-     */
-    constructor(value, side) {
-        this.value = value;
-        this.side = side;
-    }
-
-    /**
-     * @param {MctsScore} other
-     * @returns {MctsScore}
-     */
-    plus(other) {
-        if (this.side === other.side) {
-            return new MctsScore(this.value + other.value, this.side);
-        } else {
-            return new MctsScore(this.value - other.value, this.side);
-        }
-    }
-
-    /**
-     * @param {Side} side
-     * @returns {number}
-     */
-    forSide(side) {
-        if (this.side === side) {
-            return this.value;
-        } else {
-            return -this.value;
-        }
-    }
-}
 
 /**
  * @param {Game} game
