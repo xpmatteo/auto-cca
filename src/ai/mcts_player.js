@@ -248,44 +248,54 @@ export class MctsPlayer {
      */
     _executeNonDeterministicCommand(game, command) {
         // execute the command N times, group the results by score
-        const scores = new Map(); // counts occurrences of each score
-        const clones = new Map(); // a representative clone of each score
+        const results = new NondeterministicResults();
         for (let i = 0; i < this.args.nonDeterministicCommandRepetitions; i++) {
             const clone = game.clone();
             clone.executeCommand(command);
             const score = scoreMcts(clone, game.currentSide);
-            if (!scores.has(score)) {
-                scores.set(score, 1);
-                clones.set(score, clone);
-            } else {
-                scores.set(score, scores.get(score) + 1);
-            }
+            results.add(score, clone);
         }
 
-        // compute the weighted average of the scores
+        return {clone: results.closestCloneToAverageScore(), score: results.averageScore()};
+    }
+}
+
+export class NondeterministicResults {
+    constructor() {
+        this.scores = new Map();
+        this.clones = new Map();
+    }
+
+    add(score, clone) {
+        if (!this.scores.has(score)) {
+            this.scores.set(score, 1);
+            this.clones.set(score, clone);
+        } else {
+            this.scores.set(score, this.scores.get(score) + 1);
+        }
+    }
+
+    averageScore() {
         let total = 0;
         let totalWeight = 0;
-        for (const [score, weight] of scores.entries()) {
+        for (const [score, weight] of this.scores.entries()) {
             total += score * weight;
             totalWeight += weight;
         }
-        const averageScore = total / totalWeight;
+        return total / totalWeight;
+    }
 
-        // avoid choosing the score same as previous state score if there are other scores, because it encourages passivity
-        if (scores.has(scoreMcts(game)) && scores.size > 1) scores.delete(scoreMcts(game));
-
-        // find the score closest to the average
+    closestCloneToAverageScore() {
+        const averageScore = this.averageScore();
         let minDelta = Infinity;
         let clone = undefined;
-        for (const [score, occurrences] of scores.entries()) {
+        for (const [score, occurrences] of this.scores.entries()) {
             const delta = Math.abs(score - averageScore);
             if (delta < minDelta) {
                 minDelta = delta;
-                clone = clones.get(score);
+                clone = this.clones.get(score);
             }
         }
-        console.log(scores, averageScore.toFixed(1), scoreMcts(clone));
-
-        return {clone, score: averageScore};
+        return clone;
     }
 }
