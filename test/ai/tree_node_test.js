@@ -5,6 +5,7 @@ import { EndPhaseCommand } from "model/commands/end_phase_command.js";
 import { PlayCardCommand } from "model/commands/play_card_command.js";
 import makeGame from "model/game.js";
 import { NullScenario } from "model/scenarios.js";
+import { Side } from "model/side.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "model/units.js";
 import { hexOf } from "xlib/hexlib.js";
 
@@ -206,6 +207,34 @@ describe('Chance node', () => {
         chanceNode.children = [child1, child2];
 
         expect(chanceNode.value()).toBeCloseTo(0.5);
+    });
+
+    test('backpropagation from chance to decision', () => {
+        const game = makeGame(new NullScenario());
+        const grandParent = new DecisionNode(game, null, 0, 1);
+        const parent = new DecisionNode(game, grandParent, 2, 2);
+        const child = new ChanceNode({}, parent);
+
+        child.backPropagate(0.5, Side.CARTHAGINIAN);
+
+        expect(parent.score).toBe(1.5);
+        expect(parent.visits).toBe(3);
+        expect(grandParent.score).toBe(-0.5);
+        expect(grandParent.visits).toBe(2);
+    });
+
+    test('backpropagation from decision to chance', () => {
+        const game = makeGame(new NullScenario());
+        const grandParent = new DecisionNode(game, null, 0, 1);
+        const parent = new ChanceNode(game, grandParent);
+        const child = new DecisionNode(game, parent, 3, 3);
+
+        child.backPropagate(0.5, Side.ROMAN);
+
+        expect(child.score).toBe(3.5);
+        expect(child.visits).toBe(4);
+        expect(grandParent.score).toBe(0.5);
+        expect(grandParent.visits).toBe(2);
     });
 
 });

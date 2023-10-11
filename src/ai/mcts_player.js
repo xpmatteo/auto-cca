@@ -88,12 +88,11 @@ export class DecisionNode {
     }
 
     backPropagate(score, side) {
-        let node = this;
-        while (node !== null) {
-            const factor = (node.game.currentSide === side) ? 1 : -1;
-            node.score += factor * score;
-            node.visits++;
-            node = node.parent;
+        const factor = (this.game.currentSide === side) ? 1 : -1;
+        this.score += factor * score;
+        this.visits++;
+        if (this.parent !== null) {
+            this.parent.backPropagate(score, side);
         }
     }
 
@@ -196,7 +195,9 @@ export class ChanceNode {
     }
 
     backPropagate(score, side) {
-        throw new Error("Not implemented");
+        if (this.parent !== null) {
+            this.parent.backPropagate(score, side);
+        }
     }
 }
 
