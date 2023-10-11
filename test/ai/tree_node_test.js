@@ -1,9 +1,11 @@
-import { DecisionNode } from "ai/mcts_player.js";
+import { ChanceNode, DecisionNode } from "ai/mcts_player.js";
 import { OrderHeavyTroopsCard } from "model/cards.js";
+import { CloseCombatCommand } from "model/commands/close_combat_command.js";
+import { EndPhaseCommand } from "model/commands/end_phase_command.js";
 import { PlayCardCommand } from "model/commands/play_card_command.js";
 import makeGame from "model/game.js";
 import { NullScenario } from "model/scenarios.js";
-import { RomanHeavyInfantry } from "model/units.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "model/units.js";
 import { hexOf } from "xlib/hexlib.js";
 
 function gameWithSide(side) {
@@ -97,21 +99,47 @@ describe('Decision node', () => {
     });
 
     describe('expansion', () => {
-        const command1 = aDeterministicCommand('command1');
-        const command2 = aDeterministicCommand('command2');
-        const game = makeGame(new NullScenario());
-        game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
-        game.handSouth = [new OrderHeavyTroopsCard()];
 
         it('should expand the node with the valid commands', () => {
+            const game = makeGame(new NullScenario());
+            game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
+            game.handSouth = [new OrderHeavyTroopsCard()];
             const node = new DecisionNode(game);
 
             node.expand();
 
             expect(node.children.length).toBe(1);
-            expect(node.children[0].command).toEqual(new PlayCardCommand(new OrderHeavyTroopsCard()));
-            expect(node.visits).toBe(0);
-            expect(node.score).toBe(0);
+            const child = node.children[0];
+            expect(child.command).toEqual(new PlayCardCommand(new OrderHeavyTroopsCard()));
+            expect(child.visits).toBe(0);
+            expect(child.score).toBe(0);
+        });
+
+        it('expands nondeterministic commands to chance nodes', () => {
+            const game = makeGame(new NullScenario());
+            game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
+            game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
+            game.handSouth = [new OrderHeavyTroopsCard()];
+            game.executeCommand(game.validCommands()[0]); // play card
+            game.executeCommand(game.validCommands()[0]); // end phase
+            game.executeCommand(game.validCommands()[0]); // move from 0,0 to 0,1
+            game.executeCommand(game.validCommands()[0]); // end phase
+            const node = new DecisionNode(game);
+
+            node.expand();
+
+            expect(node.children.length).toBe(2);
+            const child0 = node.children[0];
+            expect(child0.command.toString()).toBe("Close Combat from [0,1] to [1,0]");
+            expect(child0.value()).toBe(Infinity);
+            expect(child0 instanceof ChanceNode).toBe(true);
+            expect(child0.game).toBe(game);
+
+            const child1 = node.children[1];
+            expect(child1.command).toEqual(new EndPhaseCommand());
+            expect(child1.value()).toBe(Infinity);
+            expect(child1 instanceof DecisionNode).toBe(true);
+            expect(child1.game).not.toBe(game);
         });
     });
 

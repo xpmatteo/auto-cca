@@ -57,9 +57,9 @@ export class MinimaxPlayer {
      */
     decideMove(game) {
         const treeRoot = this.search(game, this.depth);
-        console.log("Minimax player Tree size: ", treeRoot.size(), " shape: ", treeRoot.shape());
+        //console.log("Minimax player Tree size: ", treeRoot.size(), " shape: ", treeRoot.shape());
         const bestCommands = treeRoot.bestCommands();
-        console.log(bestCommands);
+        //console.log(bestCommands);
         return bestCommands;
     }
 

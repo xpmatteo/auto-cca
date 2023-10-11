@@ -1,13 +1,15 @@
 import { scoreMcts } from "./score.js";
 
+// this is used to visualize trees with vis.js
+let nextNodeId = 0;
+
 /*
- A tree node contains
+ A decision node contains
    - a game state,
-   - the command that produced that state
+   - the deterministic command that produced that state
    - the cumulated score *from the point of view of the this.game.currentSide*
    - the number of visits
  */
-let nextNodeId = 0;
 export class DecisionNode {
     constructor(game, parent = null, score=0, visits=0, children=[], command=undefined) {
         this.id = nextNodeId++;
@@ -25,14 +27,17 @@ export class DecisionNode {
     bestAbsoluteChild() {
         let best = this.children[0];
         for (let child of this.children) {
-            if (child.finalScore() > best.finalScore()) {
+            if (child.value() > best.value()) {
                 best = child;
             }
         }
         return best;
     }
 
-    finalScore() {
+    value() {
+        if (this.visits === 0) {
+            return Infinity;
+        }
         return this.score / this.visits;
     }
 
@@ -54,10 +59,7 @@ export class DecisionNode {
     }
 
     uct(expansionFactor) {
-        if (this.visits === 0) {
-            return Infinity;
-        }
-        return this.score / this.visits + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
+        return this.value() + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
     }
 
     /**
@@ -99,13 +101,17 @@ export class DecisionNode {
         const game = this.game;
         const validCommands = game.validCommands();
         validCommands.forEach((command) => {
-            const clone = executeCommand(game, command);
-            const childNode = new DecisionNode(clone, this, 0, 0, [], command);
-            this.children.push(childNode);
+            if (command.isDeterministic()) {
+                const clone = executeCommand(game, command);
+                const childNode = new DecisionNode(clone, this, 0, 0, [], command);
+                this.children.push(childNode);
+            } else {
+                const childNode = new ChanceNode(game, this, command);
+                this.children.push(childNode);
+            }
         });
         return this.children;
     }
-
 
     size() {
         if (this.children.length === 0) {
@@ -160,6 +166,34 @@ export class DecisionNode {
         traverse(this);
         const redundancy = this.size() - nodeSet.size;
         return `${redundancy} / ${this.size()} (${(redundancy / this.size() * 100).toFixed(2)}%)})`;
+    }
+}
+
+/*
+ A chance node contains
+   - a game state,
+   - a non-deterministic command that can be applied to that state
+   - a map from the possible next game states to other nodes
+ */
+export class ChanceNode {
+    constructor(game, parent, command) {
+        this.id = nextNodeId++;
+        this.game = game;
+        this.parent = parent;
+        this.command = command;
+        this.children = [];
+    }
+
+    value() {
+        return Infinity;
+    }
+
+    expand() {
+        throw new Error("Not implemented");
+    }
+
+    backPropagate(score, side) {
+        throw new Error("Not implemented");
     }
 }
 
