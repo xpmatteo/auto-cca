@@ -237,7 +237,7 @@ describe('Chance node', () => {
         expect(grandParent.score).toBe(0.5);
         expect(grandParent.visits).toBe(2);
     });
-    
+
     function evolveGameToCloseCombat(game) {
         game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
         game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
@@ -258,6 +258,7 @@ describe('Chance node', () => {
 
             const result = node.bestUctChild();
 
+            expect(node.visits).toBe(1);
             expect(node.children.length).toBe(1);
             expect(result).toBe(node.children[0]);
             expect(result.command.toString()).toBe("Close Combat from [0,1] to [1,0]");
@@ -275,6 +276,7 @@ describe('Chance node', () => {
             node.bestUctChild();
             const result = node.bestUctChild();
 
+            expect(node.visits).toBe(2);
             expect(node.children.length).toBe(1);
             expect(result).toBe(node.children[0]);
             expect(result.command.toString()).toBe("Close Combat from [0,1] to [1,0]");
@@ -299,7 +301,10 @@ describe('Chance node', () => {
             expect(result instanceof DecisionNode).toBe(true);
             expect(result.game).not.toBe(game);
         });
+    });
 
+    it('should implement bestcommands', () => {
+        expect(0).toBe(1);
     });
 
 });

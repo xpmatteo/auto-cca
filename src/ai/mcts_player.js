@@ -4,6 +4,13 @@ import { scoreMcts } from "./score.js";
 let nextNodeId = 0;
 
 class TreeNode {
+    value() {
+        throw new Error("Abstract method");
+    }
+
+    uct(expansionFactor) {
+        return this.value() + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
+    }
 }
 
 /*
@@ -76,10 +83,6 @@ export class DecisionNode extends TreeNode {
             }
         }
         return best;
-    }
-
-    uct(expansionFactor) {
-        return this.value() + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
     }
 
     /**
@@ -185,6 +188,7 @@ export class ChanceNode extends TreeNode {
         this.game = game;
         this.parent = parent;
         this.command = command;
+        this.visits = 0;
         this.children = [];
         this.stateToNode = new Map();
     }
@@ -207,6 +211,7 @@ export class ChanceNode extends TreeNode {
     }
 
     bestUctChild() {
+        this.visits++;
         const clone = executeCommand(this.game, this.command);
         const cloneKey = clone.toString();
         if (!this.stateToNode.has(cloneKey)) {
