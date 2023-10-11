@@ -3,6 +3,7 @@ import { OrderHeavyTroopsCard } from "model/cards.js";
 import { CloseCombatCommand } from "model/commands/close_combat_command.js";
 import { EndPhaseCommand } from "model/commands/end_phase_command.js";
 import { PlayCardCommand } from "model/commands/play_card_command.js";
+import { diceReturning, RESULT_HEAVY } from "model/dice.js";
 import makeGame from "model/game.js";
 import { NullScenario } from "model/scenarios.js";
 import { Side } from "model/side.js";
@@ -235,6 +236,70 @@ describe('Chance node', () => {
         expect(child.visits).toBe(4);
         expect(grandParent.score).toBe(0.5);
         expect(grandParent.visits).toBe(2);
+    });
+    
+    function evolveGameToCloseCombat(game) {
+        game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
+        game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
+        game.handSouth = [new OrderHeavyTroopsCard()];
+        game.executeCommand(game.validCommands()[0]); // play card
+        game.executeCommand(game.validCommands()[0]); // end phase
+        game.executeCommand(game.validCommands()[0]); // move from 0,0 to 0,1
+        game.executeCommand(game.validCommands()[0]); // end phase
+    }
+
+    describe('executes a random move when visited', () => {
+
+        it('when no children', () => {
+            const game = makeGame(new NullScenario());
+            evolveGameToCloseCombat(game);
+            const command = game.validCommands()[0];
+            const node = new ChanceNode(game, null, command);
+
+            const result = node.bestUctChild();
+
+            expect(node.children.length).toBe(1);
+            expect(result).toBe(node.children[0]);
+            expect(result.command.toString()).toBe("Close Combat from [0,1] to [1,0]");
+            expect(result.value()).toBe(Infinity);
+            expect(result instanceof DecisionNode).toBe(true);
+            expect(result.game).not.toBe(game);
+        });
+
+        it('when the result is same as previous ', () => {
+            const game = makeGame(new NullScenario(), diceReturning([RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY]));
+            evolveGameToCloseCombat(game);
+            const command = game.validCommands()[0];
+            const node = new ChanceNode(game, null, command);
+
+            node.bestUctChild();
+            const result = node.bestUctChild();
+
+            expect(node.children.length).toBe(1);
+            expect(result).toBe(node.children[0]);
+            expect(result.command.toString()).toBe("Close Combat from [0,1] to [1,0]");
+            expect(result.value()).toBe(Infinity);
+            expect(result instanceof DecisionNode).toBe(true);
+            expect(result.game).not.toBe(game);
+        });
+
+        it('when the result is different from previous', () => {
+            const game = makeGame(new NullScenario());
+            evolveGameToCloseCombat(game);
+            const command = game.validCommands()[0];
+            const node = new ChanceNode(game, null, command);
+
+            node.bestUctChild();
+            const result = node.bestUctChild();
+
+            expect(node.children.length).toBe(2);
+            expect(result).toBe(node.children[1]);
+            expect(result.command.toString()).toBe("Close Combat from [0,1] to [1,0]");
+            expect(result.value()).toBe(Infinity);
+            expect(result instanceof DecisionNode).toBe(true);
+            expect(result.game).not.toBe(game);
+        });
+
     });
 
 });

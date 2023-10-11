@@ -3,6 +3,9 @@ import { scoreMcts } from "./score.js";
 // this is used to visualize trees with vis.js
 let nextNodeId = 0;
 
+class TreeNode {
+}
+
 /*
  A decision node contains
    - a game state,
@@ -10,8 +13,9 @@ let nextNodeId = 0;
    - the cumulated score *from the point of view of the this.game.currentSide*
    - the number of visits
  */
-export class DecisionNode {
+export class DecisionNode extends TreeNode {
     constructor(game, parent = null, score=0, visits=0, children=[], command=undefined) {
+        super();
         this.id = nextNodeId++;
         this.game = game;
         this.parent = parent;
@@ -19,6 +23,22 @@ export class DecisionNode {
         this.visits = visits;
         this.children = children;
         this.command = command;
+    }
+
+    expand() {
+        const game = this.game;
+        const validCommands = game.validCommands();
+        validCommands.forEach((command) => {
+            if (command.isDeterministic()) {
+                const clone = executeCommand(game, command);
+                const childNode = new DecisionNode(clone, this, 0, 0, [], command);
+                this.children.push(childNode);
+            } else {
+                const childNode = new ChanceNode(game, this, command);
+                this.children.push(childNode);
+            }
+        });
+        return this.children;
     }
 
     /*
@@ -96,22 +116,6 @@ export class DecisionNode {
         }
     }
 
-    expand() {
-        const game = this.game;
-        const validCommands = game.validCommands();
-        validCommands.forEach((command) => {
-            if (command.isDeterministic()) {
-                const clone = executeCommand(game, command);
-                const childNode = new DecisionNode(clone, this, 0, 0, [], command);
-                this.children.push(childNode);
-            } else {
-                const childNode = new ChanceNode(game, this, command);
-                this.children.push(childNode);
-            }
-        });
-        return this.children;
-    }
-
     size() {
         if (this.children.length === 0) {
             return 1;
@@ -174,13 +178,19 @@ export class DecisionNode {
    - a non-deterministic command that can be applied to that state
    - a map from the possible next game states to other nodes
  */
-export class ChanceNode {
+export class ChanceNode extends TreeNode {
     constructor(game, parent, command) {
+        super();
         this.id = nextNodeId++;
         this.game = game;
         this.parent = parent;
         this.command = command;
         this.children = [];
+        this.stateToNode = new Map();
+    }
+
+    expand() {
+        return [this.bestUctChild()];
     }
 
     value() {
@@ -190,14 +200,22 @@ export class ChanceNode {
         return this.children.reduce((acc, child) => acc + child.value(), 0) / this.children.length;
     }
 
-    expand() {
-        throw new Error("Not implemented");
-    }
-
     backPropagate(score, side) {
         if (this.parent !== null) {
             this.parent.backPropagate(score, side);
         }
+    }
+
+    bestUctChild() {
+        const clone = executeCommand(this.game, this.command);
+        const cloneKey = clone.toString();
+        if (!this.stateToNode.has(cloneKey)) {
+            const child = new DecisionNode(clone, this, 0, 0, [], this.command);
+            this.stateToNode.set(cloneKey, child);
+            this.children.push(child);
+            return child;
+        }
+        return this.stateToNode.get(cloneKey);
     }
 }
 
@@ -265,7 +283,6 @@ export class MctsPlayer {
         return [node];
     }
 }
-
 
 /**
  * Returns a clone of the game with the command executed, and the resulting score
