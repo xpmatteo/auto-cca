@@ -63,7 +63,7 @@ export class TreeNode {
     /**
      * Returns the best commands sequence for the real game, stopping after the first non-deterministic command,
      * and before the game changes side
-     * @param {Side} side
+     * @param {Side?} side
      * @returns {[Command]}
      */
     bestCommands(side) {
@@ -83,6 +83,16 @@ export class TreeNode {
             return best.bestCommands(side);
         }
         return [this.command].concat(best.bestCommands(side));
+    }
+
+    backPropagate(score, side) {
+        let node = this;
+        while (node !== null) {
+            const factor = (node.game.currentSide === side) ? 1 : -1;
+            node.score += factor * score;
+            node.visits++;
+            node = node.parent;
+        }
     }
 
     size() {
@@ -107,10 +117,10 @@ export class TreeNode {
         return result;
     }
 
-    toString(maxLevel = 10000) {
+    toString(maxLevel = 10000, minVisits = 0) {
         const result = [];
         function traverse(node, level) {
-            if (level > maxLevel) {
+            if (level > maxLevel || node.visits < minVisits) {
                 return;
             }
             const nodeDescription = " ".repeat(level) + node.describeNode();
@@ -123,18 +133,21 @@ export class TreeNode {
         return result.join("\n");
     }
 
-    backPropagate(score, side) {
-        let node = this;
-        while (node !== null) {
-            const factor = (node.game.currentSide === side) ? 1 : -1;
-            node.score += factor * score;
-            node.visits++;
-            node = node.parent;
-        }
-    }
-
     describeNode() {
         return `${this.score.toFixed(0)}/${this.visits}: ${this.command} -> ${this.game.describeCurrentPhase()} -> ${this.children.length}`;
+    }
+
+    redundancy() {
+        const nodeSet = new Set();
+        function traverse(node) {
+            nodeSet.add(node.game.toGame().toString());
+            for (const child of node.children) {
+                traverse(child);
+            }
+        }
+        traverse(this);
+        const redundancy = this.size() - nodeSet.size;
+        return `${redundancy} / ${this.size()} (${(redundancy / this.size() * 100).toFixed(2)}%)})`;
     }
 }
 
@@ -160,9 +173,10 @@ export class MctsPlayer {
         }
         const rootNode = this._doDecideMove(game);
         const bestCommands = rootNode.bestCommands(game.currentSide);
-        console.log(showBestCommands(bestCommands));
+        console.log(showBestCommands(rootNode.bestCommands()));
         console.log(rootNode.shape());
-        //console.log(rootNode.toString(4));
+        console.log(rootNode.redundancy());
+        // console.log(rootNode.toString(7, 10));
         console.log("Time taken: " + (Date.now() - startTime)/1000 + "s");
         return bestCommands;
     }

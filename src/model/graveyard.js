@@ -16,4 +16,8 @@ export class Graveyard {
         clone.units = this.units.slice();
         return clone;
     }
+
+    toString() {
+        return JSON.stringify(this.units);
+    }
 }

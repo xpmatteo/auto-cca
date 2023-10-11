@@ -51,12 +51,14 @@ class Game {
     toString() {
         return stringify([
             this.board,
+            this.phases,
+            this.currentSideRaw,
             this.spentUnits,
             mapToString(this.unitStrengths),
+            this.graveyard,
             this.orderedUnits,
             this.handNorth,
             this.handSouth,
-            this.phases,
         ])
     }
 
