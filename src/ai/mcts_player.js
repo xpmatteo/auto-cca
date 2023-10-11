@@ -185,7 +185,10 @@ export class ChanceNode {
     }
 
     value() {
-        return Infinity;
+        if (this.children.length === 0) {
+            return Infinity;
+        }
+        return this.children.reduce((acc, child) => acc + child.value(), 0) / this.children.length;
     }
 
     expand() {

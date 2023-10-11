@@ -192,3 +192,20 @@ describe('Decision node', () => {
         expect(rootNode.score).toBe(210);
     });
 });
+
+describe('Chance node', () => {
+    test('value of node with no children', () => {
+        expect(new ChanceNode().value()).toBe(Infinity);
+    });
+
+    test('value of node with children', () => {
+        const game = {};
+        const chanceNode = new ChanceNode();
+        const child1 = new DecisionNode(game, chanceNode, 10, 10);
+        const child2 = new DecisionNode(game, chanceNode, 0, 10);
+        chanceNode.children = [child1, child2];
+
+        expect(chanceNode.value()).toBeCloseTo(0.5);
+    });
+
+});
