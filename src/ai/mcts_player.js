@@ -8,7 +8,7 @@ import { scoreMcts } from "./score.js";
    - the number of visits
  */
 let nextNodeId = 0;
-export class TreeNode {
+export class DecisionNode {
     constructor(game, parent = null, score=0, visits=0, children=[], command=undefined) {
         this.id = nextNodeId++;
         this.game = game;
@@ -100,7 +100,7 @@ export class TreeNode {
         const validCommands = game.validCommands();
         validCommands.forEach((command) => {
             const clone = executeCommand(game, command);
-            const childNode = new TreeNode(clone, this, 0, 0, [], command);
+            const childNode = new DecisionNode(clone, this, 0, 0, [], command);
             this.children.push(childNode);
         });
         return this.children;
@@ -200,7 +200,7 @@ export class MctsPlayer {
     }
 
     search(game, iterations = this.args.iterations) {
-        const rootNode = new TreeNode(game);
+        const rootNode = new DecisionNode(game);
         for (let i = 0; i < iterations; i++) {
             this.iterate(rootNode);
         }

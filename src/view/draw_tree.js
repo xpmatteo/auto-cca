@@ -8,7 +8,7 @@ export function drawTree(game) {
     const rootNode = player.search(game.toGame());
     console.log("AI HAS FINISHED THINKING: ", rootNode.size(), "nodes", rootNode.shape().toString());
 
-    // Convert TreeNode to vis.js data
+    // Convert tree to vis.js data
     const nodes = [];
     const edges = [];
 
@@ -32,7 +32,7 @@ export function drawTree(game) {
     }
 
     /**
-     * @param {TreeNode} node
+     * @param {DecisionNode} node
      */
     function traverse(node) {
         if (node.visits < threshold) return;

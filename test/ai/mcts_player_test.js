@@ -1,4 +1,4 @@
-import { MctsPlayer, TreeNode } from "ai/mcts_player.js";
+import { MctsPlayer, DecisionNode } from "ai/mcts_player.js";
 import { OrderHeavyTroopsCard } from "model/cards.js";
 import { CloseCombatCommand } from "model/commands/close_combat_command.js";
 import { RangedCombatCommand } from "model/commands/ranged_combat_command.js";
@@ -21,7 +21,7 @@ it('expands one node', () => {
     game.handSouth = [new OrderHeavyTroopsCard()];
     game.executeCommand(game.validCommands()[0]); // play order heavy troops card
     game.executeCommand(game.validCommands()[0]); // end phase
-    const root = new TreeNode(game);
+    const root = new DecisionNode(game);
 
     player.iterate(root);
 
@@ -50,7 +50,7 @@ describe('Non deterministic results', () => {
         game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
         game.placeUnit(hexOf(1, 0), new CarthaginianMediumInfantry());
         game.handSouth = [new OrderHeavyTroopsCard()];
-        const root = new TreeNode(game);
+        const root = new DecisionNode(game);
 
         player.iterate(root); // play card
         player.iterate(root); // end phase
