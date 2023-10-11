@@ -1,4 +1,10 @@
 import { TreeNode } from "ai/mcts_player.js";
+import { OrderHeavyTroopsCard } from "model/cards.js";
+import { PlayCardCommand } from "model/commands/play_card_command.js";
+import makeGame from "model/game.js";
+import { NullScenario } from "model/scenarios.js";
+import { RomanHeavyInfantry } from "model/units.js";
+import { hexOf } from "xlib/hexlib.js";
 
 function gameWithSide(side) {
     return {
@@ -24,7 +30,7 @@ function names(commands) {
     return commands.map(c => c.toString());
 }
 
-describe('TreeNode', () => {
+describe('Decision node', () => {
 
     describe('bestCommands', () => {
         let game = gameWithSide('A');
@@ -87,6 +93,25 @@ describe('TreeNode', () => {
 
             const result = rootNode.bestCommands('A');
             expect(names(result)).toEqual(['rootCommand', 'child1Command']);
+        });
+    });
+
+    describe('expansion', () => {
+        const command1 = aDeterministicCommand('command1');
+        const command2 = aDeterministicCommand('command2');
+        const game = makeGame(new NullScenario());
+        game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
+        game.handSouth = [new OrderHeavyTroopsCard()];
+
+        it('should expand the node with the valid commands', () => {
+            const node = new TreeNode(game);
+
+            node.expand();
+
+            expect(node.children.length).toBe(1);
+            expect(node.children[0].command).toEqual(new PlayCardCommand(new OrderHeavyTroopsCard()));
+            expect(node.visits).toBe(0);
+            expect(node.score).toBe(0);
         });
     });
 

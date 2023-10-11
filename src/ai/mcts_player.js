@@ -95,6 +95,18 @@ export class TreeNode {
         }
     }
 
+    expand() {
+        const game = this.game;
+        const validCommands = game.validCommands();
+        validCommands.forEach((command) => {
+            const clone = executeCommand(game, command);
+            const childNode = new TreeNode(clone, this, 0, 0, [], command);
+            this.children.push(childNode);
+        });
+        return this.children;
+    }
+
+
     size() {
         if (this.children.length === 0) {
             return 1;
@@ -206,7 +218,7 @@ export class MctsPlayer {
     _select(node) {
         while (!node.game.isTerminal()) {
             if (node.children.length === 0) {
-                return this._expand(node);
+                return node.expand();
             } else {
                 node = node.bestUctChild(this.args.expansionFactor);
             }
@@ -214,30 +226,18 @@ export class MctsPlayer {
         // node is terminal
         return [node];
     }
-
-    _expand(node) {
-        const game = node.game;
-        const validCommands = game.validCommands();
-        validCommands.forEach((command) => {
-            const clone = this._executeCommand(game, command);
-            const childNode = new TreeNode(clone, node, 0, 0, [], command);
-            node.children.push(childNode);
-        });
-        return node.children;
-    }
-
-    /**
-     * Returns a clone of the game with the command executed, and the resulting score
-     * @param {Game} game
-     * @param {Command} command
-     * @returns {Game}
-     * @private
-     */
-    _executeCommand(game, command) {
-        const clone = game.clone();
-        clone.executeCommand(command);
-        return clone;
-    }
-
 }
 
+
+/**
+ * Returns a clone of the game with the command executed, and the resulting score
+ * @param {Game} game
+ * @param {Command} command
+ * @returns {Game}
+ * @private
+ */
+function executeCommand(game, command) {
+    const clone = game.clone();
+    clone.executeCommand(command);
+    return clone;
+}
