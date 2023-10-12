@@ -1,6 +1,6 @@
 import { score } from "./score.js";
 
-class TreeNode {
+class MinimaxNode {
     constructor(score) {
         this.score = score;
         this.children = [];
@@ -9,7 +9,7 @@ class TreeNode {
     /**
      * @returns {[Command]}
      */
-    bestCommands() {
+    bestCommands(side) {
         if (this.children.length === 0) {
             return [];
         }
@@ -66,7 +66,7 @@ export class MinimaxPlayer {
     /**
      * @param {Game} game
      * @param {number} depth
-     * @returns {TreeNode}
+     * @returns {MinimaxNode}
      */
     search(game, depth) {
         this.visited = new Set();
@@ -75,9 +75,9 @@ export class MinimaxPlayer {
     _search(game, side, depth) {
         if (depth === 0 || game.currentSide !== side) {
             const theScore = score(game, game.currentSide);
-            return new TreeNode(theScore)
+            return new MinimaxNode(theScore)
         }
-        const rootNode = new TreeNode();
+        const rootNode = new MinimaxNode();
         this.visited.add(game.toString());
         const validCommands = game.validCommands();
         rootNode.score = -Infinity;
