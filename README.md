@@ -15,8 +15,6 @@ Also, keep an AI on the status text on top that tells you which phase the game i
 In the main scenario (Akragas), you play the Syracusan (bottom) while the AI plays 
 the Carthaginian (top). 
 
-# TODO: scoreMcts must ensure a score boost for the winner!!!
-
 # AI TESTS
 
   - Early game
@@ -33,30 +31,30 @@ the Carthaginian (top).
 
  - it does not concentrate fire
  - it does not move troops together
- - it does not understand retreat and fire
 
- 
+* The AI seems to want to play with one unit at a time
+    * Should we encourage to optimize move for each unit separately?
+    * It chooses not to fight?!  After advancing adjacent to oppponent?
+* In the big scenario, early moves are random
+
 
 # TODO AI 
 
-- score for a position should depend on how many dice I can use to attack
-- limit depth of exploration: try to ensure we evaluate multiple times the next moves rather than going too far down
 
-- the evaluation of a position is done on a single roll of dice
-
-- Improve greedy player
-  - ? execute random command when same score?
-  - ? ensure the greedy player goes for rolling as many dice as possible
-
-- Make the AI give preference to moving/battling with the most constrained unit
+- group order moves
+- make end phase automatic
+- Make the AI give preference to moving/battling with the most constrained unit?
+- There seem to be huge redundancies in tree nodes: 5787 / 13982: solve it with grouping moves or with DAG?
+- Make scoring return [-1, 1], so to scale expansion factor appropriately
+- try again playouts instead of my score?
 
 
 # TODO RULES
 
 - evasion
+- ranged combat line of sight restriction
 - more cards
 - advance after combat
-- ranged combat line of sight restriction
 - cavalry, chariot battle again after advance
 - leaders
 - terrain
