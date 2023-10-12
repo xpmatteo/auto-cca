@@ -34,7 +34,8 @@ export function drawTree(game, depth=1000) {
         }
     }
 
-    traverse(rootNode, 4);
+    traverse(rootNode, depth);
+    console.log("traversed")
     nodes[0].color = "red";
     nodes[0].width = 100;
 
@@ -60,4 +61,5 @@ export function drawTree(game, depth=1000) {
     };
 
     const network = new vis.Network(container, data, options);
+    console.log("network created");
 }

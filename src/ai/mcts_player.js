@@ -15,8 +15,8 @@ class TreeNode {
     }
 
     /*
-            This decides which is the best command for the real game
-         */
+        This decides which is the best command for the real game
+     */
     bestAbsoluteChild() {
         let best = this.children[0];
         for (let child of this.children) {
@@ -50,6 +50,26 @@ class TreeNode {
 
         traverse(this, 0);
         return result;
+    }
+
+    toString(maxLevel = 10000, minVisits = 0) {
+        const result = [];
+        function traverse(node, level) {
+            if (level > maxLevel || node.visits < minVisits) {
+                return;
+            }
+            const nodeDescription = " ".repeat(level) + node.describeNode();
+            result.push(nodeDescription);
+            for (const child of node.children) {
+                traverse(child, level + 1);
+            }
+        }
+        traverse(this, 0);
+        return result.join("\n");
+    }
+
+    describeNode() {
+        throw new Error("Abstract method");
     }
 }
 
@@ -146,22 +166,6 @@ export class DecisionNode extends TreeNode {
         }
     }
 
-    toString(maxLevel = 10000, minVisits = 0) {
-        const result = [];
-        function traverse(node, level) {
-            if (level > maxLevel || node.visits < minVisits) {
-                return;
-            }
-            const nodeDescription = " ".repeat(level) + node.describeNode();
-            result.push(nodeDescription);
-            for (const child of node.children) {
-                traverse(child, level + 1);
-            }
-        }
-        traverse(this, 0);
-        return result.join("\n");
-    }
-
     describeNode() {
         return `${this.score.toFixed(0)}/${this.visits}: ${this.command} -> ${this.game.describeCurrentPhase()} -> ${this.children.length}`;
     }
@@ -231,6 +235,11 @@ export class ChanceNode extends TreeNode {
     bestCommands(side) {
         return this.bestAbsoluteChild().bestCommands(side);
     }
+
+    describeNode() {
+        return `CHANCE/${this.visits}: ${this.command} -> ${this.game.describeCurrentPhase()} -> ${this.children.length}`;
+    }
+
 }
 
 function showBestCommands(comands) {
