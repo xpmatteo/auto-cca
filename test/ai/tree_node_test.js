@@ -303,8 +303,4 @@ describe('Chance node', () => {
         });
     });
 
-    it('should implement bestcommands', () => {
-        expect(0).toBe(1);
-    });
-
 });

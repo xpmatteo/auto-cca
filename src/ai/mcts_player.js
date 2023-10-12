@@ -4,12 +4,52 @@ import { scoreMcts } from "./score.js";
 let nextNodeId = 0;
 
 class TreeNode {
+    parent = null;
+    visits = 0;
     value() {
         throw new Error("Abstract method");
     }
 
     uct(expansionFactor) {
         return this.value() + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
+    }
+
+    /*
+            This decides which is the best command for the real game
+         */
+    bestAbsoluteChild() {
+        let best = this.children[0];
+        for (let child of this.children) {
+            if (child.value() > best.value()) {
+                best = child;
+            }
+        }
+        return best;
+    }
+
+    size() {
+        if (this.children.length === 0) {
+            return 1;
+        }
+        return 1 + this.children.reduce((acc, child) => acc + child.size(), 0);
+    }
+
+    // noinspection DuplicatedCode
+    shape() {
+        const result = [];
+
+        function traverse(node, level) {
+            if (!result[level]) {
+                result[level] = 0;
+            }
+            result[level]++;
+            for (const child of node.children) {
+                traverse(child, level + 1);
+            }
+        }
+
+        traverse(this, 0);
+        return result;
     }
 }
 
@@ -46,19 +86,6 @@ export class DecisionNode extends TreeNode {
             }
         });
         return this.children;
-    }
-
-    /*
-        This decides which is the best command for the real game
-     */
-    bestAbsoluteChild() {
-        let best = this.children[0];
-        for (let child of this.children) {
-            if (child.value() > best.value()) {
-                best = child;
-            }
-        }
-        return best;
     }
 
     value() {
@@ -117,28 +144,6 @@ export class DecisionNode extends TreeNode {
         if (this.parent !== null) {
             this.parent.backPropagate(score, side);
         }
-    }
-
-    size() {
-        if (this.children.length === 0) {
-            return 1;
-        }
-        return 1 + this.children.reduce((acc, child) => acc + child.size(), 0);
-    }
-
-    shape() {
-        const result = [];
-        function traverse(node, level) {
-            if (!result[level]) {
-                result[level] = 0;
-            }
-            result[level]++;
-            for (const child of node.children) {
-                traverse(child, level + 1);
-            }
-        }
-        traverse(this, 0);
-        return result;
     }
 
     toString(maxLevel = 10000, minVisits = 0) {
@@ -221,6 +226,10 @@ export class ChanceNode extends TreeNode {
             return child;
         }
         return this.stateToNode.get(cloneKey);
+    }
+
+    bestCommands(side) {
+        return this.bestAbsoluteChild().bestCommands(side);
     }
 }
 

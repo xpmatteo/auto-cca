@@ -1,8 +1,8 @@
-import { MctsPlayer } from "../ai/mcts_player.js";
+import { ChanceNode, MctsPlayer } from "../ai/mcts_player.js";
 import { scoreMcts } from "../ai/score.js";
 import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../config.js";
 
-export function drawTree(game) {
+export function drawTree(game, depth=1000) {
     const player = new MctsPlayer({iterations: MCTS_ITERATIONS, expansionFactor: MCTS_EXPANSION_FACTOR});
     console.log("AI IS THINKING")
     const rootNode = player.search(game.toGame());
@@ -12,44 +12,29 @@ export function drawTree(game) {
     const nodes = [];
     const edges = [];
 
-    // hand picked for 1-to-1 scenario
-    const BEST_MOVES = [
-        "Move [1,4] to [-1,4]",
-        "Move [1,4] to [-1,5]",
-        "Move [1,4] to [0,5]",
-        "Move [1,4] to [1,5]",
-        "Move [1,4] to [2,5]",
-        "Move [1,4] to [3,4]",
-    ];
-
-    const threshold = rootNode.visits / 100;
-
-    function showNumber(number) {
-        if (number > 1000) {
-            return Math.round(number / 1000) + "k";
-        }
-        return number;
-    }
+    // const threshold = rootNode.visits / 100;
+    const threshold = 1;
 
     /**
      * @param {DecisionNode} node
+     * @param {number} depth
      */
-    function traverse(node) {
+    function traverse(node, depth) {
         if (node.visits < threshold) return;
+        if (depth === 0) return;
         const color = node.game.currentSide === game.toGame().scenario.sideSouth ? "lightblue" : "pink";
         const label = `${node.score}/${node.visits}\n${scoreMcts(node.game)}`;
-        const isBestMove = node.command && BEST_MOVES.includes(node.command.toString());
-        const shape = isBestMove? "box" : "circle";
+        const shape = node instanceof ChanceNode ? "box" : "circle";
         nodes.push({id: node.id, label: label, color: color, shape: shape});
 
         for (const child of node.children) {
             const edgeLabel = child.command.toString();
             edges.push({from: node.id, to: child.id, label: edgeLabel});
-            traverse(child);
+            traverse(child, depth - 1);
         }
     }
 
-    traverse(rootNode);
+    traverse(rootNode, 4);
     nodes[0].color = "red";
     nodes[0].width = 100;
 
