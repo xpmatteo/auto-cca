@@ -13,7 +13,7 @@ export function drawTree(game, depth=1000) {
     const edges = [];
 
     // const threshold = rootNode.visits / 100;
-    const threshold = 1;
+    const threshold = 10;
 
     /**
      * @param {DecisionNode} node
@@ -23,7 +23,7 @@ export function drawTree(game, depth=1000) {
         if (node.visits < threshold) return;
         if (depth === 0) return;
         const color = node.game.currentSide === game.toGame().scenario.sideSouth ? "lightblue" : "pink";
-        const label = `${node.score}/${node.visits}\n${scoreMcts(node.game)}`;
+        const label = `${node.value().toFixed(1)}/${node.visits}\n${scoreMcts(node.game)}`;
         const shape = node instanceof ChanceNode ? "box" : "circle";
         nodes.push({id: node.id, label: label, color: color, shape: shape});
 
