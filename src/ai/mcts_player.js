@@ -19,6 +19,9 @@ class TreeNode {
         This decides which is the best command for the real game
      */
     bestAbsoluteChild() {
+        if (this.children.length === 0) {
+            throw new Error("No children in Chance Node???");
+        }
         let best = this.children[0];
         for (let child of this.children) {
             if (child.value() > best.value()) {
@@ -103,6 +106,7 @@ export class DecisionNode extends TreeNode {
                 this.children.push(childNode);
             } else {
                 const childNode = new ChanceNode(game, this, command);
+                childNode.bestUctChild(); // ensure at least one child of the chance node is created
                 this.children.push(childNode);
             }
         });
@@ -247,14 +251,13 @@ function showBestCommands(comands) {
     return "Best commands: \n - " + comands.join("\n - ") + "\nEnd best commands";
 }
 
-const DEFAULT_EXPANSION_FACTOR = 2;
+const DEFAULT_EXPANSION_FACTOR = 1.4142135623730951;
 
 export class MctsPlayer {
     constructor(args = {}) {
         this.args = args;
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
         this.args.iterations = this.args.iterations || 1000;
-        this.args.nonDeterministicCommandRepetitions = this.args.nonDeterministicCommandRepetitions || 10000;
     }
 
     decideMove(game) {
