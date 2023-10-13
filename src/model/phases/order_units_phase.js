@@ -1,3 +1,4 @@
+import { choose } from "../../lib/combinatorial.js";
 import { CARD_IMAGE_SIZE } from "../../config.js";
 import { EndPhaseCommand } from "../commands/end_phase_command.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
@@ -11,20 +12,26 @@ export class OrderUnitsPhase extends Phase {
         this.weight = weight;
     }
 
+    /**
+     * @param {Game} game
+     * @returns {Command[]}
+     */
     validCommands(game) {
         if (this.__eligibleUnits(game).length <= this.numberOfUnits) {
             this.__orderAllUnits(game);
             return [new EndPhaseCommand()];
         }
-        let commands = [];
         if (game.numberOfOrderedUnits >= this.numberOfUnits) {
             return [new EndPhaseCommand()];
         }
+        const hexes = [];
         game.foreachUnit((unit, hex) => {
             if (this.__isEligible(unit, game) && !game.isOrdered(unit)) {
-                commands.push(new OrderUnitCommand(hex));
+                hexes.push(hex);
             }
         });
+        const commands = choose(hexes, this.numberOfUnits - game.numberOfOrderedUnits)
+            .map(combination => new OrderUnitCommand(combination));
         if (commands.length === 0)
             commands.push(new EndPhaseCommand());
         return commands;

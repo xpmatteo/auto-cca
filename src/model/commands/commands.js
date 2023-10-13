@@ -6,6 +6,7 @@
 export class Command {
     /**
      * @param {Game} game
+     * @returns {GameEvent[]}
      */
     play(game) {
         throw new Error("abstract method");

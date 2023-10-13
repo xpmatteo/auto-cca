@@ -1,11 +1,11 @@
-import Game from "model/game.js";
-import { NullScenario } from "model/scenarios.js";
-import { hexOf, Point } from "xlib/hexlib.js";
-import * as units from "model/units.js";
 import { EndPhaseCommand } from "model/commands/end_phase_command.js";
-import { RESULT_HEAVY } from "model/dice.js";
 import { OrderUnitCommand } from "model/commands/order_unit_command.js";
+import { RESULT_HEAVY } from "model/dice.js";
+import Game from "model/game.js";
 import { OrderUnitsPhase } from "model/phases/order_units_phase.js";
+import { NullScenario } from "model/scenarios.js";
+import * as units from "model/units.js";
+import { hexOf, Point } from "xlib/hexlib.js";
 
 const PHASE = new OrderUnitsPhase(2, RESULT_HEAVY);
 
@@ -26,11 +26,10 @@ test("order units", () => {
     let moves = PHASE.validCommands(game);
 
     let expected = [
-        new OrderUnitCommand(hexOf(1, 2)),
-        new OrderUnitCommand(hexOf(1, 3)),
-        new OrderUnitCommand(hexOf(1, 4)),
+        new OrderUnitCommand([hexOf(1, 2), hexOf(1, 3)]),
+        new OrderUnitCommand([hexOf(1, 2), hexOf(1, 4)]),
+        new OrderUnitCommand([hexOf(1, 3), hexOf(1, 4)]),
     ];
-    expect(moves.length).toEqual(expected.length);
     expect(new Set(moves)).toEqual(new Set(expected));
 });
 
@@ -41,11 +40,10 @@ test("cannot order already ordered", () => {
     let moves = PHASE.validCommands(game);
 
     let expected = [
-        new OrderUnitCommand(hexOf(1, 3)),
-        new OrderUnitCommand(hexOf(1, 4)),
+        new OrderUnitCommand([hexOf(1, 3)]),
+        new OrderUnitCommand([hexOf(1, 4)]),
     ];
-    expect(moves.length).toEqual(expected.length);
-    expect(new Set(moves)).toEqual(new Set(expected));
+    expect(new Set(moves)).toStrictEqual(new Set(expected));
 });
 
 test("cannot order more than two units", () => {
@@ -58,7 +56,6 @@ test("cannot order more than two units", () => {
     let expected = [
         new EndPhaseCommand(),
     ];
-    expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
 });
 

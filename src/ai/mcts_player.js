@@ -300,6 +300,7 @@ export class MctsPlayer {
 
     _simulate(node) {
         const number = scoreMcts(node.game, node.game.currentSide);
+        return number;
         if (number === 0) {
             return 0;
         }

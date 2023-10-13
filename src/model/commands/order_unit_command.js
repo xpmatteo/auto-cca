@@ -1,17 +1,17 @@
 import { Command } from "./commands.js";
 
 export class OrderUnitCommand extends Command {
-    constructor(hex) {
+    constructor(hexes) {
         super();
-        this.hex = hex;
+        this.hexes = hexes;
     }
 
     toString() {
-        return `OrderUnit(${this.hex})`;
+        return `OrderUnit(${this.hexes})`;
     }
 
     play(game) {
-        game.orderUnit(this.hex);
+        this.hexes.forEach(hex => game.orderUnit(hex));
         return [];
     }
 
