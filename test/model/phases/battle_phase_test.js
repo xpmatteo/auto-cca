@@ -36,7 +36,6 @@ test('generate close combat commands for one unit and one target', function () {
 
     let expected = [
         new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
-        new EndPhaseCommand(),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -55,7 +54,6 @@ test('generate close combat commands for one unit and two targets', function () 
     let expected = [
         new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
         new CloseCombatCommand(hexOf(1, 2), hexOf(1, 1)),
-        new EndPhaseCommand(),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -91,7 +89,6 @@ test('no ranged combat if enemy adjacent', function () {
 
     let expected = [
         new CloseCombatCommand(hexOf(1, 4), hexOf(0, 4)),
-        new EndPhaseCommand(),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -113,4 +110,19 @@ test("ranged combat not available to heavies", () => {
     expect(new Set(commands)).toEqual(new Set(expected));
 });
 
+test('endphase only available if no combats are available', function () {
+    const game = makeGame(new NullScenario());
+    const phase = new BattlePhase(game);
+    game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
+    game.orderUnit(hexOf(1, 1));
+    game.spentUnits.push(game.unitAt(hexOf(1, 1)));
+
+    let commands = phase.validCommands(game);
+
+    let expected = [
+        new EndPhaseCommand(),
+    ];
+    expect(new Set(commands)).toEqual(new Set(expected));
+});
 
