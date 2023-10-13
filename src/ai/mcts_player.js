@@ -239,7 +239,6 @@ export class ChanceNode extends TreeNode {
     describeNode() {
         return `CHANCE/${this.visits}: ${this.command} -> ${this.game.describeCurrentPhase()} -> ${this.children.length}`;
     }
-
 }
 
 function showBestCommands(comands) {
@@ -289,9 +288,22 @@ export class MctsPlayer {
     iterate(rootNode) {
         let nodes = this._select(rootNode);
         nodes.forEach(node => {
-            const score = scoreMcts(node.game, node.game.currentSide);
+            const score = this._simulate(node);
             node.backPropagate(score, node.game.currentSide);
         })
+    }
+
+    _simulate(node) {
+        const number = scoreMcts(node.game, node.game.currentSide);
+        if (number === 0) {
+            return 0;
+        }
+        if (number < 0) {
+            return -1;
+        }
+        if (number > 0) {
+            return 1;
+        }
     }
 
     _select(node) {
