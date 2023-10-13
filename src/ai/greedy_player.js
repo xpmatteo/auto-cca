@@ -1,3 +1,4 @@
+import { randomShuffleArray } from "../lib/random.js";
 import { AbstractCombatCommand } from "../model/commands/abstract_combat_command.js";
 import { score } from "./score.js";
 
@@ -15,6 +16,7 @@ export class GreedyPlayer {
             throw new Error("Not my turn");
         }
         const commands = game.validCommands();
+        randomShuffleArray(commands);
         if (commands.length === 0) {
             throw new Error("No valid commands");
         }

@@ -1,3 +1,4 @@
+import { randomShuffleArray } from "../lib/random.js";
 import { scoreMcts } from "./score.js";
 
 // this is used to visualize trees with vis.js
@@ -121,6 +122,7 @@ export class DecisionNode extends TreeNode {
     bestUctChild(expansionFactor = DEFAULT_EXPANSION_FACTOR) {
         let best = undefined;
         let bestScore = -Infinity;
+        randomShuffleArray(this.children);
         for (let child of this.children) {
             const factor = (child.game.currentSide === this.game.currentSide) ? 1 : -1;
             const currentScore = factor * child.uct(expansionFactor);
@@ -265,7 +267,7 @@ export class MctsPlayer {
         const bestCommands = rootNode.bestCommands(game.currentSide);
         console.log(showBestCommands(rootNode.bestCommands()));
         console.log(rootNode.shape());
-        console.log(rootNode.redundancy());
+        //console.log(rootNode.redundancy());
         // console.log(rootNode.toString(7, 10));
         console.log("Time taken: " + (Date.now() - startTime)/1000 + "s");
         return bestCommands;

@@ -40,12 +40,11 @@ the Carthaginian (top).
 
 # TODO AI 
 
-
+- Make scoring return [-1, 1], so to scale expansion factor appropriately
 - group order moves
 - make end phase automatic
 - Make the AI give preference to moving/battling with the most constrained unit?
 - There seem to be huge redundancies in tree nodes: 5787 / 13982: solve it with grouping moves or with DAG?
-- Make scoring return [-1, 1], so to scale expansion factor appropriately
 - try again playouts instead of my score?
 
 
