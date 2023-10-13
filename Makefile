@@ -1,7 +1,7 @@
 .PHONY: test server open madge
 
 test:
-	@./test.sh
+	@script/test.sh
 
 server:
 	@python3 -m http.server
