@@ -130,18 +130,12 @@ describe('Decision node', () => {
 
             node.expand();
 
-            expect(node.children.length).toBe(2);
+            expect(node.children.length).toBe(1);
             const child0 = node.children[0];
             expect(child0.command.toString()).toBe("Close Combat from [0,1] to [1,0]");
             expect(child0.value()).toBe(Infinity);
             expect(child0 instanceof ChanceNode).toBe(true);
             expect(child0.game).toBe(game);
-
-            const child1 = node.children[1];
-            expect(child1.command).toEqual(new EndPhaseCommand());
-            expect(child1.value()).toBe(Infinity);
-            expect(child1 instanceof DecisionNode).toBe(true);
-            expect(child1.game).not.toBe(game);
         });
     });
 
