@@ -37,12 +37,21 @@ export class OrderUnitsPhase extends Phase {
         return commands;
     }
 
+    /**
+     * @param {Game} game
+     * @returns {Set<Hex>}
+     */
     hilightedHexes(game) {
-        const hexes = game.validCommands().
-            map(command => command.hex).
-            filter(hex => hex !== undefined);
-
-        return new Set(hexes);
+        if (game.numberOfOrderedUnits >= this.numberOfUnits) {
+            return new Set();
+        }
+        const result = new Set();
+        game.foreachUnit((unit, hex) => {
+            if (this.__isEligible(unit, game) && !game.isOrdered(unit)) {
+                result.add(hex);
+            }
+        });
+        return result;
     }
 
     onClick(hex, interactiveGame, pixel) {

@@ -1,6 +1,9 @@
 import { Command } from "./commands.js";
 
 export class OrderUnitCommand extends Command {
+    /**
+     * @param {Hex[]} hexes
+     */
     constructor(hexes) {
         super();
         this.hexes = hexes;

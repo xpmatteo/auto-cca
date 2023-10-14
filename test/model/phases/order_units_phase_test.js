@@ -35,7 +35,7 @@ test("order units", () => {
 
 test("cannot order already ordered", () => {
     let game = makeGameWithFiveUnits();
-    game.executeCommand(new OrderUnitCommand(hexOf(1, 2)));
+    game.executeCommand(new OrderUnitCommand([hexOf(1, 2)]));
 
     let moves = PHASE.validCommands(game);
 
@@ -48,8 +48,8 @@ test("cannot order already ordered", () => {
 
 test("cannot order more than two units", () => {
     let game = makeGameWithFiveUnits();
-    game.executeCommand(new OrderUnitCommand(hexOf(1, 2)));
-    game.executeCommand(new OrderUnitCommand(hexOf(1, 3)));
+    game.executeCommand(new OrderUnitCommand([hexOf(1, 2)]));
+    game.executeCommand(new OrderUnitCommand([hexOf(1, 3)]));
 
     let commands = PHASE.validCommands(game);
 
@@ -59,10 +59,28 @@ test("cannot order more than two units", () => {
     expect(new Set(commands)).toEqual(new Set(expected));
 });
 
-test("highlighted hexes", () => {
-    let game = makeGameWithFiveUnits();
+describe('hilighted hexes', () => {
+    test("when no unit is ordered", () => {
+        let game = makeGameWithFiveUnits();
 
-    expect(PHASE.hilightedHexes(game)).toEqual(new Set([hexOf(1, 2), hexOf(1, 3), hexOf(1, 4)]));
+        expect(PHASE.hilightedHexes(game)).toEqual(new Set([hexOf(1, 2), hexOf(1, 3), hexOf(1, 4)]));
+    });
+
+    test("when one unit is ordered", () => {
+        let game = makeGameWithFiveUnits();
+        game.orderUnit(hexOf(1, 2));
+
+        expect(PHASE.hilightedHexes(game)).toEqual(new Set([hexOf(1, 3), hexOf(1, 4)]));
+    });
+
+    test("when max number of units is ordered", () => {
+        let game = makeGameWithFiveUnits();
+        game.orderUnit(hexOf(1, 2));
+        game.orderUnit(hexOf(1, 3));
+
+        expect(PHASE.hilightedHexes(game)).toEqual(new Set());
+    });
+
 });
 
 const pointWithinMap = new Point(0, 0);

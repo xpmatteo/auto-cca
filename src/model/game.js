@@ -346,10 +346,17 @@ class Game {
         return supportingUnits >= 2;
     }
 
+    /**
+     * @param {Unit} unit
+     * @returns {boolean}
+     */
     isOrdered(unit) {
         return this.orderedUnits.includes(unit);
     }
 
+    /**
+     * @param {Hex} hex
+     */
     orderUnit(hex) {
         let unit = this.unitAt(hex);
         if (!unit) {
