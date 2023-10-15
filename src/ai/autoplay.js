@@ -54,7 +54,7 @@ export class Autoplay {
             const player = this.game.currentSide === sideNorth ? northPlayer : southPlayer;
             const commands = player.decideMove(game);
             for (let command of commands) {
-                await this.doExecuteCommand(command, graphics);
+                await this.doExecuteCommand(command, graphics, player);
             }
         }
     }
@@ -67,14 +67,14 @@ export class Autoplay {
                 return;
             }
             for (let command of commands) {
-                await this.doExecuteCommand(command, graphics);
+                await this.doExecuteCommand(command, graphics, this.aiPlayer);
             }
         }
     }
 
-    async doExecuteCommand(command, graphics) {
+    async doExecuteCommand(command, graphics, player) {
         try {
-            console.log("Executing command: " + command);
+            console.log(`${player} executes ` + command);
             const events = this.game.executeCommand(command);
             displayEvents(events);
             redraw(graphics, this.game);

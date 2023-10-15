@@ -268,7 +268,7 @@ export class MctsPlayer {
         }
         const rootNode = this._doDecideMove(game);
         const bestCommands = rootNode.bestCommands(game.currentSide);
-        console.log(showBestCommands(rootNode.bestCommands()));
+        console.log(showBestCommands(rootNode.bestCommands(game.currentSide)));
         console.log(rootNode.shape());
         //console.log(rootNode.redundancy());
         // console.log(rootNode.toString(7, 10));
@@ -285,6 +285,9 @@ export class MctsPlayer {
     search(game, iterations = this.args.iterations) {
         const rootNode = new DecisionNode(game);
         for (let i = 0; i < iterations; i++) {
+            if (i % 10000 === 0) {
+                console.log("Iteration " + i);
+            }
             this.iterate(rootNode);
         }
         return rootNode;
@@ -322,6 +325,10 @@ export class MctsPlayer {
         }
         // node is terminal
         return [node];
+    }
+
+    toString() {
+        return `MctsPlayer`;
     }
 }
 

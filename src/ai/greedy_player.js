@@ -42,4 +42,8 @@ export class GreedyPlayer {
         }
         return number;
     }
+
+    toString() {
+        return `GreedyPlayer`;
+    }
 }
