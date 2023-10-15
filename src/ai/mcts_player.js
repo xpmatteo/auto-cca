@@ -258,6 +258,7 @@ export class MctsPlayer {
         this.args = args;
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
         this.args.iterations = this.args.iterations || 1000;
+        this.args.logfunction = this.args.logfunction || console.log;
     }
 
     /**
@@ -266,17 +267,17 @@ export class MctsPlayer {
      */
     decideMove(game) {
         const startTime = Date.now();
-        console.log(" ----- AI IS THINKING -----")
+        this.args.logfunction(" ----- AI IS THINKING -----")
         if (game.validCommands().length === 1) {
             return [game.validCommands()[0]];
         }
         const rootNode = this._doDecideMove(game);
         const bestCommands = rootNode.bestCommands(game.currentSide);
-        console.log(showBestCommands(rootNode.bestCommands(game.currentSide)));
-        console.log(rootNode.shape());
-        //console.log(rootNode.redundancy());
-        // console.log(rootNode.toString(7, 10));
-        console.log("Time taken: " + (Date.now() - startTime)/1000 + "s");
+        this.args.logfunction(showBestCommands(rootNode.bestCommands(game.currentSide)));
+        this.args.logfunction(rootNode.shape());
+        //this.args.logfunction(rootNode.redundancy());
+        // this.args.logfunction(rootNode.toString(7, 10));
+        this.args.logfunction("Time taken: " + (Date.now() - startTime)/1000 + "s");
         return bestCommands;
     }
 
@@ -290,7 +291,7 @@ export class MctsPlayer {
         const rootNode = new DecisionNode(game);
         for (let i = 0; i < iterations; i++) {
             if (i % 10000 === 0) {
-                console.log("Iteration " + i);
+                this.args.logfunction("Iteration " + i);
             }
             this.iterate(rootNode);
         }
@@ -332,7 +333,7 @@ export class MctsPlayer {
     }
 
     toString() {
-        return `MctsPlayer`;
+        return `MctsPlayer(${this.args.iterations}, ${this.args.expansionFactor}))`;
     }
 }
 
