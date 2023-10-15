@@ -150,6 +150,20 @@ export class AkragasScenario extends Scenario {
         placeSyracusanUnit(hexOf(3, 6), new units.RomanLightBowsInfantry());
         placeSyracusanUnit(hexOf(7, 6), new units.RomanLightInfantry());
     }
+
+    /**
+     * @param {Game} game
+     * @returns {GameStatus}
+     */
+    gameStatus(game) {
+        if (game.killedUnitsOfSide(Side.CARTHAGINIAN).length === this.pointsToWin) {
+            return GameStatus.SYRACUSAN_WIN;
+        }
+        if (game.killedUnitsOfSide(Side.SYRACUSAN).length === this.pointsToWin) {
+            return GameStatus.CARTHAGINIAN_WIN;
+        }
+        return GameStatus.ONGOING;
+    }
 }
 
 const SCENARIOS = {

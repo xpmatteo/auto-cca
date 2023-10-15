@@ -260,6 +260,10 @@ export class MctsPlayer {
         this.args.iterations = this.args.iterations || 1000;
     }
 
+    /**
+     * @param {InteractiveGame} game
+     * @returns {[Command]}
+     */
     decideMove(game) {
         const startTime = Date.now();
         console.log(" ----- AI IS THINKING -----")

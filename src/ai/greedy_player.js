@@ -10,6 +10,10 @@ export class GreedyPlayer {
         this.side = side;
     }
 
+    /**
+     * @param {InteractiveGame} interactiveGame
+     * @returns {[Command]}
+     */
     decideMove(interactiveGame) {
         const game = interactiveGame.toGame()
         if (interactiveGame.currentSide !== this.side) {
