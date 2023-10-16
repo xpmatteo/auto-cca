@@ -263,6 +263,7 @@ export class MctsPlayer {
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
         this.args.iterations = this.args.iterations || 1000;
         this.args.logfunction = this.args.logfunction || console.log;
+        this.args.note = this.args.note || "";
     }
 
     /**
@@ -337,7 +338,7 @@ export class MctsPlayer {
     }
 
     toString() {
-        return `MctsPlayer(${this.args.iterations}, ${this.args.expansionFactor}))`;
+        return `MctsPlayer(${this.args.iterations}, ${this.args.expansionFactor}, ${this.args.note}))`;
     }
 }
 
