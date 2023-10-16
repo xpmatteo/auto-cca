@@ -5,3 +5,12 @@ export function randomShuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
+/**
+ * @template T
+ * @param {T[]} array
+ * @returns {T}
+ */
+export function randomElement(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}

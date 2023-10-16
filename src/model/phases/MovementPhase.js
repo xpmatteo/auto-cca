@@ -1,6 +1,6 @@
+import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { MoveCommand } from "../commands/move_command.js";
 import { Phase } from "./Phase.js";
-import {MoveCommand} from "../commands/move_command.js";
-import {EndPhaseCommand} from "../commands/end_phase_command.js";
 
 
 export class MovementPhase extends Phase {
@@ -15,6 +15,11 @@ export class MovementPhase extends Phase {
                 return;
             }
             if (game.spentUnits.includes(unit)) {
+                return;
+            }
+            if (commands.length > 0) {
+                // Order one unit at a time.  We should choose the most constrained unit first.
+                // This simple return just orders the units in the order they appear in the units map.
                 return;
             }
             unit.validDestinations(hex, game).forEach(to => {
