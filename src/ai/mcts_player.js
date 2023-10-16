@@ -98,10 +98,9 @@ export class DecisionNode extends TreeNode {
 
     /**
      * Expands the node by creating all possible children
-     * @param {function} selectNode
      * @returns {[DecisionNode|ChanceNode]}
      */
-    expand(selectNode) {
+    expand() {
         const game = this.game;
         const validCommands = game.validCommands();
         validCommands.forEach((command) => {
@@ -115,7 +114,7 @@ export class DecisionNode extends TreeNode {
                 this.children.push(childNode);
             }
         });
-        return selectNode(this.children);
+        return [randomElement(this.children)];
     }
 
     value() {
@@ -264,7 +263,6 @@ export class MctsPlayer {
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
         this.args.iterations = this.args.iterations || 1000;
         this.args.logfunction = this.args.logfunction || console.log;
-        this.args.selectNode = this.args.selectNode || (array => [randomElement(array)]);
     }
 
     /**
@@ -329,7 +327,7 @@ export class MctsPlayer {
     _select(node) {
         while (!node.game.isTerminal()) {
             if (node.children.length === 0) {
-                return node.expand(this.args.selectNode);
+                return node.expand();
             } else {
                 node = node.bestUctChild(this.args.expansionFactor);
             }
