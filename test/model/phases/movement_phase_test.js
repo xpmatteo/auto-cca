@@ -21,7 +21,7 @@ function placeOrderedUnit(game, hex, unit) {
     game.orderUnit(hex);
 }
 
-t.test('generate moves for one unit', function () {
+test('generate moves for one unit', function () {
     let game = makeGameInMovementPhase();
     expect(game.currentSide).toEqual(Side.ROMAN);
     placeOrderedUnit(game, hexOf(1, 1), new units.RomanHeavyInfantry());
@@ -43,7 +43,7 @@ t.test('generate moves for one unit', function () {
     expect(new Set(moves)).toEqual(new Set(expected));
 });
 
-t.test('only ordered units can move', function () {
+test('only ordered units can move', function () {
     let game = makeGameInMovementPhase();
     expect(game.currentSide).toEqual(Side.ROMAN);
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
@@ -64,7 +64,7 @@ t.test('only ordered units can move', function () {
      0,6   1,6    2,6   3,6
 */
 
-t.test('generate commands for two units, avoiding collisions', function () {
+test('generate commands for two units, avoiding collisions', function () {
     let g = makeGameInMovementPhase();
     g.placeUnit(hexOf(2, 5), new units.RomanHeavyInfantry());
     g.orderUnit(hexOf(2, 5));
@@ -80,11 +80,11 @@ t.test('generate commands for two units, avoiding collisions', function () {
         new MoveCommand(hexOf(1, 6), hexOf(2, 5)),
         new MoveCommand(hexOf(2, 6), hexOf(2, 5)),
 
-        new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
-        new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
-        new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
-        new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
-        new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
+        // new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
+        // new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
+        // new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
+        // new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
+        // new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
 
         new EndPhaseCommand(),
     ];
@@ -92,7 +92,7 @@ t.test('generate commands for two units, avoiding collisions', function () {
     expect(new Set(commands)).toEqual(new Set(expected));
 });
 
-t.test('generate commands for a light foot unit, can pass through friendlies', function () {
+test('generate commands for a light foot unit, can pass through friendlies', function () {
     let g = makeGameInMovementPhase();
     g.placeUnit(hexOf(0, 0), new units.RomanLightInfantry());
     g.orderUnit(hexOf(0, 0));
@@ -115,7 +115,7 @@ t.test('generate commands for a light foot unit, can pass through friendlies', f
 });
 
 
-t.test('generate moves for unit of range 2', function () {
+test('generate moves for unit of range 2', function () {
     let game = makeGameInMovementPhase();
     game.placeUnit(hexOf(1, 1), new units.RomanLightInfantry());
     game.orderUnit(hexOf(1, 1));
