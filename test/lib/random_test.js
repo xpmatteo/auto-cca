@@ -23,7 +23,7 @@ describe('randomShuffleArray', () => {
 
         randomShuffleArray(array);
 
-        console.log(array);
+        // console.log(array);
         expect(new Set(array)).toEqual(new Set(originalArray));
     });
 });

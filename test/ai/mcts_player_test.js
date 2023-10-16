@@ -44,24 +44,6 @@ function diceReturningSequence(...results) {
 }
 
 describe('Non deterministic results', () => {
-    test('better', () => {
-        const game = makeGame(new NullScenario());
-        game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
-        game.placeUnit(hexOf(1, 0), new CarthaginianMediumInfantry());
-        game.handSouth = [new OrderHeavyTroopsCard()];
-        game.executeCommand(game.validCommands()[0]); // play order heavy troops card
-        game.executeCommand(game.validCommands()[0]); // end phase
-        game.executeCommand(game.validCommands()[0]); // move
-        game.executeCommand(game.validCommands()[0]); // end phase
-        const chanceNode = new ChanceNode(game, null, new CloseCombatCommand(hexOf(0, 1), hexOf(1, 0)));
-        console.log(game.validCommands().toString());
-        for (let i = 0; i < 100; i++) {
-            chanceNode.bestUctChild();
-        }
-        console.log(chanceNode.children.length);
-        console.log(chanceNode.children.map(child => child.describeNode()));
-        console.log(chanceNode.toString(4))
-    });
 
     xtest('select the best uct child and then battles', () => {
         const player = new MctsPlayer();
@@ -79,7 +61,7 @@ describe('Non deterministic results', () => {
             player.iterate(root); // close combat
         }
 
-        console.log(root.toString(4))
+        // console.log(root.toString(4))
         // //     43/7: undefined -> Roman play one card -> 1
         // //      43/7: PlayCard(Order Heavy Troops) -> Roman order 1 heavy units -> 1
         // //       43/6: End phase -> Roman movement -> 2
