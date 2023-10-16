@@ -40,11 +40,10 @@ the Carthaginian (top).
 
 # TODO AI 
 
-- group order moves: FIX UI
+- group order moves: make the UI think about each unit in turn, and make endPhase available only at the end
+- open loop instead of chance nodes
+- implement evasion and line-of-sight rules for ranged combat, to allow the realistic game strategy to emerge
 - make end phase automatic
-- explore one node at a time not all the frontier
-- Make the AI give preference to moving/battling with the most constrained unit?
-- There seem to be huge redundancies in tree nodes: 5787 / 13982: solve it with grouping moves or with DAG?
 - try again playouts instead of my score?
 - ??? Make scoring return [-1, 1], so to scale expansion factor appropriately ???
 
