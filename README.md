@@ -3,17 +3,25 @@ Graphics are copyright GMT Games, copied from the Vassal CC:A module
 
 # How to
 
-Serve locally with `make server`
+Serve locally with `make server` or `python -m http.server`
 
 Run tests with `make test` (you should `npm install jest` first).  
 You may run a single test suite with `script/test.sh test/whatever.js`
 
 Play the game with `make open`. Notice the "End phase" and "AI continue" 
 buttons, you will need to click them at appropriate times to get the game to proceed. 
-Also, keep an AI on the status text on top that tells you which phase the game is in.
+Also, keep an AI on the status text on top of the page: it tells you which phase the game is in.
 
-In the main scenario (Akragas), you play the Syracusan (bottom) while the AI plays 
-the Carthaginian (top). 
+Open your browser's developer tools to read the AI logs.
+
+Configure the AI parameters in file `src/config.js`. 
+
+In the main scenario (Akragas), you play the Syracusan (bottom) while the MCTS AI plays 
+the Carthaginian (top).
+
+The Playout button pits the MCTS AI (bottom) against a greedy player (top).  You can speed up 
+or slow down the moves with the `delay` value in the textbox.
+
 
 # AI TESTS
 
@@ -21,21 +29,11 @@ the Carthaginian (top).
     - The AI advances compactly -- no weird backward movements
     - The AI advances with all units -- not only the light ones
   - 2on2 Melee
-    - advance compactly 
-    - Choose attacking a weak unit over a strong one
-    - Order combat to maximize potential dice
+    - should advance compactly 
+    - should choose attacking a weak unit over a strong one
+    - should order combat to maximize potential dice
   - 1to1 Melee
-    - light unit avoid close combat
-
-# PROBLEMS AI
-
- - it does not concentrate fire
- - it does not move troops together
-
-* The AI seems to want to play with one unit at a time
-    * Should we encourage to optimize move for each unit separately?
-    * It chooses not to fight?!  After advancing adjacent to oppponent?
-* In the big scenario, early moves are random
+    - light unit to avoid close combat
 
 
 # TODO AI 
