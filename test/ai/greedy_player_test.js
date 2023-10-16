@@ -12,10 +12,10 @@ import { MovementPhase } from "model/phases/MovementPhase.js";
 test("greedy_player", function() {
     const player = new GreedyPlayer(Side.ROMAN);
     const game = makeGame(new NullScenario());
+    game.placeUnit(hexOf(2, 1), new RomanHeavyInfantry()); // one hex away
     game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry()); // has support
     game.placeUnit(hexOf(1, 0), new RomanHeavyInfantry()); // has support
     game.placeUnit(hexOf(0, 1), new RomanHeavyInfantry()); // has support
-    game.placeUnit(hexOf(2, 1), new RomanHeavyInfantry()); // one hex away
     expect(score(game, Side.ROMAN)).toBe(3);
     game.foreachUnit((unit, hex) => game.orderUnit(hex))
     game.phases = [new MovementPhase(game)]
