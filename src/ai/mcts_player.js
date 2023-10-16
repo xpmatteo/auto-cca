@@ -295,9 +295,7 @@ export class MctsPlayer {
     search(game, iterations = this.args.iterations) {
         const rootNode = new DecisionNode(game);
         for (let i = 0; i < iterations; i++) {
-            if (i % 10000 === 0) {
-                this.args.logfunction("Iteration " + i);
-            }
+            if (i % 10000 === 0) this.args.logfunction("Iteration " + i);
             this.iterate(rootNode);
         }
         return rootNode;

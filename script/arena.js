@@ -1,66 +1,82 @@
-import { randomElement } from "../src/lib/random.js";
 import { GreedyPlayer } from "../src/ai/greedy_player.js";
 import { MctsPlayer } from "../src/ai/mcts_player.js";
 import makeGame from "../src/model/game.js";
 import { AkragasScenario } from "../src/model/scenarios.js";
 import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../src/config.js";
 
-const MAX_TURNS = 500;
-const NUM_PLAYOUTS = 100;
+const MAX_TURNS = 400;
+const NUM_GAMES = 10;
+const ITERATIONS = 20000;
 
-function playout() {
+const controlPlayer = new MctsPlayer({
+    iterations: ITERATIONS,
+    expansionFactor: MCTS_EXPANSION_FACTOR,
+    logfunction: () => {},
+    note: "control",
+});
+const experimentalPlayer = new MctsPlayer({
+    iterations: ITERATIONS,
+    expansionFactor: MCTS_EXPANSION_FACTOR,
+    logfunction: () => {},
+    note: "experimental",
+});
+
+function playGame(southPlayer, northPlayer) {
     const timeBefore = Date.now();
     const game = makeGame(new AkragasScenario());
     const sideNorth = game.scenario.sideNorth;
     const sideSouth = game.scenario.sideSouth;
-    const northPlayer = new MctsPlayer({
-        iterations: MCTS_ITERATIONS,
-        expansionFactor: MCTS_EXPANSION_FACTOR,
-        logfunction: () => {},
-    });
-    const southPlayer = new MctsPlayer({
-        iterations: MCTS_ITERATIONS,
-        expansionFactor: MCTS_EXPANSION_FACTOR,
-        logfunction: () => {},
-    });
 
     function unitsKilledOfSide(side) {
         return game.graveyard.unitsOf(side).length;
     }
 
-// const southPlayer = new MinimaxPlayer(8);
-    for (let i = 0; i < MAX_TURNS && !game.isTerminal(); i++) {
-        process.stdout.write(`   turn ${i};   ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}\r`);
+    let i;
+    for (i = 0; i < MAX_TURNS && !game.isTerminal(); i++) {
+        const timeSoFar = ((new Date() - timeBefore)/1000).toFixed(0);
+        process.stdout.write(`   turn ${i}  ${timeSoFar}s  ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}\r`);
         const player = game.currentSide === sideNorth ? northPlayer : southPlayer;
         const commands = player.decideMove(game);
         for (let command of commands) {
             game.executeCommand(command);
         }
     }
-    process.stdout.write(`\n`);
+    const timeTaken = ((new Date() - timeBefore)/1000).toFixed(0);
+    process.stdout.write(`   turn ${i} ${timeTaken}s  ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}\n`);
     const gameStatus = game.gameStatus;
-    const timeTakenInSeconds = ((Date.now() - timeBefore) / 1000);
-    const winner =
-        gameStatus.side === sideSouth ?  1 :
-        gameStatus.side === sideNorth ? -1 :
-        0;
-    return [winner, gameStatus, timeTakenInSeconds];
-}
-
-let northWins = 0;
-let southWins = 0;
-let draws = 0;
-let cumulativeTime = 0;
-for (let i = 0; i < NUM_PLAYOUTS; i++) {
-    const result = playout();
-    if (result[0] === 1) {
-        southWins++;
-    } else if (result[0] === -1) {
-        northWins++;
+    if (gameStatus.side === sideNorth) {
+        if (northPlayer === experimentalPlayer) {
+            experimentalWins++;
+        } else {
+            controlWins++;
+        }
+    } else if (gameStatus.side === sideSouth) {
+        if (southPlayer === experimentalPlayer) {
+            experimentalWins++;
+        } else {
+            controlWins++;
+        }
     } else {
         draws++;
     }
-    cumulativeTime += result[2];
-    const averageTime = (cumulativeTime / (i + 1)).toFixed(0);
-    console.log(`Playout ${i+1}/${NUM_PLAYOUTS}: ${southWins}-${northWins}-${draws} in average ${averageTime} seconds`);
+}
+
+let experimentalWins = 0;
+let controlWins = 0;
+let draws = 0;
+let cumulativeTime = 0;
+for (let i = 0; i < NUM_GAMES/2; i++) {
+    const timeBefore = Date.now();
+    playGame(experimentalPlayer, controlPlayer);
+    const timeAfterAndata = Date.now();
+    cumulativeTime += timeAfterAndata - timeBefore;
+
+    playGame(controlPlayer, experimentalPlayer);
+    const timeAfterRitorno = Date.now();
+    cumulativeTime += timeAfterRitorno - timeAfterAndata;
+
+    const gamesPlayed = (i + 1) * 2;
+    const averageTime = (cumulativeTime / (gamesPlayed*1000)).toFixed(0);
+    const percentExperimentalWins = (experimentalWins / (experimentalWins + controlWins + draws) * 100).toFixed(2);
+    console.log(`Playout ${gamesPlayed}/${NUM_GAMES}: ${experimentalWins}-${controlWins}-${draws} (${percentExperimentalWins}%) in avg ${averageTime}s/game`);
 }
