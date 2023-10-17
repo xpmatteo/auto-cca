@@ -17,11 +17,11 @@ export class MovementPhase extends Phase {
             if (game.spentUnits.includes(unit)) {
                 return;
             }
-            if (commands.length > 0) {
-                // Order one unit at a time.  We should choose the most constrained unit first.
-                // This simple return just orders the units in the order they appear in the units map.
-                return;
-            }
+            // if (commands.length > 0) {
+            //     // Order one unit at a time.  We should choose the most constrained unit first.
+            //     // This simple return just orders the units in the order they appear in the units map.
+            //     return;
+            // }
             unit.validDestinations(hex, game).forEach(to => {
                 commands.push(new MoveCommand(to, hex));
             });

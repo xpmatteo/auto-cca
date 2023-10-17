@@ -4,6 +4,6 @@ cd $(dirname $0)/..
 set -e
 
 cd src
-node --experimental-vm-modules --max-old-space-size=4092 ../script/time.js
+node --experimental-vm-modules --max-old-space-size=8192 ../script/time.js
 
 

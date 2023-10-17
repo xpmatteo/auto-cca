@@ -5,7 +5,7 @@ import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../src/config.js";
 
 const MAX_TURNS = 400;
 const NUM_GAMES = 10;
-const ITERATIONS = 150000;
+const ITERATIONS = 50000;
 
 const player = new MctsPlayer({
     iterations: ITERATIONS,
