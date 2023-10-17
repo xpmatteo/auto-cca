@@ -10,11 +10,6 @@ class TreeNode {
     value() {
         throw new Error("Abstract method");
     }
-
-    uct(expansionFactor) {
-        return this.value() + expansionFactor * Math.sqrt(Math.log(this.parent.visits) / this.visits);
-    }
-
     /*
         This decides which is the best command for the real game
      */
@@ -131,9 +126,11 @@ export class DecisionNode extends TreeNode {
         let best = undefined;
         let bestScore = -Infinity;
         randomShuffleArray(this.children);
+        const logOfThisVisits = Math.log(this.visits);
         for (let child of this.children) {
             const factor = (child.game.currentSide === this.game.currentSide) ? 1 : -1;
-            const currentScore = factor * child.uct(expansionFactor);
+            const ucb1 = child.value() + expansionFactor * Math.sqrt(logOfThisVisits / child.visits);
+            const currentScore = factor * ucb1;
             if (currentScore > bestScore) {
                 best = child;
                 bestScore = currentScore;
