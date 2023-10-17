@@ -1,3 +1,4 @@
+import { Side } from "model/side.js";
 import { GreedyPlayer } from "../src/ai/greedy_player.js";
 import { MctsPlayer } from "../src/ai/mcts_player.js";
 import makeGame from "../src/model/game.js";
@@ -61,16 +62,19 @@ function playGame(southPlayer, northPlayer) {
     }
 }
 
+export let EXPERIMENTAL_SIDE = undefined;
 let experimentalWins = 0;
 let controlWins = 0;
 let draws = 0;
 let cumulativeTime = 0;
 for (let i = 0; i < NUM_GAMES/2; i++) {
     const timeBefore = Date.now();
+    EXPERIMENTAL_SIDE = Side.SYRACUSAN;
     playGame(experimentalPlayer, controlPlayer);
     const timeAfterAndata = Date.now();
     cumulativeTime += timeAfterAndata - timeBefore;
 
+    EXPERIMENTAL_SIDE = Side.CARTHAGINIAN;
     playGame(controlPlayer, experimentalPlayer);
     const timeAfterRitorno = Date.now();
     cumulativeTime += timeAfterRitorno - timeAfterAndata;
