@@ -6,23 +6,22 @@ import makeGame from "../src/model/game.js";
 import { AkragasScenario, OneToOneMeleeScenario } from "../src/model/scenarios.js";
 import * as fs from 'fs';
 
-const DEPTH = 2;
-const game = makeGame(new AkragasScenario());
-// const ITERATIONS = MCTS_ITERATIONS;
-const ITERATIONS = 1000;
+const DEPTH = 6;
+const game = makeGame(new OneToOneMeleeScenario());
+const ITERATIONS = 10000;
 
 const player = new MctsPlayer({iterations: ITERATIONS, expansionFactor: MCTS_EXPANSION_FACTOR});
 console.log("AI IS THINKING");
 const rootNode = player.search(game.toGame());
 console.log("AI HAS FINISHED THINKING: ", rootNode.size(), "nodes", rootNode.shape().toString());
 
-const THRESHOLD = 0 //rootNode.visits / 100;
+const THRESHOLD = 1 //rootNode.visits / 100;
 
 let dotRepresentation = "digraph Tree {\noverlap=false\n";
 let count = 0;
 function traverse(node, depth) {
 
-    const label = `${node.value().toFixed(3)} - ${node.visits}\n${scoreMcts(node.game)}`;
+    const label = `${node.score || '-'}/${node.visits}\n${scoreMcts(node.game)}`;
     const isChanceNode = node instanceof ChanceNode;
     const color = count++ === 0 ? 'red' :
         node.game.currentSide === Side.CARTHAGINIAN ? 'pink' :
