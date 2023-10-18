@@ -275,6 +275,7 @@ export class MctsPlayer {
         this.args = args;
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
         this.args.iterations = this.args.iterations || 1000;
+        this.args.playoutIterations = this.args.playoutIterations || 20;
         this.args.logfunction = this.args.logfunction || console.log;
         this.args.note = this.args.note || "";
     }
@@ -293,6 +294,7 @@ export class MctsPlayer {
         const bestCommands = rootNode.bestCommands(game.currentSide);
         this.args.logfunction(showBestCommands(rootNode.bestCommands(game.currentSide)));
         this.args.logfunction(rootNode.shape());
+        this.args.logfunction(rootNode.toString(2));
         //this.args.logfunction(rootNode.redundancy());
         // this.args.logfunction(rootNode.toString(7, 10));
         this.args.logfunction("Time taken: " + (Date.now() - startTime)/1000 + "s");
@@ -323,7 +325,14 @@ export class MctsPlayer {
     }
 
     _simulate(node) {
-        const number = scoreMcts(node.game, node.game.currentSide);
+        const clone = node.game.clone();
+        for (let i = 0; i < this.args.playoutIterations && !clone.isTerminal(); i++) {
+            const commands = clone.validCommands();
+            const command = randomElement(commands);
+            if (command)
+                clone.executeCommand(command);
+        }
+        const number = scoreMcts(clone, node.game.currentSide);
         // return number;
         if (number === 0) {
             return 0;

@@ -7,19 +7,21 @@ import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../src/config.js";
 
 const MAX_TURNS = 400;
 const NUM_GAMES = 10;
-const ITERATIONS = 2000;
+const ITERATIONS = 10000;
 
 const controlPlayer = new MctsPlayer({
     iterations: ITERATIONS,
     expansionFactor: MCTS_EXPANSION_FACTOR,
     logfunction: () => {},
     note: "control",
+    playoutIterations: 0,
 });
 const experimentalPlayer = new MctsPlayer({
     iterations: ITERATIONS,
     expansionFactor: MCTS_EXPANSION_FACTOR,
     logfunction: () => {},
-    note: "experimental: reduce movement tree size",
+    note: `experimental: 40 playout it's`,
+    playoutIterations: 40,
 });
 
 function playGame(southPlayer, northPlayer) {
@@ -35,7 +37,7 @@ function playGame(southPlayer, northPlayer) {
     let i;
     for (i = 0; i < MAX_TURNS && !game.isTerminal(); i++) {
         const timeSoFar = ((new Date() - timeBefore)/1000).toFixed(0);
-        process.stdout.write(`   turn ${i}  ${timeSoFar}s  ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}\r`);
+        process.stdout.write(`   turn ${i}  ${timeSoFar}s  ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}    \r`);
         const player = game.currentSide === sideNorth ? northPlayer : southPlayer;
         const commands = player.decideMove(game);
         for (let command of commands) {
@@ -43,7 +45,7 @@ function playGame(southPlayer, northPlayer) {
         }
     }
     const timeTaken = ((new Date() - timeBefore)/1000).toFixed(0);
-    process.stdout.write(`   turn ${i} ${timeTaken}s  ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}\n`);
+    process.stdout.write(`   turn ${i} ${timeTaken}s  ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}    \n`);
     const gameStatus = game.gameStatus;
     if (gameStatus.side === sideNorth) {
         if (northPlayer === experimentalPlayer) {

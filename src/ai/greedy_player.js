@@ -3,12 +3,6 @@ import { AbstractCombatCommand } from "../model/commands/abstract_combat_command
 import { score } from "./score.js";
 
 export class GreedyPlayer {
-    /**
-     * @param {Side} side
-     */
-    constructor(side) {
-        this.side = side;
-    }
 
     /**
      * @param {InteractiveGame} interactiveGame
@@ -16,9 +10,6 @@ export class GreedyPlayer {
      */
     decideMove(interactiveGame) {
         const game = interactiveGame.toGame()
-        if (interactiveGame.currentSide !== this.side) {
-            throw new Error("Not my turn");
-        }
         const commands = game.validCommands();
         randomShuffleArray(commands);
         if (commands.length === 0) {
@@ -40,7 +31,7 @@ export class GreedyPlayer {
     scoreCommand(game, command) {
         const gameAfterCommand = game.clone();
         gameAfterCommand.executeCommand(command);
-        const number = score(gameAfterCommand, this.side);
+        const number = score(gameAfterCommand, game.currentSide);
         if (command instanceof AbstractCombatCommand) {
             return number + 10000;
         }

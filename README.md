@@ -22,11 +22,13 @@ the Carthaginian (top).
 The Playout button pits the MCTS AI (bottom) against a greedy player (top).  You can speed up 
 or slow down the moves with the `delay` value in the textbox.
 
-# BUGS
+# AI BUGS
 
- - Automatic ordering no longer works
- - Human player must move in a strict order?
- - why now so slow?
+ - 1-1: it avoids further conflict when it's advantaged
+ - 2-2:
+   - it does not concentrate the attacks
+   - it runs away instead of fighting?
+
 
 # AI TESTS
 

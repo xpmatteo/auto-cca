@@ -2,9 +2,13 @@ import { ChanceNode, MctsPlayer } from "../ai/mcts_player.js";
 import { scoreMcts } from "../ai/score.js";
 import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../config.js";
 
-export function drawTree(game, iterations=1000, depth=1000, threshold=10, prune=0) {
-    console.log("drawTree", iterations, depth, threshold);
-    const player = new MctsPlayer({iterations: iterations, expansionFactor: MCTS_EXPANSION_FACTOR});
+export function drawTree(game, iterations=1000, playoutIterations = 10, depth=1000, threshold=10, prune=0) {
+    console.log(`drawTree(${iterations}, ${playoutIterations}, ${depth}, ${threshold}, ${prune})`);
+    const player = new MctsPlayer({
+        iterations: iterations,
+        expansionFactor: MCTS_EXPANSION_FACTOR,
+        playoutIterations: playoutIterations,
+    });
     console.log("AI IS THINKING")
     let rootNode = player.search(game.toGame());
     console.log("AI HAS FINISHED THINKING: ", rootNode.size(), "nodes", rootNode.shape().toString());
@@ -48,10 +52,10 @@ export function drawTree(game, iterations=1000, depth=1000, threshold=10, prune=
             traverse(child, depth - 1);
         }
     }
-    
+
     function enhanceBestPath(node) {
         node.isOnBestPath = true;
-        
+
         if (node.children.length) {
             enhanceBestPath(node.bestAbsoluteChild());
         }
@@ -63,9 +67,9 @@ export function drawTree(game, iterations=1000, depth=1000, threshold=10, prune=
         prunePrefix(node.children[0], prune-1);
     }
 
-    prunePrefix(rootNode, prune)
+    prunePrefix(rootNode, Number(prune));
     enhanceBestPath(rootNode);
-    traverse(rootNode, depth);
+    traverse(rootNode, Number(depth));
     console.log("traversed")
     nodes[0].color = "red";
     nodes[0].width = 100;
