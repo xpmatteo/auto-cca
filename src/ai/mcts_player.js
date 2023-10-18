@@ -15,7 +15,7 @@ class TreeNode {
      */
     bestAbsoluteChild() {
         if (this.children.length === 0) {
-            throw new Error("No children in Chance Node???");
+            throw new Error("No children???");
         }
         let best = this.children[0];
         for (let child of this.children) {
@@ -51,20 +51,31 @@ class TreeNode {
         return result;
     }
 
-    toString(maxLevel = 10000, minVisits = 0) {
-        const result = [];
+    /**
+     * Writes the tree to a file in plain text readable by humans
+     * @param {string} fileName
+     */
+    dumpTree(writeFunc, maxLevel=1000, minVisits = 0) {
         function traverse(node, level) {
             if (level > maxLevel || node.visits < minVisits) {
                 return;
             }
             const nodeDescription = " ".repeat(level) + node.describeNode();
-            result.push(nodeDescription);
+            writeFunc(nodeDescription)
             for (const child of node.children) {
                 traverse(child, level + 1);
             }
         }
         traverse(this, 0);
-        return result.join("\n");
+    }
+
+    toString(maxLevel = 10000, minVisits = 0) {
+        let result = "";
+        function append(str) {
+            result += str + "\n";
+        }
+        this.dumpTree(append, maxLevel, minVisits);
+        return result;
     }
 
     describeNode() {
