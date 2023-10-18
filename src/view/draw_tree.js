@@ -2,8 +2,8 @@ import { ChanceNode, MctsPlayer } from "../ai/mcts_player.js";
 import { scoreMcts } from "../ai/score.js";
 import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../config.js";
 
-export function drawTree(game, depth=1000) {
-    const player = new MctsPlayer({iterations: MCTS_ITERATIONS, expansionFactor: MCTS_EXPANSION_FACTOR});
+export function drawTree(game, iterations=1000, depth=1000, threshold=10) {
+    const player = new MctsPlayer({iterations: iterations, expansionFactor: MCTS_EXPANSION_FACTOR});
     console.log("AI IS THINKING")
     const rootNode = player.search(game.toGame());
     console.log("AI HAS FINISHED THINKING: ", rootNode.size(), "nodes", rootNode.shape().toString());
@@ -11,9 +11,6 @@ export function drawTree(game, depth=1000) {
     // Convert tree to vis.js data
     const nodes = [];
     const edges = [];
-
-    // const threshold = rootNode.visits / 100;
-    const threshold = 10;
 
     /**
      * @param {DecisionNode} node
@@ -23,7 +20,7 @@ export function drawTree(game, depth=1000) {
         if (node.visits < threshold) return;
         if (depth === 0) return;
         const color = node.game.currentSide === game.toGame().scenario.sideSouth ? "lightblue" : "pink";
-        const label = `${node.value().toFixed(1)}/${node.visits}\n${scoreMcts(node.game)}`;
+        const label = `${node.visits || '-'}/${node.visits}\n${scoreMcts(node.game)}`;
         const shape = node instanceof ChanceNode ? "box" : "circle";
         nodes.push({id: node.id, label: label, color: color, shape: shape});
 

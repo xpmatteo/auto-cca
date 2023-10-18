@@ -228,7 +228,12 @@ export class ChanceNode extends TreeNode {
         if (this.children.length === 0) {
             return Infinity;
         }
-        return this.children.reduce((acc, child) => acc + child.value(), 0) / this.children.length;
+        const totalVisits = this.children.reduce((acc, child) => acc + child.visits, 0);
+        if (totalVisits === 0) {
+            return Infinity;
+        }
+        const totalScore = this.children.reduce((acc, child) => acc + child.score, 0);
+        return totalScore / totalVisits;
     }
 
     backPropagate(score, side) {
@@ -319,7 +324,7 @@ export class MctsPlayer {
 
     _simulate(node) {
         const number = scoreMcts(node.game, node.game.currentSide);
-        return number;
+        // return number;
         if (number === 0) {
             return 0;
         }
