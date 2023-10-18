@@ -2,10 +2,11 @@ import { ChanceNode, MctsPlayer } from "../ai/mcts_player.js";
 import { scoreMcts } from "../ai/score.js";
 import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../config.js";
 
-export function drawTree(game, iterations=1000, depth=1000, threshold=10) {
+export function drawTree(game, iterations=1000, depth=1000, threshold=10, prune=0) {
+    console.log("drawTree", iterations, depth, threshold);
     const player = new MctsPlayer({iterations: iterations, expansionFactor: MCTS_EXPANSION_FACTOR});
     console.log("AI IS THINKING")
-    const rootNode = player.search(game.toGame());
+    let rootNode = player.search(game.toGame());
     console.log("AI HAS FINISHED THINKING: ", rootNode.size(), "nodes", rootNode.shape().toString());
 
     // Convert tree to vis.js data
@@ -19,18 +20,51 @@ export function drawTree(game, iterations=1000, depth=1000, threshold=10) {
     function traverse(node, depth) {
         if (node.visits < threshold) return;
         if (depth === 0) return;
-        const color = node.game.currentSide === game.toGame().scenario.sideSouth ? "lightblue" : "pink";
-        const label = `${node.visits || '-'}/${node.visits}\n${scoreMcts(node.game)}`;
+        let color;
+        if (node.isOnBestPath) {
+            if (node.game.currentSide === game.toGame().scenario.sideSouth) {
+                color = {
+                    background: "lightblue",
+                    border: "blue",
+                }
+            } else {
+                color = {
+                    background: "pink",
+                    border: "red",
+                }
+            }
+        } else {
+            color = node.game.currentSide === game.toGame().scenario.sideSouth ? "lightblue" : "pink";
+        }
+        const label = node.score === undefined ?
+            `${node.value().toFixed(3)}\n${scoreMcts(node.game)}` :
+            `${node.score}/${node.visits}\n${scoreMcts(node.game)}`;
         const shape = node instanceof ChanceNode ? "box" : "circle";
         nodes.push({id: node.id, label: label, color: color, shape: shape});
 
         for (const child of node.children) {
-            const edgeLabel = child.command.toString();
+            const edgeLabel = node.score === undefined ? "" : child.command.toString();
             edges.push({from: node.id, to: child.id, label: edgeLabel});
             traverse(child, depth - 1);
         }
     }
+    
+    function enhanceBestPath(node) {
+        node.isOnBestPath = true;
+        
+        if (node.children.length) {
+            enhanceBestPath(node.bestAbsoluteChild());
+        }
+    }
 
+    function prunePrefix(node, prune) {
+        if (prune === 0) return;
+        node.children = [node.bestAbsoluteChild()];
+        prunePrefix(node.children[0], prune-1);
+    }
+
+    prunePrefix(rootNode, prune)
+    enhanceBestPath(rootNode);
     traverse(rootNode, depth);
     console.log("traversed")
     nodes[0].color = "red";
@@ -38,7 +72,6 @@ export function drawTree(game, iterations=1000, depth=1000, threshold=10) {
 
     // Create a network
     // See https://visjs.github.io/vis-network/docs/network/
-    const container = document.getElementById('treeContainer');
     const data = {
         nodes: new vis.DataSet(nodes),
         edges: new vis.DataSet(edges)
@@ -57,6 +90,7 @@ export function drawTree(game, iterations=1000, depth=1000, threshold=10) {
         },
     };
 
+    const container = document.getElementById('treeContainer');
     const network = new vis.Network(container, data, options);
     console.log("network created");
 }
