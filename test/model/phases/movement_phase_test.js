@@ -80,11 +80,11 @@ test('generate commands for two units, avoiding collisions', function () {
         new MoveCommand(hexOf(1, 6), hexOf(2, 5)),
         new MoveCommand(hexOf(2, 6), hexOf(2, 5)),
 
-        // new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
-        // new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
-        // new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
-        // new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
-        // new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
+        new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
+        new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
+        new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
+        new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
+        new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
 
         new EndPhaseCommand(),
     ];
