@@ -1,3 +1,4 @@
+import { fixedRandom } from "../src/lib/random.js";
 import { MctsPlayer } from "../src/ai/mcts_player.js";
 import makeGame from "../src/model/game.js";
 import { AkragasScenario } from "../src/model/scenarios.js";
@@ -12,9 +13,7 @@ const player = new MctsPlayer({
     expansionFactor: MCTS_EXPANSION_FACTOR,
 });
 
-const RANDOM_VALUES = [0.1, 0.3, 0.2, 0.7, 0.9, 0.6, 0.4, 0.8];
-let nextRandom = 0;
-Math.random = () => RANDOM_VALUES[nextRandom++ % 8];
+Math.random = fixedRandom;
 
 
 const game = makeGame(new AkragasScenario());
