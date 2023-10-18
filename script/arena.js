@@ -1,4 +1,4 @@
-import { Side } from "model/side.js";
+import { Side } from "../src/model/side.js";
 import { GreedyPlayer } from "../src/ai/greedy_player.js";
 import { MctsPlayer } from "../src/ai/mcts_player.js";
 import makeGame from "../src/model/game.js";
@@ -7,7 +7,7 @@ import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../src/config.js";
 
 const MAX_TURNS = 400;
 const NUM_GAMES = 10;
-const ITERATIONS = 20000;
+const ITERATIONS = 2000;
 
 const controlPlayer = new MctsPlayer({
     iterations: ITERATIONS,
@@ -19,7 +19,7 @@ const experimentalPlayer = new MctsPlayer({
     iterations: ITERATIONS,
     expansionFactor: MCTS_EXPANSION_FACTOR,
     logfunction: () => {},
-    note: "experimental",
+    note: "experimental: reduce movement tree size",
 });
 
 function playGame(southPlayer, northPlayer) {
@@ -71,13 +71,10 @@ for (let i = 0; i < NUM_GAMES/2; i++) {
     const timeBefore = Date.now();
     EXPERIMENTAL_SIDE = Side.SYRACUSAN;
     playGame(experimentalPlayer, controlPlayer);
-    const timeAfterAndata = Date.now();
-    cumulativeTime += timeAfterAndata - timeBefore;
 
     EXPERIMENTAL_SIDE = Side.CARTHAGINIAN;
     playGame(controlPlayer, experimentalPlayer);
-    const timeAfterRitorno = Date.now();
-    cumulativeTime += timeAfterRitorno - timeAfterAndata;
+    cumulativeTime += Date.now() - timeBefore;
 
     const gamesPlayed = (i + 1) * 2;
     const averageTime = (cumulativeTime / (gamesPlayed*1000)).toFixed(0);
