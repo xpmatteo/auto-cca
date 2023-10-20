@@ -24,6 +24,8 @@ or slow down the moves with the `delay` value in the textbox.
 
 # AI BUGS
 
+ - Ak
+   - it still does not use all the attacks it has
  - 1-1: it avoids further conflict when it's advantaged
  - 2-2:
    - it does not concentrate the attacks

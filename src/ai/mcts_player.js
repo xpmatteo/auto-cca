@@ -51,6 +51,28 @@ class TreeNode {
         return result;
     }
 
+    branchingFactor() {
+        let sum = 0;
+        let count = 0;
+        let max = 0;
+
+        function traverse(node) {
+            if (node.children.length > 1) {
+                count++;
+                sum += node.children.length;
+                if (node.children.length > max) {
+                    max = node.children.length;
+                }
+            }
+            for (const child of node.children) {
+                traverse(child);
+            }
+        }
+
+        traverse(this);
+        return [sum / count, max];
+    }
+
     /**
      * Writes the tree to a file in plain text readable by humans
      * @param {string} fileName
@@ -358,7 +380,7 @@ export class MctsPlayer {
     }
 
     toString() {
-        return `MctsPlayer(${this.args.iterations}, ${this.args.expansionFactor}, ${this.args.note}))`;
+        return `MctsPlayer(${this.args.iterations}, ${this.args.playoutIterations}, ${this.args.note}))`;
     }
 }
 
