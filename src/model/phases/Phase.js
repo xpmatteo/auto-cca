@@ -51,4 +51,12 @@ export class Phase {
     requiresDeepThought() {
         return false;
     }
+
+    /**
+     * @param {Game} game
+     * @returns {void}
+     */
+    executePreliminaryOperations(game) {
+        // do nothing
+    }
 }

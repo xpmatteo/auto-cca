@@ -35,5 +35,4 @@ export class PlayCardPhase extends Phase {
     requiresDeepThought() {
         return true;
     }
-
 }

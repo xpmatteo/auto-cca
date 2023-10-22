@@ -331,11 +331,13 @@ export class MctsPlayer {
      * @returns {DecisionNode}
      */
     search(game, iterations = this.args.iterations) {
+        MctsPlayer.isSearching = true;
         const rootNode = new DecisionNode(game);
         for (let i = 0; i < iterations; i++) {
             if (i % 10000 === 0) this.args.logfunction("Iteration " + i);
             this.iterate(rootNode);
         }
+        MctsPlayer.isSearching = false;
         return rootNode;
     }
 

@@ -409,6 +409,7 @@ class Game {
         this.__removeCardFromHand(card);
         this.currentCard = card;
         this.phases = [card.orderPhase(this)].concat(card.phases());
+        this.phases[0].executePreliminaryOperations(this);
         return [];
     }
 

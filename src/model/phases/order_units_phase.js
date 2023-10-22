@@ -17,10 +17,6 @@ export class OrderUnitsPhase extends Phase {
      * @returns {Command[]}
      */
     validCommands(game) {
-        if (this.__eligibleUnits(game).length <= this.numberOfUnits) {
-            this.__orderAllUnits(game);
-            return [new EndPhaseCommand()];
-        }
         if (game.numberOfOrderedUnits >= this.numberOfUnits) {
             return [new EndPhaseCommand()];
         }
@@ -35,6 +31,13 @@ export class OrderUnitsPhase extends Phase {
         if (commands.length === 0)
             commands.push(new EndPhaseCommand());
         return commands;
+    }
+
+    /* Auto-order units if there is no choice to be made */
+    executePreliminaryOperations(game) {
+        if (this.__eligibleUnits(game).length <= this.numberOfUnits) {
+            this.__orderAllUnits(game);
+        }
     }
 
     /**
