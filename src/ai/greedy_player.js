@@ -1,6 +1,6 @@
 import { randomShuffleArray } from "../lib/random.js";
 import { AbstractCombatCommand } from "../model/commands/abstract_combat_command.js";
-import { score } from "./score.js";
+import { scoreGreedy } from "./score.js";
 
 export class GreedyPlayer {
 
@@ -31,7 +31,7 @@ export class GreedyPlayer {
     scoreCommand(game, command) {
         const gameAfterCommand = game.clone();
         gameAfterCommand.executeCommand(command);
-        const number = score(gameAfterCommand, game.currentSide);
+        const number = scoreGreedy(gameAfterCommand, game.currentSide);
         if (command instanceof AbstractCombatCommand) {
             return number + 10000;
         }

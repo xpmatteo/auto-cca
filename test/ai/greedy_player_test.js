@@ -3,7 +3,7 @@ import makeGame from "model/game.js";
 import { NullScenario } from "model/scenarios.js";
 import { hexOf } from "xlib/hexlib.js";
 import { RomanHeavyInfantry } from "model/units.js";
-import { score } from "ai/score.js";
+import { scoreGreedy } from "ai/score.js";
 import { Side } from "model/side.js";
 import { MoveCommand } from "model/commands/move_command.js";
 import { MovementPhase } from "model/phases/MovementPhase.js";
@@ -16,7 +16,7 @@ test("greedy_player", function() {
     game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry()); // has support
     game.placeUnit(hexOf(1, 0), new RomanHeavyInfantry()); // has support
     game.placeUnit(hexOf(0, 1), new RomanHeavyInfantry()); // has support
-    expect(score(game, Side.ROMAN)).toBe(3);
+    expect(scoreGreedy(game, Side.ROMAN)).toBe(3);
     game.foreachUnit((unit, hex) => game.orderUnit(hex))
     game.phases = [new MovementPhase(game)]
 

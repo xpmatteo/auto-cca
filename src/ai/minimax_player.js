@@ -1,4 +1,4 @@
-import { score } from "./score.js";
+import { scoreGreedy } from "./score.js";
 
 class MinimaxNode {
     constructor(score) {
@@ -74,7 +74,7 @@ export class MinimaxPlayer {
     }
     _search(game, side, depth) {
         if (depth === 0 || game.currentSide !== side) {
-            const theScore = score(game, game.currentSide);
+            const theScore = scoreGreedy(game, game.currentSide);
             return new MinimaxNode(theScore)
         }
         const rootNode = new MinimaxNode();

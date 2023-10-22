@@ -1,6 +1,6 @@
 import {
     attackProximityScoreForHex,
-    score,
+    scoreGreedy,
     scoreForCloseCombatDice,
     scoreForDamageToUnit,
     scoreForRangedCombatDice,
@@ -16,8 +16,8 @@ import { hexOf } from "xlib/hexlib.js";
 test("default score is zero", () => {
     const game = makeGame(new NullScenario());
 
-    expect(score(game, Side.ROMAN)).toBe(0);
-    expect(score(game, Side.CARTHAGINIAN)).toBe(0);
+    expect(scoreGreedy(game, Side.ROMAN)).toBe(0);
+    expect(scoreGreedy(game, Side.CARTHAGINIAN)).toBe(0);
 });
 
 test("score one point for every unit with support", () => {

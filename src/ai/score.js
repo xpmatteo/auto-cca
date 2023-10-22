@@ -77,7 +77,7 @@ export function attackProximityScoreForHex(game, ourUnit, hexToBeScored) {
  * @param {Side} side
  * @returns {number}
  */
-export function score(game, side) {
+export function scoreGreedy(game, side) {
     let score = 0;
     game.foreachUnit((unit, hex) => {
         if (unit.side === side) {

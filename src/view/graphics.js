@@ -1,7 +1,7 @@
 'use strict';
 
 import { CARD_IMAGE_SIZE } from "../config.js";
-import { score, scoreMcts } from "../ai/score.js";
+import { scoreGreedy, scoreMcts } from "../ai/score.js";
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
 import { layout, MAP_HEIGHT, MAP_WIDTH } from "./map.js";
 
