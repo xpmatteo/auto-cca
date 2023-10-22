@@ -12,6 +12,7 @@ export function drawTree(game, iterations=1000, playoutIterations = 10, depth=10
     console.log("AI IS THINKING")
     let rootNode = player.search(game.toGame());
     console.log("AI HAS FINISHED THINKING: ", rootNode.size(), "nodes", rootNode.shape().toString());
+    console.log(rootNode.toString(5));
 
     // Convert tree to vis.js data
     const nodes = [];
