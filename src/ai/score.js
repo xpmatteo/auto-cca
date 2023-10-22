@@ -64,6 +64,10 @@ export function attackProximityScoreForHex(game, ourUnit, hexToBeScored) {
             ourUnit.diceCount *
             SCORE_REDUCTION_FACTORS_BY_DISTANCE[distance];
     });
+    // Make 1-strength units retreat
+    if (game.unitStrength(ourUnit) === 1) {
+        result *= -100;
+    }
     return result;
 }
 
