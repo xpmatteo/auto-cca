@@ -312,7 +312,9 @@ export class MctsPlayer {
         if (game.validCommands().length === 1) {
             return [game.validCommands()[0]];
         }
-        const rootNode = this._doDecideMove(game);
+        const iterations = (game.currentPhase.requiresDeepThought()) ?
+            this.args.iterations : 1000;
+        const rootNode = this.search(game.toGame(), iterations);
         const bestCommands = rootNode.bestCommands(game.currentSide);
         this.args.logfunction(showBestCommands(rootNode.bestCommands(game.currentSide)));
         this.args.logfunction(rootNode.shape());
@@ -323,12 +325,11 @@ export class MctsPlayer {
         return bestCommands;
     }
 
-    _doDecideMove(game) {
-        const iterations = (game.currentPhase.requiresDeepThought()) ?
-            this.args.iterations : 1000;
-        return this.search(game.toGame(), iterations);
-    }
-
+    /**
+     * @param {Game} game
+     * @param {number} iterations
+     * @returns {DecisionNode}
+     */
     search(game, iterations = this.args.iterations) {
         const rootNode = new DecisionNode(game);
         for (let i = 0; i < iterations; i++) {
