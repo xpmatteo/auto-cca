@@ -1,4 +1,4 @@
-import { Command } from "./commands.js";
+import { Command } from "model/commands/commands.js";
 
 export class MacroMoveCommand extends Command {
     constructor(commands) {
@@ -6,10 +6,8 @@ export class MacroMoveCommand extends Command {
         this.commands = commands;
     }
 
-    play(game) {
-        this.commands.forEach(command => command.play(game));
-        game.endPhase();
-        return [];
+    execute(game) {
+        this.commands.forEach(command => command.execute(game));
     }
 
     toString() {

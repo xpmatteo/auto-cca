@@ -1,7 +1,5 @@
-import { MoveCommand } from "../model/commands/move_command.js";
-import { SkipActionCommand } from "../model/commands/skip_action_command.js";
-import { MacroMoveCommand } from "../model/commands/macro_move_command.js";
-import { MovementPhase } from "../model/phases/MovementPhase.js";
+import { MacroMoveCommand } from "model/commands/macro_move_command.js";
+import { MovementPhase } from "model/phases/MovementPhase.js";
 import { randomElement, randomShuffleArray } from "../lib/random.js";
 import { scoreMcts } from "./score.js";
 
@@ -79,6 +77,7 @@ class TreeNode {
 
     /**
      * Writes the tree to a file in plain text readable by humans
+     * @param {string} fileName
      */
     dumpTree(writeFunc, maxLevel=1000, minVisits = 0) {
         function traverse(node, level) {
@@ -108,28 +107,31 @@ class TreeNode {
     }
 }
 
-export function restructureCommands(validCommands) {
-    const fromHexes = new Map();
-    const result = [];
-    validCommands.forEach((command) => {
-        if (command instanceof MoveCommand) {
-            if (!fromHexes.has(command.fromHex)) {
-                fromHexes.set(command.fromHex, []);
-            }
-            fromHexes.get(command.fromHex).push(command);
-        } else {
-            result.push(command);
-        }
-    });
-    if (fromHexes.size > 0) {
-        const selectedCommands = [];
-        for (let fromHex of fromHexes.keys()) {
-            //selectedCommands.push(selectionPolicy(fromHexes.get(fromHex)));
-            selectedCommands.push(new SkipActionCommand(fromHex));
-        }
-        result.push(new MacroMoveCommand(selectedCommands));
+export class MacroMoveNode extends TreeNode {
+    constructor(game, parent = null, score=0, visits=0, children=[], command=undefined) {
+        super();
+        this.id = nextNodeId++;
+        this.game = game;
+        this.parent = parent;
+        this.score = score;
+        this.visits = visits;
+        this.children = children;
+        this.command = command;
     }
-    return result;
+
+    /**
+     * Expands the node by creating all possible children
+     * @returns {[TreeNode]}
+     */
+    expand() {
+        const game = this.game;
+        const validCommands = game.validCommands();
+        validCommands.forEach((command) => {
+        });
+        const result = new DecisionNode();
+        result.command = new MacroMoveCommand(validCommands);
+        return [result];
+    }
 }
 
 /*
@@ -157,12 +159,16 @@ export class DecisionNode extends TreeNode {
      */
     expand() {
         const game = this.game;
-        const validCommands = restructureCommands(game.validCommands());
-
+        const validCommands = game.validCommands();
         validCommands.forEach((command) => {
             if (command.isDeterministic()) {
                 const clone = executeCommand(game, command);
-                const childNode = new DecisionNode(clone, this, 0, 0, [], command);
+                let childNode = undefined;
+                if (clone.currentPhase instanceof MovementPhase) {
+                    childNode = new MacroMoveNode(clone, this, 0, 0, [], command);
+                } else {
+                    childNode = new DecisionNode(clone, this, 0, 0, [], command);
+                }
                 this.children.push(childNode);
             } else {
                 const childNode = new ChanceNode(game, this, command);
@@ -346,7 +352,7 @@ export class MctsPlayer {
         const bestCommands = rootNode.bestCommands(game.currentSide);
         this.args.logfunction(showBestCommands(rootNode.bestCommands(game.currentSide)));
         this.args.logfunction(rootNode.shape());
-        this.args.logfunction(rootNode.toString(4));
+        this.args.logfunction(rootNode.toString(2));
         //this.args.logfunction(rootNode.redundancy());
         // this.args.logfunction(rootNode.toString(7, 10));
         this.args.logfunction("Time taken: " + (Date.now() - startTime)/1000 + "s");
