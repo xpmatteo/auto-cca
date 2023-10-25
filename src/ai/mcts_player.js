@@ -1,5 +1,3 @@
-import { MacroMoveCommand } from "model/commands/macro_move_command.js";
-import { MovementPhase } from "model/phases/MovementPhase.js";
 import { randomElement, randomShuffleArray } from "../lib/random.js";
 import { scoreMcts } from "./score.js";
 
@@ -107,33 +105,6 @@ class TreeNode {
     }
 }
 
-export class MacroMoveNode extends TreeNode {
-    constructor(game, parent = null, score=0, visits=0, children=[], command=undefined) {
-        super();
-        this.id = nextNodeId++;
-        this.game = game;
-        this.parent = parent;
-        this.score = score;
-        this.visits = visits;
-        this.children = children;
-        this.command = command;
-    }
-
-    /**
-     * Expands the node by creating all possible children
-     * @returns {[TreeNode]}
-     */
-    expand() {
-        const game = this.game;
-        const validCommands = game.validCommands();
-        validCommands.forEach((command) => {
-        });
-        const result = new DecisionNode();
-        result.command = new MacroMoveCommand(validCommands);
-        return [result];
-    }
-}
-
 /*
  A decision node contains
    - a game state,
@@ -155,7 +126,7 @@ export class DecisionNode extends TreeNode {
 
     /**
      * Expands the node by creating all possible children
-     * @returns {[TreeNode]}
+     * @returns {[DecisionNode|ChanceNode]}
      */
     expand() {
         const game = this.game;
@@ -163,12 +134,7 @@ export class DecisionNode extends TreeNode {
         validCommands.forEach((command) => {
             if (command.isDeterministic()) {
                 const clone = executeCommand(game, command);
-                let childNode = undefined;
-                if (clone.currentPhase instanceof MovementPhase) {
-                    childNode = new MacroMoveNode(clone, this, 0, 0, [], command);
-                } else {
-                    childNode = new DecisionNode(clone, this, 0, 0, [], command);
-                }
+                const childNode = new DecisionNode(clone, this, 0, 0, [], command);
                 this.children.push(childNode);
             } else {
                 const childNode = new ChanceNode(game, this, command);

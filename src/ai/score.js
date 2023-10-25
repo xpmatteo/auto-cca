@@ -71,6 +71,7 @@ export function attackProximityScoreForHex(game, ourUnit, hexToBeScored) {
     return result;
 }
 
+
 /**
  * @param {Game} game
  * @param {Side} side
