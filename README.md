@@ -1,8 +1,8 @@
 
-[![Tests](https://github.com/xpmatteo/auto-cca/actions/workflows/ci.yml/badge.svg)](https://github.com/xpmatteo/auto-cca/actions/workflows/ci.yml)
+[![CI](https://github.com/xpmatteo/auto-cca/actions/workflows/ci.yml/badge.svg)](https://github.com/xpmatteo/auto-cca/actions/workflows/ci.yml)
 
 
-Graphics are copyright GMT Games, copied from the Vassal CC:A module
+Graphics are Copyright GMT Games, copied from the Vassal CC:A module
 
 # How to
 
@@ -24,6 +24,16 @@ the Carthaginian (top).
 
 The Playout button pits the MCTS AI (bottom) against a greedy player (top).  You can speed up 
 or slow down the moves with the `delay` value in the textbox.
+
+See a visualization of the search tree with `make tree`.  You can tweak the parameters to change 
+the level of detail you want, however be mindful that the more nodes you show, the longer it takes for the
+image to appear.  The parameters are:
+ 
+  * scenario: the key of the scenario to run
+  * depth: how many levels of the tree to show (don't set it too high or it will take forever to get a picture)
+  * threshold: the minimum number of visits below which we don't show a node
+  * prune *n*: for the first *n* nodes in the tree, we only show the main line, not showing other subtrees
+  * iterations, playouts: configure AI parameters
 
 # AI TESTS
 
