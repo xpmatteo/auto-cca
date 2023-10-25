@@ -1,4 +1,7 @@
 
+[![Tests](https://github.com/xpmatteo/auto-cca/actions/workflows/ci.yml/badge.svg)](https://github.com/xpmatteo/auto-cca/actions/workflows/ci.yml)
+
+
 Graphics are copyright GMT Games, copied from the Vassal CC:A module
 
 # How to
