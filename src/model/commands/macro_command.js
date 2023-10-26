@@ -18,6 +18,7 @@ export class MacroCommand extends Command {
         for (const command of this.commands) {
             events.push(...command.play(game));
         }
+        game.endPhase();
         return events;
     }
 
