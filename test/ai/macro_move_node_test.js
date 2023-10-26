@@ -36,8 +36,10 @@ function sample(validCommands, scoreFunction) {
     const toHexes = new Set();
     for (const [fromHex, commands] of groups) {
         const currentBest = bestCommandForUnit(commands, scoreFunction, toHexes);
-        macroCommands.push(currentBest);
-        toHexes.add(currentBest.toHex);
+        if (currentBest) {
+            macroCommands.push(currentBest);
+            toHexes.add(currentBest.toHex);
+        }
     }
     return new MacroCommand(macroCommands);
 }
@@ -130,6 +132,34 @@ describe('construct the best move for each unit individually', () => {
         expect(macroMove.toString()).toEqual(new MacroCommand([
             new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
             new MoveCommand(hexOf(1, 1), hexOf(2, 2)),
+        ]).toString());
+    });
+
+    test('there may be no way to place a unit', () => {
+        const availableCommands = [
+            new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+            new MoveCommand(hexOf(1, 1), hexOf(2, 2)),
+        ]
+
+        const macroMove = sample(availableCommands, scoreFunction);
+
+        expect(macroMove.toString()).toEqual(new MacroCommand([
+            new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+        ]).toString());
+    });
+
+    test('Position the most constrained unit first', () => {
+        const availableCommands = [
+            new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+            new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
+            new MoveCommand(hexOf(3, 3), hexOf(2, 2)),
+        ]
+
+        const macroMove = sample(availableCommands, scoreFunction);
+
+        expect(macroMove.toString()).toEqual(new MacroCommand([
+            new MoveCommand(hexOf(3, 3), hexOf(2, 2)),
+            new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
         ]).toString());
     });
 
