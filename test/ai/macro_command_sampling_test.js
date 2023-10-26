@@ -1,4 +1,5 @@
 import { sample } from "ai/macro_command_sampling.js";
+import { EndPhaseCommand } from "model/commands/end_phase_command.js";
 import { MacroCommand } from "model/commands/macro_command.js";
 import { MoveCommand } from "model/commands/move_command.js";
 import { hexOf } from "xlib/hexlib.js";
@@ -92,6 +93,20 @@ describe('construct the best move for each unit individually', () => {
         expect(macroMove.toString()).toEqual(new MacroCommand([
             new MoveCommand(hexOf(3, 3), hexOf(2, 2)),
             new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+        ]).toString());
+    });
+
+    test('does not break for endPhase', () => {
+        const availableCommands = [
+            new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+            new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
+            new EndPhaseCommand()
+        ]
+
+        const macroMove = sample(availableCommands, scoreFunction);
+
+        expect(macroMove.toString()).toEqual(new MacroCommand([
+            new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
         ]).toString());
     });
 });

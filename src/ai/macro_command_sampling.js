@@ -48,6 +48,9 @@ export function sample(validCommands, scoreFunction) {
 function groupByFromHex(availableCommands) {
     const groups = new Map();
     for (const command of availableCommands) {
+        if (!command.fromHex) {
+            continue;
+        }
         if (!groups.get(command.fromHex)) {
             groups.set(command.fromHex, []);
         }
