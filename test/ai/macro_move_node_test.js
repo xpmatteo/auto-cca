@@ -15,11 +15,11 @@ class MacroCommand {
  * @returns {MacroCommand}
  */
 function sample(validCommands, scoreFunction) {
-    function bestCommandForUnit(validCommands, scoreFunction, takenToHexes) {
+    function bestCommandForUnit(validCommands, scoreFunction, ToHexesTaken) {
         let bestCommand = undefined;
         let bestScore = -Infinity;
         for (const command of validCommands) {
-            if (takenToHexes.has(command.toHex)) {
+            if (ToHexesTaken.has(command.toHex)) {
                 continue;
             }
             const score = scoreFunction(command.toHex);
@@ -31,20 +31,27 @@ function sample(validCommands, scoreFunction) {
         return bestCommand;
     }
 
+    /**
+     * @param {Map<Hex, MoveCommand[]>} groups
+     */
+    function sortByMostConstrainedUnitFirst(groups) {
+        return Array.from(groups.keys()).sort((a, b) => groups.get(a).length - groups.get(b).length);
+    }
+
     const groups = groupByFromHex(validCommands);
+    const fromHexes = sortByMostConstrainedUnitFirst(groups);
     const macroCommands = [];
-    const toHexes = new Set();
-    for (const [fromHex, commands] of groups) {
-        const currentBest = bestCommandForUnit(commands, scoreFunction, toHexes);
+    const toHexesTaken = new Set();
+    for (const fromHex of fromHexes) {
+        const commands = groups.get(fromHex);
+        const currentBest = bestCommandForUnit(commands, scoreFunction, toHexesTaken);
         if (currentBest) {
             macroCommands.push(currentBest);
-            toHexes.add(currentBest.toHex);
+            toHexesTaken.add(currentBest.toHex);
         }
     }
     return new MacroCommand(macroCommands);
 }
-
-
 
 /**
  * @param {Hex} hex
@@ -104,7 +111,6 @@ describe('construct the best move for each unit individually', () => {
         ]));
     });
 
-
     test('two units, one command each', () => {
         const availableCommands = [
             new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
@@ -162,5 +168,4 @@ describe('construct the best move for each unit individually', () => {
             new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
         ]).toString());
     });
-
 });
