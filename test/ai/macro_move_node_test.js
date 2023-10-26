@@ -15,10 +15,13 @@ class MacroCommand {
  * @returns {MacroCommand}
  */
 function sample(validCommands, scoreFunction) {
-    function bestCommandForUnit(validCommands, scoreFunction) {
+    function bestCommandForUnit(validCommands, scoreFunction, takenToHexes) {
         let bestCommand = undefined;
         let bestScore = -Infinity;
         for (const command of validCommands) {
+            if (takenToHexes.has(command.toHex)) {
+                continue;
+            }
             const score = scoreFunction(command.toHex);
             if (score > bestScore) {
                 bestScore = score;
@@ -30,8 +33,11 @@ function sample(validCommands, scoreFunction) {
 
     const groups = groupByFromHex(validCommands);
     const macroCommands = [];
+    const toHexes = new Set();
     for (const [fromHex, commands] of groups) {
-        macroCommands.push(bestCommandForUnit(commands, scoreFunction));
+        const currentBest = bestCommandForUnit(commands, scoreFunction, toHexes);
+        macroCommands.push(currentBest);
+        toHexes.add(currentBest.toHex);
     }
     return new MacroCommand(macroCommands);
 }
@@ -96,6 +102,7 @@ describe('construct the best move for each unit individually', () => {
         ]));
     });
 
+
     test('two units, one command each', () => {
         const availableCommands = [
             new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
@@ -110,5 +117,20 @@ describe('construct the best move for each unit individually', () => {
         ]).toString());
     });
 
+    test('avoid toHex collisions', () => {
+        const availableCommands = [
+            new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+            new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
+            new MoveCommand(hexOf(1, 1), hexOf(2, 2)),
+            new MoveCommand(hexOf(3, 3), hexOf(2, 2)),
+        ]
+
+        const macroMove = sample(availableCommands, scoreFunction);
+
+        expect(macroMove.toString()).toEqual(new MacroCommand([
+            new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
+            new MoveCommand(hexOf(1, 1), hexOf(2, 2)),
+        ]).toString());
+    });
 
 });
