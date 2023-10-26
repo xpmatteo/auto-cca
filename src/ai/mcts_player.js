@@ -1,5 +1,7 @@
+import { sample } from "./macro_command_sampling.js";
+import { MoveCommand } from "../model/commands/move_command.js";
 import { randomElement, randomShuffleArray } from "../lib/random.js";
-import { scoreMcts } from "./score.js";
+import { attackProximityScoreForHex, scoreGreedy, scoreMcts } from "./score.js";
 
 // this is used to visualize trees with vis.js
 let nextNodeId = 0;
@@ -131,6 +133,13 @@ export class DecisionNode extends TreeNode {
     expand() {
         const game = this.game;
         const validCommands = game.validCommands();
+        if (validCommands[0] instanceof MoveCommand) {
+            const macroCommand = sample(validCommands, (hex) => attackProximityScoreForHex(game, undefined, hex));
+            const clone = executeCommand(game, macroCommand);
+            const childNode = new DecisionNode(clone, this, 0, 0, [], macroCommand);
+            this.children.push(childNode);
+            return [childNode];
+        }
         validCommands.forEach((command) => {
             if (command.isDeterministic()) {
                 const clone = executeCommand(game, command);

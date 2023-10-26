@@ -50,21 +50,25 @@ test('2 on 2', () => {
 
     const root = player.search(game, 2000);
 
-    const rootAsString = root.toString(3);
-    expect(rootAsString).toBe(`812/2000: undefined -> Roman play one card -> 1
- 812/2000: PlayCard(Order Heavy Troops) -> Roman order 3 heavy units -> 1
-  812/1999: End phase -> Roman movement -> 11
-   24/109: Move [-1,6] to [0,5] -> Roman movement -> 6
-   44/148: Move [0,6] to [-1,7] -> Roman movement -> 6
-   -4/46: Move [0,6] to [1,6] -> Roman movement -> 7
-   -5/42: End phase -> Roman battle -> 1
-   100/240: Move [0,6] to [1,5] -> Roman movement -> 7
-   11/81: Move [0,6] to [0,7] -> Roman movement -> 7
-   -1/56: Move [-1,6] to [-2,7] -> Roman movement -> 7
-   502/852: Move [0,6] to [0,5] -> Roman movement -> 6
-   138/305: Move [-1,6] to [-1,5] -> Roman movement -> 7
-   5/68: Move [-1,6] to [-1,7] -> Roman movement -> 6
-   -2/51: Move [-1,6] to [-2,6] -> Roman movement -> 7\n`);
+    const rootAsString = root.toString(6);
+    expect(rootAsString).toBe(`722/2000: undefined -> Roman play one card -> 1
+ 722/2000: PlayCard(Order Heavy Troops) -> Roman order 3 heavy units -> 1
+  722/1999: End phase -> Roman movement -> 1
+   722/1998: MacroCommand(Move [-1,6] to [0,5],Move [0,6] to [1,5]) -> Roman movement -> 1
+    721/1997: End phase -> Roman battle -> 3
+     CHANCE/980: Close Combat from [0,5] to [1,4] -> Roman battle -> 3
+      25/625: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
+      -227/235: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
+      -53/119: Close Combat from [0,5] to [1,4] -> Roman retreat -> 2
+     CHANCE/832: Close Combat from [1,5] to [1,4] -> Roman battle -> 6
+      86/95: Close Combat from [1,5] to [1,4] -> Roman retreat -> 2
+      -316/345: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+      81/96: Close Combat from [1,5] to [1,4] -> Roman retreat -> 2
+      -86/118: Close Combat from [1,5] to [1,4] -> Roman retreat -> 2
+      -81/82: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+      17/95: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+     CHANCE/186: Close Combat from [0,5] to [0,4] -> Roman battle -> 1
+      -109/185: Close Combat from [0,5] to [0,4] -> Carthaginian retreat -> 2\n`);
 });
 
 
@@ -89,28 +93,30 @@ describe('Non deterministic results', () => {
         game.placeUnit(hexOf(2, 2), new CarthaginianHeavyInfantry());
         game.placeUnit(hexOf(2, 3), new RomanLightInfantry());
 
-        const root = player.search(game, 1000);
+        const root = player.search(game, 30);
 
-        const rootAsString = root.toString(3);
-        expect(rootAsString).toBe(`-304/1000: undefined -> Roman play one card -> 1
- -304/1000: PlayCard(Order Light Troops) -> Roman order 1 light units -> 1
-  -304/999: End phase -> Roman movement -> 17
-   -20/44: Move [2,3] to [1,4] -> Roman movement -> 1
-   -17/18: Move [2,3] to [1,3] -> Roman movement -> 1
-   -20/64: Move [2,3] to [4,2] -> Roman movement -> 1
-   -20/59: Move [2,3] to [0,4] -> Roman movement -> 1
-   -15/108: Move [2,3] to [3,4] -> Roman movement -> 1
-   -12/128: Move [2,3] to [4,3] -> Roman movement -> 1
-   -19/70: Move [2,3] to [2,4] -> Roman movement -> 1
-   -18/21: End phase -> Roman battle -> 1
-   -20/58: Move [2,3] to [3,3] -> Roman movement -> 1
-   -17/19: Move [2,3] to [1,2] -> Roman movement -> 1
-   -17/18: Move [2,3] to [3,1] -> Roman movement -> 1
-   -17/17: Move [2,3] to [3,2] -> Roman movement -> 1
-   -17/94: Move [2,3] to [2,5] -> Roman movement -> 1
-   -20/45: Move [2,3] to [0,3] -> Roman movement -> 1
-   -18/81: Move [2,3] to [0,5] -> Roman movement -> 1
-   -16/99: Move [2,3] to [1,5] -> Roman movement -> 1
-   -20/55: Move [2,3] to [4,1] -> Roman movement -> 1\n`);
+        const rootAsString = root.toString(7);
+        expect(rootAsString).toBe(`-27/30: undefined -> Roman play one card -> 1
+ -27/30: PlayCard(Order Light Troops) -> Roman order 1 light units -> 1
+  -27/29: End phase -> Roman movement -> 1
+   -26/28: MacroCommand(Move [2,3] to [3,2]) -> Roman movement -> 1
+    -25/27: End phase -> Roman battle -> 1
+     CHANCE/26: Close Combat from [3,2] to [2,2] -> Roman battle -> 5
+      -5/5: Close Combat from [3,2] to [2,2] -> Roman battle -> 1
+       5/5: End phase -> Carthaginian play one card -> 1
+      0/2: Close Combat from [3,2] to [2,2] -> Carthaginian retreat -> 2
+       0/2: Retreat [2,2] to [2,1] -> Roman battle -> 1
+       0/0: Retreat [2,2] to [3,1] -> Roman battle -> 0
+      -5/5: Close Combat from [3,2] to [2,2] -> Roman retreat -> 3
+       -2/2: Retreat [3,2] to [2,4] -> Roman battle -> 1
+       -2/2: Retreat [3,2] to [3,4] -> Roman battle -> 1
+       -1/1: Retreat [3,2] to [1,4] -> Roman battle -> 1
+      -9/9: Close Combat from [3,2] to [2,2] -> Roman retreat -> 3
+       -3/3: Retreat [3,2] to [1,4] -> Roman battle -> 1
+       -3/3: Retreat [3,2] to [3,4] -> Roman battle -> 1
+       -3/3: Retreat [3,2] to [2,4] -> Roman battle -> 1
+      4/4: Close Combat from [3,2] to [2,2] -> Carthaginian retreat -> 2
+       -4/4: Retreat [2,2] to [3,1] -> Roman battle -> 1
+       0/0: Retreat [2,2] to [2,1] -> Roman battle -> 0\n`);
     });
 });

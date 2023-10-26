@@ -55,17 +55,19 @@ const ATTACK_PROXIMITY_SCORE_BY_ENEMY_STRENGTH = [undefined, 1000, 750, 500, 250
  * @returns {number}
  */
 export function attackProximityScoreForHex(game, ourUnit, hexToBeScored) {
-    const opponentSide = game.opposingSide(ourUnit.side);
+    const opponentSide = ourUnit? game.opposingSide(ourUnit.side) : game.opposingSide(game.currentSide);
+    const ourUnitStrength = ourUnit? game.unitStrength(ourUnit) : 4;
+    const ourUnitDiceCount = ourUnit? ourUnit.diceCount : 3;
     let result = 0;
     game.foreachUnitOfSide(opponentSide, (unit, unitHex) => {
         const distance = hexToBeScored.distance(unitHex);
         result +=
             ATTACK_PROXIMITY_SCORE_BY_ENEMY_STRENGTH[unit.initialStrength] *
-            ourUnit.diceCount *
+            ourUnitDiceCount *
             SCORE_REDUCTION_FACTORS_BY_DISTANCE[distance];
     });
     // Make 1-strength units retreat
-    if (game.unitStrength(ourUnit) === 1) {
+    if (ourUnitStrength === 1) {
         result *= -100;
     }
     return result;

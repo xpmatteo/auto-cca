@@ -1,8 +1,8 @@
-import { MacroCommand } from "model/commands/macro_command.js";
+import { MacroCommand } from "../model/commands/macro_command.js";
 
 /**
  * @param {MoveCommand[]} validCommands
- * @param {function(Hex): number} scoreFunction
+ * @param {function(Hex, Unit): number} scoreFunction
  * @returns {MacroCommand}
  */
 export function sample(validCommands, scoreFunction) {

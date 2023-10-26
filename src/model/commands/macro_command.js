@@ -1,4 +1,4 @@
-import { Command } from "model/commands/commands.js";
+import { Command } from "./commands.js";
 
 export class MacroCommand extends Command {
     /**
