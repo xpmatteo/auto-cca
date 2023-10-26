@@ -15,10 +15,15 @@ export class MacroCommand extends Command {
 
     play(game) {
         const events = [];
-        for (const command of this.commands) {
+        let deterministic = true;
+        for (let i = 0; i < this.commands.length && deterministic; i++) {
+            const command = this.commands[i];
             events.push(...command.play(game));
+            deterministic = command.isDeterministic();
         }
-        game.endPhase();
+        if (deterministic) {
+            game.endPhase();
+        }
         return events;
     }
 
