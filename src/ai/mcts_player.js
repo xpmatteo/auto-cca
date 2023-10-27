@@ -165,10 +165,17 @@ export class DecisionNode extends TreeNode {
     /*
         This decides which is the most likely command to explore during tree search
      */
-    bestUctChild(expansionFactor = DEFAULT_EXPANSION_FACTOR) {
+    bestUctChild(expansionFactor = DEFAULT_EXPANSION_FACTOR, samplingExplorationChance = 0.01) {
         let best = undefined;
         let bestScore = -Infinity;
         randomShuffleArray(this.children);
+        if (this.children[0].command instanceof MacroCommand && Math.random() < samplingExplorationChance) {
+            const macroCommand = perturbSample(this.game.validCommands(), this.children[0].command);
+            const clone = executeCommand(this.game, macroCommand);
+            const childNode = new DecisionNode(clone, this, 0, 0, [], macroCommand);
+            this.children.push(childNode);
+            return childNode;
+        }
         const logOfThisVisits = Math.log(this.visits);
         for (let child of this.children) {
             const factor = (child.game.currentSide === this.game.currentSide) ? 1 : -1;
@@ -178,13 +185,6 @@ export class DecisionNode extends TreeNode {
                 best = child;
                 bestScore = currentScore;
             }
-        }
-        if (best.command instanceof MacroCommand && bestScore < expansionFactor * Math.sqrt(logOfThisVisits / 10)) {
-            const macroCommand = perturbSample(this.game.validCommands(), best.command);
-            const clone = executeCommand(this.game, macroCommand);
-            const childNode = new DecisionNode(clone, this, 0, 0, [], macroCommand);
-            this.children.push(childNode);
-            return childNode;
         }
         return best;
     }
@@ -316,6 +316,7 @@ export class MctsPlayer {
         this.args.iterations = this.args.iterations || 1000;
         this.args.playoutIterations = this.args.playoutIterations || 20;
         this.args.logfunction = this.args.logfunction || console.log;
+        this.args.samplingExplorationChance = this.args.samplingExplorationChance || 0.01;
         this.args.note = this.args.note || "";
     }
 
@@ -392,7 +393,7 @@ export class MctsPlayer {
             if (node.children.length === 0) {
                 return node.expand();
             } else {
-                node = node.bestUctChild(this.args.expansionFactor);
+                node = node.bestUctChild(this.args.expansionFactor, this.args.samplingExplorationChance);
             }
         }
         // node is terminal
@@ -400,7 +401,7 @@ export class MctsPlayer {
     }
 
     toString() {
-        return `MctsPlayer(${this.args.iterations}, ${this.args.playoutIterations}, ${this.args.note}))`;
+        return `MctsPlayer(${this.args.iterations}, ${this.args.playoutIterations}, ${this.args.samplingExplorationChance}, ${this.args.note}))`;
     }
 }
 

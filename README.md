@@ -50,8 +50,8 @@ image to appear.  The parameters are:
 
 # TODO AI 
 
-- macro-move sampling: tune the explore/exploit ratio
 - macro-move sampling: avoid duplicate macro-moves in a node's children
+- macro-move sampling: tune the explore/exploit ratio
 - open loop instead of chance nodes
 - implement evasion and line-of-sight rules for ranged combat, to allow the realistic game strategy to emerge
 - make end phase automatic

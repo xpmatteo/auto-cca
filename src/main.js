@@ -1,4 +1,4 @@
-import { CARD_IMAGE_SIZE, MCTS_PLAYOUT_ITERATIONS } from "./config.js";
+import { CARD_IMAGE_SIZE, MCTS_PLAYOUT_ITERATIONS, MCTS_SAMPLING_EXPLORATION_CHANCE } from "./config.js";
 import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "./config.js";
 import { Autoplay, displayEvents } from "./ai/autoplay.js";
 import { MctsPlayer } from "./ai/mcts_player.js";
@@ -27,6 +27,7 @@ const aiPlayer = new MctsPlayer({
     iterations: MCTS_ITERATIONS,
     expansionFactor: MCTS_EXPANSION_FACTOR,
     playoutIterations: MCTS_PLAYOUT_ITERATIONS,
+    samplingExplorationChance: MCTS_SAMPLING_EXPLORATION_CHANCE,
 });
 
 let game;
