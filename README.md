@@ -1,7 +1,6 @@
 
 [![CI](https://github.com/xpmatteo/auto-cca/actions/workflows/ci.yml/badge.svg)](https://github.com/xpmatteo/auto-cca/actions/workflows/ci.yml)
 
-
 Graphics are Copyright GMT Games, copied from the Vassal CC:A module
 
 # How to
@@ -51,7 +50,7 @@ image to appear.  The parameters are:
 
 # TODO AI 
 
-- naive macro-move sampling
+- naive macro-move sampling: tune the explore/exploit ratio
 - open loop instead of chance nodes
 - implement evasion and line-of-sight rules for ranged combat, to allow the realistic game strategy to emerge
 - make end phase automatic
