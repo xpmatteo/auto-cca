@@ -1,4 +1,4 @@
-import { MacroCommand } from "model/commands/macro_command.js";
+import { MacroCommand } from "../model/commands/macro_command.js";
 import { perturbSample, sample } from "./macro_command_sampling.js";
 import { MoveCommand } from "../model/commands/move_command.js";
 import { randomElement, randomShuffleArray } from "../lib/random.js";
