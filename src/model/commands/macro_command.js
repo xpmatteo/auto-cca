@@ -27,5 +27,16 @@ export class MacroCommand extends Command {
         return events;
     }
 
+    hasFromHex(hex) {
+        return this.commands.some((command) => command.fromHex === hex);
+    }
+
+    hasToHex(hex) {
+        return this.commands.some((command) => command.toHex === hex);
+    }
+
+    indexOfFromHex(hex) {
+        return this.commands.findIndex((command) => command.fromHex === hex);
+    }
 }
 

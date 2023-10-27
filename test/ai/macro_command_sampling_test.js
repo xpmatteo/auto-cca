@@ -1,18 +1,19 @@
-import { sample } from "ai/macro_command_sampling.js";
+import { perturbSample, sample } from "ai/macro_command_sampling.js";
 import { EndPhaseCommand } from "model/commands/end_phase_command.js";
 import { MacroCommand } from "model/commands/macro_command.js";
 import { MoveCommand } from "model/commands/move_command.js";
 import { hexOf } from "xlib/hexlib.js";
+import { fixedRandom, resetFixedRandom } from "xlib/random.js";
 
-
-/**
- * @param {Hex} hex
- */
-function scoreFunction(hex) {
-    return hex.q + 10 * hex.r;
-}
 
 describe('construct the best move for each unit individually', () => {
+    /**
+     * @param {Hex} hex
+     */
+    function scoreFunction(hex) {
+        return hex.q + 10 * hex.r;
+    }
+
     test('just one command', () => {
         const availableMoves = [
             new MoveCommand(hexOf(1, 4), hexOf(1, 5)),
@@ -109,4 +110,48 @@ describe('construct the best move for each unit individually', () => {
             new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
         ]).toString());
     });
+});
+
+describe('deriving a sample from another sample', () => {
+    const originalRandom = Math.random;
+    beforeEach(() => {
+        resetFixedRandom();
+        Math.random = fixedRandom;
+    });
+
+    afterEach(() => {
+        Math.random = originalRandom;
+    });
+
+    const availableCommands = [
+        new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+        new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
+        new EndPhaseCommand(),
+    ]
+    const existingSample = new MacroCommand([
+        new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
+        new MoveCommand(hexOf(4, 4), hexOf(10, 10)),
+    ]);
+    const existingSampleAsString = existingSample.toString();
+
+    const newSample = perturbSample(availableCommands, existingSample);
+
+    test('changes one unit movement', () => {
+        expect(newSample.toString()).toEqual(new MacroCommand([
+            new MoveCommand(hexOf(3, 3), hexOf(0, 0)),
+            new MoveCommand(hexOf(4, 4), hexOf(10, 10)),
+        ]).toString());
+    });
+
+    test('does not change the existing sample', () => {
+        expect(existingSample.toString()).toEqual(existingSampleAsString);
+    });
+
+    test('chooses unit at random', () => {
+    });
+
+    test('chooses move at random', () => {
+    });
+
+
 });

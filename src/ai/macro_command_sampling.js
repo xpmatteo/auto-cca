@@ -59,3 +59,19 @@ function groupByFromHex(availableCommands) {
     return groups;
 }
 
+/**
+ * @param {MoveCommand[]} availableCommands
+ * @param {MacroCommand} existingSample
+ * @returns {MacroCommand}
+ */
+export function perturbSample(availableCommands, existingSample) {
+    // find an available command that has a fromHex in the sample and a toHex not in the sample
+    const commandToReplace = availableCommands.find((command) =>
+        command.fromHex && existingSample.hasFromHex(command.fromHex) && !existingSample.hasToHex(command.toHex));
+
+    // replace it in the new sample
+    const newCommands = existingSample.commands.slice();
+    newCommands[existingSample.indexOfFromHex(commandToReplace.fromHex)] = commandToReplace;
+    return new MacroCommand(newCommands);
+}
+

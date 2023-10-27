@@ -1,4 +1,5 @@
-import { sample } from "./macro_command_sampling.js";
+import { MacroCommand } from "model/commands/macro_command.js";
+import { perturbSample, sample } from "./macro_command_sampling.js";
 import { MoveCommand } from "../model/commands/move_command.js";
 import { randomElement, randomShuffleArray } from "../lib/random.js";
 import { attackProximityScoreForHex, scoreGreedy, scoreMcts } from "./score.js";
@@ -177,6 +178,13 @@ export class DecisionNode extends TreeNode {
                 best = child;
                 bestScore = currentScore;
             }
+        }
+        if (best.command instanceof MacroCommand && bestScore < expansionFactor * Math.sqrt(logOfThisVisits / 1)) {
+            const macroCommand = perturbSample(this.game.validCommands(), best.command);
+            const clone = executeCommand(this.game, macroCommand);
+            const childNode = new DecisionNode(clone, this, 0, 0, [], macroCommand);
+            this.children.push(childNode);
+            return childNode;
         }
         return best;
     }
