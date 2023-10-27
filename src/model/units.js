@@ -63,11 +63,11 @@ export class Unit {
             return [];
         }
         let targets = [];
-        board.foreachUnit((unit, hex) => {
-            if (unit.side !== this.side) {
-                const distance = fromHex.distance(hex);
+        board.foreachUnit((otherUnit, toHex) => {
+            if (otherUnit.side !== this.side) {
+                const distance = fromHex.distance(toHex);
                 if (distance >= 2 && distance <= this.range) {
-                    targets.push(hex);
+                    targets.push(toHex);
                 }
             }
         });
