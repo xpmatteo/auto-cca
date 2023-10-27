@@ -179,7 +179,7 @@ export class DecisionNode extends TreeNode {
                 bestScore = currentScore;
             }
         }
-        if (best.command instanceof MacroCommand && bestScore < expansionFactor * Math.sqrt(logOfThisVisits / 1)) {
+        if (best.command instanceof MacroCommand && bestScore < expansionFactor * Math.sqrt(logOfThisVisits / 10)) {
             const macroCommand = perturbSample(this.game.validCommands(), best.command);
             const clone = executeCommand(this.game, macroCommand);
             const childNode = new DecisionNode(clone, this, 0, 0, [], macroCommand);
