@@ -67,7 +67,8 @@ export class Unit {
         board.foreachUnit((otherUnit, toHex) => {
             if (otherUnit.side !== this.side) {
                 const distance = fromHex.distance(toHex);
-                if (distance >= 2 && distance <= this.range && hasLineOfSight(toHex, fromHex)) {
+                if (distance >= 2 && distance <= this.range &&
+                    hasLineOfSight(toHex, fromHex, (hex) => board.unitAt(hex))) {
                     targets.push(toHex);
                 }
             }

@@ -48,22 +48,34 @@ test('computed coordinate s', function () {
 });
 
 describe('line of sight', () => {
-    describe('no obstacles', () => {
-        [
-            {from: hexOf(0,0), to: hexOf(0,1), expected: true },
-            {from: hexOf(0,0), to: hexOf(0,2), expected: true },
-            {from: hexOf(0,0), to: hexOf(0,3), expected: true },
-            {from: hexOf(0,0), to: hexOf(1,0), expected: true },
-            {from: hexOf(0,0), to: hexOf(2,0), expected: true },
-            {from: hexOf(0,0), to: hexOf(3,0), expected: true },
-            {from: hexOf(0,0), to: hexOf(1,1), expected: true },
-            {from: hexOf(0,0), to: hexOf(1,2), expected: true },
-            {from: hexOf(0,0), to: hexOf(2,1), expected: true },
-            {from: hexOf(0,0), to: hexOf(-1,2), expected: true },
-        ].forEach(({fromHex, toHex, expected}) => {
-            test(`Line of sight from ${fromHex} to ${toHex}: ${expected}`, () => {
-               expect(hasLineOfSight(toHex, fromHex)).toBe(expected);
-            });
+    [
+        {from: hexOf(0,0), to: hexOf(0,1), expected: true },
+        {from: hexOf(0,0), to: hexOf(0,2), expected: true },
+        {from: hexOf(0,0), to: hexOf(0,3), expected: true },
+        {from: hexOf(0,0), to: hexOf(1,0), expected: true },
+        {from: hexOf(0,0), to: hexOf(2,0), expected: true },
+        {from: hexOf(0,0), to: hexOf(3,0), expected: true },
+        {from: hexOf(0,0), to: hexOf(1,1), expected: true },
+        {from: hexOf(0,0), to: hexOf(1,2), expected: true },
+        {from: hexOf(0,0), to: hexOf(2,1), expected: true },
+        {from: hexOf(0,0), to: hexOf(-1,2), expected: true },
+    ].forEach(({from, to, expected}) => {
+        test(`Line of sight from ${from} to ${to}: ${expected}`, () => {
+            console.log(`Line of sight from ${from} to ${to}: ${expected}`)
+           expect(hasLineOfSight(to, from)).toBe(expected);
         });
     });
+
+    [
+        {from: hexOf(0,0), to: hexOf(0,2), withObstacleAt: hexOf(0,1), expected: false },
+        {from: hexOf(0,0), to: hexOf(2,1), withObstacleAt: hexOf(1,1), expected: false },
+        {from: hexOf(0,0), to: hexOf(0,2), withObstacleAt: hexOf(1,1), expected: true },
+        {from: hexOf(0,0), to: hexOf(2,0), withObstacleAt: hexOf(1,1), expected: true },
+    ].forEach(({from, to, withObstacleAt, expected}) => {
+        test(`Line of sight from ${from} to ${to} with obstacle at ${withObstacleAt}: ${expected}`, () => {
+            const blocked = (hex) => hex === withObstacleAt || hex === from || hex === to;
+            expect(hasLineOfSight(to, from, blocked)).toBe(expected);
+        });
+    });
+
 });
