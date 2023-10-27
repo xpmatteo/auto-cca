@@ -183,3 +183,6 @@ function assertEquals(expected, actual, message = "Assertion failed") {
     }
 }
 
+export function hasLineOfSight(toHex, fromHex) {
+    return true;
+}

@@ -1,5 +1,5 @@
 // noinspection JSFileReferences
-import { hex_to_pixel, hexOf, Layout, LAYOUT_POINTY, Point } from 'xlib/hexlib.js';
+import { hasLineOfSight, hex_to_pixel, hexOf, Layout, LAYOUT_POINTY, Point } from 'xlib/hexlib.js';
 
 test('hex to string', function () {
     let hex = hexOf(1, 2);
@@ -45,4 +45,25 @@ test('layout', function () {
 test('computed coordinate s', function () {
     expect(hexOf(1, -1, 0).s).toEqual(0);
     expect(hexOf(10, 20).s).toEqual(-30);
+});
+
+describe('line of sight', () => {
+    describe('no obstacles', () => {
+        [
+            {from: hexOf(0,0), to: hexOf(0,1), expected: true },
+            {from: hexOf(0,0), to: hexOf(0,2), expected: true },
+            {from: hexOf(0,0), to: hexOf(0,3), expected: true },
+            {from: hexOf(0,0), to: hexOf(1,0), expected: true },
+            {from: hexOf(0,0), to: hexOf(2,0), expected: true },
+            {from: hexOf(0,0), to: hexOf(3,0), expected: true },
+            {from: hexOf(0,0), to: hexOf(1,1), expected: true },
+            {from: hexOf(0,0), to: hexOf(1,2), expected: true },
+            {from: hexOf(0,0), to: hexOf(2,1), expected: true },
+            {from: hexOf(0,0), to: hexOf(-1,2), expected: true },
+        ].forEach(({fromHex, toHex, expected}) => {
+            test(`Line of sight from ${fromHex} to ${toHex}: ${expected}`, () => {
+               expect(hasLineOfSight(toHex, fromHex)).toBe(expected);
+            });
+        });
+    });
 });
