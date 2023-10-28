@@ -54,7 +54,7 @@ image to appear.  The parameters are:
 - macro-move sampling: make units not moving an option
 - macro-move sampling: tune the explore/exploit ratio
 - open loop instead of chance nodes
-- implement evasion and line-of-sight rules for ranged combat, to allow the realistic game strategy to emerge
+- implement evasion, to allow the expected game strategy to emerge
 - make end phase automatic
 
 
