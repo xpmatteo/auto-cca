@@ -1,4 +1,5 @@
 import { hasLineOfSight } from "../lib/hexlib.js";
+import { RESULT_LIGHT } from "./dice.js";
 import * as dice from './dice.js';
 import { Side } from './side.js';
 
@@ -95,6 +96,10 @@ export class Unit {
             || (includeFlags && r === dice.RESULT_FLAG)
         ).length;
         return damage;
+    }
+
+    canEvade(attackingUnit) {
+        return this.weight === RESULT_LIGHT;
     }
 }
 

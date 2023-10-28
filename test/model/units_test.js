@@ -1,4 +1,5 @@
 import { Side } from 'model/side.js';
+import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
 import * as units from 'model/units.js';
 import * as dice from 'model/dice.js';
 import makeGame from "model/game.js";
@@ -68,5 +69,16 @@ describe('ranged combat with obstacles', () => {
         game.placeUnit(hexOf(2, 0), target);
 
         expect(lightInfantry.validRangedCombatTargets(hexOf(0, 0), game).length).toBe(0);
+    });
+});
+
+describe('evasion', () => {
+    [
+        { defendingUnit: new RomanLightInfantry(), attackingUnit: new CarthaginianHeavyInfantry(), expected: true },
+        { defendingUnit: new CarthaginianHeavyInfantry(), attackingUnit: new RomanLightInfantry(), expected: false },
+    ].forEach(({defendingUnit,attackingUnit, expected}) => {
+        test(`${defendingUnit} can evade ${attackingUnit}: ${expected}`, () => {
+            expect(defendingUnit.canEvade(attackingUnit)).toBe(expected);
+        });
     });
 });
