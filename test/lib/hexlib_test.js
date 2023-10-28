@@ -67,13 +67,22 @@ describe('line of sight', () => {
     });
 
     [
-        {from: hexOf(0,0), to: hexOf(0,2), withObstacleAt: hexOf(0,1), expected: false },
-        {from: hexOf(0,0), to: hexOf(2,1), withObstacleAt: hexOf(1,1), expected: false },
-        {from: hexOf(0,0), to: hexOf(0,2), withObstacleAt: hexOf(1,1), expected: true },
-        {from: hexOf(0,0), to: hexOf(2,0), withObstacleAt: hexOf(1,1), expected: true },
-    ].forEach(({from, to, withObstacleAt, expected}) => {
-        test(`Line of sight from ${from} to ${to} with obstacle at ${withObstacleAt}: ${expected}`, () => {
-            const blocked = (hex) => hex === withObstacleAt || hex === from || hex === to;
+        {from: hexOf(0,0), to: hexOf(0,2), withObstaclesAt: [hexOf(0,1)], expected: false },
+        {from: hexOf(0,0), to: hexOf(2,1), withObstaclesAt: [hexOf(1,1)], expected: false },
+        {from: hexOf(0,0), to: hexOf(1,2), withObstaclesAt: [hexOf(1,1)], expected: false },
+        {from: hexOf(0,0), to: hexOf(0,2), withObstaclesAt: [hexOf(1,1)], expected: true },
+        {from: hexOf(0,0), to: hexOf(2,0), withObstaclesAt: [hexOf(1,1)], expected: true },
+
+        {from: hexOf(3,0), to: hexOf(2,2), withObstaclesAt: [hexOf(3,1)], expected: true },
+        {from: hexOf(3,0), to: hexOf(2,2), withObstaclesAt: [hexOf(2,1)], expected: true },
+        {from: hexOf(3,0), to: hexOf(2,2), withObstaclesAt: [hexOf(2,1), hexOf(3,1)], expected: false },
+
+        {from: hexOf(2,2), to: hexOf(3,0), withObstaclesAt: [hexOf(3,1)], expected: true },
+        {from: hexOf(2,2), to: hexOf(3,0), withObstaclesAt: [hexOf(2,1)], expected: true },
+        {from: hexOf(2,2), to: hexOf(3,0), withObstaclesAt: [hexOf(2,1), hexOf(3,1)], expected: false },
+    ].forEach(({from, to, withObstaclesAt, expected}) => {
+        test(`Line of sight from ${from} to ${to} with obstacles at ${withObstaclesAt}: ${expected}`, () => {
+            const blocked = hex => withObstaclesAt.includes(hex)  || hex === from || hex === to;
             expect(hasLineOfSight(to, from, blocked)).toBe(expected);
         });
     });

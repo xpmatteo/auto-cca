@@ -59,6 +59,10 @@ class Hex {
     get northEast() {
         return hex_add(this, DIRECTION_NE);
     }
+
+    isNorthOf(otherHex) {
+        return this.q - otherHex.q === 1 && this.r - otherHex.r === -2;
+    };
 };
 
 // The only way to create a Hex is with hexOf(q, r)
@@ -191,6 +195,14 @@ function assertEquals(expected, actual, message = "Assertion failed") {
  * @returns {boolean}
  */
 export function hasLineOfSight(toHex, fromHex, isBlocked = () => false) {
+    if (fromHex.isNorthOf(toHex)) {
+        // No unit in the game except heavy war machine is able to hit farther than 3 hexes.  And the
+        // heavy war machine is not implemented yet ;-)
+        return !isBlocked(hex_add(fromHex, DIRECTION_SW)) || !isBlocked(hex_add(fromHex, DIRECTION_SE));
+    }
+    if (toHex.isNorthOf(fromHex)) {
+        return !isBlocked(hex_add(fromHex, DIRECTION_NW)) || !isBlocked(hex_add(fromHex, DIRECTION_NE));
+    }
     const distance = fromHex.distance(toHex);
     const step = hex_subtract(toHex, fromHex);
     const stepSize = 1.0 / distance;
