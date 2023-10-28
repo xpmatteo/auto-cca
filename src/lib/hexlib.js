@@ -202,19 +202,21 @@ function assertEquals(expected, actual, message = "Assertion failed") {
  * @returns {boolean}
  */
 export function hasLineOfSight(toHex, fromHex, isBlocked = () => false) {
+    // The following are the edge cases related to line-of-sight running along a hex-side.
+    // They only work for a distance of 2.
+    // No unit in the game except the heavy war machine is able to hit farther than 3 hexes.  And the
+    // heavy war machine is not implemented yet ;-)  So this is sufficient for now.
     if (fromHex.isNorthOf(toHex)) {
-        // No unit in the game except heavy war machine is able to hit farther than 3 hexes.  And the
-        // heavy war machine is not implemented yet ;-)
         return !isBlocked(hex_add(fromHex, DIRECTION_SW)) || !isBlocked(hex_add(fromHex, DIRECTION_SE));
     }
     if (toHex.isNorthOf(fromHex)) {
-        return !isBlocked(hex_add(fromHex, DIRECTION_NW)) || !isBlocked(hex_add(fromHex, DIRECTION_NE));
+        return !isBlocked(hex_add(toHex, DIRECTION_SW)) || !isBlocked(hex_add(toHex, DIRECTION_SE));
     }
     if (fromHex.isNorthWestOf(toHex)) {
         return !isBlocked(hex_add(fromHex, DIRECTION_EAST)) || !isBlocked(hex_add(fromHex, DIRECTION_SE));
     }
     if (toHex.isNorthWestOf(fromHex)) {
-        return !isBlocked(hex_add(fromHex, DIRECTION_NW)) || !isBlocked(hex_add(fromHex, DIRECTION_WEST));
+        return !isBlocked(hex_add(toHex, DIRECTION_EAST)) || !isBlocked(hex_add(toHex, DIRECTION_SE));
     }
     if (fromHex.isSouthWestOf(toHex)) {
         return !isBlocked(hex_add(fromHex, DIRECTION_EAST)) || !isBlocked(hex_add(fromHex, DIRECTION_NE));
