@@ -98,8 +98,19 @@ export class Unit {
         return damage;
     }
 
+    /**
+     * @param {Unit} attackingUnit
+     * @returns {boolean}
+     */
     canEvade(attackingUnit) {
         return this.weight === RESULT_LIGHT;
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    isFootUnit() {
+        throw new Error("Abstract method");
     }
 }
 
@@ -113,6 +124,14 @@ class HeavyCavalry extends Unit {
     toString() {
         return `${this.side.name} heavy cavalry`;
     }
+
+    isFootUnit() {
+        return false;
+    }
+
+    canEvade(attackingUnit) {
+        return attackingUnit.isFootUnit();
+    }
 }
 
 class MediumCavalry extends Unit {
@@ -124,6 +143,14 @@ class MediumCavalry extends Unit {
 
     toString() {
         return `${this.side.name} medium cavalry`;
+    }
+
+    canEvade(attackingUnit) {
+        return attackingUnit.isFootUnit() || attackingUnit.weight === dice.RESULT_HEAVY;
+    }
+
+    isFootUnit() {
+        return false;
     }
 }
 
@@ -138,7 +165,12 @@ class LightCavalry extends Unit {
     toString() {
         return `${this.side.name} light cavalry`;
     }
+
+    isFootUnit() {
+        return false;
+    }
 }
+
 class HeavyChariot extends Unit {
     acronym = "HCH";
     weight = dice.RESULT_HEAVY;
@@ -148,6 +180,14 @@ class HeavyChariot extends Unit {
 
     toString() {
         return `${this.side.name} heavy chariot`;
+    }
+
+    isFootUnit() {
+        return false;
+    }
+
+    canEvade(attackingUnit) {
+        return attackingUnit.isFootUnit();
     }
 }
 
@@ -161,6 +201,10 @@ class HeavyInfantry extends Unit {
     toString() {
         return `${this.side.name} heavy infantry`;
     }
+
+    isFootUnit() {
+        return true;
+    }
 }
 
 class MediumInfantry extends Unit {
@@ -172,6 +216,10 @@ class MediumInfantry extends Unit {
 
     toString() {
         return `${this.side.name} medium infantry`;
+    }
+
+    isFootUnit() {
+        return true;
     }
 }
 
@@ -202,6 +250,14 @@ class AuxiliaInfantry extends Unit {
         }
         return super.validCloseCombatTargets(fromHex, game);
     }
+
+    isFootUnit() {
+        return true;
+    }
+
+    canEvade(attackingUnit) {
+        return false;
+    }
 }
 
 class LightInfantry extends Unit {
@@ -216,6 +272,10 @@ class LightInfantry extends Unit {
     toString() {
         return `${this.side.name} light infantry`;
     }
+
+    isFootUnit() {
+        return true;
+    }
 }
 
 class LightBowsInfantry extends Unit {
@@ -229,6 +289,10 @@ class LightBowsInfantry extends Unit {
 
     toString() {
         return `${this.side.name} light infantry`;
+    }
+
+    isFootUnit() {
+        return true;
     }
 }
 

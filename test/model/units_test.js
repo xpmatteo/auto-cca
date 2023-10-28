@@ -1,5 +1,17 @@
 import { Side } from 'model/side.js';
-import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
+import {
+    CarthaginianHeavyCavalry, CarthaginianHeavyChariot,
+    CarthaginianHeavyInfantry,
+    CarthaginianLightCavalry,
+    CarthaginianLightInfantry,
+    CarthaginianMediumCavalry,
+    CarthaginianMediumInfantry, RomanAuxiliaInfantry,
+    RomanHeavyCavalry,
+    RomanHeavyInfantry, RomanLightCavalry,
+    RomanLightInfantry,
+    RomanMediumCavalry,
+    RomanMediumInfantry
+} from "model/units.js";
 import * as units from 'model/units.js';
 import * as dice from 'model/dice.js';
 import makeGame from "model/game.js";
@@ -75,7 +87,32 @@ describe('ranged combat with obstacles', () => {
 describe('evasion', () => {
     [
         { defendingUnit: new RomanLightInfantry(), attackingUnit: new CarthaginianHeavyInfantry(), expected: true },
-        { defendingUnit: new CarthaginianHeavyInfantry(), attackingUnit: new RomanLightInfantry(), expected: false },
+        { defendingUnit: new RomanAuxiliaInfantry(), attackingUnit: new CarthaginianHeavyInfantry(), expected: false },
+        { defendingUnit: new RomanLightInfantry(), attackingUnit: new CarthaginianLightInfantry(), expected: true },
+        { defendingUnit: new RomanMediumInfantry(), attackingUnit: new CarthaginianHeavyInfantry(), expected: false },
+        { defendingUnit: new RomanHeavyInfantry(), attackingUnit: new CarthaginianHeavyInfantry(), expected: false },
+
+        { defendingUnit: new RomanMediumCavalry(), attackingUnit: new CarthaginianLightInfantry(), expected: true },
+        { defendingUnit: new RomanMediumCavalry(), attackingUnit: new CarthaginianMediumInfantry(), expected: true },
+        { defendingUnit: new RomanMediumCavalry(), attackingUnit: new CarthaginianHeavyInfantry(), expected: true },
+        { defendingUnit: new RomanMediumCavalry(), attackingUnit: new CarthaginianLightCavalry(), expected: false },
+        { defendingUnit: new RomanMediumCavalry(), attackingUnit: new CarthaginianMediumCavalry(), expected: false },
+        { defendingUnit: new RomanMediumCavalry(), attackingUnit: new CarthaginianHeavyCavalry(), expected: true },
+
+        { defendingUnit: new RomanHeavyCavalry(), attackingUnit: new CarthaginianLightInfantry(), expected: true },
+        { defendingUnit: new RomanHeavyCavalry(), attackingUnit: new CarthaginianMediumInfantry(), expected: true },
+        { defendingUnit: new RomanHeavyCavalry(), attackingUnit: new CarthaginianHeavyInfantry(), expected: true },
+        { defendingUnit: new RomanHeavyCavalry(), attackingUnit: new CarthaginianLightCavalry(), expected: false },
+        { defendingUnit: new RomanHeavyCavalry(), attackingUnit: new CarthaginianMediumCavalry(), expected: false },
+        { defendingUnit: new RomanHeavyCavalry(), attackingUnit: new CarthaginianHeavyCavalry(), expected: false },
+
+        { defendingUnit: new CarthaginianHeavyChariot(), attackingUnit: new RomanLightInfantry(), expected: true },
+        { defendingUnit: new CarthaginianHeavyChariot(), attackingUnit: new RomanMediumInfantry(), expected: true },
+        { defendingUnit: new CarthaginianHeavyChariot(), attackingUnit: new RomanHeavyInfantry(), expected: true },
+        { defendingUnit: new CarthaginianHeavyChariot(), attackingUnit: new RomanLightCavalry(), expected: false },
+        { defendingUnit: new CarthaginianHeavyChariot(), attackingUnit: new RomanMediumCavalry(), expected: false },
+        { defendingUnit: new CarthaginianHeavyChariot(), attackingUnit: new RomanHeavyCavalry(), expected: false },
+
     ].forEach(({defendingUnit,attackingUnit, expected}) => {
         test(`${defendingUnit} can evade ${attackingUnit}: ${expected}`, () => {
             expect(defendingUnit.canEvade(attackingUnit)).toBe(expected);
