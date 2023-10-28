@@ -61,8 +61,8 @@ describe('line of sight', () => {
         {from: hexOf(0,0), to: hexOf(-1,2), expected: true },
     ].forEach(({from, to, expected}) => {
         test(`Line of sight from ${from} to ${to}: ${expected}`, () => {
-            console.log(`Line of sight from ${from} to ${to}: ${expected}`)
-           expect(hasLineOfSight(to, from)).toBe(expected);
+            const blocked = hex => hex === from || hex === to;
+            expect(hasLineOfSight(to, from)).toBe(expected);
         });
     });
 

@@ -194,7 +194,7 @@ export function hasLineOfSight(toHex, fromHex, isBlocked = () => false) {
     const distance = fromHex.distance(toHex);
     const step = hex_subtract(toHex, fromHex);
     const stepSize = 1.0 / distance;
-    for (let i = 0; i < distance; i++) {
+    for (let i = 1; i < distance; i++) {
         const stepHex = hex_round(fromHex.q + (step.q * stepSize * i),
             fromHex.r + (step.r * stepSize * i),
             fromHex.s + (step.s * stepSize * i));
