@@ -14,7 +14,7 @@ test("retreat with clear ground NORTH 1 ", () => {
         0: [hexOf(4, 4)],
         1: [hexOf(4,3), hexOf(5,3)],
     };
-    expect(actual).toEqual(expected);
+    expect(actual.toString()).toEqual(expected.toString());
 });
 
 test("retreat with clear ground SOUTH 1 ", () => {
@@ -37,7 +37,7 @@ test("retreat with clear ground NORTH 2 ", () => {
         1: [hexOf(4,3), hexOf(5,3)],
         2: [hexOf(4,2), hexOf(5,2), hexOf(6,2)],
     };
-    expect(actual).toEqual(expected);
+    expect(actual.toString()).toEqual(expected.toString());
 });
 
 test("retreat with clear ground NORTH 3 ", () => {
@@ -50,7 +50,7 @@ test("retreat with clear ground NORTH 3 ", () => {
         2: [hexOf(4,2), hexOf(5,2), hexOf(6,2)],
         3: [hexOf(4,1), hexOf(5,1), hexOf(6,1), hexOf(7,1)],
     };
-    expect(actual).toEqual(expected);
+    expect(actual.toString()).toEqual(expected.toString());
 });
 
 test("retreat north impossible at board edge", () => {
@@ -63,7 +63,7 @@ test("retreat north impossible at board edge", () => {
         2: [],
         3: [],
     };
-    expect(actual).toEqual(expected);
+    expect(actual.toString()).toEqual(expected.toString());
 });
 
 test("no retreat", () => {
@@ -91,6 +91,6 @@ test("retreat partially blocked by units", () => {
         2: [hexOf(5,2), hexOf(6,2)],
         3: [hexOf(5,1), hexOf(6,1), hexOf(7,1)],
     };
-    expect(actual).toEqual(expected);
+    expect(actual.toString()).toEqual(expected.toString());
 });
 

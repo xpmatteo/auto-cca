@@ -85,8 +85,8 @@ test("close combat with non-ignorable flag and unblocked map NORTH", () => {
 
     // and the possible moves are the two retreat hexes
     const expectedValidCommands = [
-        new RetreatCommand(hexOf(1, 3), hexOf(1, 4)),
         new RetreatCommand(hexOf(2, 3), hexOf(1, 4)),
+        new RetreatCommand(hexOf(1, 3), hexOf(1, 4)),
     ]
     expect(game.validCommands().toString()).toEqual(expectedValidCommands.toString());
 

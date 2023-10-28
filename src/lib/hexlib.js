@@ -63,6 +63,9 @@ class Hex {
     isNorthOf(otherHex) {
         return this.q - otherHex.q === 1 && this.r - otherHex.r === -2;
     };
+    isNorthWestOf(otherHex) {
+        return this.q - otherHex.q === -1 && this.r - otherHex.r === -1;
+    }
 };
 
 // The only way to create a Hex is with hexOf(q, r)
@@ -76,8 +79,8 @@ export function hexOf(q, r) {
 }
 
 const DIRECTION_WEST = hexOf(-1, 0);
-const DIRECTION_NE =   hexOf(0, -1);
-const DIRECTION_NW =   hexOf(1, -1);
+const DIRECTION_NW =   hexOf(0, -1);
+const DIRECTION_NE =   hexOf(1, -1);
 const DIRECTION_SW =   hexOf(-1, 1);
 const DIRECTION_SE =   hexOf(0, 1);
 const DIRECTION_EAST = hexOf(1, 0);
@@ -202,6 +205,12 @@ export function hasLineOfSight(toHex, fromHex, isBlocked = () => false) {
     }
     if (toHex.isNorthOf(fromHex)) {
         return !isBlocked(hex_add(fromHex, DIRECTION_NW)) || !isBlocked(hex_add(fromHex, DIRECTION_NE));
+    }
+    if (fromHex.isNorthWestOf(toHex)) {
+        return !isBlocked(hex_add(fromHex, DIRECTION_EAST)) || !isBlocked(hex_add(fromHex, DIRECTION_SE));
+    }
+    if (toHex.isNorthWestOf(fromHex)) {
+        return !isBlocked(hex_add(fromHex, DIRECTION_NW)) || !isBlocked(hex_add(fromHex, DIRECTION_WEST));
     }
     const distance = fromHex.distance(toHex);
     const step = hex_subtract(toHex, fromHex);
