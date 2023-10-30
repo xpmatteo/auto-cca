@@ -49,7 +49,7 @@ export class AbstractCombatCommand extends Command {
         let retreatPaths = game.retreatPaths(defendingHex, maxDistanceRequired, defendingUnit.side);
         const flagResult = handleFlags(numberOfFlags, defendingUnit.retreatHexes, ignorableFlags, retreatPaths);
         const totalDamage = flagResult.damage +
-            defendingUnit.takeDamage(diceResults, false, this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
+            defendingUnit.takeDamage(diceResults, this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
 
         game.takeDamage(defendingUnit, totalDamage);
         events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, totalDamage, diceResults));

@@ -85,15 +85,15 @@ export class Unit {
         return this.weight === dice.RESULT_LIGHT;
     }
 
-    takeDamage(diceResults, includeFlags = false, includeSwords = true) {
-        if (typeof diceResults === 'number') {
-            return diceResults;
-        }
-
+    /**
+     * @param {[DiceResult]} diceResults
+     * @param {boolean} includeSwords
+     * @returns {number}
+     */
+    takeDamage(diceResults, includeSwords = true) {
         const damage = diceResults.filter(
             r => r === this.weight
             || (includeSwords && r === dice.RESULT_SWORDS)
-            || (includeFlags && r === dice.RESULT_FLAG)
         ).length;
         return damage;
     }
