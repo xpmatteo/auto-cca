@@ -1,6 +1,6 @@
 import { ChanceNode, MctsPlayer } from "../ai/mcts_player.js";
 import { scoreMcts } from "../ai/score.js";
-import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS } from "../config.js";
+import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS, MCTS_SAMPLING_EXPLORATION_CHANCE } from "../config.js";
 
 export function drawTree(game, iterations=1000, playoutIterations = 10, depth=1000, threshold=10, prune=0) {
     console.log(`drawTree(${iterations}, ${playoutIterations}, ${depth}, ${threshold}, ${prune})`);
@@ -8,6 +8,7 @@ export function drawTree(game, iterations=1000, playoutIterations = 10, depth=10
         iterations: iterations,
         expansionFactor: MCTS_EXPANSION_FACTOR,
         playoutIterations: playoutIterations,
+        samplingExplorationChance: MCTS_SAMPLING_EXPLORATION_CHANCE,
     });
     console.log("AI IS THINKING")
     let rootNode = player.search(game.toGame());
