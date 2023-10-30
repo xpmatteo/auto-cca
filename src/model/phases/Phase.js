@@ -33,6 +33,11 @@ export class Phase {
         return new Set(fromHexes);
     }
 
+    /**
+     * @param {Hex} hex
+     * @param {InteractiveGame} game
+     * @returns {[GameEvent]}
+     */
     onClick(hex, interactiveGame) {
         let events = [];
         if (interactiveGame.selectedUnit() && interactiveGame.hilightedHexes.has(hex)) {
@@ -58,5 +63,13 @@ export class Phase {
      */
     executePreliminaryOperations(game) {
         // do nothing
+    }
+
+    /**
+     * @param {Game} game
+     * @returns {Set<Hex>}
+     */
+    hilightedHexes(game) {
+        throw new Error("Abstract method");
     }
 }

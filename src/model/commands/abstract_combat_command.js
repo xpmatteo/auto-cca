@@ -1,3 +1,4 @@
+import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
 import { DamageEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
 import { RetreatPhase } from "../phases/RetreatPhase.js";
@@ -30,6 +31,13 @@ export class AbstractCombatCommand extends Command {
         }
     }
 
+    /**
+     * @param {Unit} attackingUnit
+     * @param {Hex} defendingHex
+     * @param {Unit} defendingUnit
+     * @param {Game} game
+     * @returns {GameEvent[]}
+     */
     attack(attackingUnit, defendingHex, defendingUnit, game) {
         let events = [];
         const diceCount = this.decideDiceCount(attackingUnit, game);
@@ -47,7 +55,9 @@ export class AbstractCombatCommand extends Command {
         events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, totalDamage, diceResults));
         if (game.isUnitDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
+            game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
         } else if (flagResult.retreats.length > 0) {
+            game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
             game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, flagResult.retreats));
         }
         return events;

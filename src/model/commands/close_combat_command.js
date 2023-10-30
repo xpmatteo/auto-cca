@@ -1,3 +1,4 @@
+import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
 import { BattleBackEvent } from "../events.js";
 import { RESULT_LIGHT } from "../dice.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
@@ -27,8 +28,6 @@ export class CloseCombatCommand extends AbstractCombatCommand {
             // battle back
             events.push(new BattleBackEvent(attackingHex, defendingHex, defendingUnit.diceCount));
             events = events.concat(this.attack(defendingUnit, attackingHex, attackingUnit, game));
-        } else {
-            // advance after combat
         }
         game.markUnitSpent(attackingUnit);
         return events;

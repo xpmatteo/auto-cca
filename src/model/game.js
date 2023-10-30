@@ -241,10 +241,18 @@ class Game {
         return this.board.foreachUnit( (unit, hex) => {if (unit.side === side) f(unit, hex)});
     }
 
+    /**
+     * @param {Hex} hex
+     * @returns {Unit|undefined}
+     */
     unitAt(hex) {
         return this.board.unitAt(hex);
     }
 
+    /**
+     * @param {Unit} unit
+     * @returns {Hex|undefined}
+     */
     hexOfUnit(unit) {
         return this.board.hexOfUnit(unit);
     }

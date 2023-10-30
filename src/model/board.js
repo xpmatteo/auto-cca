@@ -87,10 +87,18 @@ export class Board {
         MAP.forEach(f);
     }
 
+    /**
+     * @param {Hex} hex
+     * @returns {Unit|undefined}
+     */
     unitAt(hex) {
         return this.#units.get(hex);
     }
 
+    /**
+     * @param {Unit} unit
+     * @returns {Hex|undefined}
+     */
     hexOfUnit(unit) {
         return getByValue(this.#units, unit);
     }
