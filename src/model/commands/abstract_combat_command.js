@@ -55,9 +55,13 @@ export class AbstractCombatCommand extends Command {
         events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, totalDamage, diceResults));
         if (game.isUnitDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
-            game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
+            if (attackingUnit.side === game.currentSide) {
+                game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
+            }
         } else if (flagResult.retreats.length > 0) {
-            game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
+            if (attackingUnit.side === game.currentSide) {
+                game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
+            }
             game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, flagResult.retreats));
         }
         return events;
