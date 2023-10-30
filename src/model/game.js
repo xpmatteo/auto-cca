@@ -7,6 +7,10 @@ import { PlayCardPhase } from "./phases/play_card_phase.js";
 import { SideSwitchedTo } from "./events.js";
 import { mapToString, stringify } from "../lib/to_string.js";
 
+/**
+ * @param {Scenario} scenario
+ * @returns {Game}
+ */
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
     game.initialize();

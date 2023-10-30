@@ -19,12 +19,20 @@ export class InteractiveGame {
         return this.#game;
     }
 
+    /**
+     * @param {Hex} hex
+     * @param {Point} pixel
+     * @returns {GameEvent[]}
+     */
     onClick(hex, pixel) {
         if (this.#game.isTerminal())
             return [];
         return this.#game.currentPhase.onClick(hex, this, pixel);
     }
 
+    /**
+     * @returns {Set<Hex>}
+     */
     get hilightedHexes() {
         // We don't want Game to know about highlighting, so we delegate directly to the current phase.
         if (this.#game.currentPhase)

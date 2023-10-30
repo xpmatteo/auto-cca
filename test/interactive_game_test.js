@@ -1,3 +1,4 @@
+import { OrderHeavyTroopsCard } from "model/cards.js";
 import { hexOf, Point } from 'xlib/hexlib.js';
 import makeGame from 'model/game.js';
 import { NullScenario } from 'model/scenarios.js';
@@ -103,22 +104,12 @@ test('click and move one unit', () => {
     expect(game.unitAt(hexOf(2, 5))).toEqual(unit);
 });
 
-xtest('hilighted hexes when no unit is selected', () => {
-    const fakeGame = makeGame(new NullScenario());
-    const interactiveGame = new InteractiveGame(fakeGame);
-    fakeGame.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
-    fakeGame.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());
+test('hilighted hexes when no unit is selected', () => {
+    const game = makeGame(new NullScenario());
+    const interactiveGame = new InteractiveGame(game);
+    game.playCard(new OrderHeavyTroopsCard());
+    game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
+    game.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());
 
     expect(interactiveGame.hilightedHexes).toEqual(new Set([hexOf(0, 1), hexOf(0, 0)]));
-});
-
-const pointWithinMap = new Point(0, 0);
-xtest('hilighted hexes when a unit is selected', () => {
-    const fakeGame = makeGame(new NullScenario());
-    const interactiveGame = new InteractiveGame(fakeGame);
-    fakeGame.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
-    fakeGame.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());
-    interactiveGame.onClick(hexOf(0, 0), pointWithinMap);
-
-    expect(interactiveGame.hilightedHexes).toEqual(new Set([hexOf(1, 0), hexOf(0, 1)]));
 });
