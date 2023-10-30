@@ -19,17 +19,20 @@ export class AdvanceAfterCombatPhase  extends Phase {
     }
 
     validCommands(game) {
+        if (game.unitAt(this.toHex)) {
+            return [new RetreatCommand(this.fromHex, this.fromHex)];
+        }
         return [new RetreatCommand(this.toHex, this.fromHex), new RetreatCommand(this.fromHex, this.fromHex)];
     }
 
     hilightedHexes(game) {
-        const toHexes = this.validCommands().
+        const toHexes = this.validCommands(game).
             map(command => command.toHex);
         return new Set(toHexes);
     }
 
     onClick(hex, interactiveGame) {
-        const command = this.validCommands().
+        const command = this.validCommands(interactiveGame.toGame()).
             find(command => command.toHex === hex);
         return interactiveGame.executeCommand(command);
     }

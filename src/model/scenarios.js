@@ -72,7 +72,7 @@ export class MeleeScenario extends Scenario {
         // board.placeUnit(hexOf(4, 4), new units.RomanHeavyInfantry());
 
         board.placeUnit(hexOf(2, 3), new units.CarthaginianHeavyInfantry());
-        board.placeUnit(hexOf(4, 2), new units.CarthaginianHeavyInfantry());
+        board.placeUnit(hexOf(3, 3), new units.CarthaginianHeavyInfantry());
         board.placeUnit(hexOf(4, 3), new units.CarthaginianHeavyInfantry());
     }
 }
