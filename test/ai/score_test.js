@@ -66,7 +66,7 @@ test("take into account that units that moved have fewer dice", () => {
 test('score 10 for every point of damage', () => {
     const game = makeGame(new NullScenario());
     game.placeUnit(hexOf(10, 0), carthaginianHeavyInfantry);
-    game.takeDamage(carthaginianHeavyInfantry, 1);
+    game.damageUnit(carthaginianHeavyInfantry, 1);
 
     expect(scoreForDamageToUnit(game, carthaginianHeavyInfantry)).toBe(10);
 });

@@ -25,7 +25,7 @@ test('units', function () {
     expect(unit0.imageName).toEqual('rom_inf_hv.png');
     expect(unit0.side).toEqual(Side.ROMAN);
 
-    let damage = unit0.takeDamage([dice.RESULT_HEAVY, dice.RESULT_MEDIUM, dice.RESULT_MEDIUM, dice.RESULT_LIGHT, dice.RESULT_SWORDS]);
+    let damage = unit0.calculateDamage([dice.RESULT_HEAVY, dice.RESULT_MEDIUM, dice.RESULT_MEDIUM, dice.RESULT_LIGHT, dice.RESULT_SWORDS]);
     expect(damage).toEqual(2);
 });
 

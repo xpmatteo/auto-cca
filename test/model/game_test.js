@@ -70,7 +70,7 @@ test("unit takes damage", () => {
     const game = makeGame(scenario);
     const unit = game.unitAt(hexOf(1, 5));
 
-    game.takeDamage(unit, 1);
+    game.damageUnit(unit, 1);
 
     expect(game.unitStrength(unit)).toEqual(3);
 });

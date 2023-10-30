@@ -90,7 +90,7 @@ export class Unit {
      * @param {boolean} includeSwords
      * @returns {number}
      */
-    takeDamage(diceResults, includeSwords = true) {
+    calculateDamage(diceResults, includeSwords = true) {
         const damage = diceResults.filter(
             r => r === this.weight
             || (includeSwords && r === dice.RESULT_SWORDS)

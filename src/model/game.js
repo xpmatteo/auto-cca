@@ -288,7 +288,7 @@ class Game {
         return this.unitStrengths.get(unit);
     }
 
-    takeDamage(unit, damage) {
+    damageUnit(unit, damage) {
         this.unitStrengths.set(unit, this.unitStrengths.get(unit) - damage);
         if (this.isUnitDead(unit)) {
             this.graveyard.bury(unit);

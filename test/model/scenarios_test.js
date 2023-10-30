@@ -27,9 +27,9 @@ test("roman win", () => {
     game.placeUnit(hexOf(2, 0), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(3, 0), new units.CarthaginianHeavyInfantry());
 
-    game.takeDamage(game.unitAt(hexOf(1, 0)), 4);
-    game.takeDamage(game.unitAt(hexOf(2, 0)), 4);
-    game.takeDamage(game.unitAt(hexOf(3, 0)), 4);
+    game.damageUnit(game.unitAt(hexOf(1, 0)), 4);
+    game.damageUnit(game.unitAt(hexOf(2, 0)), 4);
+    game.damageUnit(game.unitAt(hexOf(3, 0)), 4);
 
     expect(scenario.gameStatus(game)).toEqual(GameStatus.ROMAN_WIN);
 });
@@ -40,9 +40,9 @@ test("carthaginian win", () => {
     game.placeUnit(hexOf(2, 0), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(3, 0), new units.RomanHeavyInfantry());
 
-    game.takeDamage(game.unitAt(hexOf(1, 0)), 4);
-    game.takeDamage(game.unitAt(hexOf(2, 0)), 4);
-    game.takeDamage(game.unitAt(hexOf(3, 0)), 4);
+    game.damageUnit(game.unitAt(hexOf(1, 0)), 4);
+    game.damageUnit(game.unitAt(hexOf(2, 0)), 4);
+    game.damageUnit(game.unitAt(hexOf(3, 0)), 4);
 
     expect(scenario.gameStatus(game)).toEqual(GameStatus.CARTHAGINIAN_WIN);
 });
