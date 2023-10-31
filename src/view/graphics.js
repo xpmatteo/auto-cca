@@ -1,8 +1,8 @@
-'use strict';
-
+import { scoreMcts } from "../ai/score.js";
 import { CARD_IMAGE_SIZE } from "../config.js";
-import { scoreGreedy, scoreMcts } from "../ai/score.js";
 import { hex_to_pixel, hexOf, Point } from "../lib/hexlib.js";
+import { Game } from "../model/game.js";
+import { GraphicalContext } from "./graphical_context.js";
 import { layout, MAP_HEIGHT, MAP_WIDTH } from "./map.js";
 
 export function drawUnit(graphics, pixelCoordinate, unit, unitStrength, isSelected, isOrdered) {
@@ -52,10 +52,10 @@ function drawMovementTrail(graphics, layout, hexFrom, hexTo) {
 
 function enableButtons(game) {
     let endPhaseButton = document.getElementById("end-phase");
-    endPhaseButton.disabled = game.isTerminal() || game.currentPhase.constructor.name === "PlayCardPhase";
+    endPhaseButton["disabled"] = game.isTerminal() || game.currentPhase.constructor.name === "PlayCardPhase";
 
     let aiContinueButton = document.getElementById("ai-continue");
-    aiContinueButton.disabled = game.currentSide === game.sideSouth || game.isTerminal();
+    aiContinueButton["disabled"] = game.currentSide === game.sideSouth || game.isTerminal();
 }
 
 /**
@@ -102,11 +102,6 @@ function drawGraveyard(graphics, game) {
         drawGraveyardHexSouth(graphics, game, i, game.deadUnitsNorth[i]);
         drawGraveyardHexNorth(graphics, game, i, game.deadUnitsSouth[i]);
     }
-}
-
-export function drawTextOnHex(graphics, text, hex) {
-    const pixel = hex_to_pixel(layout, hex);
-    graphics.writeText(text, pixel, "14pt Times");
 }
 
 function drawCardInHand(graphics, position, card) {

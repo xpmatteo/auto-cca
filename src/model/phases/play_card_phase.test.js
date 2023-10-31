@@ -1,9 +1,10 @@
-import { OrderHeavyTroopsCard, OrderLightTroopsCard } from "../cards.js";
 import makeGame from "../game.js";
+import { OrderHeavyTroopsCard, OrderLightTroopsCard } from "../cards.js";
 import { PlayCardPhase } from "./play_card_phase.js";
 import { NullScenario } from "../scenarios.js";
 import { RomanHeavyInfantry, RomanLightInfantry } from "../units.js";
 import { hexOf } from "../../lib/hexlib.js";
+import { PlayCardCommand } from "../commands/play_card_command.js";
 
 /**
  * @param {PlayCardCommand} playCardCommand

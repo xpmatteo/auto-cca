@@ -1,6 +1,7 @@
-import { hasLineOfSight } from "../lib/hexlib.js";
+import { Hex, hasLineOfSight } from "../lib/hexlib.js";
 import * as dice from "./dice.js";
-import { RESULT_LIGHT } from "./dice.js";
+import { DiceResult, RESULT_LIGHT } from "./dice.js";
+import { Game } from "./game.js";
 import { Side } from './side.js';
 
 export class Unit {
@@ -39,8 +40,14 @@ export class Unit {
         return Array.from(result);
     }
 
+    /**
+     * @param {Hex} fromHex
+     * @param {Game} game
+     * @returns {any[]}
+     * @private
+     */
     __validDestinationsPassingThroughFriendlies(fromHex, game) {
-        let seed = new Set([fromHex]);
+        let seed = [fromHex];
         let result = new Set();
         for (let i = 0; i < this.movement; i++) {
             let newSeed = [];
@@ -92,7 +99,7 @@ export class Unit {
     }
 
     /**
-     * @param {[DiceResult]} diceResults
+     * @param {DiceResult[]} diceResults
      * @param {boolean} includeSwords
      * @returns {number}
      */
@@ -235,7 +242,11 @@ class AuxiliaInfantry extends Unit {
     initialStrength = 4;
     movement = 2;
     range = 2;
-    retreatHexes = 1;
+
+    get retreatHexes() {
+        return 1;
+    }
+
 
     toString() {
         return `${this.side.name} auxilia`;

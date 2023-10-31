@@ -1,8 +1,11 @@
 import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
-import { DamageEvent, UnitKilledEvent } from "../events.js";
+import { DamageEvent, GameEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
 import { RetreatPhase } from "../phases/RetreatPhase.js";
 import { Command, handleFlags } from "./commands.js";
+import { Unit } from "../units.js";
+import { Hex } from "../../lib/hexlib.js";
+import { Game } from "../game.js";
 
 export class AbstractCombatCommand extends Command {
     constructor() {

@@ -1,16 +1,16 @@
-import { GreedyPlayer } from "./greedy_player.js";
-import { scoreGreedy } from "./score.js";
+import { hexOf } from "../lib/hexlib.js";
 import { MoveCommand } from "../model/commands/move_command.js";
 import makeGame from "../model/game.js";
 import { MovementPhase } from "../model/phases/MovementPhase.js";
 import { NullScenario } from "../model/scenarios.js";
 import { Side } from "../model/side.js";
 import { RomanHeavyInfantry } from "../model/units.js";
-import { hexOf } from "../lib/hexlib.js";
+import { GreedyPlayer } from "./greedy_player.js";
+import { scoreGreedy } from "./score.js";
 
 
 test("greedy_player", function() {
-    const player = new GreedyPlayer(Side.ROMAN);
+    const player = new GreedyPlayer();
     const game = makeGame(new NullScenario());
     game.placeUnit(hexOf(2, 1), new RomanHeavyInfantry()); // one hex away
     game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry()); // has support

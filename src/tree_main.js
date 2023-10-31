@@ -11,6 +11,6 @@ const playoutIterations = getParameterByName("playouts") || 0;
 const depth = getParameterByName("depth") || 4
 const threshold = getParameterByName("threshold") || 0
 const prune = getParameterByName("prune") || 0
-drawTree(game, iterations, playoutIterations, depth, threshold, prune);
+drawTree(game, Number(iterations), Number(playoutIterations), Number(depth), Number(threshold), Number(prune));
 
 

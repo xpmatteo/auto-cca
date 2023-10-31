@@ -1,7 +1,16 @@
-import { ChanceNode, MctsPlayer } from "../ai/mcts_player.js";
+import { ChanceNode, DecisionNode, MctsPlayer } from "../ai/mcts_player.js";
 import { scoreMcts } from "../ai/score.js";
 import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS, MCTS_SAMPLING_EXPLORATION_CHANCE } from "../config.js";
+import { Game } from "../model/game.js";
 
+/**
+ * @param {Game} game
+ * @param {number} iterations
+ * @param {number} playoutIterations
+ * @param {number} depth
+ * @param {number} threshold
+ * @param {number} prune
+ */
 export function drawTree(game, iterations=1000, playoutIterations = 10, depth=1000, threshold=10, prune=0) {
     console.log(`drawTree(${iterations}, ${playoutIterations}, ${depth}, ${threshold}, ${prune})`);
     const player = new MctsPlayer({
@@ -26,6 +35,7 @@ export function drawTree(game, iterations=1000, playoutIterations = 10, depth=10
         if (node.visits < threshold) return;
         if (depth === 0) return;
         let color;
+        // @ts-ignore
         if (node.isOnBestPath) {
             if (node.game.currentSide === game.toGame().scenario.sideSouth) {
                 color = {
@@ -78,7 +88,9 @@ export function drawTree(game, iterations=1000, playoutIterations = 10, depth=10
     // Create a network
     // See https://visjs.github.io/vis-network/docs/network/
     const data = {
+        // @ts-ignore
         nodes: new vis.DataSet(nodes),
+        // @ts-ignore
         edges: new vis.DataSet(edges)
     };
     const options = {
@@ -96,6 +108,7 @@ export function drawTree(game, iterations=1000, playoutIterations = 10, depth=10
     };
 
     const container = document.getElementById('treeContainer');
+    // @ts-ignore
     const network = new vis.Network(container, data, options);
     console.log("network created");
 }

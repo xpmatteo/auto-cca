@@ -1,5 +1,5 @@
 
-class DiceResult {
+export class DiceResult {
     constructor(name, value) {
         this.name = name;
         this.value = value;

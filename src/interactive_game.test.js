@@ -1,10 +1,10 @@
-import { OrderHeavyTroopsCard } from "./model/cards.js";
-import { hexOf, Point } from './lib/hexlib.js';
 import makeGame from './model/game.js';
-import { NullScenario } from './model/scenarios.js';
 import { InteractiveGame } from "./interactive_game.js";
-import { RomanHeavyInfantry } from './model/units.js';
+import { hexOf } from './lib/hexlib.js';
+import { OrderHeavyTroopsCard } from "./model/cards.js";
 import { MovementPhase } from "./model/phases/MovementPhase.js";
+import { NullScenario } from './model/scenarios.js';
+import { RomanHeavyInfantry } from './model/units.js';
 
 function otherUnit() {
     return new RomanHeavyInfantry();
