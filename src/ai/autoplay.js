@@ -1,3 +1,4 @@
+import { Game } from "../model/game.js";
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
 import { GreedyPlayer } from "./greedy_player.js";
@@ -22,14 +23,18 @@ export class RandomPlayer {
 }
 
 function paused() {
-    return document.getElementById("pause").checked;
+    return document.getElementById("pause")["checked"];
 }
 
 function delay() {
-    return Number(document.getElementById("delay").value);
+    return Number(document.getElementById("delay")["value"]);
 }
 
 export class Autoplay {
+    /**
+     * @param {Game} game
+     * @param aiPlayer
+     */
     constructor(game, aiPlayer) {
         this.game = game;
         this.aiPlayer = aiPlayer;

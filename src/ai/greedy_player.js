@@ -1,9 +1,10 @@
+import { InteractiveGame } from "../interactive_game.js";
 import { randomShuffleArray } from "../lib/random.js";
 import { AbstractCombatCommand } from "../model/commands/abstract_combat_command.js";
+import { Command } from "../model/commands/commands.js";
 import { scoreGreedy } from "./score.js";
 
 export class GreedyPlayer {
-
     /**
      * @param {InteractiveGame} interactiveGame
      * @returns {[Command]}

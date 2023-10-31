@@ -1,7 +1,7 @@
 import { hex_to_pixel, Point } from "../lib/hexlib.js";
 import { layout } from "../view/map.js";
 
-class GameEvent {
+export class GameEvent {
     addDecorations(decorationsList) {
     }
 

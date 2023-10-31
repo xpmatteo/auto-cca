@@ -1,16 +1,18 @@
-import { Board } from "./board.js";
-import GameStatus from "./game_status.js";
-import { Dice } from "./dice.js";
-import { Graveyard } from "./graveyard.js";
-import { OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
-import { PlayCardPhase } from "./phases/play_card_phase.js";
-import { SideSwitchedTo } from "./events.js";
+import { Hex } from "../lib/hexlib.js";
 import { mapToString, stringify } from "../lib/to_string.js";
+import { Board } from "./board.js";
+import { OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
+import { Dice } from "./dice.js";
+import { SideSwitchedTo } from "./events.js";
+import GameStatus from "./game_status.js";
+import { Graveyard } from "./graveyard.js";
+import { PlayCardPhase } from "./phases/play_card_phase.js";
 import { Scenario } from "./scenarios.js";
 import { Unit } from "./units.js";
 
 /**
  * @param {Scenario} scenario
+ * @param {Dice} dice
  * @returns {Game}
  */
 export default function makeGame(scenario, dice = new Dice()) {
@@ -24,7 +26,7 @@ export default function makeGame(scenario, dice = new Dice()) {
 const DEFAULT_PHASES = [new PlayCardPhase()];
 const DEFAULT_HAND = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
 
-class Game {
+export class Game {
     board = new Board();
     phases = DEFAULT_PHASES.slice();
     currentSideRaw;
@@ -39,9 +41,8 @@ class Game {
     turnCount = 0;
 
     /**
-     *
      * @param {Scenario} scenario
-     * @param dice
+     * @param {Dice} dice
      */
     constructor(scenario, dice) {
         this.scenario = scenario;

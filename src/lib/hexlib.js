@@ -7,16 +7,35 @@ const trunc = Math.trunc;
 
 // thanks https://www.redblobgames.com/grids/hexagons/implementation.html
 
-class Hex {
+export class Hex {
+    static #constructionAllowed = false;
     distances = new Map();
 
+    /**
+     * @param {number} q
+     * @param {number} r
+     * @param {number} s
+     */
     constructor(q, r, s = undefined) {
+        if (!Hex.#constructionAllowed) {
+            throw new Error("Hexes must be created with hexOf(q, r)");
+        }
         if (s === undefined) {
             s = -q - r;
         }
         assertEquals(0, q + r + s, "q + r + s must be 0");
         this.q = q;
         this.r = r;
+    }
+
+    static hexOf(q, r) {
+        Hex.#constructionAllowed = true;
+        const key = q + r * 1000;
+        if (HEXES[key] === undefined) {
+            HEXES[key] = new Hex(q, r);
+        }
+        Hex.#constructionAllowed = false;
+        return HEXES[key];
     }
 
     get s() { return - this.q - this.r }
@@ -69,17 +88,12 @@ class Hex {
     isSouthWestOf(otherHex) {
         return this.q - otherHex.q === -2 && this.r - otherHex.r === 1;
     }
-
-};
+}
 
 // The only way to create a Hex is with hexOf(q, r)
 const HEXES = [];
 export function hexOf(q, r) {
-    const key = q + r * 1000;
-    if (HEXES[key] === undefined) {
-        HEXES[key] = new Hex(q, r);
-    }
-    return HEXES[key];
+    return Hex.hexOf(q, r);
 }
 
 const DIRECTION_WEST = hexOf(-1, 0);
@@ -110,7 +124,7 @@ class Orientation {
         this.b3 = b3_;
         this.start_angle = start_angle_;
     }
-};
+}
 
 export class Point {
     x; y;
@@ -159,18 +173,16 @@ function hex_round(fracq, fracr, fracs) {
         q = -r - s;
     } else if (r_diff > s_diff) {
         r = -q - s;
-    } else {
-        s = -q - r;
     }
-    return hexOf(q, r, s);
+    return hexOf(q, r);
 }
 
 function hex_add(a, b) {
-    return hexOf(a.q + b.q, a.r + b.r, a.s + b.s);
+    return hexOf(a.q + b.q, a.r + b.r);
 }
 
 function hex_subtract(a, b) {
-    return hexOf(a.q - b.q, a.r - b.r, a.s - b.s);
+    return hexOf(a.q - b.q, a.r - b.r);
 }
 
 function hex_length(hex) {

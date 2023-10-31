@@ -1,4 +1,7 @@
+import { Hex } from "../lib/hexlib.js";
 import { MacroCommand } from "../model/commands/macro_command.js";
+import { MoveCommand } from "../model/commands/move_command.js";
+import { Unit } from "../model/units.js";
 
 /**
  * @param {MoveCommand[]} validCommands

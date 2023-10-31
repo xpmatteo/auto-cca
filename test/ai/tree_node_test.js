@@ -1,7 +1,5 @@
 import { ChanceNode, DecisionNode } from "ai/mcts_player.js";
 import { OrderHeavyTroopsCard } from "model/cards.js";
-import { CloseCombatCommand } from "model/commands/close_combat_command.js";
-import { EndPhaseCommand } from "model/commands/end_phase_command.js";
 import { PlayCardCommand } from "model/commands/play_card_command.js";
 import { diceReturning, RESULT_HEAVY } from "model/dice.js";
 import makeGame from "model/game.js";

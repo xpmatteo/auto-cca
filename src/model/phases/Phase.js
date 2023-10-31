@@ -1,4 +1,4 @@
-import { InteractiveGame } from "src/interactive_game";
+import { InteractiveGame } from "../../interactive_game.js";
 
 export class Phase {
     temporarySide;
