@@ -6,6 +6,8 @@ import { OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } fro
 import { PlayCardPhase } from "./phases/play_card_phase.js";
 import { SideSwitchedTo } from "./events.js";
 import { mapToString, stringify } from "../lib/to_string.js";
+import { Scenario } from "./scenarios.js";
+import { Unit } from "./units.js";
 
 /**
  * @param {Scenario} scenario
@@ -14,7 +16,6 @@ import { mapToString, stringify } from "../lib/to_string.js";
 export default function makeGame(scenario, dice = new Dice()) {
     let game = new Game(scenario, dice);
     game.initialize();
-
     return game;
 }
 
@@ -301,14 +302,6 @@ class Game {
         return this.unitStrength(unit) <= 0;
     }
 
-    get spentUnits() {
-        return this.spentUnits;
-    }
-
-    get movementTrails() {
-        return this.movementTrails;
-    }
-
     addMovementTrail(hexTo, hexFrom) {
         this.movementTrails.push(new MovementTrail(hexTo, hexFrom));
     }
@@ -372,7 +365,7 @@ class Game {
     orderUnit(hex) {
         let unit = this.unitAt(hex);
         if (!unit) {
-            throw new Error(`No unit at ${this.hex}`);
+            throw new Error(`No unit at ${hex}`);
         }
         if (this.isOrdered(unit)) {
             throw new Error("Unit already ordered");
@@ -380,10 +373,13 @@ class Game {
         this.orderedUnits.push(unit);
     }
 
+    /**
+     * @param {Hex} hex
+     */
     unorderUnit(hex) {
         let unit = this.unitAt(hex);
         if (!unit) {
-            throw new Error(`No unit at ${this.hex}`);
+            throw new Error(`No unit at ${hex}`);
         }
         if (!this.isOrdered(unit)) {
             throw new Error("Unit is not ordered");

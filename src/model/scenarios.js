@@ -1,9 +1,35 @@
 import { hexOf } from "../lib/hexlib.js";
+import { Board } from "./board.js";
 import GameStatus from "./game_status.js";
 import { Side } from "./side.js";
 import * as units from "./units.js";
 
 export class Scenario {
+    /**
+     * @type {Side}
+     */
+    firstSide;
+    /**
+     * @type {Side}
+     */
+    sideNorth;
+    /**
+     * @type {Side}
+     */
+    sideSouth;
+    /**
+     * @type {number}
+     */
+    pointsToWin;
+    /**
+     * @type {number}
+     */
+    commandNorth;
+    /**
+     * @type {number}
+     */
+    commandSouth;
+
     /**
      * @param side
      * @returns {Side}

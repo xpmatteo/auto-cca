@@ -1,5 +1,7 @@
+import { InteractiveGame } from "src/interactive_game";
 
 export class Phase {
+    temporarySide;
     #name;
     constructor(name) {
         this.#name = name;
