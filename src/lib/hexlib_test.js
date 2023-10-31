@@ -1,5 +1,4 @@
-// noinspection JSFileReferences
-import { hasLineOfSight, hex_to_pixel, hexOf, Layout, LAYOUT_POINTY, Point } from 'xlib/hexlib.js';
+import { hasLineOfSight, hex_to_pixel, hexOf, Layout, LAYOUT_POINTY, Point } from './hexlib.js';
 
 test('hex to string', function () {
     let hex = hexOf(1, 2);

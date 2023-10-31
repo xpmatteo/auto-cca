@@ -1,4 +1,4 @@
-import { randomShuffleArray } from "xlib/random.js";
+import { randomShuffleArray } from "./random.js";
 
 describe('randomShuffleArray', () => {
     test('no elements', () => {

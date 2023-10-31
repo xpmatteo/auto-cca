@@ -1,12 +1,12 @@
-import { GreedyPlayer } from "ai/greedy_player.js";
-import { scoreGreedy } from "ai/score.js";
-import { MoveCommand } from "model/commands/move_command.js";
-import makeGame from "model/game.js";
-import { MovementPhase } from "model/phases/MovementPhase.js";
-import { NullScenario } from "model/scenarios.js";
-import { Side } from "model/side.js";
-import { RomanHeavyInfantry } from "model/units.js";
-import { hexOf } from "xlib/hexlib.js";
+import { GreedyPlayer } from "./greedy_player.js";
+import { scoreGreedy } from "./score.js";
+import { MoveCommand } from "../model/commands/move_command.js";
+import makeGame from "../model/game.js";
+import { MovementPhase } from "../model/phases/MovementPhase.js";
+import { NullScenario } from "../model/scenarios.js";
+import { Side } from "../model/side.js";
+import { RomanHeavyInfantry } from "../model/units.js";
+import { hexOf } from "../lib/hexlib.js";
 
 
 test("greedy_player", function() {

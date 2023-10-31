@@ -1,6 +1,6 @@
-import makeGame from "model/game.js";
-import { AkragasScenario, MeleeScenario } from "model/scenarios.js";
-import { MinimaxPlayer } from "ai/minimax_player.js";
+import makeGame from "../model/game.js";
+import { AkragasScenario, MeleeScenario } from "../model/scenarios.js";
+import { MinimaxPlayer } from "./minimax_player.js";
 
 
 test('level zero search', () => {

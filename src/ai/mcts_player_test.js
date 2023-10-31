@@ -1,10 +1,10 @@
-import { MctsPlayer } from "ai/mcts_player.js";
+import { MctsPlayer } from "./mcts_player.js";
 import * as fs from "fs";
-import makeGame from "model/game.js";
-import { NullScenario, TwoOnTwoMeleeScenario } from "model/scenarios.js";
-import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
-import { hexOf } from "xlib/hexlib.js";
-import { fixedRandom, resetFixedRandom } from "xlib/random.js";
+import makeGame from "../model/game.js";
+import { NullScenario, TwoOnTwoMeleeScenario } from "../model/scenarios.js";
+import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../model/units.js";
+import { hexOf } from "../lib/hexlib.js";
+import { fixedRandom, resetFixedRandom } from "../lib/random.js";
 
 /**
  * @param {string} fileName

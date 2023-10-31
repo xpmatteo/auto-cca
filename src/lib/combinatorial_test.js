@@ -1,4 +1,4 @@
-import { choose } from "xlib/combinatorial.js";
+import { choose } from "./combinatorial.js";
 
 
 describe('choose n k', function() {

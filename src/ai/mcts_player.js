@@ -1,10 +1,10 @@
 import { InteractiveGame } from "../interactive_game.js";
 import { randomElement, randomShuffleArray } from "../lib/random.js";
-import { Command } from "../model/commands/commands.js";
-import { MacroCommand } from "../model/commands/macro_command.js";
-import { MoveCommand } from "../model/commands/move_command.js";
-import { Game } from "../model/game.js";
-import { Side } from "../model/side.js";
+import { Command } from "../../model/commands/commands.js";
+import { MacroCommand } from "../../model/commands/macro_command.js";
+import { MoveCommand } from "../../model/commands/move_command.js";
+import { Game } from "../../model/game.js";
+import { Side } from "../../model/side.js";
 import { perturbSample, sample } from "./macro_command_sampling.js";
 import { attackProximityScoreForHex, scoreMcts } from "./score.js";
 

@@ -1,12 +1,12 @@
-import { ChanceNode, DecisionNode } from "ai/mcts_player.js";
-import { OrderHeavyTroopsCard } from "model/cards.js";
-import { PlayCardCommand } from "model/commands/play_card_command.js";
-import { diceReturning, RESULT_HEAVY } from "model/dice.js";
-import makeGame from "model/game.js";
-import { NullScenario } from "model/scenarios.js";
-import { Side } from "model/side.js";
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "model/units.js";
-import { hexOf } from "xlib/hexlib.js";
+import { ChanceNode, DecisionNode } from "./mcts_player.js";
+import { OrderHeavyTroopsCard } from "../model/cards.js";
+import { PlayCardCommand } from "../model/commands/play_card_command.js";
+import { diceReturning, RESULT_HEAVY } from "../model/dice.js";
+import makeGame from "../model/game.js";
+import { NullScenario } from "../model/scenarios.js";
+import { Side } from "../model/side.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../model/units.js";
+import { hexOf } from "../lib/hexlib.js";
 
 function gameWithSide(side) {
     return {

@@ -1,9 +1,9 @@
-import { perturbSample, sample } from "ai/macro_command_sampling.js";
-import { EndPhaseCommand } from "model/commands/end_phase_command.js";
-import { MacroCommand } from "model/commands/macro_command.js";
-import { MoveCommand } from "model/commands/move_command.js";
-import { hexOf } from "xlib/hexlib.js";
-import { fixedRandom, resetFixedRandom } from "xlib/random.js";
+import { perturbSample, sample } from "./macro_command_sampling.js";
+import { EndPhaseCommand } from "../model/commands/end_phase_command.js";
+import { MacroCommand } from "../model/commands/macro_command.js";
+import { MoveCommand } from "../model/commands/move_command.js";
+import { hexOf } from "../lib/hexlib.js";
+import { fixedRandom, resetFixedRandom } from "../lib/random.js";
 
 
 describe('construct the best move for each unit individually', () => {

@@ -5,12 +5,12 @@ import {
     scoreForDamageToUnit,
     scoreForRangedCombatDice,
     scoreForUnitsWithSupport
-} from "ai/score.js";
-import makeGame from "model/game.js";
-import { NullScenario } from "model/scenarios.js";
-import { Side } from "model/side.js";
-import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
-import { hexOf } from "xlib/hexlib.js";
+} from "./score.js";
+import makeGame from "../model/game.js";
+import { NullScenario } from "../model/scenarios.js";
+import { Side } from "../model/side.js";
+import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../model/units.js";
+import { hexOf } from "../lib/hexlib.js";
 
 
 test("default score is zero", () => {

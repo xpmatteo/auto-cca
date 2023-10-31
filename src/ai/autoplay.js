@@ -1,5 +1,5 @@
-import { Game } from "../model/game.js";
-import { Side } from "../model/side.js";
+import { Game } from "../../model/game.js";
+import { Side } from "../../model/side.js";
 import { redraw } from "../view/graphics.js";
 import { GreedyPlayer } from "./greedy_player.js";
 
