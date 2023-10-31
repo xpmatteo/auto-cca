@@ -1,4 +1,7 @@
 import { InteractiveGame } from "../../interactive_game.js";
+import { Hex } from "../../lib/hexlib.js";
+import { GameEvent } from "../events.js";
+import { Game } from "../game.js";
 
 export class Phase {
     temporarySide;
@@ -37,8 +40,8 @@ export class Phase {
 
     /**
      * @param {Hex} hex
-     * @param {InteractiveGame} game
-     * @returns {[GameEvent]}
+     * @param {InteractiveGame} interactiveGame
+     * @returns {GameEvent[]}
      */
     onClick(hex, interactiveGame) {
         let events = [];

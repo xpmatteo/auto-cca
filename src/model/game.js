@@ -2,7 +2,7 @@ import { Hex } from "../lib/hexlib.js";
 import { mapToString, stringify } from "../lib/to_string.js";
 import { Board } from "./board.js";
 import { OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
-import { Dice } from "./dice.js";
+import { Dice, DiceResult } from "./dice.js";
 import { SideSwitchedTo } from "./events.js";
 import GameStatus from "./game_status.js";
 import { Graveyard } from "./graveyard.js";
@@ -12,7 +12,7 @@ import { Unit } from "./units.js";
 
 /**
  * @param {Scenario} scenario
- * @param {Dice} dice
+ * @param {{roll(number):DiceResult[]}} dice
  * @returns {Game}
  */
 export default function makeGame(scenario, dice = new Dice()) {
@@ -21,8 +21,6 @@ export default function makeGame(scenario, dice = new Dice()) {
     return game;
 }
 
-// const PHASES = [new OrderUnitsPhase(3, RESULT_HEAVY), new MovementPhase(), new BattlePhase()];
-// const PHASES = [new MovementPhase(), new BattlePhase()];
 const DEFAULT_PHASES = [new PlayCardPhase()];
 const DEFAULT_HAND = [new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
 
@@ -42,7 +40,7 @@ export class Game {
 
     /**
      * @param {Scenario} scenario
-     * @param {Dice} dice
+     * @param {{roll(number):DiceResult[]}} dice
      */
     constructor(scenario, dice) {
         this.scenario = scenario;

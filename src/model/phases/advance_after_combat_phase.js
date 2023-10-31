@@ -1,3 +1,4 @@
+import { Hex } from "../../lib/hexlib.js";
 import { RetreatCommand } from "../commands/retreatCommand.js";
 import { Phase } from "./Phase.js";
 

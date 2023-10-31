@@ -14,6 +14,10 @@ import { OrderUnitsPhase } from "./phases/order_units_phase.js";
 */
 
 class Card {
+    /**
+     * @type {string}
+     */
+    name;
     phases(game) {
         return [
             new MovementPhase(),

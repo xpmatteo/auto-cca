@@ -63,8 +63,8 @@ export class Dice {
 }
 
 /**
- * @param {fixedResults: DiceResult[]} fixedResults
- * @returns {{roll: (function(*): DiceResult[])}}
+ * @param {DiceResult[]} fixedResults
+ * @returns {{roll: (function(number): DiceResult[])}}
  */
 export function diceReturning(fixedResults) {
     return {

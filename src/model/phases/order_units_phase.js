@@ -1,9 +1,12 @@
-import { choose } from "../../lib/combinatorial.js";
+import { Game } from "../game.js";
 import { CARD_IMAGE_SIZE } from "../../config.js";
+import { choose } from "../../lib/combinatorial.js";
+import { MAP_WIDTH } from "../../view/map.js";
+import { Command } from "../commands/commands.js";
 import { EndPhaseCommand } from "../commands/end_phase_command.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { Phase } from "./Phase.js";
-import { MAP_WIDTH } from "../../view/map.js";
+import { Hex } from "../../lib/hexlib.js";
 
 export class OrderUnitsPhase extends Phase {
     constructor(numberOfUnits, weight) {
@@ -26,6 +29,9 @@ export class OrderUnitsPhase extends Phase {
                 hexes.push(hex);
             }
         });
+        /**
+         * @type {Command[]}
+         */
         const commands = choose(hexes, this.numberOfUnits - game.numberOfOrderedUnits)
             .map(combination => new OrderUnitCommand(combination));
         if (commands.length === 0)

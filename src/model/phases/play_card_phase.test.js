@@ -21,7 +21,7 @@ test('it returns one command for every card', () => {
     game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
     game.placeUnit(hexOf(1, 0), new RomanLightInfantry());
 
-    const validCommands = phase.validCommands(game, null);
+    const validCommands = phase.validCommands(game);
 
     expect(validCommands.map(cardName)).toStrictEqual(["OrderHeavyTroopsCard", "OrderLightTroopsCard"]);
 });
@@ -32,7 +32,7 @@ test('it skips cards that have no eligible units', () => {
     game.handSouth = [new OrderHeavyTroopsCard(), new OrderLightTroopsCard()]
     game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
 
-    const validCommands = phase.validCommands(game, null);
+    const validCommands = phase.validCommands(game);
 
     expect(validCommands.map(cardName)).toStrictEqual(["OrderHeavyTroopsCard"]);
 });

@@ -1,3 +1,4 @@
+import { Hex } from "../../lib/hexlib.js";
 import { Command } from "./commands.js";
 
 export class OrderUnitCommand extends Command {

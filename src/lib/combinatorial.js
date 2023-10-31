@@ -4,7 +4,7 @@
  * @template A
  * @param {A[]} array
  * @param {number} n
- * @returns {[A[]]}
+ * @returns {A[][]}
  */
 export function choose(array, n){
     if(n === 0){
