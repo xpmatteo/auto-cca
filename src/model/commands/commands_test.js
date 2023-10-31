@@ -1,5 +1,5 @@
-import { FlagResult, handleFlags } from "model/commands/commands.js";
-import { hexOf } from "xlib/hexlib.js";
+import { FlagResult, handleFlags } from "../commands/commands.js";
+import { hexOf } from "../../lib/hexlib.js";
 
 function assertHandleFlags(flags, retreatHexesPerFlag, ignorableFlags, retreatPathLength, expectedResult, message) {
     if (!message) {

@@ -1,6 +1,6 @@
 
 import { jest } from '@jest/globals';
-import { MacroCommand } from "model/commands/macro_command.js";
+import { MacroCommand } from "../commands/macro_command.js";
 
 
 test('executes all commands, collecting game events', () => {
