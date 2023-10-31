@@ -1,12 +1,12 @@
+import { RandomPlayer } from "../ai/autoplay.js";
 import { hexOf } from "../lib/hexlib.js";
+import { EndPhaseCommand } from "./commands/end_phase_command.js";
+import { MoveCommand } from "./commands/move_command.js";
 import makeGame from "./game.js";
 import GameStatus from "./game_status.js";
-import * as units from "./units.js";
+import { MeleeScenario, NullScenario } from "./scenarios.js";
 import { Side } from "./side.js";
-import { NullScenario, MeleeScenario } from "./scenarios.js";
-import { Autoplay, RandomPlayer } from "ai/autoplay.js";
-import { MoveCommand } from "./commands/move_command.js";
-import { EndPhaseCommand } from "./commands/end_phase_command.js";
+import * as units from "./units.js";
 
 class SimpleScenario extends NullScenario {
     firstSide = Side.CARTHAGINIAN;
