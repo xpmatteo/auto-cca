@@ -1,16 +1,16 @@
-import { EndPhaseCommand } from "model/commands/end_phase_command.js";
-import { OrderUnitCommand } from "model/commands/order_unit_command.js";
-import { RESULT_HEAVY } from "model/dice.js";
-import Game from "model/game.js";
-import { OrderUnitsPhase } from "model/phases/order_units_phase.js";
-import { NullScenario } from "model/scenarios.js";
-import * as units from "model/units.js";
-import { hexOf, Point } from "xlib/hexlib.js";
+import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { OrderUnitCommand } from "../commands/order_unit_command.js";
+import { RESULT_HEAVY } from "../dice.js";
+import makeGame from "../game.js";
+import { OrderUnitsPhase } from "./order_units_phase.js";
+import { NullScenario } from "../scenarios.js";
+import * as units from "../units.js";
+import { hexOf, Point } from "../../lib/hexlib.js";
 
 const PHASE = new OrderUnitsPhase(2, RESULT_HEAVY);
 
 function makeGameWithFiveUnits() {
-    let game = new Game(new NullScenario());
+    let game = makeGame(new NullScenario());
     game.placeUnit(hexOf(0, 0), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(1, 1), new units.RomanLightInfantry());
     game.placeUnit(hexOf(1, 2), new units.RomanHeavyInfantry());

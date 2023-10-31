@@ -1,6 +1,5 @@
-import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
-import { BattleBackEvent } from "../events.js";
 import { RESULT_LIGHT } from "../dice.js";
+import { BattleBackEvent } from "../events.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
 export class CloseCombatCommand extends AbstractCombatCommand {

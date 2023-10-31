@@ -1,9 +1,9 @@
-import { RetreatCommand } from "model/commands/retreatCommand.js";
-import makeGame from "model/game.js";
-import { AdvanceAfterCombatPhase } from "model/phases/advance_after_combat_phase.js";
-import { NullScenario } from "model/scenarios.js";
-import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "model/units.js";
-import { hexOf } from "xlib/hexlib.js";
+import { RetreatCommand } from "../commands/retreatCommand.js";
+import makeGame from "../game.js";
+import { AdvanceAfterCombatPhase } from "./advance_after_combat_phase.js";
+import { NullScenario } from "../scenarios.js";
+import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
+import { hexOf } from "../../lib/hexlib.js";
 
 test('highlight hexes', () => {
     const game = makeGame(new NullScenario());

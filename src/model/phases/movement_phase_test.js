@@ -1,16 +1,16 @@
-import { hexOf } from "xlib/hexlib.js";
-import * as units from "model/units.js";
-import Game from 'model/game.js'
-import { NullScenario } from "model/scenarios.js";
-import { Side } from "model/side.js";
-import { MoveCommand } from "model/commands/move_command.js";
-import { EndPhaseCommand } from "model/commands/end_phase_command.js";
-import { MovementPhase } from "model/phases/MovementPhase.js";
-import { OrderLightTroopsCard } from "model/cards.js";
+import { hexOf } from "../../lib/hexlib.js";
+import * as units from "../units.js";
+import makeGame from '../game.js'
+import { NullScenario } from "../scenarios.js";
+import { Side } from "../side.js";
+import { MoveCommand } from "../commands/move_command.js";
+import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { MovementPhase } from "./MovementPhase.js";
+import { OrderLightTroopsCard } from "../cards.js";
 
 
 function makeGameInMovementPhase() {
-    let game = new Game(new NullScenario());
+    let game = makeGame(new NullScenario());
     game.phases = [new MovementPhase()];
     game.currentCard = new OrderLightTroopsCard();
     return game;

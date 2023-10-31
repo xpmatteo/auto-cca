@@ -1,9 +1,9 @@
-import { OrderHeavyTroopsCard, OrderLightTroopsCard } from "model/cards.js";
-import makeGame from "model/game.js";
-import { PlayCardPhase } from "model/phases/play_card_phase.js";
-import { NullScenario } from "model/scenarios.js";
-import { RomanHeavyInfantry, RomanLightInfantry } from "model/units.js";
-import { hexOf } from "xlib/hexlib.js";
+import { OrderHeavyTroopsCard, OrderLightTroopsCard } from "../cards.js";
+import makeGame from "../game.js";
+import { PlayCardPhase } from "./play_card_phase.js";
+import { NullScenario } from "../scenarios.js";
+import { RomanHeavyInfantry, RomanLightInfantry } from "../units.js";
+import { hexOf } from "../../lib/hexlib.js";
 
 /**
  * @param {PlayCardCommand} playCardCommand
@@ -21,7 +21,7 @@ test('it returns one command for every card', () => {
     game.placeUnit(hexOf(1, 0), new RomanLightInfantry());
 
     const validCommands = phase.validCommands(game, null);
-    
+
     expect(validCommands.map(cardName)).toStrictEqual(["OrderHeavyTroopsCard", "OrderLightTroopsCard"]);
 });
 

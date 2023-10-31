@@ -1,5 +1,5 @@
 import { RetreatCommand } from "../commands/retreatCommand.js";
-import { Phase } from "../phases/Phase.js";
+import { Phase } from "./Phase.js";
 
 export class AdvanceAfterCombatPhase  extends Phase {
     toHex;

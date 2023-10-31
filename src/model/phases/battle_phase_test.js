@@ -1,16 +1,16 @@
-import makeGame from 'model/game.js';
-import { NullScenario } from 'model/scenarios.js';
-import { hexOf } from 'xlib/hexlib.js';
-import * as units from 'model/units.js';
-import { BattlePhase } from "model/phases/BattlePhase.js";
-import { EndPhaseCommand } from "model/commands/end_phase_command.js";
-import { CloseCombatCommand } from "model/commands/close_combat_command.js";
-import { RangedCombatCommand } from "model/commands/ranged_combat_command.js";
+import makeGame from '../game.js';
+import { NullScenario } from '../scenarios.js';
+import { hexOf } from '../../lib/hexlib.js';
+import * as units from '../units.js';
+import { BattlePhase } from "./BattlePhase.js";
+import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { CloseCombatCommand } from "../commands/close_combat_command.js";
+import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
 
 
 test('generate no close combat commands for out of range', function () {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase(game);
+    const phase = new BattlePhase();
     game.placeUnit(hexOf(0, 0), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
     game.orderUnit(hexOf(0, 0));
@@ -27,7 +27,7 @@ test('generate no close combat commands for out of range', function () {
 
 test('generate close combat commands for one unit and one target', function () {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase(game);
+    const phase = new BattlePhase();
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
     game.orderUnit(hexOf(1, 1));
@@ -43,7 +43,7 @@ test('generate close combat commands for one unit and one target', function () {
 
 test('generate close combat commands for one unit and two targets', function () {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase(game);
+    const phase = new BattlePhase();
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
@@ -61,7 +61,7 @@ test('generate close combat commands for one unit and two targets', function () 
 
 test('generate ranged combat commands for one unit and two targets', function () {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase(game);
+    const phase = new BattlePhase();
     game.placeUnit(hexOf(0, 4), new units.RomanLightInfantry());
     game.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
@@ -79,7 +79,7 @@ test('generate ranged combat commands for one unit and two targets', function ()
 
 test('no ranged combat if enemy adjacent', function () {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase(game);
+    const phase = new BattlePhase();
     game.placeUnit(hexOf(0, 4), new units.RomanLightInfantry());
     game.placeUnit(hexOf(1, 4), new units.CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(2, 2), new units.CarthaginianHeavyInfantry());
@@ -96,7 +96,7 @@ test('no ranged combat if enemy adjacent', function () {
 
 test("ranged combat not available to heavies", () => {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase(game);
+    const phase = new BattlePhase();
     game.placeUnit(hexOf(0, 4), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(1, 2), new units.CarthaginianHeavyInfantry());
     game.orderUnit(hexOf(0, 4));
@@ -112,7 +112,7 @@ test("ranged combat not available to heavies", () => {
 
 test('endphase only available if no combats are available', function () {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase(game);
+    const phase = new BattlePhase();
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
     game.orderUnit(hexOf(1, 1));
