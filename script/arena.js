@@ -36,7 +36,7 @@ function playGame(southPlayer, northPlayer) {
 
     let i;
     for (i = 0; i < MAX_TURNS && !game.isTerminal(); i++) {
-        const timeSoFar = ((new Date() - timeBefore)/1000).toFixed(0);
+        const timeSoFar = ((new Date().getTime() - timeBefore)/1000).toFixed(0);
         process.stdout.write(`   turn ${i}  ${timeSoFar}s  ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}    \r`);
         const player = game.currentSide === sideNorth ? northPlayer : southPlayer;
         const commands = player.decideMove(game);
@@ -44,7 +44,7 @@ function playGame(southPlayer, northPlayer) {
             game.executeCommand(command);
         }
     }
-    const timeTaken = ((new Date() - timeBefore)/1000).toFixed(0);
+    const timeTaken = ((new Date().getTime() - timeBefore)/1000).toFixed(0);
     process.stdout.write(`   turn ${i} ${timeTaken}s  ${southPlayer} ${(unitsKilledOfSide(sideNorth))} -- ${northPlayer} ${unitsKilledOfSide(sideSouth)}    \n`);
     const gameStatus = game.gameStatus;
     if (gameStatus.side === sideNorth) {

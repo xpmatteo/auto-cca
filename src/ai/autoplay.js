@@ -1,8 +1,6 @@
-import { MCTS_EXPANSION_FACTOR, MCTS_ITERATIONS, MCTS_PLAYOUT_ITERATIONS } from "../config.js";
 import { Side } from "../model/side.js";
 import { redraw } from "../view/graphics.js";
 import { GreedyPlayer } from "./greedy_player.js";
-import { MctsPlayer } from "./mcts_player.js";
 
 export function displayEvents(events) {
     const textBox = document.getElementById("messages");
@@ -37,17 +35,10 @@ export class Autoplay {
         this.aiPlayer = aiPlayer;
     }
 
-    randomPlayout() {
-        while (!this.game.isTerminal()) {
-            this.executeRandomCommand();
-        }
-    }
-
     async playout(graphics) {
         const game = this.game.toGame();
         const sideNorth = game.scenario.sideNorth;
-        const sideSouth = game.scenario.sideSouth;
-        const northPlayer = new GreedyPlayer(sideNorth);
+        const northPlayer = new GreedyPlayer();
         const southPlayer = this.aiPlayer;
         // const southPlayer = new MinimaxPlayer(8);
         while (!this.game.isTerminal() && !paused()) {
