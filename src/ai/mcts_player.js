@@ -1,8 +1,12 @@
-import { MacroCommand } from "../model/commands/macro_command.js";
-import { perturbSample, sample } from "./macro_command_sampling.js";
-import { MoveCommand } from "../model/commands/move_command.js";
+import { InteractiveGame } from "../interactive_game.js";
 import { randomElement, randomShuffleArray } from "../lib/random.js";
-import { attackProximityScoreForHex, scoreGreedy, scoreMcts } from "./score.js";
+import { Command } from "../model/commands/commands.js";
+import { MacroCommand } from "../model/commands/macro_command.js";
+import { MoveCommand } from "../model/commands/move_command.js";
+import { Game } from "../model/game.js";
+import { Side } from "../model/side.js";
+import { perturbSample, sample } from "./macro_command_sampling.js";
+import { attackProximityScoreForHex, scoreMcts } from "./score.js";
 
 // this is used to visualize trees with vis.js
 let nextNodeId = 0;
@@ -10,6 +14,10 @@ let nextNodeId = 0;
 class TreeNode {
     parent = null;
     visits = 0;
+    /**
+     * @type {TreeNode[]}
+     */
+    children = [];
     value() {
         throw new Error("Abstract method");
     }
@@ -77,8 +85,8 @@ class TreeNode {
     }
 
     /**
-     * Writes the tree to a file in plain text readable by humans
-     * @param {string} fileName
+     * Writes the tree in plain text
+     * @param {(string)=>void} writeFunc
      */
     dumpTree(writeFunc, maxLevel=1000, minVisits = 0) {
         function traverse(node, level) {
@@ -104,6 +112,16 @@ class TreeNode {
     }
 
     describeNode() {
+        throw new Error("Abstract method");
+    }
+
+    /**
+     * Returns the best commands sequence for the real game, stopping after the first non-deterministic command,
+     * and before the game changes side
+     * @param {Side?} side
+     * @returns {Command[]}
+     */
+    bestCommands(side) {
         throw new Error("Abstract method");
     }
 }
@@ -193,7 +211,7 @@ export class DecisionNode extends TreeNode {
      * Returns the best commands sequence for the real game, stopping after the first non-deterministic command,
      * and before the game changes side
      * @param {Side?} side
-     * @returns {[Command]}
+     * @returns {Command[]}
      */
     bestCommands(side) {
         if (side && this.game.currentSide !== side) {
@@ -310,6 +328,8 @@ function showBestCommands(comands) {
 const DEFAULT_EXPANSION_FACTOR = 1.4142135623730951;
 
 export class MctsPlayer {
+    static isSearching = false;
+
     constructor(args = {}) {
         this.args = args;
         this.args.expansionFactor = this.args.expansionFactor || DEFAULT_EXPANSION_FACTOR;
@@ -322,7 +342,7 @@ export class MctsPlayer {
 
     /**
      * @param {InteractiveGame} game
-     * @returns {[Command]}
+     * @returns {Command[]}
      */
     decideMove(game) {
         const startTime = Date.now();
