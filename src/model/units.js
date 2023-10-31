@@ -1,14 +1,20 @@
 import { hasLineOfSight } from "../lib/hexlib.js";
+import * as dice from "./dice.js";
 import { RESULT_LIGHT } from "./dice.js";
-import * as dice from './dice.js';
 import { Side } from './side.js';
 
 export class Unit {
-    isLightFootUnit = false;
+    weight;
+    range;
+    side;
     movement = 1;
 
     get retreatHexes() {
         return this.movement;
+    }
+
+    get isLightFootUnit() {
+        return this.weight === RESULT_LIGHT && this.isFootUnit();
     }
 
     validDestinations(fromHex, game) {
@@ -91,11 +97,10 @@ export class Unit {
      * @returns {number}
      */
     calculateDamage(diceResults, includeSwords = true) {
-        const damage = diceResults.filter(
+        return diceResults.filter(
             r => r === this.weight
-            || (includeSwords && r === dice.RESULT_SWORDS)
+                || (includeSwords && r === dice.RESULT_SWORDS)
         ).length;
-        return damage;
     }
 
     /**
@@ -230,7 +235,6 @@ class AuxiliaInfantry extends Unit {
     initialStrength = 4;
     movement = 2;
     range = 2;
-    isLightFootUnit = true;
     retreatHexes = 1;
 
     toString() {
@@ -267,7 +271,6 @@ class LightInfantry extends Unit {
     initialStrength = 4;
     movement = 2;
     range = 2;
-    isLightFootUnit = true;
 
     toString() {
         return `${this.side.name} light infantry`;
@@ -285,7 +288,6 @@ class LightBowsInfantry extends Unit {
     initialStrength = 4;
     movement = 2;
     range = 3;
-    isLightFootUnit = true;
 
     toString() {
         return `${this.side.name} light infantry`;
