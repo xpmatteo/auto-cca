@@ -1,8 +1,8 @@
 "use strict";
 
-import { Graveyard } from "model/graveyard.js";
-import { Side } from "model/side.js";
-import * as units from "model/units.js";
+import { Graveyard } from "./graveyard.js";
+import { Side } from "./side.js";
+import * as units from "./units.js";
 
 test("add unit to graveyard", function () {
     const graveyard = new Graveyard();

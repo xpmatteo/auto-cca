@@ -3,7 +3,7 @@ import { NullScenario } from "model/scenarios.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "model/units.js";
 import { hexOf } from "xlib/hexlib.js";
 import { RangedCombatCommand } from "model/commands/ranged_combat_command.js";
-import { diceReturning, eventNames } from "../game_combat_test.js";
+import { diceReturning, eventNames } from "model/game_combat_test.js";
 import { RESULT_HEAVY, RESULT_LIGHT, RESULT_SWORDS } from "model/dice.js";
 
 

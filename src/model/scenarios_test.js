@@ -1,9 +1,9 @@
-import { hexOf } from "xlib/hexlib.js";
-import * as units from "model/units.js";
-import GameStatus from "model/game_status.js";
-import { Side } from "model/side.js";
-import { Scenario } from "model/scenarios.js";
-import makeGame from "model/game.js";
+import { hexOf } from "../lib/hexlib.js";
+import * as units from "./units.js";
+import GameStatus from "./game_status.js";
+import { Side } from "./side.js";
+import { Scenario } from "./scenarios.js";
+import makeGame from "./game.js";
 
 class SomeScenario extends Scenario {
     firstSide = Side.ROMAN;

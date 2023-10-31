@@ -1,4 +1,4 @@
-import { Dice, Die, RESULT_HEAVY, RESULT_LEADER, RESULT_LIGHT } from "model/dice.js";
+import { Dice, Die, RESULT_HEAVY, RESULT_LEADER, RESULT_LIGHT } from "./dice.js";
 
 test("roll one dice", function () {
     const random = () => { return 0; };
