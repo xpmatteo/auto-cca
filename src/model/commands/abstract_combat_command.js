@@ -65,15 +65,24 @@ export class AbstractCombatCommand extends Command {
             if (attackingUnit.side === game.currentSide) {
                 game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
             }
-            game.unshiftPhase(new RetreatPhase(defendingUnit.side, defendingHex, flagResult.retreats));
+            game.unshiftPhase(new RetreatPhase(attackingUnit, defendingUnit.side, defendingHex, flagResult.retreats));
         }
         return events;
     }
 
+    /**
+     * @param {Unit} attackingUnit
+     * @param {Unit} defendingUnit
+     * @returns {boolean}
+     */
     doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
         throw new Error("Abstract method");
     }
 
+    /**
+     * @param {Unit} attackingUnit
+     * @returns {number}
+     */
     decideDiceCount(attackingUnit, game) {
         throw new Error("Abstract method");
     }
