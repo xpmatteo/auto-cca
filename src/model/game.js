@@ -7,7 +7,6 @@ import { SideSwitchedTo } from "./events.js";
 import GameStatus from "./game_status.js";
 import { Graveyard } from "./graveyard.js";
 import { PlayCardPhase } from "./phases/play_card_phase.js";
-import { Scenario } from "./scenarios.js";
 import { Unit } from "./units.js";
 
 /**

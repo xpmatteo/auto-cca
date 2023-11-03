@@ -1,8 +1,6 @@
-import { Game } from "../game.js";
 import { CARD_IMAGE_SIZE } from "../../config.js";
 import { choose } from "../../lib/combinatorial.js";
 import { MAP_WIDTH } from "../../view/map.js";
-import { Command } from "../commands/commands.js";
 import { EndPhaseCommand } from "../commands/end_phase_command.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { Phase } from "./Phase.js";

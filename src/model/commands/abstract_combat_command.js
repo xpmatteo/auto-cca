@@ -1,11 +1,10 @@
+import { RESULT_LIGHT } from "../dice.js";
 import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
-import { DamageEvent, GameEvent, UnitKilledEvent } from "../events.js";
+import { BattleBackEvent, DamageEvent, GameEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
 import { RetreatPhase } from "../phases/RetreatPhase.js";
 import { Command, handleFlags } from "./commands.js";
-import { Unit } from "../units.js";
 import { Hex } from "../../lib/hexlib.js";
-import { Game } from "../game.js";
 
 export class AbstractCombatCommand extends Command {
     constructor() {
@@ -87,4 +86,40 @@ export class AbstractCombatCommand extends Command {
         throw new Error("Abstract method");
     }
 
+}
+
+
+export class IgnoreFlagAndBattleBackCommand extends AbstractCombatCommand {
+    /**
+     * @param {Hex} battleBackHex
+     * @param {Hex} originalAttackerHex
+     */
+    constructor(battleBackHex, originalAttackerHex) {
+        super();
+        this.battleBackHex = battleBackHex;
+        this.originalAttackerHex = originalAttackerHex;
+    }
+
+    toString() {
+        return `Ignore Flag and Battle Back from ${this.battleBackHex} to ${this.originalAttackerHex}`;
+    }
+
+    play(game) {
+        const battleBackUnit = game.unitAt(this.battleBackHex);
+        const originalAttacker = game.unitAt(this.originalAttackerHex);
+        /** @type {GameEvent[]} */
+        let events = [];
+
+        events.push(new BattleBackEvent(this.originalAttackerHex, this.battleBackHex, battleBackUnit.diceCount));
+        events = events.concat(this.attack(battleBackUnit, this.originalAttackerHex, originalAttacker, game));
+        return events;
+    }
+
+    decideDiceCount(attackingUnit, game) {
+        return attackingUnit.diceCount;
+    }
+
+    doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
+        return attackingUnit.weight !== RESULT_LIGHT;
+    }
 }

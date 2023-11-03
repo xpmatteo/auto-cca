@@ -1,7 +1,4 @@
-import { InteractiveGame } from "../../interactive_game.js";
 import { Hex } from "../../lib/hexlib.js";
-import { GameEvent } from "../events.js";
-import { Game } from "../game.js";
 
 export class Phase {
     temporarySide;

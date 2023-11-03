@@ -2,7 +2,7 @@ import { Phase } from "./Phase.js";
 import { RetreatCommand } from "../commands/retreatCommand.js";
 import { Side } from "../side.js";
 import { Hex } from "../../lib/hexlib.js";
-import { IgnoreFlagAndBattleBackCommand } from "../commands/ignore_flags_and_battle_back_command.js";
+import { IgnoreFlagAndBattleBackCommand } from "../commands/abstract_combat_command.js";
 
 
 export class RetreatPhase extends Phase {
@@ -22,9 +22,9 @@ export class RetreatPhase extends Phase {
 
     validCommands(game) {
         return this.toHexes.map(toHex => {
-            // if (toHex === this.fromHex) {
-            //     return new IgnoreFlagAndBattleBackCommand(this.fromHex, this.attackingHex);
-            // }
+            if (toHex === this.fromHex) {
+                return new IgnoreFlagAndBattleBackCommand(this.fromHex, this.attackingHex);
+            }
             return new RetreatCommand(toHex, this.fromHex);
         });
     }

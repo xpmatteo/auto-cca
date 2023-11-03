@@ -1,7 +1,7 @@
 import { hexOf } from "../../lib/hexlib.js";
 import { RetreatCommand } from "../commands/retreatCommand.js";
 import makeGame, { MovementTrail } from "../game.js";
-import { IgnoreFlagAndBattleBackCommand } from "../commands/ignore_flags_and_battle_back_command.js";
+import { IgnoreFlagAndBattleBackCommand } from "../commands/abstract_combat_command.js";
 import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";

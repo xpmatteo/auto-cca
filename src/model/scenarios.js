@@ -1,6 +1,4 @@
 import { hexOf } from "../lib/hexlib.js";
-import { Board } from "./board.js";
-import { Game } from "./game.js";
 import GameStatus from "./game_status.js";
 import { Side } from "./side.js";
 import * as units from "./units.js";
