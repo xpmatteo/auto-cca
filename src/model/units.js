@@ -1,7 +1,6 @@
 import { Hex, hasLineOfSight } from "../lib/hexlib.js";
 import * as dice from "./dice.js";
 import { DiceResult, RESULT_LIGHT } from "./dice.js";
-import { Game } from "./game.js";
 import { Side } from './side.js';
 
 export class Unit {
