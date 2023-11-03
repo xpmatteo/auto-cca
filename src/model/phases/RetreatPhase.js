@@ -8,16 +8,16 @@ import { IgnoreFlagAndBattleBackCommand } from "../commands/abstract_combat_comm
 export class RetreatPhase extends Phase {
     /**
      * @param {Hex} attackingHex
-     * @param {Side} temporarySide
-     * @param {Hex} fromHex
-     * @param {Hex[]} toHexes
+     * @param {Side} defendingSide
+     * @param {Hex} defendingHex
+     * @param {Hex[]} retreatHexes
      */
-    constructor(attackingHex, temporarySide, fromHex, toHexes) {
+    constructor(attackingHex, defendingSide, defendingHex, retreatHexes) {
         super("retreat");
         this.attackingHex = attackingHex;
-        this.temporarySide = temporarySide;
-        this.fromHex = fromHex;
-        this.toHexes = toHexes;
+        this.temporarySide = defendingSide;
+        this.fromHex = defendingHex;
+        this.toHexes = retreatHexes;
     }
 
     validCommands(game) {

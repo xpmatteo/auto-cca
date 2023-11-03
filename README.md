@@ -34,6 +34,13 @@ image to appear.  The parameters are:
   * prune *n*: for the first *n* nodes in the tree, we only show the main line, not showing other subtrees
   * iterations, playouts: configure AI parameters
 
+# BUGS
+
+Recently I tried to fix a bug: if a unit ignores flags and stays in its hex, it should battle back.
+
+ - now the AI is broken
+ - the retreat UI does not work correctly
+
 # AI TESTS
 
   - Early game

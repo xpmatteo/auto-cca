@@ -64,7 +64,7 @@ export class AbstractCombatCommand extends Command {
             if (attackingUnit.side === game.currentSide) {
                 game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
             }
-            game.unshiftPhase(new RetreatPhase(attackingUnit, defendingUnit.side, defendingHex, flagResult.retreats));
+            game.unshiftPhase(new RetreatPhase(game.hexOfUnit(attackingUnit), defendingUnit.side, defendingHex, flagResult.retreats));
         }
         return events;
     }
