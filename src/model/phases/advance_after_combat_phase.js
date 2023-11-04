@@ -16,7 +16,7 @@ export class AdvanceAfterCombatPhase  extends Phase {
     }
 
     toString() {
-        return `AdvanceAfterCombat ${this.fromHex} to ${this.toHex}`;
+        return `advance after combat`;
     }
 
     validCommands(game) {

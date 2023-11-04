@@ -12,7 +12,7 @@ import { RetreatPhase } from "./RetreatPhase.js";
 
 describe('Retreat phase', () => {
 
-    test("Retreat play", () => {
+    test("executing the retreat command", () => {
         let game = makeGame(new NullScenario());
         let retreatingUnit = new CarthaginianHeavyInfantry();
         let attackingUnit = new RomanHeavyInfantry();
@@ -27,34 +27,67 @@ describe('Retreat phase', () => {
         expect(game.movementTrails).toEqual([new MovementTrail(hexOf(1, 4), hexOf(1, 5))]);
     });
 
-    const retreatPhase = new RetreatPhase(hexOf(2,2), Side.CARTHAGINIAN, hexOf(0,0), [hexOf(0,0), hexOf(1, 1)]);
     const game = new InteractiveGame(makeGame(new NullScenario()));
 
-    test('retreat phase valid commands', () => {
-        expect(retreatPhase.validCommands(game).toString()).toEqual([
-            new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2)),
-            new RetreatCommand(hexOf(1,1), hexOf(0,0)),
-        ].toString());
+    describe('when the retreating is done by the unit originally under attack', () => {
+        const retreatPhase = new RetreatPhase(hexOf(2,2), Side.CARTHAGINIAN, hexOf(0,0), [hexOf(0,0), hexOf(1, 1)]);
+
+        test('retreat phase valid commands', () => {
+            expect(retreatPhase.validCommands(game).toString()).toEqual([
+                new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2)),
+                new RetreatCommand(hexOf(1,1), hexOf(0,0)),
+            ].toString());
+        });
+
+        test('hilighted hexes', () => {
+            const hexes = retreatPhase.hilightedHexes(game);
+
+            expect(hexes.size).toEqual(2);
+            expect(hexes).toEqual(new Set([hexOf(0,0), hexOf(1, 1)]));
+        });
+
+        // we should move command execution up the call stack so that we avoid entangling
+        // the phase too much with changing the game state
+        // onClick should only return a command to execute
+        xtest('on click', () => {
+            expect(retreatPhase.onClick(hexOf(1, 1), game).toString()).toEqual(
+                [new RetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
+            );
+
+            expect(retreatPhase.onClick(hexOf(0, 0), game).toString()).toEqual(
+                [new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2))].toString()
+            );
+        });
     });
 
-    test('hilighted hexes', () => {
-        const hexes = retreatPhase.hilightedHexes(game);
+    describe('when the retreating is done as a consequence of battle back', () => {
+        const retreatPhase = new RetreatPhase(null, Side.ROMAN, hexOf(0,0), [hexOf(0,0), hexOf(1, 1)]);
 
-        expect(hexes.size).toEqual(2);
-        expect(hexes).toEqual(new Set([hexOf(0,0), hexOf(1, 1)]));
-    });
+        test('retreat phase valid commands', () => {
+            expect(retreatPhase.validCommands(game).toString()).toEqual([
+                new RetreatCommand(hexOf(0, 0), hexOf(0,0)),
+                new RetreatCommand(hexOf(1,1), hexOf(0,0)),
+            ].toString());
+        });
 
-    // we should move command execution up the call stack so that we avoid entangling
-    // the phase too much with changing the game state
-    // onClick should only return a command to execute
-    xtest('on click', () => {
-        expect(retreatPhase.onClick(hexOf(1, 1), game).toString()).toEqual(
-            [new RetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
-        );
+        test('hilighted hexes', () => {
+            const hexes = retreatPhase.hilightedHexes(game);
 
-        expect(retreatPhase.onClick(hexOf(0, 0), game).toString()).toEqual(
-            [new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2))].toString()
-        );
+            expect(hexes).toEqual(new Set([hexOf(0,0), hexOf(1, 1)]));
+        });
+
+        // we should move command execution up the call stack so that we avoid entangling
+        // the phase too much with changing the game state
+        // onClick should only return a command to execute
+        xtest('on click', () => {
+            expect(retreatPhase.onClick(hexOf(1, 1), game).toString()).toEqual(
+                [new RetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
+            );
+
+            expect(retreatPhase.onClick(hexOf(0, 0), game).toString()).toEqual(
+                [new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2))].toString()
+            );
+        });
     });
 
 });

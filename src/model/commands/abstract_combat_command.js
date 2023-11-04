@@ -45,6 +45,7 @@ export class AbstractCombatCommand extends Command {
         const diceCount = this.decideDiceCount(attackingUnit, game);
         let diceResults = game.roll(diceCount);
 
+        let isBattleBack = attackingUnit.side !== game.currentSide;
         let numberOfFlags = diceResults.filter(r => r === dice.RESULT_FLAG).length;
         let ignorableFlags = game.isSupported(defendingHex) ? 1 : 0;
         let maxDistanceRequired = numberOfFlags * defendingUnit.retreatHexes;
@@ -55,16 +56,18 @@ export class AbstractCombatCommand extends Command {
 
         game.damageUnit(defendingUnit, totalDamage);
         events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, totalDamage, diceResults));
+        const attackingHex = game.hexOfUnit(attackingUnit);
         if (game.isUnitDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
-            if (attackingUnit.side === game.currentSide) {
-                game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
+            if (!isBattleBack) {
+                game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
             }
         } else if (flagResult.retreats.length > 0) {
-            if (attackingUnit.side === game.currentSide) {
-                game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, game.hexOfUnit(attackingUnit)));
+            if (!isBattleBack) {
+                game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
             }
-            game.unshiftPhase(new RetreatPhase(game.hexOfUnit(attackingUnit), defendingUnit.side, defendingHex, flagResult.retreats));
+            const preventRecursiveBattleBack = isBattleBack ? null : attackingHex;
+            game.unshiftPhase(new RetreatPhase(preventRecursiveBattleBack, defendingUnit.side, defendingHex, flagResult.retreats));
         }
         return events;
     }
@@ -112,6 +115,7 @@ export class IgnoreFlagAndBattleBackCommand extends AbstractCombatCommand {
 
         events.push(new BattleBackEvent(this.originalAttackerHex, this.battleBackHex, battleBackUnit.diceCount));
         events = events.concat(this.attack(battleBackUnit, this.originalAttackerHex, originalAttacker, game));
+        game.shiftPhase();
         return events;
     }
 
