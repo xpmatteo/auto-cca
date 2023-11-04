@@ -17,11 +17,11 @@ export class RetreatPhase extends Phase {
         this.attackingHex = attackingHex;
         this.temporarySide = defendingSide;
         this.fromHex = defendingHex;
-        this.toHexes = retreatHexes;
+        this.retreatHexes = retreatHexes;
     }
 
     validCommands(game) {
-        return this.toHexes.map(toHex => {
+        return this.retreatHexes.map(toHex => {
             if (toHex === this.fromHex) {
                 return new IgnoreFlagAndBattleBackCommand(this.fromHex, this.attackingHex);
             }
@@ -30,6 +30,17 @@ export class RetreatPhase extends Phase {
     }
 
     hilightedHexes(game) {
-        return this.hilightedHexesForDirectionalCommands(game);
+        return new Set(this.retreatHexes);
+    }
+
+    /**
+     * @param {Hex} hex
+     * @param {InteractiveGame} interactiveGame
+     * @returns {GameEvent[]}
+     */
+    onClick(hex, interactiveGame) {
+        const command = this.validCommands(interactiveGame).
+            find(command => command["toHex"] === hex || command["battleBackHex"] === hex);
+        return command ? interactiveGame.executeCommand(command) : [];
     }
 }
