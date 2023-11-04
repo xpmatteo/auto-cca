@@ -130,8 +130,21 @@ function drawCurrentCard(graphics, game) {
     }
 }
 
-function drawDecorations(graphics, game) {
-    game.decorations.forEach(decoration => decoration.draw(graphics, game));
+function drawDecorationsOnTopOfUnits(graphics, game) {
+    game.decorations.forEach(decoration => {
+        if (decoration.drawOnTopOfUnits())
+            decoration.draw(graphics, game);
+    });
+}
+
+function drawDecorationsUnderUnits(graphics, game) {
+    game.decorations.forEach(decoration => {
+        if (!decoration.drawOnTopOfUnits) {
+            console.log("Decoration does not have drawOnTopOfUnits method: " + decoration.constructor.name);
+        }
+        if (!decoration.drawOnTopOfUnits())
+            decoration.draw(graphics, game);
+    });
 }
 
 /**
@@ -157,6 +170,8 @@ export function redraw(graphics, game) {
     });
     game.foreachHex(hex => drawCoordinates(graphics, hex));
 
+    drawDecorationsUnderUnits(graphics, game);
+
     game.foreachUnit((unit, hex) => {
         let pixelCoordinate = hex_to_pixel(layout, hex);
         drawUnit(graphics, pixelCoordinate, unit,
@@ -166,7 +181,7 @@ export function redraw(graphics, game) {
     drawGraveyard(graphics, game);
     drawPlayerHand(graphics, game);
     drawCurrentCard(graphics, game);
-    drawDecorations(graphics, game);
+    drawDecorationsOnTopOfUnits(graphics, game);
     updateInfoMessage(game.toGame());
     enableButtons(game);
     drawScores(graphics, game)
