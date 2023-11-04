@@ -10,24 +10,24 @@ exports[`2 on 2 1`] = `
       -4/4: Retreat [1,5] to [0,6] -> Roman battle -> 2
       -4/4: Retreat [1,5] to [1,6] -> Roman battle -> 2
      -17/20: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
-      0/0: Retreat [1,4] to [2,3] -> Roman AdvanceAfterCombat [1,5] to [1,4] -> 0
-      17/20: Retreat [1,4] to [1,3] -> Roman AdvanceAfterCombat [1,5] to [1,4] -> 2
+      0/0: Retreat [1,4] to [2,3] -> Roman advance after combat -> 0
+      17/20: Retreat [1,4] to [1,3] -> Roman advance after combat -> 2
      -4/7: Close Combat from [1,5] to [1,4] -> Roman retreat -> 2
       -2/5: Retreat [1,5] to [0,6] -> Roman battle -> 2
       -2/2: Retreat [1,5] to [1,6] -> Roman battle -> 2
      -4/4: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
-      4/4: Retreat [1,4] to [2,3] -> Roman AdvanceAfterCombat [1,5] to [1,4] -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman AdvanceAfterCombat [1,5] to [1,4] -> 0
+      4/4: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
      -2/2: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
-      2/2: Retreat [1,4] to [2,3] -> Roman AdvanceAfterCombat [1,5] to [1,4] -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman AdvanceAfterCombat [1,5] to [1,4] -> 0
+      2/2: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
      2/7: Close Combat from [1,5] to [1,4] -> Roman retreat -> 2
       2/4: Retreat [1,5] to [0,6] -> Roman battle -> 2
       0/3: Retreat [1,5] to [1,6] -> Roman battle -> 2
     CHANCE/740: Close Combat from [0,5] to [0,4] -> Roman battle -> 2
      -137/472: Close Combat from [0,5] to [0,4] -> Carthaginian retreat -> 2
-      0/0: Retreat [0,4] to [0,3] -> Roman AdvanceAfterCombat [0,5] to [0,4] -> 0
-      137/472: Retreat [0,4] to [1,3] -> Roman AdvanceAfterCombat [0,5] to [0,4] -> 2
+      0/0: Retreat [0,4] to [0,3] -> Roman advance after combat -> 0
+      137/472: Retreat [0,4] to [1,3] -> Roman advance after combat -> 2
      84/267: Close Combat from [0,5] to [0,4] -> Roman retreat -> 2
       81/209: Retreat [0,5] to [-1,6] -> Roman battle -> 1
       3/58: Retreat [0,5] to [0,6] -> Roman battle -> 1
@@ -36,17 +36,17 @@ exports[`2 on 2 1`] = `
       131/298: Retreat [0,5] to [-1,6] -> Roman battle -> 1
       -5/49: Retreat [0,5] to [0,6] -> Roman battle -> 1
      108/511: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      -108/511: Retreat [1,4] to [2,3] -> Roman AdvanceAfterCombat [0,5] to [1,4] -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman AdvanceAfterCombat [0,5] to [1,4] -> 0
+      -108/511: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
      -70/133: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      70/133: Retreat [1,4] to [2,3] -> Roman AdvanceAfterCombat [0,5] to [1,4] -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman AdvanceAfterCombat [0,5] to [1,4] -> 0
+      70/133: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
      -66/110: Close Combat from [0,5] to [1,4] -> Roman retreat -> 2
       -32/52: Retreat [0,5] to [-1,6] -> Roman battle -> 1
       -34/58: Retreat [0,5] to [0,6] -> Roman battle -> 1
      -76/108: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      76/108: Retreat [1,4] to [2,3] -> Roman AdvanceAfterCombat [0,5] to [1,4] -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman AdvanceAfterCombat [0,5] to [1,4] -> 0
+      76/108: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
 "
 `;
 
@@ -57,10 +57,10 @@ exports[`close combat from light to heavy 1`] = `
    -23/28: MacroCommand(Move [2,3] to [3,2]) -> Roman battle -> 1
     CHANCE/27: Close Combat from [3,2] to [2,2] -> Roman battle -> 5
      -1/4: Close Combat from [3,2] to [2,2] -> Carthaginian retreat -> 2
-      1/4: Retreat [2,2] to [2,1] -> Roman AdvanceAfterCombat [3,2] to [2,2] -> 2
+      1/4: Retreat [2,2] to [2,1] -> Roman advance after combat -> 2
        0/1: Retreat [3,2] to [2,2] -> Roman battle -> 0
        2/2: Retreat [3,2] to [3,2] -> Roman battle -> 1
-      0/0: Retreat [2,2] to [3,1] -> Roman AdvanceAfterCombat [3,2] to [2,2] -> 0
+      0/0: Retreat [2,2] to [3,1] -> Roman advance after combat -> 0
      -8/8: Close Combat from [3,2] to [2,2] -> Roman retreat -> 3
       -3/3: Retreat [3,2] to [2,4] -> Roman battle -> 1
        2/2: End phase -> Carthaginian play one card -> 1
@@ -76,10 +76,10 @@ exports[`close combat from light to heavy 1`] = `
       -1/1: Retreat [3,2] to [2,4] -> Roman battle -> 1
        1/1: End phase -> Carthaginian play one card -> 0
      3/3: Close Combat from [3,2] to [2,2] -> Carthaginian retreat -> 2
-      -3/3: Retreat [2,2] to [3,1] -> Roman AdvanceAfterCombat [3,2] to [2,2] -> 2
+      -3/3: Retreat [2,2] to [3,1] -> Roman advance after combat -> 2
        -1/1: Retreat [3,2] to [2,2] -> Roman battle -> 0
        -1/1: Retreat [3,2] to [3,2] -> Roman battle -> 1
-      0/0: Retreat [2,2] to [2,1] -> Roman AdvanceAfterCombat [3,2] to [2,2] -> 0
+      0/0: Retreat [2,2] to [2,1] -> Roman advance after combat -> 0
      -7/7: Close Combat from [3,2] to [2,2] -> Roman battle -> 1
       7/7: End phase -> Carthaginian play one card -> 1
        6/6: PlayCard(Order Heavy Troops) -> Carthaginian order 1 heavy units -> 1

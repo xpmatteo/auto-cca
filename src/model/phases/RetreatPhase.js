@@ -36,11 +36,10 @@ export class RetreatPhase extends Phase {
     /**
      * @param {Hex} hex
      * @param {InteractiveGame} interactiveGame
-     * @returns {GameEvent[]}
+     * @returns {Command|undefined}
      */
     onClick(hex, interactiveGame) {
-        const command = this.validCommands(interactiveGame).
+        return this.validCommands(interactiveGame).
             find(command => command["toHex"] === hex || command["battleBackHex"] === hex);
-        return command ? interactiveGame.executeCommand(command) : [];
     }
 }

@@ -46,10 +46,7 @@ describe('Retreat phase', () => {
             expect(hexes).toEqual(new Set([hexOf(0,0), hexOf(1, 1)]));
         });
 
-        // we should move command execution up the call stack so that we avoid entangling
-        // the phase too much with changing the game state
-        // onClick should only return a command to execute
-        xtest('on click', () => {
+        test('on click', () => {
             expect(retreatPhase.onClick(hexOf(1, 1), game).toString()).toEqual(
                 [new RetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
             );
@@ -79,15 +76,14 @@ describe('Retreat phase', () => {
         // we should move command execution up the call stack so that we avoid entangling
         // the phase too much with changing the game state
         // onClick should only return a command to execute
-        xtest('on click', () => {
+        test('on click', () => {
             expect(retreatPhase.onClick(hexOf(1, 1), game).toString()).toEqual(
                 [new RetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
             );
 
             expect(retreatPhase.onClick(hexOf(0, 0), game).toString()).toEqual(
-                [new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2))].toString()
+                [new RetreatCommand(hexOf(0,0), hexOf(0,0))].toString()
             );
         });
     });
-
 });

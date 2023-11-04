@@ -29,7 +29,7 @@ export class PlayCardPhase extends Phase {
         if (index >= commands.length) {
             return [];
         }
-        return commands[index].play(game);
+        return commands[index];
     }
 
     requiresDeepThought() {

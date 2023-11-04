@@ -45,7 +45,7 @@ describe('on click', () => {
     game.placeUnit(hexOf(0, 0), ourUnit);
     const phase = new AdvanceAfterCombatPhase(hexOf(1,1), hexOf(0,0));
 
-    phase.onClick(hexOf(1, 1), game);
+    game.executeCommand(phase.onClick(hexOf(1, 1), game));
 
     test('from hex is now empty', () => {
         expect(game.unitAt(hexOf(0, 0))).toBeUndefined();

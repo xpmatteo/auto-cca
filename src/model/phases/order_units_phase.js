@@ -64,7 +64,7 @@ export class OrderUnitsPhase extends Phase {
     onClick(hex, interactiveGame, pixel) {
         if (pixel.x > MAP_WIDTH && pixel.y < MAP_WIDTH + CARD_IMAGE_SIZE.x
             && pixel.y < CARD_IMAGE_SIZE.y) {
-            return interactiveGame.undoPlayCard();
+            interactiveGame.undoPlayCard();
         }
         const unit = interactiveGame.unitAt(hex);
         if (interactiveGame.isOrdered(unit)) {
@@ -72,7 +72,6 @@ export class OrderUnitsPhase extends Phase {
         } else if (this.hilightedHexes(interactiveGame).has(hex)) {
             interactiveGame.orderUnit(hex);
         }
-        return [];
     }
 
     __isEligible(unit, game) {

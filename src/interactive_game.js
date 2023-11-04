@@ -1,4 +1,7 @@
+import { Hex, Point } from "./lib/hexlib.js";
 import { MoveCommand } from "./model/commands/move_command.js";
+import { GameEvent } from "./model/events.js";
+import { Game } from "./model/game.js";
 
 /*
     Decorator for Game that adds interactive features.
@@ -6,6 +9,7 @@ import { MoveCommand } from "./model/commands/move_command.js";
 export class InteractiveGame {
     #game;
     #selectedUnit = undefined;
+    /** @type {GameEvent[]} */
     #decorations = [];
 
     constructor(game) {
@@ -27,7 +31,8 @@ export class InteractiveGame {
     onClick(hex, pixel) {
         if (this.#game.isTerminal())
             return [];
-        return this.#game.currentPhase.onClick(hex, this, pixel);
+        const command = this.#game.currentPhase.onClick(hex, this, pixel);
+        return command ? this.#game.executeCommand(command) : [];
     }
 
     /**

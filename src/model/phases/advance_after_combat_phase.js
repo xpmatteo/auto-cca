@@ -33,9 +33,8 @@ export class AdvanceAfterCombatPhase  extends Phase {
     }
 
     onClick(hex, interactiveGame) {
-        const command = this.validCommands(interactiveGame.toGame()).
+        return this.validCommands(interactiveGame.toGame()).
             find(command => command.toHex === hex);
-        return interactiveGame.executeCommand(command);
     }
 }
 
