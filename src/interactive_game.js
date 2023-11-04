@@ -32,7 +32,7 @@ export class InteractiveGame {
         if (this.#game.isTerminal())
             return [];
         const command = this.#game.currentPhase.onClick(hex, this, pixel);
-        return command ? this.#game.executeCommand(command) : [];
+        return command ? this.executeCommand(command) : [];
     }
 
     /**

@@ -80,15 +80,21 @@ export class Game {
         return this;
     }
 
+    /** @returns {Phase} */
     get currentPhase() {
         return this.phases[0]
     }
 
+    /** @returns {Command[]} */
     validCommands() {
         if (this.isTerminal()) return [];
         return this.currentPhase.validCommands(this);
     }
 
+    /**
+     * @param {Command} command
+     * @returns {GameEvent[]}
+     */
     executeCommand(command) {
         if (this.isTerminal())
             throw new Error("Cannot execute commands: game is over");
