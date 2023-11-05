@@ -66,7 +66,15 @@ export class Dice {
  * @param {DiceResult[]} fixedResults
  * @returns {{roll: (function(number): DiceResult[])}}
  */
-export function diceReturning(fixedResults) {
+export function diceReturningAlways(fixedResults) {
+    return {
+        roll: function (count) {
+            return fixedResults.slice(0, count);
+        }
+    }
+}
+
+export function diceReturningInTurn(listOfResults) {
     return {
         roll: function (count) {
             return fixedResults.slice(0, count);

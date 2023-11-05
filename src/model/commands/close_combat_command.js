@@ -1,5 +1,6 @@
 import { RESULT_LIGHT } from "../dice.js";
 import { BattleBackEvent } from "../events.js";
+import { FirstDefenderEvasionPhase } from "../phases/first_defender_evasion_phase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
 export class CloseCombatCommand extends AbstractCombatCommand {
@@ -22,6 +23,12 @@ export class CloseCombatCommand extends AbstractCombatCommand {
         if (defendingHex.distance(attackingHex) > 1) {
             throw new Error(`Cannot Close Combat with unit at ${defendingHex} from ${attackingHex} (too far)`);
         }
+
+        if (defendingUnit.canEvade(attackingUnit)) {
+            game.unshiftPhase(new FirstDefenderEvasionPhase(defendingHex, attackingHex));
+            return [];
+        }
+
         let events = this.attack(attackingUnit, defendingHex, defendingUnit, game);
         if (this.defenderHoldsGround(game, defendingHex, attackingUnit)) {
             // battle back

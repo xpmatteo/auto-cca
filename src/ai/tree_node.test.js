@@ -1,7 +1,7 @@
 import { ChanceNode, DecisionNode } from "./mcts_player.js";
 import { OrderHeavyTroopsCard } from "../model/cards.js";
 import { PlayCardCommand } from "../model/commands/play_card_command.js";
-import { diceReturning, RESULT_HEAVY } from "../model/dice.js";
+import { diceReturningAlways, RESULT_HEAVY } from "../model/dice.js";
 import makeGame from "../model/game.js";
 import { NullScenario } from "../model/scenarios.js";
 import { Side } from "../model/side.js";
@@ -260,7 +260,7 @@ describe('Chance node', () => {
         });
 
         it('when the result is same as previous ', () => {
-            const game = makeGame(new NullScenario(), diceReturning([RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY]));
+            const game = makeGame(new NullScenario(), diceReturningAlways([RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY, RESULT_HEAVY]));
             evolveGameToCloseCombat(game);
             const command = game.validCommands()[0];
             const node = new ChanceNode(game, null, command);
