@@ -74,10 +74,15 @@ export function diceReturningAlways(fixedResults) {
     }
 }
 
-export function diceReturningInTurn(listOfResults) {
+export function diceReturning(listOfResults) {
     return {
         roll: function (count) {
-            return fixedResults.slice(0, count);
+            if (listOfResults.length < count) {
+                throw new Error(`Not enough results in the list of results: ${listOfResults}`);
+            }
+            let result = listOfResults.slice(0, count);
+            listOfResults = listOfResults.slice(count);
+            return result;
         }
     }
 }
