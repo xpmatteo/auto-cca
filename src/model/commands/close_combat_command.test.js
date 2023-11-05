@@ -122,6 +122,27 @@ describe('defender cannot evade', () => {
             });
         });
 
+        describe('attacker killed, flags irrelevant', () => {
+            const defenderDice = Array(4).fill(RESULT_HEAVY).concat([RESULT_FLAG]);
+            let game = makeGame(new NullScenario(), diceReturning(
+                Array(5).fill(RESULT_LIGHT).concat(defenderDice)));
+            game.placeUnit(hexOf(1, 5), attacker);
+            game.placeUnit(hexOf(1, 4), defender);
+
+            const events = closeCombatCommand.play(game);
+
+            test('next phase', () => {
+                expect(game.currentPhase).toBeInstanceOf(PlayCardPhase);
+                expect(game.phases.length).toEqual(1);
+            });
+
+            test('attacker killed', () => {
+                expect(game.unitAt(hexOf(1, 4))).toBe(defender);
+                expect(game.unitAt(hexOf(1, 5))).toBeUndefined();
+                expect(game.killedUnitsOfSide(Side.ROMAN)).toEqual([attacker]);
+            });
+        });
+
         describe('attacker retreats', () => {
             let game = makeGame(new NullScenario(), diceReturning([
                 RESULT_LIGHT, RESULT_LIGHT,RESULT_LIGHT,RESULT_LIGHT,RESULT_LIGHT,

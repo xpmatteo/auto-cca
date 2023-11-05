@@ -52,8 +52,7 @@ export class CloseCombatCommand extends AbstractCombatCommand {
             game.damageUnit(attackingUnit, totalDamage);
             if (game.isUnitDead(attackingUnit)) {
                 events.push(new UnitKilledEvent(attackingUnit, attackingHex));
-            }
-            if (retreatHexes.length > 0) {
+            } else if (retreatHexes.length > 0) {
                 game.unshiftPhase(new AttackerRetreatPhase(attackingHex, retreatHexes));
             }
         }
