@@ -1,3 +1,4 @@
+import { FirstDefenderRetreatCommand } from "../commands/FirstDefenderRetreatCommand.js";
 import { Phase } from "./Phase.js";
 import { RetreatCommand } from "../commands/retreatCommand.js";
 import { Side } from "../side.js";
@@ -25,7 +26,7 @@ export class FirstDefenderRetreatPhase extends Phase {
             if (toHex === this.fromHex && this.attackingHex) {
                 return new IgnoreFlagAndBattleBackCommand(this.fromHex, this.attackingHex);
             }
-            return new RetreatCommand(toHex, this.fromHex);
+            return new FirstDefenderRetreatCommand(toHex, this.fromHex, this.attackingHex);
         });
     }
 

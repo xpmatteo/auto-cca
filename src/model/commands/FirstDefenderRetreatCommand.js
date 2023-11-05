@@ -1,16 +1,19 @@
+import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
 import { Command } from "./commands.js";
 
-export class RetreatCommand extends Command {
-    constructor(toHex, fromHex) {
+export class FirstDefenderRetreatCommand extends Command {
+    constructor(toHex, fromHex, attackerHex) {
         super();
         this.toHex = toHex;
         this.fromHex = fromHex;
+        this.attackerHex = attackerHex;
     }
 
     play(game) {
         game.moveUnit(this.toHex, this.fromHex);
         game.addMovementTrail(this.toHex, this.fromHex);
         game.shiftPhase();
+        game.unshiftPhase(new AdvanceAfterCombatPhase(this.fromHex, this.attackerHex));
         return [];
     }
 

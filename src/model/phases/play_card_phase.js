@@ -27,7 +27,7 @@ export class PlayCardPhase extends Phase {
         const index = Math.trunc(pixel.x / CARD_IMAGE_SIZE.x);
         const commands = game.validCommands();
         if (index >= commands.length) {
-            return [];
+            return undefined;
         }
         return commands[index];
     }

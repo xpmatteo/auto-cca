@@ -1,5 +1,6 @@
 import { InteractiveGame } from "../../interactive_game.js";
 import { hexOf } from "../../lib/hexlib.js";
+import { FirstDefenderRetreatCommand } from "../commands/FirstDefenderRetreatCommand.js";
 import { RetreatCommand } from "../commands/retreatCommand.js";
 import makeGame, { MovementTrail } from "../game.js";
 import { IgnoreFlagAndBattleBackCommand } from "../commands/abstract_combat_command.js";
@@ -10,7 +11,7 @@ import { BattlePhase } from "./BattlePhase.js";
 import { FirstDefenderRetreatPhase } from "./FirstDefenderRetreatPhase.js";
 
 
-describe('Retreat phase', () => {
+describe('1st defender Retreat phase', () => {
 
     test("executing the retreat command", () => {
         let game = makeGame(new NullScenario());
@@ -35,7 +36,7 @@ describe('Retreat phase', () => {
         test('retreat phase valid commands', () => {
             expect(retreatPhase.validCommands(game).toString()).toEqual([
                 new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2)),
-                new RetreatCommand(hexOf(1,1), hexOf(0,0)),
+                new FirstDefenderRetreatCommand(hexOf(1,1), hexOf(0,0), hexOf(2, 2)),
             ].toString());
         });
 
