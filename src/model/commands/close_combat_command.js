@@ -1,6 +1,9 @@
 import { RESULT_LIGHT } from "../dice.js";
-import { BattleBackEvent } from "../events.js";
+import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "../events.js";
+import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
+import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { FirstDefenderEvasionPhase } from "../phases/first_defender_evasion_phase.js";
+import { RetreatPhase } from "../phases/RetreatPhase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
 export class CloseCombatCommand extends AbstractCombatCommand {
@@ -15,6 +18,7 @@ export class CloseCombatCommand extends AbstractCombatCommand {
     }
 
     play(game) {
+        let totalDamage, retreatHexes, diceResults;
         const defendingHex = this.toHex;
         const attackingHex = this.fromHex;
         const attackingUnit = game.unitAt(attackingHex);
@@ -29,11 +33,29 @@ export class CloseCombatCommand extends AbstractCombatCommand {
             return [];
         }
 
-        let events = this.attack(attackingUnit, defendingHex, defendingUnit, game);
-        if (this.defenderHoldsGround(game, defendingHex, attackingUnit)) {
+        const events = [];
+        [totalDamage, retreatHexes, diceResults] =
+            this.simpleAttack(attackingUnit, defendingHex, defendingUnit, game);
+        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, totalDamage, diceResults));
+        game.damageUnit(defendingUnit, totalDamage);
+        if (game.isUnitDead(defendingUnit)) {
+            events.push(new UnitKilledEvent(defendingUnit, defendingHex));
+            game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
+        } else if (retreatHexes.length > 0) {
+            game.unshiftPhase(new RetreatPhase(attackingHex, defendingUnit.side, defendingHex, retreatHexes));
+        } else {
             // battle back
+            [totalDamage, retreatHexes, diceResults] =
+                this.simpleAttack(defendingUnit, attackingHex, attackingUnit, game);
             events.push(new BattleBackEvent(attackingHex, defendingHex, defendingUnit.diceCount));
-            events = events.concat(this.attack(defendingUnit, attackingHex, attackingUnit, game));
+            events.push(new DamageEvent(defendingUnit, attackingUnit, attackingHex, totalDamage, diceResults));
+            game.damageUnit(attackingUnit, totalDamage);
+            if (game.isUnitDead(attackingUnit)) {
+                events.push(new UnitKilledEvent(attackingUnit, attackingHex));
+            }
+            if (retreatHexes.length > 0) {
+                game.unshiftPhase(new AttackerRetreatPhase(attackingHex, retreatHexes));
+            }
         }
         game.markUnitSpent(attackingUnit);
         return events;

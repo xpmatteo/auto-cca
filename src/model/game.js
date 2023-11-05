@@ -218,6 +218,10 @@ export class Game {
 
     // ---- delegate to dice ----
 
+    /**
+     * @param {number} diceCount
+     * @returns {DiceResult[]}
+     */
     roll(diceCount) {
         return this.dice.roll(diceCount);
     }

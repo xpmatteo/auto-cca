@@ -2,6 +2,7 @@ import { hexOf } from "../../lib/hexlib.js";
 import { diceReturning, RESULT_FLAG, RESULT_HEAVY, RESULT_LEADER, RESULT_LIGHT, RESULT_MEDIUM } from "../dice.js";
 import { DamageEvent, UnitKilledEvent } from "../events.js";
 import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
+import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { FirstDefenderEvasionPhase } from "../phases/first_defender_evasion_phase.js";
 import { PlayCardPhase } from "../phases/play_card_phase.js";
 import { RetreatPhase } from "../phases/RetreatPhase.js";
@@ -73,7 +74,8 @@ describe('defender cannot evade', () => {
     });
 
     describe('defender retreats', () => {
-        let game = makeGame(new NullScenario(), diceReturning([RESULT_FLAG, RESULT_LEADER, RESULT_LEADER, RESULT_LEADER, RESULT_LEADER]));
+        let game = makeGame(new NullScenario(), diceReturning([
+            RESULT_FLAG, RESULT_LEADER, RESULT_LEADER, RESULT_LEADER, RESULT_LEADER]));
         game.placeUnit(hexOf(1, 5), attacker);
         game.placeUnit(hexOf(1, 4), defender);
 
@@ -95,12 +97,10 @@ describe('defender cannot evade', () => {
     });
 
     describe('defender battles back', () => {
-        let attacker = new RomanMediumInfantry();
-        let defender = new CarthaginianMediumInfantry();
         const closeCombatCommand = new CloseCombatCommand(hexOf(1,4), hexOf(1, 5));
 
         describe('attacker killed', () => {
-            let game = makeGame(new NullScenario(), diceReturning(Array(4).fill(RESULT_LIGHT).concat(Array(4).fill(RESULT_MEDIUM))));
+            let game = makeGame(new NullScenario(), diceReturning(Array(5).fill(RESULT_LIGHT).concat(Array(5).fill(RESULT_HEAVY))));
             game.placeUnit(hexOf(1, 5), attacker);
             game.placeUnit(hexOf(1, 4), defender);
 
@@ -123,8 +123,29 @@ describe('defender cannot evade', () => {
 
         });
 
-        test('attacker retreats', () => {
+        describe('attacker retreats', () => {
+            let game = makeGame(new NullScenario(), diceReturning([
+                RESULT_LIGHT, RESULT_LIGHT,RESULT_LIGHT,RESULT_LIGHT,RESULT_LIGHT,
+                RESULT_FLAG, RESULT_LIGHT,RESULT_LIGHT,RESULT_LIGHT,RESULT_LIGHT,
+            ]));
+            game.placeUnit(hexOf(1, 5), attacker);
+            game.placeUnit(hexOf(1, 4), defender);
 
+            const events = closeCombatCommand.play(game);
+
+            test('next phase', () => {
+                expect(game.currentPhase).toBeInstanceOf(AttackerRetreatPhase);
+                expect(game.phases.length).toEqual(2);
+            });
+
+            test('events generated', () => {
+                expect(eventNames(events)).toEqual(["DamageEvent", "BattleBackEvent", "DamageEvent"]);
+            });
+
+            test('both units stay', () => {
+                expect(game.unitAt(hexOf(1, 4))).toBe(defender);
+                expect(game.unitAt(hexOf(1, 5))).toBe(attacker);
+            });
         });
     });
 });

@@ -27,6 +27,7 @@ const values = [
 ];
 
 export class Die {
+    /** @type {DiceResult} */
     #value;
     #random;
 
@@ -50,6 +51,10 @@ export class Dice {
         this.#random = random;
     }
 
+    /**
+     * @param {number} count
+     * @returns {DiceResult[]}
+     */
     roll(count) {
         let results = [];
         let die = new Die(this.#random);

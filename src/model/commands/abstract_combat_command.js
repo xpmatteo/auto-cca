@@ -38,14 +38,12 @@ export class AbstractCombatCommand extends Command {
      * @param {Hex} defendingHex
      * @param {Unit} defendingUnit
      * @param {Game} game
-     * @returns {GameEvent[]}
+     * @returns {[number, Hex[], DiceResult[]]}
      */
-    attack(attackingUnit, defendingHex, defendingUnit, game) {
-        let events = [];
+    simpleAttack(attackingUnit, defendingHex, defendingUnit, game) {
         const diceCount = this.decideDiceCount(attackingUnit, game);
         let diceResults = game.roll(diceCount);
 
-        let isBattleBack = attackingUnit.side !== game.currentSide;
         let numberOfFlags = diceResults.filter(r => r === dice.RESULT_FLAG).length;
         let ignorableFlags = game.isSupported(defendingHex) ? 1 : 0;
         let maxDistanceRequired = numberOfFlags * defendingUnit.retreatHexes;
@@ -54,6 +52,22 @@ export class AbstractCombatCommand extends Command {
         const totalDamage = flagResult.damage +
             defendingUnit.calculateDamage(diceResults, this.doesSwordsResultInflictDamage(attackingUnit, defendingUnit));
 
+        return [totalDamage, flagResult.retreats, diceResults];
+    }
+
+
+    /**
+     * @param {Unit} attackingUnit
+     * @param {Hex} defendingHex
+     * @param {Unit} defendingUnit
+     * @param {Game} game
+     * @returns {GameEvent[]}
+     */
+    attack(attackingUnit, defendingHex, defendingUnit, game) {
+        let totalDamage, retreatHexes, diceResults;
+        [totalDamage, retreatHexes, diceResults] = this.simpleAttack(attackingUnit, defendingHex, defendingUnit, game);
+        let events = [];
+        let isBattleBack = attackingUnit.side !== game.currentSide;
         game.damageUnit(defendingUnit, totalDamage);
         events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, totalDamage, diceResults));
         const attackingHex = game.hexOfUnit(attackingUnit);
@@ -62,12 +76,12 @@ export class AbstractCombatCommand extends Command {
             if (!isBattleBack) {
                 game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
             }
-        } else if (flagResult.retreats.length > 0) {
+        } else if (retreatHexes.length > 0) {
             if (!isBattleBack) {
                 game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
             }
             const preventRecursiveBattleBack = isBattleBack ? null : attackingHex;
-            game.unshiftPhase(new RetreatPhase(preventRecursiveBattleBack, defendingUnit.side, defendingHex, flagResult.retreats));
+            game.unshiftPhase(new RetreatPhase(preventRecursiveBattleBack, defendingUnit.side, defendingHex, retreatHexes));
         }
         return events;
     }
