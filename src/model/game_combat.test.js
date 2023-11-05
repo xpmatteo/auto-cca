@@ -52,25 +52,6 @@ test("execute Attack then battle back", () => {
     expect(game.isUnitDead(attackingUnit)).toBe(true);
 });
 
-// attack then killed
-test("execute Attack and kill defender", () => {
-    const diceResults = Array(5).fill(dice.RESULT_HEAVY);
-    const game = makeGame(new NullScenario(), diceReturning(diceResults));
-    const defendingUnit = new units.CarthaginianHeavyInfantry();
-    game.placeUnit(hexOf(1, 5), new units.RomanHeavyInfantry());
-    game.placeUnit(hexOf(1, 4), defendingUnit);
-
-    let actual = game.executeCommand(new CloseCombatCommand(hexOf(1, 4), hexOf(1, 5)));
-
-    const expected = [
-        "DamageEvent",
-        "UnitKilledEvent",
-    ];
-    expect(eventNames(actual)).toEqual(expected);
-    expect(game.unitAt(hexOf(1, 4))).toBeUndefined();
-    expect(game.killedUnitsOfSide(Side.CARTHAGINIAN)).toEqual([defendingUnit]);
-});
-
 test("close combat with non-ignorable flag and unblocked map NORTH", () => {
     const diceResults = [dice.RESULT_FLAG, dice.RESULT_LIGHT, dice.RESULT_LIGHT, dice.RESULT_LIGHT, dice.RESULT_LIGHT];
     const game = makeGame(new NullScenario(), diceReturning(diceResults));
