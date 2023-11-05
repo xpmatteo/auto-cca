@@ -55,7 +55,6 @@ export class AbstractCombatCommand extends Command {
         return [totalDamage, flagResult.retreats, diceResults];
     }
 
-
     /**
      * @param {Unit} attackingUnit
      * @param {Hex} defendingHex
@@ -73,13 +72,13 @@ export class AbstractCombatCommand extends Command {
         const attackingHex = game.hexOfUnit(attackingUnit);
         if (game.isUnitDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
-            if (!isBattleBack) {
-                game.unshiftPhase(new MomentumAdvancePhase(defendingHex, attackingHex));
-            }
+            // if (!isBattleBack) {
+            //     game.unshiftPhase(new MomentumAdvancePhase(defendingHex, attackingHex));
+            // }
         } else if (retreatHexes.length > 0) {
-            if (!isBattleBack) {
-                game.unshiftPhase(new MomentumAdvancePhase(defendingHex, attackingHex));
-            }
+            // if (!isBattleBack) {
+            //     game.unshiftPhase(new MomentumAdvancePhase(defendingHex, attackingHex));
+            // }
             const preventRecursiveBattleBack = isBattleBack ? null : attackingHex;
             game.unshiftPhase(new FirstDefenderRetreatPhase(preventRecursiveBattleBack, defendingUnit.side, defendingHex, retreatHexes));
         }

@@ -37,7 +37,7 @@ const player = new MctsPlayer({
 });
 
 // fails bc I don't know
-xtest('2 on 2', () => {
+test('2 on 2', () => {
     const game = makeGame(new TwoOnTwoMeleeScenario());
 
     const root = player.search(game, 2000);
@@ -46,8 +46,7 @@ xtest('2 on 2', () => {
     expect(rootAsString).toMatchSnapshot();
 });
 
-// disabled bc of bug in simulation of battle back after ignored flags
-xtest('melee', () => {
+test('melee', () => {
     const game = makeGame(new MeleeScenario());
 
     const root = player.search(game, 2000);
@@ -56,8 +55,7 @@ xtest('melee', () => {
     expect(rootAsString).toMatchSnapshot();
 });
 
-// disabled bc of evasion phase is not yet implemented
-xtest('close combat from light to heavy', () => {
+test('close combat from light to heavy', () => {
     const game = makeGame(new NullScenario());
     game.placeUnit(hexOf(2, 2), new CarthaginianHeavyInfantry());
     game.placeUnit(hexOf(2, 3), new RomanLightInfantry());

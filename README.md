@@ -35,15 +35,6 @@ image to appear.  The parameters are:
   * iterations, playouts: configure AI parameters
 
 
-
-# URGENT
-
-Recently I tried to fix a bug: if a unit ignores flags and stays in its hex, it should battle back.
-
- - now the AI is broken
- - it is possible to keep ignoring flags and battling back multiple times!
- - change Phase#onClick so that it returns a command to execute -- this will make it easier to test
-
 # AI TESTS
 
   - Early game
@@ -72,12 +63,13 @@ Recently I tried to fix a bug: if a unit ignores flags and stays in its hex, it 
 
 - evasion
 - more cards
-- advance after combat
-- cavalry, chariot battle again after advance
+- cavalry bonus movement
+- cavalry, chariot bonus combat
 - leaders
 - terrain
 - "if you don't have any X unit, order a unit of your choice"
 - heavy chariot battles back with 3 dice not 4
 - heavy chariot ignores one sword result
+- warriors, elephants, other units
 
 

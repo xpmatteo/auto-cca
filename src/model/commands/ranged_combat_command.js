@@ -1,3 +1,6 @@
+import { DamageEvent, UnitKilledEvent } from "../events.js";
+import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
+import { RangedCombatRetreatPhase } from "../phases/RangedCombatRetreatPhase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
 export class RangedCombatCommand extends AbstractCombatCommand {
@@ -22,7 +25,18 @@ export class RangedCombatCommand extends AbstractCombatCommand {
             throw new Error(`Cannot Ranged Combat with unit at ${defendingHex} from ${attackingHex}`);
         }
         game.markUnitSpent(attackingUnit);
-        return this.attack(attackingUnit, defendingHex, defendingUnit, game);
+
+        let totalDamage, retreatHexes, diceResults;
+        [totalDamage, retreatHexes, diceResults] = this.simpleAttack(attackingUnit, defendingHex, defendingUnit, game);
+        let events = [];
+        game.damageUnit(defendingUnit, totalDamage);
+        events.push(new DamageEvent(attackingUnit, defendingUnit, defendingHex, totalDamage, diceResults));
+        if (game.isUnitDead(defendingUnit)) {
+            events.push(new UnitKilledEvent(defendingHex, defendingUnit));
+        } else if (retreatHexes.length > 0) {
+            game.unshiftPhase(new RangedCombatRetreatPhase(defendingHex, retreatHexes));
+        }
+        return events;
     }
 
     decideDiceCount(attackingUnit, game) {

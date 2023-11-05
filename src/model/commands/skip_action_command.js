@@ -2,11 +2,11 @@ import { Command } from "./commands.js";
 
 export class SkipActionCommand extends Command {
     /**
-     * @param {Hex} toHex
+     * @param {Hex} unitHex
      */
     constructor(unitHex) {
         super();
-        this.unitHex = unitHex;
+        this.toHex = unitHex;
     }
 
     play(game) {
@@ -15,6 +15,6 @@ export class SkipActionCommand extends Command {
     }
 
     toString() {
-        return `Skip action unit at ${this.unitHex}`;
+        return `Skip action unit at ${this.toHex}`;
     }
 }
