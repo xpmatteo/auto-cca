@@ -1,4 +1,4 @@
-.PHONY: test server open madge
+.PHONY: test server open madge dot
 
 test:
 	@script/test.sh
@@ -19,3 +19,7 @@ tree:
 madge:
 	@npx madge -c --image /tmp/madge.svg src/main.js
 	@open -a "Google Chrome" /tmp/madge.svg
+
+dot:
+	dot -O -Tpng doc/close-combat.dot
+	open doc/close-combat.dot.png

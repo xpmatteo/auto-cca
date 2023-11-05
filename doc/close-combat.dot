@@ -1,0 +1,26 @@
+digraph CloseCombat {
+  closeCombat -> momentumAdvance  [label="def0\nkilled"]
+  closeCombat -> def0Retreat [label="flags"]
+  closeCombat -> def0BattleBack [label="def0\nnot killed"]
+  
+  momentumAdvance -> end0 [label="att stays or\nchooses not to fight"]
+  momentumAdvance -> bonusCloseCombat [label="att is cavalry\nor is warrior\nor has leader"]
+  momentumAdvance -> bonusAdvance [label="att is cavalry"]
+  bonusAdvance -> bonusCloseCombat
+  
+  def0Retreat -> momentumAdvance [label="def0\nretreats"]
+  def0Retreat -> def0BattleBack [label="def0\nignores flags"]
+
+  def0BattleBack -> attackerRetreat0 [label="flags"]
+  def0BattleBack -> end1 [label="else"]
+
+  bonusCloseCombat -> finalAdvance  [label="def1 killed"]
+  bonusCloseCombat -> def1Retreat [label="flags"]
+  bonusCloseCombat -> def1BattleBack [label="def1 not killed"]
+
+  def1Retreat -> finalAdvance [label="def1\nretreats"]
+  def1Retreat -> def1BattleBack [label="def1 ignores flags"]
+
+  def1BattleBack -> attackerRetreat1 [label="flags"]
+  def1BattleBack -> end2 [label="else"]
+}
