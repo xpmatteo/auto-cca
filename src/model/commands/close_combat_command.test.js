@@ -3,7 +3,7 @@ import * as dice from "../dice.js";
 import { diceReturning, RESULT_FLAG, RESULT_HEAVY, RESULT_LEADER, RESULT_LIGHT } from "../dice.js";
 import { DamageEvent, UnitKilledEvent } from "../events.js";
 import makeGame from "../game.js";
-import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
+import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { FirstDefenderEvasionPhase } from "../phases/first_defender_evasion_phase.js";
 import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
@@ -46,7 +46,7 @@ describe('defender cannot evade', () => {
         const events = closeCombatCommand.play(game);
 
         test('next phase is advance after combat', () => {
-            expect(game.currentPhase).toBeInstanceOf(AdvanceAfterCombatPhase);
+            expect(game.currentPhase).toBeInstanceOf(MomentumAdvancePhase);
             expect(game.phases.length).toEqual(2);
         });
 

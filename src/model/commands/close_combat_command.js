@@ -1,6 +1,6 @@
 import { RESULT_LIGHT } from "../dice.js";
 import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "../events.js";
-import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
+import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { FirstDefenderEvasionPhase } from "../phases/first_defender_evasion_phase.js";
 import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
@@ -40,7 +40,7 @@ export class CloseCombatCommand extends AbstractCombatCommand {
         game.damageUnit(defendingUnit, totalDamage);
         if (game.isUnitDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingUnit, defendingHex));
-            game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
+            game.unshiftPhase(new MomentumAdvancePhase(defendingHex, attackingHex));
         } else if (retreatHexes.length > 0) {
             game.unshiftPhase(new FirstDefenderRetreatPhase(attackingHex, defendingUnit.side, defendingHex, retreatHexes));
         } else {

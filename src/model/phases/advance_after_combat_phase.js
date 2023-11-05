@@ -1,10 +1,10 @@
 import { Hex } from "../../lib/hexlib.js";
+import { MomentumAdvanceCommand } from "../commands/MomentumAdvanceCommand.js";
 import { RetreatCommand } from "../commands/retreatCommand.js";
+import { SkipMomentumAdvanceCommand } from "../commands/SkipMomentumAdvanceCommand.js";
 import { Phase } from "./Phase.js";
 
-export class AdvanceAfterCombatPhase  extends Phase {
-    toHex;
-    fromHex;
+export class MomentumAdvancePhase extends Phase {
     /**
      * @param {Hex} toHex
      * @param {Hex} fromHex
@@ -21,9 +21,9 @@ export class AdvanceAfterCombatPhase  extends Phase {
 
     validCommands(game) {
         if (game.unitAt(this.toHex)) {
-            return [new RetreatCommand(this.fromHex, this.fromHex)];
+            return [new SkipMomentumAdvanceCommand(this.fromHex)];
         }
-        return [new RetreatCommand(this.toHex, this.fromHex), new RetreatCommand(this.fromHex, this.fromHex)];
+        return [new MomentumAdvanceCommand(this.toHex, this.fromHex), new SkipMomentumAdvanceCommand(this.fromHex)];
     }
 
     hilightedHexes(game) {

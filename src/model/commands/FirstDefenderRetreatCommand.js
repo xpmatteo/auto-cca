@@ -1,4 +1,4 @@
-import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
+import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
 import { Command } from "./commands.js";
 
 export class FirstDefenderRetreatCommand extends Command {
@@ -13,7 +13,7 @@ export class FirstDefenderRetreatCommand extends Command {
         game.moveUnit(this.toHex, this.fromHex);
         game.addMovementTrail(this.toHex, this.fromHex);
         game.shiftPhase();
-        game.unshiftPhase(new AdvanceAfterCombatPhase(this.fromHex, this.attackerHex));
+        game.unshiftPhase(new MomentumAdvancePhase(this.fromHex, this.attackerHex));
         return [];
     }
 

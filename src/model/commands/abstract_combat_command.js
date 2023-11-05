@@ -1,5 +1,5 @@
 import { RESULT_LIGHT } from "../dice.js";
-import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
+import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
 import { BattleBackEvent, DamageEvent, GameEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
 import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
@@ -74,11 +74,11 @@ export class AbstractCombatCommand extends Command {
         if (game.isUnitDead(defendingUnit)) {
             events.push(new UnitKilledEvent(defendingHex, defendingUnit));
             if (!isBattleBack) {
-                game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
+                game.unshiftPhase(new MomentumAdvancePhase(defendingHex, attackingHex));
             }
         } else if (retreatHexes.length > 0) {
             if (!isBattleBack) {
-                game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
+                game.unshiftPhase(new MomentumAdvancePhase(defendingHex, attackingHex));
             }
             const preventRecursiveBattleBack = isBattleBack ? null : attackingHex;
             game.unshiftPhase(new FirstDefenderRetreatPhase(preventRecursiveBattleBack, defendingUnit.side, defendingHex, retreatHexes));
