@@ -1,11 +1,13 @@
 import makeGame, { MovementTrail } from "../game.js";
 import { hexOf } from "../../lib/hexlib.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
-import { RESULT_HEAVY, RESULT_LIGHT, RESULT_SWORDS } from "../dice.js";
-import { diceReturning, eventNames } from '../game_combat.test.js';
+import { diceReturning, RESULT_HEAVY, RESULT_LIGHT, RESULT_SWORDS } from "../dice.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../units.js";
 
+function eventNames(events) {
+    return events.map(e => e.constructor.name);
+}
 
 test("ranged combat play with 2 dice", () => {
     let game = makeGame(new NullScenario(), diceReturning([RESULT_HEAVY, RESULT_SWORDS]));
