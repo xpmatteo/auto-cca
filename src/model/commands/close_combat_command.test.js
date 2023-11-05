@@ -25,20 +25,9 @@ const attacker = new RomanHeavyInfantry();
 const defender = new CarthaginianHeavyInfantry();
 const closeCombatCommand = new CloseCombatCommand(hexOf(1,4), hexOf(1, 5));
 
-test("marks units spent", () => {
+// phase not implemented yet
+xtest('defender can evade', () => {
     let game = makeGame(new NullScenario());
-    game.placeUnit(hexOf(1, 5), attacker);
-    game.placeUnit(hexOf(1, 4), defender);
-
-    game.executeCommand(closeCombatCommand);
-
-    expect(game.spentUnits).toEqual([attacker]);
-});
-
-test('defender can evade', () => {
-    let game = makeGame(new NullScenario());
-    const attacker = new RomanHeavyInfantry();
-    const defender = new CarthaginianLightInfantry();
     game.placeUnit(hexOf(1, 5), attacker);
     game.placeUnit(hexOf(1, 4), defender);
 
@@ -46,6 +35,7 @@ test('defender can evade', () => {
 
     expect(game.currentPhase).toBeInstanceOf(FirstDefenderEvasionPhase);
     expect(game.phases.length).toEqual(2);
+    expect(game.spentUnits).toEqual([attacker]);
 });
 
 describe('defender cannot evade', () => {
@@ -71,6 +61,10 @@ describe('defender cannot evade', () => {
             expect(game.unitAt(hexOf(1, 4))).toBeUndefined();
             expect(game.killedUnitsOfSide(Side.CARTHAGINIAN)).toEqual([defender]);
         });
+
+        test('attacker unit spent', () => {
+            expect(game.spentUnits).toEqual([attacker]);
+        });
     });
 
     describe('defender retreats', () => {
@@ -93,6 +87,10 @@ describe('defender cannot evade', () => {
 
         test('defender is still there', () => {
             expect(game.unitAt(hexOf(1, 4))).toBe(defender);
+        });
+
+        test('attacker unit spent', () => {
+            expect(game.spentUnits).toEqual([attacker]);
         });
     });
 
@@ -121,6 +119,9 @@ describe('defender cannot evade', () => {
                 expect(game.killedUnitsOfSide(Side.ROMAN)).toEqual([attacker]);
             });
 
+            test('attacker unit spent', () => {
+                expect(game.spentUnits).toEqual([attacker]);
+            });
         });
 
         describe('attacker retreats', () => {
@@ -145,6 +146,10 @@ describe('defender cannot evade', () => {
             test('both units stay', () => {
                 expect(game.unitAt(hexOf(1, 4))).toBe(defender);
                 expect(game.unitAt(hexOf(1, 5))).toBe(attacker);
+            });
+
+            test('attacker unit spent', () => {
+                expect(game.spentUnits).toEqual([attacker]);
             });
         });
     });

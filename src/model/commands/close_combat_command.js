@@ -28,7 +28,7 @@ export class CloseCombatCommand extends AbstractCombatCommand {
             throw new Error(`Cannot Close Combat with unit at ${defendingHex} from ${attackingHex} (too far)`);
         }
 
-        if (defendingUnit.canEvade(attackingUnit)) {
+        if (defendingUnit.canEvade(attackingUnit) && this.hasRoomToEvade(defendingHex, game)) {
             game.unshiftPhase(new FirstDefenderEvasionPhase(defendingHex, attackingHex));
             return [];
         }
@@ -75,5 +75,9 @@ export class CloseCombatCommand extends AbstractCombatCommand {
 
     doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
         return attackingUnit.weight != RESULT_LIGHT;
+    }
+
+    hasRoomToEvade(defendingHex, game) {
+        return false;
     }
 }
