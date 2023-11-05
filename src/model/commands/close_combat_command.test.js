@@ -5,7 +5,7 @@ import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { FirstDefenderEvasionPhase } from "../phases/first_defender_evasion_phase.js";
 import { PlayCardPhase } from "../phases/play_card_phase.js";
-import { RetreatPhase } from "../phases/RetreatPhase.js";
+import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
 import { Side } from "../side.js";
 import { CloseCombatCommand } from "./close_combat_command.js";
 import makeGame from "../game.js";
@@ -82,7 +82,7 @@ describe('defender cannot evade', () => {
         const events = closeCombatCommand.play(game);
 
         test('next phase', () => {
-            expect(game.currentPhase).toBeInstanceOf(RetreatPhase);
+            expect(game.currentPhase).toBeInstanceOf(FirstDefenderRetreatPhase);
             expect(game.phases.length).toEqual(2);
         });
 

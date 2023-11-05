@@ -2,7 +2,7 @@ import { RESULT_LIGHT } from "../dice.js";
 import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
 import { BattleBackEvent, DamageEvent, GameEvent, UnitKilledEvent } from "../events.js";
 import * as dice from "../dice.js";
-import { RetreatPhase } from "../phases/RetreatPhase.js";
+import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
 import { Command, handleFlags } from "./commands.js";
 import { Hex } from "../../lib/hexlib.js";
 
@@ -81,7 +81,7 @@ export class AbstractCombatCommand extends Command {
                 game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
             }
             const preventRecursiveBattleBack = isBattleBack ? null : attackingHex;
-            game.unshiftPhase(new RetreatPhase(preventRecursiveBattleBack, defendingUnit.side, defendingHex, retreatHexes));
+            game.unshiftPhase(new FirstDefenderRetreatPhase(preventRecursiveBattleBack, defendingUnit.side, defendingHex, retreatHexes));
         }
         return events;
     }

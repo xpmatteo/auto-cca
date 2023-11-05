@@ -3,7 +3,7 @@ import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "../events.js";
 import { AdvanceAfterCombatPhase } from "../phases/advance_after_combat_phase.js";
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { FirstDefenderEvasionPhase } from "../phases/first_defender_evasion_phase.js";
-import { RetreatPhase } from "../phases/RetreatPhase.js";
+import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
 export class CloseCombatCommand extends AbstractCombatCommand {
@@ -42,7 +42,7 @@ export class CloseCombatCommand extends AbstractCombatCommand {
             events.push(new UnitKilledEvent(defendingUnit, defendingHex));
             game.unshiftPhase(new AdvanceAfterCombatPhase(defendingHex, attackingHex));
         } else if (retreatHexes.length > 0) {
-            game.unshiftPhase(new RetreatPhase(attackingHex, defendingUnit.side, defendingHex, retreatHexes));
+            game.unshiftPhase(new FirstDefenderRetreatPhase(attackingHex, defendingUnit.side, defendingHex, retreatHexes));
         } else {
             // battle back
             [totalDamage, retreatHexes, diceResults] =

@@ -7,7 +7,7 @@ import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
 import { BattlePhase } from "./BattlePhase.js";
-import { RetreatPhase } from "./RetreatPhase.js";
+import { FirstDefenderRetreatPhase } from "./FirstDefenderRetreatPhase.js";
 
 
 describe('Retreat phase', () => {
@@ -17,7 +17,7 @@ describe('Retreat phase', () => {
         let retreatingUnit = new CarthaginianHeavyInfantry();
         let attackingUnit = new RomanHeavyInfantry();
         game.placeUnit(hexOf(1, 5), retreatingUnit);
-        game.phases = [new RetreatPhase(hexOf(7,7), Side.CARTHAGINIAN, hexOf(1,5), [hexOf(1,4)]), new BattlePhase()]
+        game.phases = [new FirstDefenderRetreatPhase(hexOf(7,7), Side.CARTHAGINIAN, hexOf(1,5), [hexOf(1,4)]), new BattlePhase()]
 
         game.executeCommand(new RetreatCommand(hexOf(1,4), hexOf(1, 5)));
 
@@ -30,7 +30,7 @@ describe('Retreat phase', () => {
     const game = new InteractiveGame(makeGame(new NullScenario()));
 
     describe('when the retreating is done by the unit originally under attack', () => {
-        const retreatPhase = new RetreatPhase(hexOf(2,2), Side.CARTHAGINIAN, hexOf(0,0), [hexOf(0,0), hexOf(1, 1)]);
+        const retreatPhase = new FirstDefenderRetreatPhase(hexOf(2,2), Side.CARTHAGINIAN, hexOf(0,0), [hexOf(0,0), hexOf(1, 1)]);
 
         test('retreat phase valid commands', () => {
             expect(retreatPhase.validCommands(game).toString()).toEqual([
@@ -58,7 +58,7 @@ describe('Retreat phase', () => {
     });
 
     describe('when the retreating is done as a consequence of battle back', () => {
-        const retreatPhase = new RetreatPhase(null, Side.ROMAN, hexOf(0,0), [hexOf(0,0), hexOf(1, 1)]);
+        const retreatPhase = new FirstDefenderRetreatPhase(null, Side.ROMAN, hexOf(0,0), [hexOf(0,0), hexOf(1, 1)]);
 
         test('retreat phase valid commands', () => {
             expect(retreatPhase.validCommands(game).toString()).toEqual([

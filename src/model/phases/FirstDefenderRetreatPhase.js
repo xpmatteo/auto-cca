@@ -5,7 +5,7 @@ import { Hex } from "../../lib/hexlib.js";
 import { IgnoreFlagAndBattleBackCommand } from "../commands/abstract_combat_command.js";
 
 
-export class RetreatPhase extends Phase {
+export class FirstDefenderRetreatPhase extends Phase {
     /**
      * @param {Hex} attackingHex if battle back is possible, otherwise null
      * @param {Side} retreatingSide
