@@ -1,26 +1,43 @@
 digraph CloseCombat {
+  start -> def0Evasion [label="if def0 can evade"]
+  start -> closeCombat [label="if def0 cannot evade"]
+
   closeCombat -> momentumAdvance  [label="def0\nkilled"]
   closeCombat -> def0Retreat [label="flags"]
   closeCombat -> def0BattleBack [label="def0\nnot killed"]
   
-  momentumAdvance -> end0 [label="att stays or\nchooses not to fight"]
-  momentumAdvance -> bonusCloseCombat [label="att is cavalry\nor is warrior\nor has leader"]
+  def0Evasion -> end0 [label="def0 evades"]
+  def0Evasion -> closeCombat [label="def0 stays"]
+    
+  momentumAdvance -> startBonusCombat [label="att is cavalry\nor is warrior\nor has leader"]
+  momentumAdvance -> end1 [label="att stays"]
   momentumAdvance -> bonusAdvance [label="att is cavalry"]
-  bonusAdvance -> bonusCloseCombat
+  bonusAdvance -> startBonusCombat
   
   def0Retreat -> momentumAdvance [label="def0\nretreats"]
   def0Retreat -> def0BattleBack [label="def0\nignores flags"]
 
+  def0BattleBack -> end2 [label="else"]
   def0BattleBack -> attackerRetreat0 [label="flags"]
-  def0BattleBack -> end1 [label="else"]
+  
+  attackerRetreat0 -> end3
 
-  bonusCloseCombat -> finalAdvance  [label="def1 killed"]
-  bonusCloseCombat -> def1Retreat [label="flags"]
-  bonusCloseCombat -> def1BattleBack [label="def1 not killed"]
+  startBonusCombat -> end4 [label="att. chooses\nnot to fight"] 
+  startBonusCombat -> def1evasion [label="def1 can evade"]
+  startBonusCombat -> bonusCombat [label="def1 cannot evade"]
+
+  bonusCombat -> finalAdvance  [label="def1 killed"]
+  bonusCombat -> def1Retreat [label="flags"]
+  bonusCombat -> def1BattleBack [label="def1 not killed"]
+  
+  def1evasion -> end5 [label="def1 evades"]
+  def1evasion -> bonusCombat  [label="def1 stays"]
 
   def1Retreat -> finalAdvance [label="def1\nretreats"]
   def1Retreat -> def1BattleBack [label="def1 ignores flags"]
 
   def1BattleBack -> attackerRetreat1 [label="flags"]
-  def1BattleBack -> end2 [label="else"]
+  def1BattleBack -> end6 [label="else"]
+  
+  attackerRetreat1 -> end7
 }
