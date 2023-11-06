@@ -2,7 +2,7 @@ import { RESULT_LIGHT } from "../dice.js";
 import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "../events.js";
 import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
-import { FirstDefenderEvasionPhase } from "../phases/first_defender_evasion_phase.js";
+import { FirstDefenderEvasionPhase } from "../phases/FirstDefenderEvasionPhase.js";
 import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
