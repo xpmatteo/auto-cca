@@ -174,6 +174,14 @@ export class Game {
         return result;
     }
 
+    evasionPaths(hex) {
+        const retreatPaths = this.retreatPaths(hex, 2, this.unitAt(hex).side);
+        if (retreatPaths[2].length > 0) {
+            return retreatPaths[2];
+        }
+        return retreatPaths[1];
+    }
+
     clone() {
         const game = new Game(this.scenario, this.dice);
         game.board = this.board.clone();

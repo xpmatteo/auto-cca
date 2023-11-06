@@ -114,3 +114,34 @@ test('enemy units do not provide support', function () {
     expect(game.isSupported(hexOf(1, 1))).toBe(false);
 });
 
+
+describe('evasion paths', () => {
+    test('no evasion paths', () => {
+        const game = makeGame(new NullScenario());
+        game.placeUnit(hexOf(1, 4), new units.RomanHeavyInfantry());
+        game.placeUnit(hexOf(0, 5), new units.CarthaginianHeavyInfantry());
+        game.placeUnit(hexOf(1, 5), new units.CarthaginianHeavyInfantry());
+
+        expect(game.evasionPaths(hexOf(1, 4))).toEqual([]);
+    });
+
+    test('one evasion paths of length 1', () => {
+        const game = makeGame(new NullScenario());
+        game.placeUnit(hexOf(1, 4), new units.RomanHeavyInfantry());
+        game.placeUnit(hexOf(0, 5), new units.CarthaginianHeavyInfantry());
+        game.placeUnit(hexOf(0, 6), new units.CarthaginianHeavyInfantry());
+        game.placeUnit(hexOf(1, 6), new units.CarthaginianHeavyInfantry());
+
+        expect(game.evasionPaths(hexOf(1, 4)).toString()).toEqual([hexOf(1, 5)].toString());
+    });
+
+    test('one evasion paths of length 2', () => {
+        const game = makeGame(new NullScenario());
+        game.placeUnit(hexOf(1, 4), new units.RomanHeavyInfantry());
+        game.placeUnit(hexOf(-1, 6), new units.CarthaginianHeavyInfantry());
+        game.placeUnit(hexOf(0, 6), new units.CarthaginianHeavyInfantry());
+
+        expect(game.evasionPaths(hexOf(1, 4)).toString()).toEqual([hexOf(1, 6)].toString());
+    });
+
+});
