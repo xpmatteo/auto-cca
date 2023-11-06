@@ -165,3 +165,15 @@ export class SideSwitchedTo extends GameEvent {
     }
 }
 
+export class DefenderEvasionEvent extends GameEvent {
+    constructor(toHex, fromHex) {
+        super();
+        this.fromHex = fromHex;
+        this.toHex = toHex;
+    }
+
+    toString() {
+        return `Defender evades to ${this.toHex}`;
+    }
+}
+
