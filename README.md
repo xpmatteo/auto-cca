@@ -3,6 +3,10 @@
 
 Graphics are Copyright GMT Games, copied from the Vassal CC:A module
 
+This work is intended exclusively for learning about game-playing AI.
+
+I presented this work in progress at Codemotion Milano 2023; [here are the slides](https://speakerdeck.com/xpmatteo/an-ai-for-a-complex-boardgame-based-on-monte-carlo-tree-search).
+
 # How to
 
 Serve locally with `make server` or `python -m http.server`
