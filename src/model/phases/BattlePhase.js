@@ -1,3 +1,4 @@
+import { AskOpponentIfTheyIntendToEvadeCommand } from "../commands/AskOpponentIfTheyIntendToEvadeCommand.js";
 import { Phase } from "./Phase.js";
 import {EndPhaseCommand} from "../commands/end_phase_command.js";
 import {CloseCombatCommand} from "../commands/close_combat_command.js";
@@ -11,18 +12,23 @@ export class BattlePhase extends Phase {
 
     validCommands(game) {
         let commands = [];
-        game.foreachUnit((unit, hex) => {
-            if (!game.isOrdered(unit)) {
+        game.foreachUnit((attackingUnit, attackingHex) => {
+            if (!game.isOrdered(attackingUnit)) {
                 return;
             }
-            if (game.spentUnits.includes(unit)) {
+            if (game.spentUnits.includes(attackingUnit)) {
                 return;
             }
-            unit.validCloseCombatTargets(hex, game).forEach(to => {
-                commands.push(new CloseCombatCommand(to, hex));
+            attackingUnit.validCloseCombatTargets(attackingHex, game).forEach(defendingHex => {
+                const defendingUnit = game.unitAt(defendingHex);
+                if (defendingUnit.canEvade(attackingUnit) && game.evasionPaths(defendingHex).length > 0) {
+                    commands.push(new AskOpponentIfTheyIntendToEvadeCommand(defendingHex));
+                } else {
+                    commands.push(new CloseCombatCommand(defendingHex, attackingHex));
+                }
             });
-            unit.validRangedCombatTargets(hex, game).forEach(to => {
-                commands.push(new RangedCombatCommand(to, hex));
+            attackingUnit.validRangedCombatTargets(attackingHex, game).forEach(to => {
+                commands.push(new RangedCombatCommand(to, attackingHex));
             });
         });
         if (commands.length === 0) {

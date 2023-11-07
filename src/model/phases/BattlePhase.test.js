@@ -1,3 +1,4 @@
+import { AskOpponentIfTheyIntendToEvadeCommand } from "../commands/AskOpponentIfTheyIntendToEvadeCommand.js";
 import makeGame from '../game.js';
 import { NullScenario } from '../scenarios.js';
 import { hexOf } from '../../lib/hexlib.js';
@@ -124,5 +125,20 @@ test('endphase only available if no combats are available', function () {
         new EndPhaseCommand(),
     ];
     expect(new Set(commands)).toEqual(new Set(expected));
+});
+
+test('generate evasion commands for eligible units', function () {
+    const game = makeGame(new NullScenario());
+    const phase = new BattlePhase();
+    game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
+    game.placeUnit(hexOf(2, 1), new units.CarthaginianLightInfantry());
+    game.orderUnit(hexOf(1, 1));
+
+    let commands = phase.validCommands(game);
+
+    let expected = [
+        new AskOpponentIfTheyIntendToEvadeCommand(hexOf(2, 1)),
+    ];
+    expect(commands.toString()).toEqual(expected.toString());
 });
 
