@@ -40,9 +40,6 @@ image to appear.  The parameters are:
 
 # WIP
 
- - AskOpponentIfTheyIntendToEvadeCommand
- - FirstDefenderDoesNotEvadeCommand
-
 # AI TESTS
 
   - Early game

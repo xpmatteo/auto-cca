@@ -177,3 +177,6 @@ export class DefenderEvasionEvent extends GameEvent {
     }
 }
 
+export function eventNames(events) {
+    return events.map(e => e.constructor.name);
+}

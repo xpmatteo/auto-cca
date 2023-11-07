@@ -69,7 +69,7 @@ export class Phase {
     }
 
     /**
-     * @param {Game} game
+     * @param {InteractiveGame} game
      * @returns {Set<Hex>}
      */
     hilightedHexes(game) {

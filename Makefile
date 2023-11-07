@@ -12,6 +12,7 @@ open:
 	@open -a "Google Chrome" http://localhost:8000?scenario=melee
 	@open -a "Google Chrome" http://localhost:8000?scenario=oneToOneMelee
 	@open -a "Google Chrome" http://localhost:8000?scenario=twoOnTwoMelee
+	@open -a "Google Chrome" http://localhost:8000?scenario=heavyVersusLight
 
 tree:
 	@open -a "Google Chrome" "http://localhost:8000/tree.html?scenario=akragas&iterations=3000&playouts=10&depth=6&threshold=0&prune=0"

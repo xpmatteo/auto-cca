@@ -133,6 +133,22 @@ export class TwoOnTwoMeleeScenario extends Scenario {
     }
 }
 
+export class HeavyVersusLightScenario extends Scenario {
+    firstSide = Side.ROMAN;
+    sideNorth = Side.CARTHAGINIAN;
+    sideSouth = Side.ROMAN;
+    pointsToWin = 2;
+    commandNorth = 4;
+    commandSouth = 3;
+
+    placeUnitsOn(board) {
+        board.placeUnit(hexOf(-1, 6), new units.RomanHeavyInfantry());
+        board.placeUnit(hexOf(0, 6), new units.RomanHeavyInfantry());
+
+        board.placeUnit(hexOf(0, 4), new units.CarthaginianLightInfantry());
+        board.placeUnit(hexOf(1, 4), new units.CarthaginianLightInfantry());
+    }
+}
 
 export class AkragasScenario extends Scenario {
     firstSide = Side.SYRACUSAN;
@@ -196,6 +212,7 @@ const SCENARIOS = {
     melee: new MeleeScenario(),
     oneToOneMelee: new OneToOneMeleeScenario(),
     twoOnTwoMelee: new TwoOnTwoMeleeScenario(),
+    heavyVersusLight: new HeavyVersusLightScenario(),
 }
 
 export function makeScenario(name) {

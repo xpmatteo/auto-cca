@@ -11,7 +11,7 @@ describe('evade command', () => {
     const evadingUnit = new RomanLightInfantry();
     game.placeUnit(hexOf(1, 4), evadingUnit);
     game.unshiftPhase(new BattlePhase());
-    game.unshiftPhase(new FirstDefenderEvasionPhase([hexOf(0, 6)], hexOf(1, 4)));
+    game.unshiftPhase(new FirstDefenderEvasionPhase([hexOf(0, 6)], hexOf(1, 4), hexOf(1, 5)));
     const evadeCommand = new EvadeCommand(hexOf(0, 6), hexOf(1, 4));
 
     const events = evadeCommand.play(game);

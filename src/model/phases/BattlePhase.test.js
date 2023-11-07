@@ -1,3 +1,4 @@
+import { InteractiveGame } from "../../interactive_game.js";
 import { AskOpponentIfTheyIntendToEvadeCommand } from "../commands/AskOpponentIfTheyIntendToEvadeCommand.js";
 import makeGame from '../game.js';
 import { NullScenario } from '../scenarios.js';
@@ -8,10 +9,10 @@ import { EndPhaseCommand } from "../commands/end_phase_command.js";
 import { CloseCombatCommand } from "../commands/close_combat_command.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
 
+const phase = new BattlePhase();
 
 test('generate no close combat commands for out of range', function () {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase();
     game.placeUnit(hexOf(0, 0), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
     game.orderUnit(hexOf(0, 0));
@@ -25,22 +26,23 @@ test('generate no close combat commands for out of range', function () {
     expect(new Set(commands)).toEqual(new Set(expected));
 });
 
-
-test('generate close combat commands for one unit and one target', function () {
+describe('one unit and one target', () => {
     const game = makeGame(new NullScenario());
-    const phase = new BattlePhase();
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianHeavyInfantry());
     game.orderUnit(hexOf(1, 1));
 
-    let commands = phase.validCommands(game);
+    test('generate close combat commands for one unit and one target', function () {
+        let commands = phase.validCommands(game);
 
-    let expected = [
-        new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
-    ];
-    expect(commands.length).toEqual(expected.length);
-    expect(new Set(commands)).toEqual(new Set(expected));
+        let expected = [
+            new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
+        ];
+        expect(commands.length).toEqual(expected.length);
+        expect(new Set(commands)).toEqual(new Set(expected));
+    });
 });
+
 
 test('generate close combat commands for one unit and two targets', function () {
     const game = makeGame(new NullScenario());
@@ -127,18 +129,21 @@ test('endphase only available if no combats are available', function () {
     expect(new Set(commands)).toEqual(new Set(expected));
 });
 
-test('generate evasion commands for eligible units', function () {
+describe('when some units can evade', () => {
     const game = makeGame(new NullScenario());
     const phase = new BattlePhase();
     game.placeUnit(hexOf(1, 1), new units.RomanHeavyInfantry());
     game.placeUnit(hexOf(2, 1), new units.CarthaginianLightInfantry());
     game.orderUnit(hexOf(1, 1));
 
-    let commands = phase.validCommands(game);
+    test('generate evasion commands for eligible units', function () {
+        let commands = phase.validCommands(game);
 
-    let expected = [
-        new AskOpponentIfTheyIntendToEvadeCommand(hexOf(2, 1)),
-    ];
-    expect(commands.toString()).toEqual(expected.toString());
+        let expected = [
+            new AskOpponentIfTheyIntendToEvadeCommand(hexOf(2, 1), hexOf(1, 1)),
+        ];
+        expect(commands.toString()).toEqual(expected.toString());
+    });
+
 });
 

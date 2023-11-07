@@ -21,11 +21,11 @@ export class BattlePhase extends Phase {
             }
             attackingUnit.validCloseCombatTargets(attackingHex, game).forEach(defendingHex => {
                 const defendingUnit = game.unitAt(defendingHex);
-                if (defendingUnit.canEvade(attackingUnit) && game.evasionPaths(defendingHex).length > 0) {
-                    commands.push(new AskOpponentIfTheyIntendToEvadeCommand(defendingHex));
-                } else {
+                // if (defendingUnit.canEvade(attackingUnit) && game.evasionPaths(defendingHex).length > 0) {
+                //     commands.push(new AskOpponentIfTheyIntendToEvadeCommand(defendingHex, attackingHex));
+                // } else {
                     commands.push(new CloseCombatCommand(defendingHex, attackingHex));
-                }
+                // }
             });
             attackingUnit.validRangedCombatTargets(attackingHex, game).forEach(to => {
                 commands.push(new RangedCombatCommand(to, attackingHex));

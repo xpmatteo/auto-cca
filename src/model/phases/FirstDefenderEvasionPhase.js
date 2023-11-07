@@ -9,10 +9,11 @@ export class FirstDefenderEvasionPhase extends Phase {
      * @param {Hex[]} toHexes
      * @param {Hex} fromHex
      */
-    constructor(toHexes, fromHex) {
+    constructor(toHexes, fromHex, attackerHex) {
         super("1st defender evasion");
         this.toHexes = toHexes;
         this.fromHex = fromHex;
+        this.attackerHex = attackerHex;
     }
 
     /**
@@ -20,7 +21,9 @@ export class FirstDefenderEvasionPhase extends Phase {
      * @returns {Command[]}
      */
     validCommands(game) {
-        return [new FirstDefenderDoesNotEvadeCommand()].concat(
+        /** @type {Command[]} */
+        const seed = [new FirstDefenderDoesNotEvadeCommand(this.fromHex, this.attackerHex)];
+        return seed.concat(
             this.toHexes.map(h => new EvadeCommand(h, this.fromHex))
         );
     }
@@ -39,7 +42,7 @@ export class FirstDefenderEvasionPhase extends Phase {
      */
     onClick(hex, interactiveGame) {
         if (hex === this.fromHex) {
-            return new FirstDefenderDoesNotEvadeCommand();
+            return new FirstDefenderDoesNotEvadeCommand(this.fromHex, this.attackerHex);
         }
         return this.toHexes
             .filter(toHex => toHex === hex)
