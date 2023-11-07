@@ -38,6 +38,10 @@ image to appear.  The parameters are:
   * prune *n*: for the first *n* nodes in the tree, we only show the main line, not showing other subtrees
   * iterations, playouts: configure AI parameters
 
+# WIP
+
+ - AskOpponentIfTheyIntendToEvadeCommand
+ - FirstDefenderDoesNotEvadeCommand
 
 # AI TESTS
 

@@ -28,11 +28,6 @@ export class CloseCombatCommand extends AbstractCombatCommand {
             throw new Error(`Cannot Close Combat with unit at ${defendingHex} from ${attackingHex} (too far)`);
         }
 
-        if (defendingUnit.canEvade(attackingUnit) && this.hasRoomToEvade(defendingHex, game)) {
-            game.unshiftPhase(new FirstDefenderEvasionPhase(defendingHex, attackingHex));
-            return [];
-        }
-
         const events = [];
         [totalDamage, retreatHexes, diceResults] =
             this.simpleAttack(attackingUnit, defendingHex, defendingUnit, game);
@@ -60,23 +55,11 @@ export class CloseCombatCommand extends AbstractCombatCommand {
         return events;
     }
 
-    defenderHoldsGround(game, defendingHex, attackingUnit) {
-        return game.unitAt(defendingHex) && this.noRetreat(game, attackingUnit);
-    }
-
-    noRetreat(game, attackingUnit) {
-        return game.currentSide === attackingUnit.side;
-    }
-
     decideDiceCount(attackingUnit, game) {
         return attackingUnit.diceCount;
     }
 
     doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
         return attackingUnit.weight != RESULT_LIGHT;
-    }
-
-    hasRoomToEvade(defendingHex, game) {
-        return false;
     }
 }
