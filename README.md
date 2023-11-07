@@ -12,7 +12,7 @@ I presented this work in progress at Codemotion Milano 2023; [here are the slide
 Serve locally with `make server` or `python -m http.server`
 
 Run tests with `make test` (you should `npm install jest` first).  
-You may run a single test suite with `script/test.sh test/whatever.js`
+You may run a single test suite with `script/test.sh src/whatever.test.js`
 
 Play the game with `make open`. Notice the "End phase" and "AI continue" 
 buttons, you will need to click them at appropriate times to get the game to proceed. 
