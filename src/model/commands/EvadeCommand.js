@@ -14,8 +14,8 @@ export class EvadeCommand extends Command {
     }
 
     play(game) {
-        game.shiftPhase();
         game.moveUnit(this.toHex, this.fromHex);
+        game.endPhase();
         return [new DefenderEvasionEvent(this.toHex, this.fromHex)];
     }
 

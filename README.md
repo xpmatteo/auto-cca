@@ -40,6 +40,8 @@ image to appear.  The parameters are:
 
 # WIP
 
+Must set the temporarySide to the opponent during evasion phases
+
 # AI TESTS
 
   - Early game
@@ -66,7 +68,6 @@ image to appear.  The parameters are:
 
 # TODO RULES
 
-- evasion
 - more cards
 - cavalry bonus movement
 - cavalry, chariot bonus combat

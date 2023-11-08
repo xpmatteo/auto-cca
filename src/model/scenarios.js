@@ -145,8 +145,8 @@ export class HeavyVersusLightScenario extends Scenario {
         board.placeUnit(hexOf(-1, 6), new units.RomanHeavyInfantry());
         board.placeUnit(hexOf(0, 6), new units.RomanHeavyInfantry());
 
-        board.placeUnit(hexOf(0, 4), new units.CarthaginianLightInfantry());
-        board.placeUnit(hexOf(1, 4), new units.CarthaginianLightInfantry());
+        board.placeUnit(hexOf(0, 5), new units.CarthaginianLightInfantry());
+        board.placeUnit(hexOf(1, 5), new units.CarthaginianLightInfantry());
     }
 }
 
