@@ -42,7 +42,7 @@ export class Phase {
      */
     onClick(hex, interactiveGame) {
         if (interactiveGame.selectedUnit() && interactiveGame.hilightedHexes.has(hex)) {
-            const command = interactiveGame.validCommands().
+            const command = this.validCommands(interactiveGame.toGame()).
                 find(command => command.toHex === hex && command.fromHex === interactiveGame.selectedHex());
             interactiveGame.deselectUnit();
             return command;
