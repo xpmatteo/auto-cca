@@ -1,4 +1,4 @@
-.PHONY: test server open madge dot
+.PHONY: test server open madge dot cloc
 
 test:
 	@script/test.sh
@@ -24,3 +24,6 @@ madge:
 dot:
 	dot -O -Tpng doc/close-combat.dot
 	open doc/close-combat.dot.png
+
+cloc:
+	@cloc --exclude-ext=test.js src
