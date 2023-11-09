@@ -22,7 +22,7 @@ export class BattlePhase extends Phase {
             attackingUnit.validCloseCombatTargets(attackingHex, game).forEach(defendingHex => {
                 const defendingUnit = game.unitAt(defendingHex);
                 if (defendingUnit.canEvade(attackingUnit) && game.evasionPaths(defendingHex).length > 0) {
-                    commands.push(new CloseCombatWithEvasionCommand(defendingHex, attackingHex));
+                    commands.push(new CloseCombatWithEvasionCommand(defendingUnit.side, defendingHex, attackingHex));
                 } else {
                     commands.push(new CloseCombatCommand(defendingHex, attackingHex));
                 }

@@ -21,7 +21,7 @@ describe('1st defender does not evade', () => {
         game.placeUnit(defendingHex, defendingUnit);
         const attackingHex = hexOf(2,3);
         game.placeUnit(attackingHex, attackingUnit);
-        game.phases = [new FirstDefenderEvasionPhase(null, null, null), new BattlePhase()];
+        game.phases = [new FirstDefenderEvasionPhase(null, null, null, null), new BattlePhase()];
         const command = new FirstDefenderDoesNotEvadeCommand(defendingHex, attackingHex);
 
         const gameEvents = command.play(game);

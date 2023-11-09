@@ -3,6 +3,7 @@ import { CloseCombatWithEvasionCommand } from "../commands/CloseCombatWithEvasio
 import makeGame from '../game.js';
 import { NullScenario } from '../scenarios.js';
 import { hexOf } from '../../lib/hexlib.js';
+import { Side } from "../side.js";
 import * as units from '../units.js';
 import { BattlePhase } from "./BattlePhase.js";
 import { EndPhaseCommand } from "../commands/end_phase_command.js";
@@ -140,7 +141,7 @@ describe('when some units can evade', () => {
         let commands = phase.validCommands(game);
 
         let expected = [
-            new CloseCombatWithEvasionCommand(hexOf(2, 1), hexOf(1, 1)),
+            new CloseCombatWithEvasionCommand(Side.CARTHAGINIAN, hexOf(2, 1), hexOf(1, 1)),
         ];
         expect(commands.toString()).toEqual(expected.toString());
     });

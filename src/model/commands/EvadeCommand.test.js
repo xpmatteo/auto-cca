@@ -3,6 +3,7 @@ import makeGame from "../game.js";
 import { BattlePhase } from "../phases/BattlePhase.js";
 import { FirstDefenderEvasionPhase } from "../phases/FirstDefenderEvasionPhase.js";
 import { NullScenario } from "../scenarios.js";
+import { Side } from "../side.js";
 import { RomanLightInfantry } from "../units.js";
 import { EvadeCommand } from "./EvadeCommand.js";
 
@@ -11,7 +12,7 @@ describe('evade command', () => {
     const evadingUnit = new RomanLightInfantry();
     game.placeUnit(hexOf(1, 4), evadingUnit);
     game.unshiftPhase(new BattlePhase());
-    game.unshiftPhase(new FirstDefenderEvasionPhase([hexOf(0, 6)], hexOf(1, 4), hexOf(1, 5)));
+    game.unshiftPhase(new FirstDefenderEvasionPhase(Side.ROMAN, [hexOf(0, 6)], hexOf(1, 4), hexOf(1, 5)));
     const evadeCommand = new EvadeCommand(hexOf(0, 6), hexOf(1, 4));
 
     const events = evadeCommand.play(game);

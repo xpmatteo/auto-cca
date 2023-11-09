@@ -1,16 +1,20 @@
 import { Hex } from "../../lib/hexlib.js";
 import { EvadeCommand } from "../commands/EvadeCommand.js";
 import { FirstDefenderDoesNotEvadeCommand } from "../commands/FirstDefenderDoesNotEvadeCommand.js";
+import { Side } from "../side.js";
 import { Phase } from "./Phase.js";
 
 
 export class FirstDefenderEvasionPhase extends Phase {
     /**
+     * @param {Side} temporarySide
      * @param {Hex[]} toHexes
      * @param {Hex} fromHex
+     * @param {Hex} attackerHex
      */
-    constructor(toHexes, fromHex, attackerHex) {
-        super("1st defender evasion");
+    constructor(temporarySide, toHexes, fromHex, attackerHex) {
+        super("evasion");
+        this.temporarySide = temporarySide;
         this.toHexes = toHexes;
         this.fromHex = fromHex;
         this.attackerHex = attackerHex;
