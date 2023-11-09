@@ -8,6 +8,7 @@ export class Unit {
     range;
     side;
     movement = 1;
+    diceCount;
 
     get retreatHexes() {
         return this.movement;

@@ -10,15 +10,16 @@ describe('1st defender evasion phase', () => {
     const evasionHex1 = hexOf(1, 8);
     const defendingHex = hexOf(1, 7);
     const attackingHex = hexOf(1, 6);
-    const evasionPhase = new FirstDefenderEvasionPhase(Side.CARTHAGINIAN, [evasionHex0, evasionHex1], defendingHex, attackingHex);
+    const evasionPhase = new FirstDefenderEvasionPhase(
+        Side.CARTHAGINIAN, [evasionHex0, evasionHex1], defendingHex, attackingHex);
 
     test('valid commands', () => {
         const commands = evasionPhase.validCommands(null);
 
         expect(commands.toString()).toEqual([
             new FirstDefenderDoesNotEvadeCommand(defendingHex, attackingHex),
-            new EvadeCommand(evasionHex0, defendingHex),
-            new EvadeCommand(evasionHex1, defendingHex),
+            new EvadeCommand(evasionHex0, defendingHex, attackingHex),
+            new EvadeCommand(evasionHex1, defendingHex, attackingHex),
         ].toString());
     });
 
@@ -33,6 +34,6 @@ describe('1st defender evasion phase', () => {
     test('onclick', () => {
         expect(evasionPhase.onClick(hexOf(0, 0))).toBeUndefined();
         expect(evasionPhase.onClick(defendingHex)).toEqual(new FirstDefenderDoesNotEvadeCommand(defendingHex, attackingHex));
-        expect(evasionPhase.onClick(evasionHex0).toString()).toEqual(new EvadeCommand(evasionHex0, defendingHex).toString());
+        expect(evasionPhase.onClick(evasionHex0).toString()).toEqual(new EvadeCommand(evasionHex0, defendingHex, attackingHex).toString());
     });
 });

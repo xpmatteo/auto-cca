@@ -28,7 +28,7 @@ export class FirstDefenderEvasionPhase extends Phase {
         /** @type {Command[]} */
         const seed = [new FirstDefenderDoesNotEvadeCommand(this.fromHex, this.attackerHex)];
         return seed.concat(
-            this.toHexes.map(h => new EvadeCommand(h, this.fromHex))
+            this.toHexes.map(h => new EvadeCommand(h, this.fromHex, this.attackerHex))
         );
     }
 
@@ -50,6 +50,6 @@ export class FirstDefenderEvasionPhase extends Phase {
         }
         return this.toHexes
             .filter(toHex => toHex === hex)
-            .map(toHex => new EvadeCommand(toHex, this.fromHex))[0];
+            .map(toHex => new EvadeCommand(toHex, this.fromHex, this.attackerHex))[0];
     }
 }

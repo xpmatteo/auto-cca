@@ -1,4 +1,4 @@
-import { hex_to_pixel, Point } from "../lib/hexlib.js";
+import { Hex, hex_to_pixel, Point } from "../lib/hexlib.js";
 import { layout } from "../view/map.js";
 
 export class GameEvent {
@@ -17,6 +17,13 @@ export class GameEvent {
 }
 
 export class DamageEvent extends GameEvent {
+    /**
+     * @param {Unit} attackingUnit
+     * @param {Unit} defendingUnit
+     * @param {Hex} hex
+     * @param {number} damage
+     * @param {DiceResult[]} diceResults
+     */
     constructor(attackingUnit, defendingUnit, hex, damage, diceResults) {
         super();
         this.attackingUnit = attackingUnit;
