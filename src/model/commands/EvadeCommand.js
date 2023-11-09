@@ -1,5 +1,5 @@
 import { Hex } from "../../lib/hexlib.js";
-import { DamageEvent, DefenderEvasionEvent } from "../events.js";
+import { DamageEvent, DefenderEvasionEvent, UnitKilledEvent } from "../events.js";
 import { Command } from "./commands.js";
 
 export class EvadeCommand extends Command {
@@ -21,10 +21,16 @@ export class EvadeCommand extends Command {
         const diceResults = game.roll(attackingUnit.diceCount);
         const damage = evadingUnit.calculateDamage(diceResults, false);
         game.damageUnit(evadingUnit, damage);
-        game.moveUnit(this.toHex, this.fromHex);
+        /** @type {GameEvent[]} */
+        const events = [new DefenderEvasionEvent(this.toHex, this.fromHex),
+            new DamageEvent(attackingUnit, evadingUnit, this.fromHex, damage, diceResults)];
+        if (game.isUnitDead(evadingUnit)) {
+            events.push(new UnitKilledEvent(this.fromHex, evadingUnit));
+        } else {
+            game.moveUnit(this.toHex, this.fromHex);
+        }
         game.endPhase();
-        return [new DefenderEvasionEvent(this.toHex, this.fromHex),
-        new DamageEvent(attackingUnit, evadingUnit, this.fromHex, damage, diceResults)];
+        return events;
     }
 
     toString() {

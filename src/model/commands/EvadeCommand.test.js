@@ -38,4 +38,26 @@ describe('evade command', () => {
     test('it rolls for damage', () => {
         expect(game.unitStrength(evadingUnit)).toBe(3);
     });
+
+});
+
+test('It can kill the evading unit', () => {
+    const game = makeGame(new NullScenario(), diceReturning([RESULT_LIGHT, RESULT_LIGHT, RESULT_LIGHT, RESULT_LIGHT, RESULT_SWORDS]));
+    const evadingUnit = new RomanLightInfantry();
+    const attackingUnit = new CarthaginianHeavyInfantry();
+    game.placeUnit(hexOf(1, 4), evadingUnit);
+    game.placeUnit(hexOf(1, 5), attackingUnit);
+    game.unshiftPhase(new BattlePhase());
+    game.unshiftPhase(new FirstDefenderEvasionPhase(Side.ROMAN, [hexOf(0, 6)], hexOf(1, 4), hexOf(1, 5)));
+    const evadeCommand = new EvadeCommand(hexOf(0, 6), hexOf(1, 4), hexOf(1, 5));
+
+    const events = evadeCommand.play(game);
+
+    expect(game.unitAt(hexOf(0, 6))).toBeUndefined();
+    expect(events.map(e => e.toString())).toEqual([
+        "Defender evades to [0,6]",
+        "Carthaginian heavy infantry damages Roman light infantry at [1,4] for 4 damage with light,light,light,light,swords",
+        "Roman light infantry killed at [1,4]",
+    ]);
+    expect(game.graveyard.unitsOf(Side.ROMAN)).toContain(evadingUnit);
 });
