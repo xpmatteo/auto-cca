@@ -1,4 +1,4 @@
-import { AskOpponentIfTheyIntendToEvadeCommand } from "../commands/AskOpponentIfTheyIntendToEvadeCommand.js";
+import { CloseCombatWithEvasionCommand } from "../commands/CloseCombatWithEvasionCommand.js";
 import { Phase } from "./Phase.js";
 import {EndPhaseCommand} from "../commands/end_phase_command.js";
 import {CloseCombatCommand} from "../commands/close_combat_command.js";
@@ -22,7 +22,7 @@ export class BattlePhase extends Phase {
             attackingUnit.validCloseCombatTargets(attackingHex, game).forEach(defendingHex => {
                 const defendingUnit = game.unitAt(defendingHex);
                 if (defendingUnit.canEvade(attackingUnit) && game.evasionPaths(defendingHex).length > 0) {
-                    commands.push(new AskOpponentIfTheyIntendToEvadeCommand(defendingHex, attackingHex));
+                    commands.push(new CloseCombatWithEvasionCommand(defendingHex, attackingHex));
                 } else {
                     commands.push(new CloseCombatCommand(defendingHex, attackingHex));
                 }

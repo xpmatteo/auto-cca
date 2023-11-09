@@ -2,7 +2,7 @@ import { Hex } from "../../lib/hexlib.js";
 import { FirstDefenderEvasionPhase } from "../phases/FirstDefenderEvasionPhase.js";
 import { Command } from "./commands.js";
 
-export class AskOpponentIfTheyIntendToEvadeCommand extends Command {
+export class CloseCombatWithEvasionCommand extends Command {
     /**
      * @param {Hex} toHex defender's hex
      * @param {Hex} fromHex attacker's hex

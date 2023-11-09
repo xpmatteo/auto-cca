@@ -1,5 +1,5 @@
 import { InteractiveGame } from "../../interactive_game.js";
-import { AskOpponentIfTheyIntendToEvadeCommand } from "../commands/AskOpponentIfTheyIntendToEvadeCommand.js";
+import { CloseCombatWithEvasionCommand } from "../commands/CloseCombatWithEvasionCommand.js";
 import makeGame from '../game.js';
 import { NullScenario } from '../scenarios.js';
 import { hexOf } from '../../lib/hexlib.js';
@@ -140,7 +140,7 @@ describe('when some units can evade', () => {
         let commands = phase.validCommands(game);
 
         let expected = [
-            new AskOpponentIfTheyIntendToEvadeCommand(hexOf(2, 1), hexOf(1, 1)),
+            new CloseCombatWithEvasionCommand(hexOf(2, 1), hexOf(1, 1)),
         ];
         expect(commands.toString()).toEqual(expected.toString());
     });
