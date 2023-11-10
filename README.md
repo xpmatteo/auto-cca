@@ -40,7 +40,8 @@ image to appear.  The parameters are:
 
 # WIP
 
-Must set the temporarySide to the opponent during evasion phases
+  * implement MAP_CENTER and MAP_EAST
+  * Order3LeftCard should use WEST for sideSouth and EAST for sideNorth
 
 # AI TESTS
 

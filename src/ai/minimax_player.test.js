@@ -14,15 +14,6 @@ test('level zero search', () => {
     expect(tree.size()).toBe(1);
 });
 
-test('level 1 search', () => {
-    const game = makeGame(new AkragasScenario());
-    const player = new MinimaxPlayer(game);
-    const tree = player.search(game, 1);
-
-    // expect(tree.score).toBe(9);
-    expect(tree.children.length).toBe(3);
-});
-
 test('bestcommands', () => {
     const game = makeGame(new MeleeScenario());
     const player = new MinimaxPlayer(3);

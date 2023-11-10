@@ -1,3 +1,4 @@
+import { MAP_WEST } from "./board.js";
 import { RESULT_HEAVY, RESULT_LIGHT, RESULT_MEDIUM } from "./dice.js";
 import { BattlePhase } from "./phases/BattlePhase.js";
 import { FirePhase } from "./phases/fire_phase.js";
@@ -59,6 +60,20 @@ export class OrderLightTroopsCard extends Card {
     url = "images/cards/Order Light Troops.gif";
     allowsLightFootMovementThroughFriendlies = true;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_LIGHT)); }
+}
+
+/**
+ * @param {Unit} unit
+ * @param {Game} game
+ */
+function eligibleIfLeft(unit, game) {
+    return MAP_WEST.has(game.hexOfUnit(unit));
+}
+
+export class Order3LeftCard extends Card {
+    name = "Order Three Units Left";
+    url = "images/cards/Order 3 Left.gif";
+    orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfLeft); }
 }
 
 export class MoveFireMoveCard extends Card {
