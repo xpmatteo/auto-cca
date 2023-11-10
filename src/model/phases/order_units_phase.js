@@ -7,10 +7,14 @@ import { Phase } from "./Phase.js";
 import { Hex } from "../../lib/hexlib.js";
 
 export class OrderUnitsPhase extends Phase {
-    constructor(numberOfUnits, weight) {
-        super(`order ${numberOfUnits} ${weight} units`);
+    /**
+     * @param {number} numberOfUnits
+     * @param {(Unit, Game)=>boolean} isEligible
+     */
+    constructor(numberOfUnits, isEligible = null) {
+        super(`order ${numberOfUnits} units`);
         this.numberOfUnits = numberOfUnits;
-        this.weight = weight;
+        this.isEligible = isEligible;
     }
 
     /**
@@ -75,7 +79,7 @@ export class OrderUnitsPhase extends Phase {
     }
 
     __isEligible(unit, game) {
-        return unit.weight === this.weight && unit.side === game.currentSide;
+        return this.isEligible(unit, game) && unit.side === game.currentSide;
     }
 
     __eligibleUnits(game) {

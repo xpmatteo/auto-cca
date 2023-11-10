@@ -38,30 +38,34 @@ class Card {
     }
 }
 
+function eligibleByWeight(weight) {
+    return (unit, game) => unit.weight === weight;
+}
+
 export class OrderHeavyTroopsCard extends Card {
     name = "Order Heavy Troops";
     url = "images/cards/Order Heavy Troops.gif";
-    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), RESULT_HEAVY); }
+    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_HEAVY)); }
 }
 
 export class OrderMediumTroopsCard extends Card {
     name = "Order Medium Troops";
     url = "images/cards/Order Medium Troops.gif";
-    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), RESULT_MEDIUM); }
+    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_MEDIUM)); }
 }
 
 export class OrderLightTroopsCard extends Card {
     name = "Order Light Troops";
     url = "images/cards/Order Light Troops.gif";
     allowsLightFootMovementThroughFriendlies = true;
-    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), RESULT_LIGHT); }
+    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_LIGHT)); }
 }
 
 export class MoveFireMoveCard extends Card {
     name = "Move Fire Move";
     url = "images/cards/Move-Fire-Move.gif";
     allowsLightFootMovementThroughFriendlies = true;
-    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), RESULT_LIGHT); }
+    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_LIGHT)); }
     phases(game) {
         return [
             new MovementPhase("1st movement"),

@@ -7,7 +7,7 @@ import { NullScenario } from "../scenarios.js";
 import * as units from "../units.js";
 import { hexOf, Point } from "../../lib/hexlib.js";
 
-const PHASE = new OrderUnitsPhase(2, RESULT_HEAVY);
+const PHASE = new OrderUnitsPhase(2, (unit, game) => unit.weight == RESULT_HEAVY);
 
 function makeGameWithFiveUnits() {
     let game = makeGame(new NullScenario());
