@@ -1,23 +1,42 @@
-import { hexOf } from '../lib/hexlib.js';
-import { mapToString, stringify } from "../lib/to_string.js";
+import { Hex, hexOf } from '../lib/hexlib.js';
+import { mapToString } from "../lib/to_string.js";
+
+/** @type {Set<Hex>} */
+const MAP = new Set();
+
+/** @type {Set<Hex>} */
+export const MAP_WEST = new Set();
+
+function isWest(r, q) {
+    return  r == 0 && q <= 4 ||
+            r == 1 && q <= 3 ||
+            r == 2 && q <= 3 ||
+            r == 3 && q <= 2 ||
+            r == 4 && q <= 2 ||
+            r == 5 && q <= 1 ||
+            r == 6 && q <= 1 ||
+            r == 7 && q <= 0 ||
+            r == 8 && q <= 0;
+}
 
 function makeMap() {
     function even(n) {
         return n % 2 === 0;
     }
 
-    let map = new Set();
     for (let r = 0; r <= 8; r++) {
         let col_start = -Math.trunc(r / 2);
         let num_cols = even(r) ? 13 : 12;
         for (let q = col_start; q < col_start + num_cols; q++) {
             let hex = hexOf(q, r);
-            map.add(hex);
+            MAP.add(hex);
+            if (isWest(r, q)) {
+                MAP_WEST.add(hex);
+            }
         }
     }
-    return map;
 }
-const MAP = makeMap();
+if (MAP.size === 0) makeMap();
 
 function getByValue(map, searchValue) {
     for (let [key, value] of map.entries()) {

@@ -1,5 +1,5 @@
 import { hexOf } from '../lib/hexlib.js';
-import { Board } from './board.js';
+import { Board, MAP_WEST } from './board.js';
 import { RomanHeavyInfantry } from './units.js';
 
 function makeBoard() {
@@ -15,7 +15,9 @@ test('add units', function () {
     game.placeUnit(hexOf(0, 1), unit1);
 
     let count = 0;
-    game.foreachUnit((unit, hex) => { count++; });
+    game.foreachUnit((unit, hex) => {
+        count++;
+    });
     expect(count).toEqual(2);
     expect(game.unitAt(hexOf(0, 0))).toEqual(unit0);
     expect(game.unitAt(hexOf(0, 1))).toEqual(unit1);
@@ -66,4 +68,38 @@ test('clone board', function () {
 
     expect(original.unitAt(hexOf(0, 0))).toEqual(unit0);
     expect(clone.unitAt(hexOf(0, 1))).toEqual(unit0);
+});
+
+describe('the west side of the map', () => {
+    [hexOf(0, 0),
+        hexOf(4, 0),
+        hexOf(3, 2),
+        hexOf(2, 3),
+        hexOf(2, 4),
+        hexOf(1, 5),
+        hexOf(1, 6),
+        hexOf(0, 7),
+        hexOf(0, 8),
+    ].forEach(hex => {
+        it(`MAP_WEST contains ${hex}`, () => {
+            expect(MAP_WEST).toContain(hex);
+        });
+    });
+
+    [
+        hexOf(5, 0),
+        hexOf(4, 1),
+        hexOf(4, 2),
+        hexOf(3, 3),
+        hexOf(3, 4),
+        hexOf(2, 5),
+        hexOf(2, 6),
+        hexOf(1, 7),
+        hexOf(1, 8),
+        ].forEach(hex => {
+        it(`MAP_WEST does not contain ${hex}`, () => {
+            expect(MAP_WEST).not.toContain(hex);
+        });
+    })
+
 });
