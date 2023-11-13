@@ -88,6 +88,18 @@ describe('Open Loop nodes', () => {
             expect(newGame.currentSide).toBe(Side.CARTHAGINIAN);
             expect(bestUctChild.parent).toBe(node);
         });
+    });
 
+    describe('backpropagate', () => {
+        test('the score is updated', () => {
+            const parent = new OpenLoopNode(Side.CARTHAGINIAN, null, 10, 1);
+            const node = new OpenLoopNode(Side.ROMAN, parent, 10, 1);
+            node.backPropagate(1, Side.CARTHAGINIAN);
+
+            expect(node.score).toBe(9);
+            expect(node.visits).toBe(2);
+            expect(parent.score).toBe(11);
+            expect(parent.visits).toBe(2);
+        });
     });
 });

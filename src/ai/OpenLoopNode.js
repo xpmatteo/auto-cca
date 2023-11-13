@@ -56,4 +56,17 @@ export default class OpenLoopNode {
     value() {
         return this.score / this.visits;
     }
+
+    /**
+     * @param {number} score
+     * @param {Side} side
+     */
+    backPropagate(score, side) {
+        const factor = (this.side === side) ? 1 : -1;
+        this.score += factor * score;
+        this.visits++;
+        if (this.parent !== null) {
+            this.parent.backPropagate(score, side);
+        }
+    }
 }
