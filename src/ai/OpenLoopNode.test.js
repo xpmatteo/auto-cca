@@ -7,7 +7,9 @@ import OpenLoopNode from './OpenLoopNode.js';
 
 describe('Open Loop nodes', () => {
     function aCommand(name) {
-        return new Command();
+        const command = new Command();
+        command.toString = () => `${name} command}`;
+        return command;
     }
 
     const originalRandom = global.Math.random;
@@ -22,10 +24,11 @@ describe('Open Loop nodes', () => {
 
     const commandA = aCommand("A");
     const commandB = aCommand("B");
+    const commandC = aCommand("C");
 
     describe('Best UCT child', () => {
         test('new node: any command may be returned', () => {
-            const node = new OpenLoopNode(Side.ROMAN);
+            const node = new OpenLoopNode(Side.ROMAN, 1, 1);
             const game = {
                 currentSide: Side.ROMAN,
                 validCommands() {
@@ -40,12 +43,32 @@ describe('Open Loop nodes', () => {
 
             expect(node.children.size).toBe(1);
             expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN));
-            expect(node.children.get(commandA)).toBe(bestUctChild);
+            expect(node.children.get(commandA.toString())).toStrictEqual([commandA, bestUctChild]);
             expect(game.currentSide).toBe(Side.CARTHAGINIAN);
         });
 
+        test('the best of the existing commands is returned', () => {
+            const childA = new OpenLoopNode(Side.CARTHAGINIAN, 99, 100);
+            const childB = new OpenLoopNode(Side.CARTHAGINIAN, 100, 100);
+            const node = new OpenLoopNode(Side.ROMAN, 1, 1, new Map([
+                [commandA.toString(), [commandA, childA]],
+                [commandB.toString(), [commandB, childB]],
+            ]));
+            const game = {
+                currentSide: Side.ROMAN,
+                validCommands() {
+                    return [commandA, commandB]
+                },
+                executeCommand(command) {
+                    this.currentSide = Side.CARTHAGINIAN;
+                }
+            };
 
+            const bestUctChild = node.bestUctChild(game);
 
-
+            expect(node.children.size).toBe(2);
+            expect(bestUctChild).toBe(childB);
+            expect(game.currentSide).toBe(Side.CARTHAGINIAN);
+        });
     });
 });
