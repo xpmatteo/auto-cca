@@ -4,6 +4,7 @@ export function randomShuffleArray(array) {
         const j = Math.floor(Math.random() * (array.length - i)) + i;
         [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
 }
 
 /**

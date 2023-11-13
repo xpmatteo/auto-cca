@@ -1,5 +1,5 @@
 import { ensure } from "../lib/ensure.js";
-import { randomElement } from "../lib/random.js";
+import { randomShuffleArray } from "../lib/random.js";
 import { Side } from "../model/side.js";
 
 export default class OpenLoopNode {
@@ -29,7 +29,7 @@ export default class OpenLoopNode {
         let bestScore = -Infinity;
         let bestClone = undefined;
         const logOfThisVisits = Math.log(this.visits);
-        for (const command of game.validCommands()) {
+        for (const command of randomShuffleArray(game.validCommands())) {
             const clone = game.clone();
             clone.executeCommand(command);
             const child = this.children.get(command.toString());
