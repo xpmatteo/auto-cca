@@ -1,97 +1,97 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`2 on 2 1`] = `
-"528/2000: undefined -> Roman play one card -> 2
- 475/1603: PlayCard(Order Heavy Troops) -> Roman order 3 units -> 1
-  475/1603: End phase -> Roman movement -> 1
-   476/1602: MacroCommand(Move [-1,6] to [0,5],Move [0,6] to [1,5]) -> Roman battle -> 3
-    CHANCE/662: Close Combat from [0,5] to [1,4] -> Roman battle -> 5
-     0/128: Close Combat from [0,5] to [1,4] -> Roman attacker retreat -> 2
-      3/73: Retreat [0,5] to [-1,6] -> Roman battle -> 1
-      -3/55: Retreat [0,5] to [0,6] -> Roman battle -> 1
-     -162/232: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      0/0: Retreat [1,4] to [2,3] -> Roman advance after combat -> 0
-      162/232: Retreat [1,4] to [1,3] -> Roman advance after combat -> 2
-     -64/113: Close Combat from [0,5] to [1,4] -> Roman attacker retreat -> 2
-      -32/56: Retreat [0,5] to [-1,6] -> Roman battle -> 1
-      -32/57: Retreat [0,5] to [0,6] -> Roman battle -> 1
-     50/84: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      -50/84: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-     -48/104: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      48/104: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-    CHANCE/867: Close Combat from [0,5] to [0,4] -> Roman battle -> 2
-     -310/587: Close Combat from [0,5] to [0,4] -> Carthaginian retreat -> 2
+"526/2000: undefined -> Roman play one card -> 2
+ 480/1628: PlayCard(Order Heavy Troops) -> Roman order 3 units -> 1
+  480/1628: End phase -> Roman movement -> 1
+   481/1627: MacroCommand(Move [-1,6] to [0,5],Move [0,6] to [1,5]) -> Roman battle -> 3
+    CHANCE/688: Close Combat from [0,5] to [0,4] -> Roman battle -> 2
+     -288/454: Close Combat from [0,5] to [0,4] -> Carthaginian retreat -> 2
       0/0: Retreat [0,4] to [0,3] -> Roman advance after combat -> 0
-      310/587: Retreat [0,4] to [1,3] -> Roman advance after combat -> 2
-     42/279: Close Combat from [0,5] to [0,4] -> Roman attacker retreat -> 2
-      9/107: Retreat [0,5] to [-1,6] -> Roman battle -> 1
-      33/172: Retreat [0,5] to [0,6] -> Roman battle -> 1
-    CHANCE/74: Close Combat from [1,5] to [1,4] -> Roman battle -> 6
-     -5/5: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
-      5/5: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      288/454: Retreat [0,4] to [1,3] -> Roman advance after combat -> 2
+     69/233: Close Combat from [0,5] to [0,4] -> Roman attacker retreat -> 2
+      55/156: Retreat [0,5] to [-1,6] -> Roman battle -> 1
+      14/77: Retreat [0,5] to [0,6] -> Roman battle -> 1
+    CHANCE/856: Close Combat from [0,5] to [1,4] -> Roman battle -> 5
+     53/196: Close Combat from [0,5] to [1,4] -> Roman attacker retreat -> 2
+      53/150: Retreat [0,5] to [-1,6] -> Roman battle -> 1
+      0/46: Retreat [0,5] to [0,6] -> Roman battle -> 1
+     -126/234: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
+      0/0: Retreat [1,4] to [2,3] -> Roman advance after combat -> 0
+      126/234: Retreat [1,4] to [1,3] -> Roman advance after combat -> 2
+     -130/177: Close Combat from [0,5] to [1,4] -> Roman attacker retreat -> 2
+      -63/84: Retreat [0,5] to [-1,6] -> Roman battle -> 1
+      -67/93: Retreat [0,5] to [0,6] -> Roman battle -> 1
+     54/106: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
+      -54/106: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
       0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-     -17/17: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
-      17/17: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+     -104/142: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
+      104/142: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
+    CHANCE/84: Close Combat from [1,5] to [1,4] -> Roman battle -> 6
+     -9/10: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+      9/10: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
+     -18/18: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+      18/18: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
       0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
      -4/7: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
       -2/5: Retreat [1,5] to [0,6] -> Roman battle -> 2
       -2/2: Retreat [1,5] to [1,6] -> Roman battle -> 2
-     -21/27: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+     -16/25: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+      16/25: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
       0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-      21/27: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
-     1/5: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
-      1/3: Retreat [1,5] to [0,6] -> Roman battle -> 2
-      0/2: Retreat [1,5] to [1,6] -> Roman battle -> 2
-     -12/12: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
-      -6/6: Retreat [1,5] to [0,6] -> Roman battle -> 2
-      -6/6: Retreat [1,5] to [1,6] -> Roman battle -> 2
- 53/397: PlayCard(Order Three Units Left) -> Roman order 3 units -> 1
-  53/396: End phase -> Roman movement -> 1
-   52/395: MacroCommand(Move [-1,6] to [0,5],Move [0,6] to [1,5]) -> Roman battle -> 3
-    CHANCE/316: Close Combat from [0,5] to [1,4] -> Roman battle -> 5
-     -19/109: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      19/109: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+     1/8: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
+      1/5: Retreat [1,5] to [0,6] -> Roman battle -> 2
+      0/3: Retreat [1,5] to [1,6] -> Roman battle -> 2
+     -15/15: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
+      -8/8: Retreat [1,5] to [0,6] -> Roman battle -> 2
+      -7/7: Retreat [1,5] to [1,6] -> Roman battle -> 2
+ 46/372: PlayCard(Order Three Units Left) -> Roman order 3 units -> 1
+  46/371: End phase -> Roman movement -> 1
+   45/370: MacroCommand(Move [-1,6] to [0,5],Move [0,6] to [1,5]) -> Roman battle -> 3
+    CHANCE/275: Close Combat from [0,5] to [1,4] -> Roman battle -> 5
+     3/79: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
+      -3/79: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
       0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-     2/68: Close Combat from [0,5] to [1,4] -> Roman attacker retreat -> 2
-      5/43: Retreat [0,5] to [-1,6] -> Roman battle -> 1
-      -3/25: Retreat [0,5] to [0,6] -> Roman battle -> 1
-     -11/43: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      11/43: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+     2/56: Close Combat from [0,5] to [1,4] -> Roman attacker retreat -> 2
+      2/29: Retreat [0,5] to [-1,6] -> Roman battle -> 1
+      0/27: Retreat [0,5] to [0,6] -> Roman battle -> 1
+     -26/45: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
+      26/45: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
       0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-     21/41: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
-      -21/41: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+     10/35: Close Combat from [0,5] to [1,4] -> Carthaginian retreat -> 2
+      -10/35: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
       0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-     -14/54: Close Combat from [0,5] to [1,4] -> Roman attacker retreat -> 2
-      -7/26: Retreat [0,5] to [-1,6] -> Roman battle -> 1
-      -7/28: Retreat [0,5] to [0,6] -> Roman battle -> 1
-    CHANCE/48: Close Combat from [0,5] to [0,4] -> Roman battle -> 2
-     3/17: Close Combat from [0,5] to [0,4] -> Roman attacker retreat -> 2
-      -1/5: Retreat [0,5] to [-1,6] -> Roman battle -> 1
-      4/12: Retreat [0,5] to [0,6] -> Roman battle -> 1
-     -28/30: Close Combat from [0,5] to [0,4] -> Carthaginian retreat -> 2
+     -20/59: Close Combat from [0,5] to [1,4] -> Roman attacker retreat -> 2
+      -10/27: Retreat [0,5] to [-1,6] -> Roman battle -> 1
+      -10/32: Retreat [0,5] to [0,6] -> Roman battle -> 1
+    CHANCE/60: Close Combat from [0,5] to [0,4] -> Roman battle -> 2
+     2/22: Close Combat from [0,5] to [0,4] -> Roman attacker retreat -> 2
+      -1/7: Retreat [0,5] to [-1,6] -> Roman battle -> 1
+      3/15: Retreat [0,5] to [0,6] -> Roman battle -> 1
+     -30/37: Close Combat from [0,5] to [0,4] -> Carthaginian retreat -> 2
+      30/37: Retreat [0,4] to [1,3] -> Roman advance after combat -> 2
       0/0: Retreat [0,4] to [0,3] -> Roman advance after combat -> 0
-      28/30: Retreat [0,4] to [1,3] -> Roman advance after combat -> 2
-    CHANCE/32: Close Combat from [1,5] to [1,4] -> Roman battle -> 6
-     1/3: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
-      1/2: Retreat [1,5] to [0,6] -> Roman battle -> 2
-      0/1: Retreat [1,5] to [1,6] -> Roman battle -> 2
-     -8/10: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-      8/10: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
-     -6/6: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
-      6/6: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
-      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
+    CHANCE/36: Close Combat from [1,5] to [1,4] -> Roman battle -> 6
      1/2: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
       1/2: Retreat [1,5] to [0,6] -> Roman battle -> 2
       0/0: Retreat [1,5] to [1,6] -> Roman battle -> 0
-     -8/8: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
-      8/8: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+     -10/16: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
       0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
-     -2/2: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
-      -2/2: Retreat [1,5] to [0,6] -> Roman battle -> 2
+      10/16: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+     -5/5: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+      5/5: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
+     1/1: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
+      1/1: Retreat [1,5] to [0,6] -> Roman battle -> 0
       0/0: Retreat [1,5] to [1,6] -> Roman battle -> 0
+     -5/5: Close Combat from [1,5] to [1,4] -> Carthaginian retreat -> 2
+      5/5: Retreat [1,4] to [2,3] -> Roman advance after combat -> 2
+      0/0: Retreat [1,4] to [1,3] -> Roman advance after combat -> 0
+     -6/6: Close Combat from [1,5] to [1,4] -> Roman attacker retreat -> 2
+      -3/3: Retreat [1,5] to [0,6] -> Roman battle -> 2
+      -3/3: Retreat [1,5] to [1,6] -> Roman battle -> 2
 "
 `;
 
@@ -105,9 +105,9 @@ exports[`close combat from light to heavy 1`] = `
       -2/2: Retreat [3,2] to [3,4] -> Roman battle -> 1
        1/1: End phase -> Carthaginian play one card -> 0
       -2/2: Retreat [3,2] to [2,4] -> Roman battle -> 1
-       2/2: End phase -> Carthaginian play one card -> 2
+       2/2: End phase -> Carthaginian play one card -> 1
       -2/2: Retreat [3,2] to [1,4] -> Roman battle -> 1
-       2/2: End phase -> Carthaginian play one card -> 2
+       2/2: End phase -> Carthaginian play one card -> 1
      -1/2: Close Combat from [3,2] to [2,2] -> Carthaginian retreat -> 2
       1/2: Retreat [2,2] to [2,1] -> Roman advance after combat -> 2
        1/1: Momentum advance [3,2] to [2,2] -> Roman battle -> 0
@@ -151,121 +151,123 @@ exports[`close combat from light to heavy 1`] = `
 `;
 
 exports[`melee 1`] = `
-"376/2000: undefined -> Roman play one card -> 2
- -22/134: PlayCard(Order Three Units Left) -> Roman order 3 units -> 1
-  -22/133: End phase -> Roman movement -> 1
-   -21/132: MacroCommand(Move [1,5] to [2,4],Move [0,5] to [1,4]) -> Roman battle -> 3
-    CHANCE/110: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
-     45/69: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
-      1/1: Retreat [3,3] to [4,2] -> Roman advance after combat -> 0
-      CHANCE/69: Ignore Flag and Battle Back from [3,3] to [2,4] -> Carthaginian retreat -> 1
-      0/0: Retreat [3,3] to [3,2] -> Roman advance after combat -> 0
-     16/40: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 2
-      8/18: Retreat [2,4] to [2,4] -> Roman battle -> 1
-      8/22: Retreat [2,4] to [1,5] -> Roman battle -> 1
-    CHANCE/14: Close Combat from [1,4] to [2,3] -> Roman battle -> 2
-     0/3: Close Combat from [1,4] to [2,3] -> Roman attacker retreat -> 2
-      0/2: Retreat [1,4] to [0,5] -> Roman battle -> 2
-      0/1: Retreat [1,4] to [1,5] -> Roman battle -> 2
-     -4/10: Close Combat from [1,4] to [2,3] -> Carthaginian retreat -> 2
-      4/10: Retreat [2,3] to [2,2] -> Roman advance after combat -> 2
+"-98/2000: undefined -> Roman play one card -> 2
+ -61/204: PlayCard(Order Three Units Left) -> Roman order 3 units -> 1
+  -60/203: End phase -> Roman movement -> 1
+   -61/202: MacroCommand(Move [1,5] to [2,4],Move [0,5] to [1,4]) -> Roman battle -> 3
+    CHANCE/167: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
+     83/97: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
+      0/0: Retreat [3,3] to [4,2] -> Roman advance after combat -> 0
+      CHANCE/97: Ignore Flag and Battle Back from [3,3] to [2,4] -> Carthaginian retreat -> 2
+      0/1: Retreat [3,3] to [3,2] -> Roman advance after combat -> 0
+     6/69: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 2
+      2/31: Retreat [2,4] to [2,4] -> Roman battle -> 1
+      4/38: Retreat [2,4] to [1,5] -> Roman battle -> 1
+    CHANCE/27: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
+     4/9: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 2
+      3/6: Retreat [2,4] to [2,4] -> Roman battle -> 1
+      1/3: Retreat [2,4] to [1,5] -> Roman battle -> 1
+     -6/17: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
+      6/17: Retreat [2,3] to [2,2] -> Roman advance after combat -> 2
       0/0: Retreat [2,3] to [3,2] -> Roman advance after combat -> 0
-    CHANCE/9: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
-     0/1: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 2
-      0/1: Retreat [2,4] to [2,4] -> Roman battle -> 0
-      0/0: Retreat [2,4] to [1,5] -> Roman battle -> 0
-     -5/7: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
-      5/7: Retreat [2,3] to [3,2] -> Roman advance after combat -> 2
-      0/0: Retreat [2,3] to [2,2] -> Roman advance after combat -> 0
- 398/1866: PlayCard(Order Heavy Troops) -> Roman order 3 units -> 4
-  30/270: OrderUnit([1,5],[2,5],[3,5]) -> Roman order 3 units -> 1
-   30/270: End phase -> Roman movement -> 1
-    30/269: MacroCommand(Move [1,5] to [2,4],Move [2,5] to [3,4],Move [3,5] to [4,4]) -> Roman battle -> 5
-     CHANCE/42: Close Combat from [3,4] to [3,3] -> Roman battle -> 2
-      -2/23: Close Combat from [3,4] to [3,3] -> Carthaginian retreat -> 3
-      1/18: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 3
-     CHANCE/154: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
-      18/64: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 2
-      41/89: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
-     CHANCE/27: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
-      -15/15: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
-      9/11: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 2
-     CHANCE/40: Close Combat from [3,4] to [4,3] -> Roman battle -> 5
-      10/10: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 3
-      -6/11: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      -5/7: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      -1/3: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      0/8: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 3
-     CHANCE/9: Close Combat from [4,4] to [4,3] -> Roman battle -> 4
-      -1/1: Close Combat from [4,4] to [4,3] -> Carthaginian retreat -> 2
-      -3/3: Close Combat from [4,4] to [4,3] -> Carthaginian retreat -> 2
-      -2/2: Close Combat from [4,4] to [4,3] -> Roman attacker retreat -> 2
-      -2/2: Close Combat from [4,4] to [4,3] -> Carthaginian retreat -> 2
-  311/1065: OrderUnit([0,5],[1,5],[2,5]) -> Roman order 3 units -> 1
-   311/1064: End phase -> Roman movement -> 1
-    310/1063: MacroCommand(Move [1,5] to [2,4],Move [2,5] to [3,4],Move [0,5] to [1,4]) -> Roman battle -> 5
-     CHANCE/55: Close Combat from [1,4] to [2,3] -> Roman battle -> 2
-      8/18: Close Combat from [1,4] to [2,3] -> Roman attacker retreat -> 2
-      -22/36: Close Combat from [1,4] to [2,3] -> Carthaginian retreat -> 2
-     CHANCE/51: Close Combat from [3,4] to [4,3] -> Roman battle -> 5
-      -2/6: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      -16/17: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      10/13: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
-      -9/9: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      3/5: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
-     CHANCE/39: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
-      -1/16: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 3
-      -14/22: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
-     CHANCE/268: Close Combat from [3,4] to [3,3] -> Roman battle -> 2
-      96/106: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
-      -55/161: Close Combat from [3,4] to [3,3] -> Carthaginian retreat -> 3
-     CHANCE/653: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
-      59/384: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
-      134/268: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 3
-  18/228: OrderUnit([0,5],[1,5],[3,5]) -> Roman order 3 units -> 1
-   18/228: End phase -> Roman movement -> 1
-    19/227: MacroCommand(Move [1,5] to [2,4],Move [0,5] to [1,4],Move [3,5] to [3,4]) -> Roman battle -> 5
-     CHANCE/16: Close Combat from [1,4] to [2,3] -> Roman battle -> 2
-      5/5: Close Combat from [1,4] to [2,3] -> Roman attacker retreat -> 2
-      -10/10: Close Combat from [1,4] to [2,3] -> Carthaginian retreat -> 2
-     CHANCE/10: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
-      -5/7: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
-      -1/2: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 2
-     CHANCE/172: Close Combat from [3,4] to [3,3] -> Roman battle -> 3
-      58/109: Close Combat from [3,4] to [3,3] -> Carthaginian retreat -> 3
-      23/46: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
-      14/16: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
-     CHANCE/23: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
-      -8/14: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
-      5/8: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 2
-     CHANCE/9: Close Combat from [3,4] to [4,3] -> Roman battle -> 5
-      0/0: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 0
-      -1/1: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      -4/4: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      0/2: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
-      -1/1: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-  39/303: OrderUnit([0,5],[2,5],[3,5]) -> Roman order 3 units -> 1
-   39/303: End phase -> Roman movement -> 1
-    38/302: MacroCommand(Move [2,5] to [2,4],Move [0,5] to [1,4],Move [3,5] to [3,4]) -> Roman battle -> 5
-     CHANCE/231: Close Combat from [3,4] to [3,3] -> Roman battle -> 3
-      69/146: Close Combat from [3,4] to [3,3] -> Carthaginian retreat -> 3
-      29/35: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
-      34/49: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
+    CHANCE/9: Close Combat from [1,4] to [2,3] -> Roman battle -> 2
+     0/2: Close Combat from [1,4] to [2,3] -> Roman attacker retreat -> 2
+      0/2: Retreat [1,4] to [0,5] -> Roman battle -> 2
+      0/0: Retreat [1,4] to [1,5] -> Roman battle -> 0
+     -6/6: Close Combat from [1,4] to [2,3] -> Carthaginian retreat -> 2
+      6/6: Retreat [2,3] to [2,2] -> Roman advance after combat -> 2
+      0/0: Retreat [2,3] to [3,2] -> Roman advance after combat -> 0
+ -37/1796: PlayCard(Order Heavy Troops) -> Roman order 3 units -> 4
+  -29/274: OrderUnit([0,5],[1,5],[3,5]) -> Roman order 3 units -> 1
+   -29/274: End phase -> Roman movement -> 1
+    -28/273: MacroCommand(Move [1,5] to [2,4],Move [0,5] to [1,4],Move [3,5] to [3,4]) -> Roman battle -> 5
+     CHANCE/33: Close Combat from [3,4] to [3,3] -> Roman battle -> 3
+      3/7: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
+      -8/22: Close Combat from [3,4] to [3,3] -> Carthaginian retreat -> 3
+      1/3: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
      CHANCE/22: Close Combat from [1,4] to [2,3] -> Roman battle -> 2
-      4/6: Close Combat from [1,4] to [2,3] -> Roman attacker retreat -> 2
-      -8/15: Close Combat from [1,4] to [2,3] -> Carthaginian retreat -> 2
-     CHANCE/27: Close Combat from [3,4] to [4,3] -> Roman battle -> 6
-      1/1: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
-      4/4: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
-      -5/10: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-      3/5: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
-      -4/4: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -13/15: Close Combat from [1,4] to [2,3] -> Carthaginian retreat -> 2
+      6/6: Close Combat from [1,4] to [2,3] -> Roman attacker retreat -> 2
+     CHANCE/18: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
+      2/6: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 2
+      -9/11: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
+     CHANCE/194: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
+      5/83: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 2
+      77/110: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
+     CHANCE/9: Close Combat from [3,4] to [4,3] -> Roman battle -> 6
       -2/2: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
-     CHANCE/14: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
-      -7/7: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
-      1/6: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 2
-     CHANCE/11: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
-      -2/3: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 2
-      -5/7: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
+      -2/2: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -1/1: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
+      -1/1: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -1/1: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
+      -1/1: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
+  -25/325: OrderUnit([0,5],[1,5],[2,5]) -> Roman order 3 units -> 1
+   -25/324: End phase -> Roman movement -> 1
+    -24/323: MacroCommand(Move [1,5] to [2,4],Move [2,5] to [3,4],Move [0,5] to [1,4]) -> Roman battle -> 5
+     CHANCE/11: Close Combat from [3,4] to [4,3] -> Roman battle -> 5
+      0/0: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 0
+      -3/3: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -2/2: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -2/2: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      1/3: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
+     CHANCE/66: Close Combat from [3,4] to [3,3] -> Roman battle -> 2
+      17/23: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
+      8/42: Close Combat from [3,4] to [3,3] -> Carthaginian retreat -> 3
+     CHANCE/23: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
+      5/7: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 3
+      -6/15: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
+     CHANCE/213: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
+      102/131: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
+      42/81: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 3
+     CHANCE/13: Close Combat from [1,4] to [2,3] -> Roman battle -> 2
+      -6/9: Close Combat from [1,4] to [2,3] -> Carthaginian retreat -> 2
+      1/3: Close Combat from [1,4] to [2,3] -> Roman attacker retreat -> 2
+  1/561: OrderUnit([1,5],[2,5],[3,5]) -> Roman order 3 units -> 1
+   1/561: End phase -> Roman movement -> 1
+    2/560: MacroCommand(Move [1,5] to [2,4],Move [2,5] to [3,4],Move [3,5] to [4,4]) -> Roman battle -> 5
+     CHANCE/62: Close Combat from [3,4] to [3,3] -> Roman battle -> 2
+      7/25: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 3
+      0/36: Close Combat from [3,4] to [3,3] -> Carthaginian retreat -> 3
+     CHANCE/57: Close Combat from [3,4] to [4,3] -> Roman battle -> 5
+      -5/7: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -2/10: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 3
+      -2/7: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      2/20: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      12/12: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 3
+     CHANCE/23: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
+      -2/8: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 2
+      -6/14: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
+     CHANCE/19: Close Combat from [4,4] to [4,3] -> Roman battle -> 5
+      2/2: Close Combat from [4,4] to [4,3] -> Roman attacker retreat -> 2
+      -5/5: Close Combat from [4,4] to [4,3] -> Carthaginian retreat -> 2
+      -1/3: Close Combat from [4,4] to [4,3] -> Carthaginian retreat -> 2
+      0/4: Close Combat from [4,4] to [4,3] -> Roman attacker retreat -> 2
+      -4/4: Close Combat from [4,4] to [4,3] -> Carthaginian retreat -> 2
+     CHANCE/402: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
+      127/237: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
+      89/164: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 2
+  16/636: OrderUnit([0,5],[2,5],[3,5]) -> Roman order 3 units -> 1
+   16/636: End phase -> Roman movement -> 1
+    15/635: MacroCommand(Move [2,5] to [2,4],Move [0,5] to [1,4],Move [3,5] to [3,4]) -> Roman battle -> 5
+     CHANCE/14: Close Combat from [1,4] to [2,3] -> Roman battle -> 2
+      2/3: Close Combat from [1,4] to [2,3] -> Roman attacker retreat -> 2
+      -10/10: Close Combat from [1,4] to [2,3] -> Carthaginian retreat -> 2
+     CHANCE/11: Close Combat from [3,4] to [4,3] -> Roman battle -> 6
+      -1/3: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
+      -2/2: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -2/2: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -1/1: Close Combat from [3,4] to [4,3] -> Carthaginian retreat -> 2
+      -1/1: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
+      -1/1: Close Combat from [3,4] to [4,3] -> Roman attacker retreat -> 2
+     CHANCE/80: Close Combat from [2,4] to [3,3] -> Roman battle -> 2
+      -4/47: Close Combat from [2,4] to [3,3] -> Carthaginian retreat -> 3
+      26/32: Close Combat from [2,4] to [3,3] -> Roman attacker retreat -> 2
+     CHANCE/517: Close Combat from [3,4] to [3,3] -> Roman battle -> 3
+      189/306: Close Combat from [3,4] to [3,3] -> Carthaginian retreat -> 3
+      83/127: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
+      72/83: Close Combat from [3,4] to [3,3] -> Roman attacker retreat -> 2
+     CHANCE/16: Close Combat from [2,4] to [2,3] -> Roman battle -> 2
+      -6/9: Close Combat from [2,4] to [2,3] -> Carthaginian retreat -> 2
+      -1/6: Close Combat from [2,4] to [2,3] -> Roman attacker retreat -> 2
 "
 `;

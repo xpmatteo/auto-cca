@@ -6,6 +6,10 @@ const MAP = new Set();
 
 /** @type {Set<Hex>} */
 export const MAP_WEST = new Set();
+/** @type {Set<Hex>} */
+export const MAP_EAST = new Set();
+/** @type {Set<Hex>} */
+export const MAP_CENTER = new Set();
 
 function isWest(r, q) {
     return  r == 0 && q <= 4 ||
@@ -17,6 +21,18 @@ function isWest(r, q) {
             r == 6 && q <= 1 ||
             r == 7 && q <= 0 ||
             r == 8 && q <= 0;
+}
+
+function isEast(r, q) {
+    return  r == 0 && q >= 8 ||
+        r == 1 && q >= 8 ||
+        r == 2 && q >= 7 ||
+        r == 3 && q >= 7 ||
+        r == 4 && q >= 6 ||
+        r == 5 && q >= 6 ||
+        r == 6 && q >= 5 ||
+        r == 7 && q >= 5 ||
+        r == 8 && q >= 4;
 }
 
 function makeMap() {
@@ -32,6 +48,9 @@ function makeMap() {
             MAP.add(hex);
             if (isWest(r, q)) {
                 MAP_WEST.add(hex);
+            }
+            if (isEast(r, q)) {
+                MAP_EAST.add(hex);
             }
         }
     }

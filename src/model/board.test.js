@@ -1,5 +1,5 @@
 import { hexOf } from '../lib/hexlib.js';
-import { Board, MAP_WEST } from './board.js';
+import { Board, MAP_EAST, MAP_WEST } from './board.js';
 import { RomanHeavyInfantry } from './units.js';
 
 function makeBoard() {
@@ -73,6 +73,7 @@ test('clone board', function () {
 describe('the west side of the map', () => {
     [hexOf(0, 0),
         hexOf(4, 0),
+        hexOf(3, 1),
         hexOf(3, 2),
         hexOf(2, 3),
         hexOf(2, 4),
@@ -99,6 +100,41 @@ describe('the west side of the map', () => {
         ].forEach(hex => {
         it(`MAP_WEST does not contain ${hex}`, () => {
             expect(MAP_WEST).not.toContain(hex);
+        });
+    })
+
+});
+
+describe('the east side of the map', () => {
+    [hexOf(12, 0),
+        hexOf(8, 0),
+        hexOf(8, 1),
+        hexOf(7, 2),
+        hexOf(7, 3),
+        hexOf(6, 4),
+        hexOf(6, 5),
+        hexOf(5, 6),
+        hexOf(5, 7),
+        hexOf(4, 8),
+    ].forEach(hex => {
+        it(`MAP_EAST contains ${hex}`, () => {
+            expect(MAP_EAST).toContain(hex);
+        });
+    });
+
+    [
+        hexOf(7, 0),
+        hexOf(7, 1),
+        hexOf(6, 2),
+        hexOf(6, 3),
+        hexOf(5, 4),
+        hexOf(5, 5),
+        hexOf(4, 6),
+        hexOf(4, 7),
+        hexOf(3, 8),
+    ].forEach(hex => {
+        it(`MAP_EAST does not contain ${hex}`, () => {
+            expect(MAP_EAST).not.toContain(hex);
         });
     })
 

@@ -40,8 +40,9 @@ image to appear.  The parameters are:
 
 # WIP
 
+    BUG combat with evasion does not "spend" the attacking unit
+
   * implement MAP_CENTER and MAP_EAST
-  * Order3LeftCard should use WEST for sideSouth and EAST for sideNorth
 
 # AI TESTS
 

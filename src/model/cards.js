@@ -1,4 +1,4 @@
-import { MAP_WEST } from "./board.js";
+import { MAP_EAST, MAP_WEST } from "./board.js";
 import { RESULT_HEAVY, RESULT_LIGHT, RESULT_MEDIUM } from "./dice.js";
 import { BattlePhase } from "./phases/BattlePhase.js";
 import { FirePhase } from "./phases/fire_phase.js";
@@ -67,6 +67,9 @@ export class OrderLightTroopsCard extends Card {
  * @param {Game} game
  */
 function eligibleIfLeft(unit, game) {
+    if (unit.side === game.sideNorth) {
+        return MAP_EAST.has(game.hexOfUnit(unit));
+    }
     return MAP_WEST.has(game.hexOfUnit(unit));
 }
 

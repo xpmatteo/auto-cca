@@ -65,6 +65,10 @@ export class Game {
         ])
     }
 
+    get sideNorth() {
+        return this.scenario.sideNorth;
+    }
+
     describeCurrentPhase() {
         if (this.isTerminal()) {
             return `Game over. ${this.gameStatus}`;
