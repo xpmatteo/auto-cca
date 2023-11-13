@@ -44,21 +44,21 @@ describe('Open Loop nodes', () => {
         };
 
         test('new node: any command may be returned', () => {
-            const node = new OpenLoopNode(Side.ROMAN, 1, 1);
+            const node = new OpenLoopNode(Side.ROMAN, null, 1, 1);
             const game = Object.assign({}, gamePrototype);
 
             const [newGame, bestUctChild] = node.bestUctChild(game);
 
             expect(node.children.size).toBe(1);
-            expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN));
+            expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN, node));
             expect(node.children.get(commandA.toString())).toStrictEqual(bestUctChild);
             expect(newGame.currentSide).toBe(Side.CARTHAGINIAN);
         });
 
         test('the best of the existing commands is returned', () => {
-            const childA = new OpenLoopNode(Side.CARTHAGINIAN, -99, 100);
-            const childB = new OpenLoopNode(Side.CARTHAGINIAN, -100, 100);
-            const node = new OpenLoopNode(Side.ROMAN, 1, 1, new Map([
+            const childA = new OpenLoopNode(Side.CARTHAGINIAN, null, -99, 100);
+            const childB = new OpenLoopNode(Side.CARTHAGINIAN, null, -100, 100);
+            const node = new OpenLoopNode(Side.ROMAN, null, 1, 1, new Map([
                 [commandA.toString(), childA],
                 [commandB.toString(), childB],
             ]));
@@ -73,8 +73,8 @@ describe('Open Loop nodes', () => {
         });
 
         test('there is one valid command that was never executed', () => {
-            const childA = new OpenLoopNode(Side.CARTHAGINIAN, -99, 100);
-            const node = new OpenLoopNode(Side.ROMAN, 1, 1, new Map([
+            const childA = new OpenLoopNode(Side.CARTHAGINIAN, null, -99, 100);
+            const node = new OpenLoopNode(Side.ROMAN, null, 1, 1, new Map([
                 [commandA.toString(), childA],
             ]));
             const game = Object.assign({}, gamePrototype);
@@ -82,10 +82,11 @@ describe('Open Loop nodes', () => {
             const [newGame, bestUctChild] = node.bestUctChild(game);
 
             expect(node.children.size).toBe(2);
-            expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN, 0, 0));
+            expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN, node));
             expect(bestUctChild).toBe(node.children.get(commandB.toString()));
             expect(game.currentSide).toBe(Side.ROMAN);
             expect(newGame.currentSide).toBe(Side.CARTHAGINIAN);
+            expect(bestUctChild.parent).toBe(node);
         });
 
     });

@@ -5,12 +5,15 @@ import { Side } from "../model/side.js";
 export default class OpenLoopNode {
     /**
      * @param {Side} side
+     * @param {OpenLoopNode} parent
      * @param {number} score
      * @param {number} visits
      * @param {Map<string, OpenLoopNode>} children
      */
-    constructor(side, score= 0, visits= 0, children = new Map()) {
+    constructor(side, parent = null, score= 0, visits= 0, children = new Map()) {
+        this.parent = parent;
         this.side = side;
+        this.parent = parent;
         this.score = score;
         this.visits = visits;
         this.children = children;
@@ -34,7 +37,7 @@ export default class OpenLoopNode {
             clone.executeCommand(command);
             const child = this.children.get(command.toString());
             if (!child) {
-                const newChild = new OpenLoopNode(clone.currentSide);
+                const newChild = new OpenLoopNode(clone.currentSide, this);
                 this.children.set(command.toString(), newChild);
                 return [clone, newChild];
             }
