@@ -42,6 +42,7 @@ image to appear.  The parameters are:
 
     BUG combat with evasion does not "spend" the attacking unit
 
+  * use OpenLoop in MCTS: reimplement best commands
   * implement MAP_CENTER and MAP_EAST
 
 # AI TESTS
