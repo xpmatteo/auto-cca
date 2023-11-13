@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`2 on 2 1`] = `
+exports[`MCTS snapshot testing 2 on 2 1`] = `
 "526/2000: undefined -> Roman play one card -> 2
  480/1628: PlayCard(Order Heavy Troops) -> Roman order 3 units -> 1
   480/1628: End phase -> Roman movement -> 1
@@ -95,7 +95,7 @@ exports[`2 on 2 1`] = `
 "
 `;
 
-exports[`close combat from light to heavy 1`] = `
+exports[`MCTS snapshot testing close combat from light to heavy 1`] = `
 "-19/30: undefined -> Roman play one card -> 2
  -10/19: PlayCard(Order Three Units Left) -> Roman order 3 units -> 1
   -10/18: End phase -> Roman movement -> 1
@@ -150,7 +150,7 @@ exports[`close combat from light to heavy 1`] = `
 "
 `;
 
-exports[`melee 1`] = `
+exports[`MCTS snapshot testing melee 1`] = `
 "-98/2000: undefined -> Roman play one card -> 2
  -61/204: PlayCard(Order Three Units Left) -> Roman order 3 units -> 1
   -60/203: End phase -> Roman movement -> 1

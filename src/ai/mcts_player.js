@@ -147,7 +147,7 @@ export class DecisionNode extends TreeNode {
 
     /**
      * Expands the node by creating all possible children
-     * @returns {[DecisionNode|ChanceNode]}
+     * @returns {DecisionNode|ChanceNode}
      */
     expand() {
         const game = this.game;
@@ -157,7 +157,7 @@ export class DecisionNode extends TreeNode {
             const clone = executeCommand(game, macroCommand);
             const childNode = new DecisionNode(clone, this, 0, 0, [], macroCommand);
             this.children.push(childNode);
-            return [childNode];
+            return childNode;
         }
         validCommands.forEach((command) => {
             if (command.isDeterministic()) {
@@ -170,7 +170,7 @@ export class DecisionNode extends TreeNode {
                 this.children.push(childNode);
             }
         });
-        return [randomElement(this.children)];
+        return randomElement(this.children);
     }
 
     value() {
@@ -278,7 +278,7 @@ export class ChanceNode extends TreeNode {
     }
 
     expand() {
-        return [this.bestUctChild()];
+        return this.bestUctChild();
     }
 
     value() {
@@ -380,11 +380,9 @@ export class MctsPlayer {
     }
 
     iterate(rootNode) {
-        let nodes = this._select(rootNode);
-        nodes.forEach(node => {
-            const score = this._simulate(node);
-            node.backPropagate(score, node.game.currentSide);
-        })
+        const node = this._select(rootNode);
+        const score = this._simulate(node);
+        node.backPropagate(score, node.game.currentSide);
     }
 
     _simulate(node) {
@@ -408,6 +406,11 @@ export class MctsPlayer {
         }
     }
 
+    /**
+     * @param {DecisionNode} node
+     * @returns {TreeNode}
+     * @private
+     */
     _select(node) {
         while (!node.game.isTerminal()) {
             if (node.children.length === 0) {
@@ -417,7 +420,7 @@ export class MctsPlayer {
             }
         }
         // node is terminal
-        return [node];
+        return node;
     }
 
     toString() {
