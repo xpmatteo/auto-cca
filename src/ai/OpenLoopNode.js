@@ -16,7 +16,7 @@ export default class OpenLoopNode {
         this.parent = parent;
         this.score = score;
         this.visits = visits;
-        /** @type {Map<string, OpenLoopNode>} */
+        /** @type {Map<string, [Command,OpenLoopNode]>} */
         this.#children = new Map();
     }
 
@@ -38,10 +38,10 @@ export default class OpenLoopNode {
             clone.executeCommand(command);
             if (!this.#children.has(command.toString())) {
                 const newChild = new OpenLoopNode(clone.currentSide, this);
-                this.#children.set(command.toString(), newChild);
+                this.addChild(command, newChild);
                 return [clone, newChild];
             }
-            const child = this.#children.get(command.toString());
+            const child = this.getChildNode(command.toString());
             const factor = (this.side === clone.currentSide) ? 1 : -1;
             const ucb1 = child.value() + expansionFactor * Math.sqrt(logOfThisVisits / child.visits);
             const currentScore = factor * ucb1;
@@ -83,7 +83,7 @@ export default class OpenLoopNode {
      * @param {OpenLoopNode} child
      */
     addChild(command, child) {
-        this.#children.set(command.toString(), child);
+        this.#children.set(command.toString(), [command, child]);
     }
 
     get childrenSize() {
@@ -95,6 +95,10 @@ export default class OpenLoopNode {
      * @returns {OpenLoopNode}
      */
     getChildNode(command) {
-        return this.#children.get(command.toString());
+        if (!this.#children.has(command.toString())) {
+            return undefined;
+        }
+        return this.#children.get(command.toString())[1];
     }
+    
 }
