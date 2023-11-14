@@ -1,7 +1,7 @@
 import { CARD_IMAGE_SIZE } from "../../config.js";
 import { choose } from "../../lib/combinatorial.js";
 import { MAP_WIDTH } from "../../view/map.js";
-import { endPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { Phase } from "./Phase.js";
 import { Hex } from "../../lib/hexlib.js";

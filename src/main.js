@@ -5,7 +5,7 @@ import { MctsPlayer } from "./ai/mcts_player.js";
 import { InteractiveGame } from "./interactive_game.js";
 import { Point } from "./lib/hexlib.js";
 import getQueryParameter from "./lib/query_string.js";
-import { endPhaseCommand } from "./model/commands/end_phase_command.js";
+import { endPhaseCommand } from "./model/commands/EndPhaseCommand.js";
 import { Dice } from "./model/dice.js";
 import makeGame from "./model/game.js";
 import { makeScenario } from "./model/scenarios.js";

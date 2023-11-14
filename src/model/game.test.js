@@ -1,6 +1,6 @@
 import { RandomPlayer } from "../ai/autoplay.js";
 import { hexOf } from "../lib/hexlib.js";
-import { endPhaseCommand } from "./commands/end_phase_command.js";
+import { endPhaseCommand } from "./commands/EndPhaseCommand.js";
 import { MoveCommand } from "./commands/move_command.js";
 import makeGame from "./game.js";
 import GameStatus from "./game_status.js";

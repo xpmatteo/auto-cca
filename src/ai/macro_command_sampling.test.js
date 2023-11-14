@@ -1,5 +1,5 @@
 import { perturbSample, sample } from "./macro_command_sampling.js";
-import { endPhaseCommand } from "../model/commands/end_phase_command.js";
+import { endPhaseCommand } from "../model/commands/EndPhaseCommand.js";
 import { MacroCommand } from "../model/commands/macro_command.js";
 import { MoveCommand } from "../model/commands/move_command.js";
 import { hexOf } from "../lib/hexlib.js";

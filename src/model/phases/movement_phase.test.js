@@ -4,7 +4,7 @@ import makeGame from '../game.js'
 import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
 import { MoveCommand } from "../commands/move_command.js";
-import { endPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
 import { MovementPhase } from "./MovementPhase.js";
 import { OrderLightTroopsCard } from "../cards.js";
 

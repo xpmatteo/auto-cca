@@ -6,7 +6,7 @@ import { hexOf } from '../../lib/hexlib.js';
 import { Side } from "../side.js";
 import * as units from '../units.js';
 import { BattlePhase } from "./BattlePhase.js";
-import { endPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
 import { CloseCombatCommand } from "../commands/close_combat_command.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
 

@@ -1,4 +1,4 @@
-import { endPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { RESULT_HEAVY } from "../dice.js";
 import makeGame from "../game.js";

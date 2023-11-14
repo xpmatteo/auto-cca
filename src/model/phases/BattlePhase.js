@@ -1,6 +1,6 @@
 import { CloseCombatWithEvasionCommand } from "../commands/CloseCombatWithEvasionCommand.js";
 import { Phase } from "./Phase.js";
-import {endPhaseCommand} from "../commands/end_phase_command.js";
+import {endPhaseCommand} from "../commands/EndPhaseCommand.js";
 import {CloseCombatCommand} from "../commands/close_combat_command.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
 
