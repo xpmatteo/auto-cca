@@ -35,12 +35,12 @@ export default class OpenLoopNode {
         for (const command of randomShuffleArray(game.validCommands())) {
             const clone = game.clone();
             clone.executeCommand(command);
-            const child = this.children.get(command.toString());
-            if (!child) {
+            if (!this.children.has(command.toString())) {
                 const newChild = new OpenLoopNode(clone.currentSide, this);
                 this.children.set(command.toString(), newChild);
                 return [clone, newChild];
             }
+            const child = this.children.get(command.toString());
             const factor = (this.side === clone.currentSide) ? 1 : -1;
             const ucb1 = child.value() + expansionFactor * Math.sqrt(logOfThisVisits / child.visits);
             const currentScore = factor * ucb1;
