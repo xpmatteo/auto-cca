@@ -4,7 +4,7 @@ import makeGame from '../game.js'
 import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
 import { MoveCommand } from "../commands/move_command.js";
-import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/end_phase_command.js";
 import { MovementPhase } from "./MovementPhase.js";
 import { OrderLightTroopsCard } from "../cards.js";
 
@@ -37,7 +37,7 @@ test('generate moves for one unit', function () {
         new MoveCommand(hexOf(2, 1), hexOf(1, 1)),
         new MoveCommand(hexOf(0, 2), hexOf(1, 1)),
         new MoveCommand(hexOf(1, 2), hexOf(1, 1)),
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(moves.length).toEqual(expected.length);
     expect(new Set(moves)).toEqual(new Set(expected));
@@ -52,7 +52,7 @@ test('only ordered units can move', function () {
     let moves = game.validCommands();
 
     let expected = [
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(moves.length).toEqual(expected.length);
     expect(new Set(moves)).toEqual(new Set(expected));
@@ -86,7 +86,7 @@ test('generate commands for two units, avoiding collisions', function () {
         new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
         new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
 
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -108,7 +108,7 @@ test('generate commands for a light foot unit, can pass through friendlies', fun
         new MoveCommand(hexOf(0, 2), hexOf(0, 0)),
         new MoveCommand(hexOf(-1, 2), hexOf(0, 0)),
 
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -138,7 +138,7 @@ test('generate moves for unit of range 2', function () {
         new MoveCommand(hexOf(0, 3), hexOf(1, 1)),
         new MoveCommand(hexOf(-1, 3), hexOf(1, 1)),
         new MoveCommand(hexOf(-1, 2), hexOf(1, 1)),
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(moves.length).toEqual(expected.length);
     expect(new Set(moves)).toEqual(new Set(expected));

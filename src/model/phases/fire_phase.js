@@ -1,6 +1,6 @@
 import { Phase } from "./Phase.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
-import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/end_phase_command.js";
 
 export class FirePhase extends Phase {
     constructor() {
@@ -20,7 +20,7 @@ export class FirePhase extends Phase {
                 commands.push(new RangedCombatCommand(to, hex));
             });
         });
-        commands.push(new EndPhaseCommand());
+        commands.push(endPhaseCommand());
         return commands;
     }
 

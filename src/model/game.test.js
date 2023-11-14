@@ -1,6 +1,6 @@
 import { RandomPlayer } from "../ai/autoplay.js";
 import { hexOf } from "../lib/hexlib.js";
-import { EndPhaseCommand } from "./commands/end_phase_command.js";
+import { endPhaseCommand } from "./commands/end_phase_command.js";
 import { MoveCommand } from "./commands/move_command.js";
 import makeGame from "./game.js";
 import GameStatus from "./game_status.js";
@@ -38,7 +38,7 @@ test("game status", () => {
 test("executeCommand - game over", () => {
     const game = makeGame(scenario);
 
-    game.executeCommand(new EndPhaseCommand());
+    game.executeCommand(endPhaseCommand());
     game.executeCommand(new MoveCommand(hexOf(0, 5), hexOf(1, 5)));
 
     expect(game.gameStatus).toEqual(GameStatus.ROMAN_WIN);

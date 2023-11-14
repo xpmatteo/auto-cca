@@ -6,7 +6,7 @@ import { hexOf } from '../../lib/hexlib.js';
 import { Side } from "../side.js";
 import * as units from '../units.js';
 import { BattlePhase } from "./BattlePhase.js";
-import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/end_phase_command.js";
 import { CloseCombatCommand } from "../commands/close_combat_command.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
 
@@ -21,7 +21,7 @@ test('generate no close combat commands for out of range', function () {
     let commands = phase.validCommands(game);
 
     let expected = [
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -108,7 +108,7 @@ test("ranged combat not available to heavies", () => {
     let commands = phase.validCommands(game);
 
     let expected = [
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -125,7 +125,7 @@ test('endphase only available if no combats are available', function () {
     let commands = phase.validCommands(game);
 
     let expected = [
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(new Set(commands)).toEqual(new Set(expected));
 });

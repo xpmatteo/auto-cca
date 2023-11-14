@@ -1,6 +1,6 @@
 import { Command } from "./commands.js";
 
-export class EndPhaseCommand extends Command {
+class EndPhaseCommand extends Command {
     toString() {
         return `End phase`;
     }
@@ -8,8 +8,6 @@ export class EndPhaseCommand extends Command {
     play(game) {
         return game.endPhase();
     }
-
-    isDeterministic() {
-        return true;
-    }
 }
+
+export function endPhaseCommand() { return new EndPhaseCommand(); }

@@ -1,4 +1,4 @@
-import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/end_phase_command.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { RESULT_HEAVY } from "../dice.js";
 import makeGame from "../game.js";
@@ -54,7 +54,7 @@ test("cannot order more than two units", () => {
     let commands = PHASE.validCommands(game);
 
     let expected = [
-        new EndPhaseCommand(),
+        endPhaseCommand(),
     ];
     expect(new Set(commands)).toEqual(new Set(expected));
 });

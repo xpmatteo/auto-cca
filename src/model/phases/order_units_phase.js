@@ -1,7 +1,7 @@
 import { CARD_IMAGE_SIZE } from "../../config.js";
 import { choose } from "../../lib/combinatorial.js";
 import { MAP_WIDTH } from "../../view/map.js";
-import { EndPhaseCommand } from "../commands/end_phase_command.js";
+import { endPhaseCommand } from "../commands/end_phase_command.js";
 import { OrderUnitCommand } from "../commands/order_unit_command.js";
 import { Phase } from "./Phase.js";
 import { Hex } from "../../lib/hexlib.js";
@@ -23,7 +23,7 @@ export class OrderUnitsPhase extends Phase {
      */
     validCommands(game) {
         if (game.numberOfOrderedUnits >= this.numberOfUnits) {
-            return [new EndPhaseCommand()];
+            return [endPhaseCommand()];
         }
         const hexes = [];
         game.foreachUnit((unit, hex) => {
@@ -37,7 +37,7 @@ export class OrderUnitsPhase extends Phase {
         const commands = choose(hexes, this.numberOfUnits - game.numberOfOrderedUnits)
             .map(combination => new OrderUnitCommand(combination));
         if (commands.length === 0)
-            commands.push(new EndPhaseCommand());
+            commands.push(endPhaseCommand());
         return commands;
     }
 

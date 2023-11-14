@@ -1,6 +1,6 @@
 import { CloseCombatWithEvasionCommand } from "../commands/CloseCombatWithEvasionCommand.js";
 import { Phase } from "./Phase.js";
-import {EndPhaseCommand} from "../commands/end_phase_command.js";
+import {endPhaseCommand} from "../commands/end_phase_command.js";
 import {CloseCombatCommand} from "../commands/close_combat_command.js";
 import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
 
@@ -32,7 +32,7 @@ export class BattlePhase extends Phase {
             });
         });
         if (commands.length === 0) {
-            commands.push(new EndPhaseCommand());
+            commands.push(endPhaseCommand());
         }
         return commands;
     }
