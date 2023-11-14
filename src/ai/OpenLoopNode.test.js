@@ -101,12 +101,6 @@ describe('Open Loop nodes', () => {
     });
 
     describe('bestCommands', () => {
-        function gameWithSide(side) {
-            return {
-                currentSide: side,
-            };
-        }
-
         function aDeterministicCommand(name) {
             return {
                 isDeterministic: () => true,
@@ -125,9 +119,7 @@ describe('Open Loop nodes', () => {
             return commands.map(c => c.toString());
         }
 
-        let game = gameWithSide('A');
-
-        xit('should return the best commands sequence from root to leaf', () => {
+        it('should return the best commands sequence from root to leaf', () => {
             const rootNode = new OpenLoopNode(Side.ROMAN, null, 1, 1);
             const child1 = new OpenLoopNode(Side.ROMAN, rootNode, 3, 1);
             const child2 = new OpenLoopNode(Side.ROMAN, rootNode, 4, 1);
@@ -144,7 +136,7 @@ describe('Open Loop nodes', () => {
             expect(names(result)).toEqual(['child2Command', 'grandChildCommand']);
         });
 
-        xit('should stop at the command that will switch side', () => {
+        it('should stop at the command that will switch side', () => {
             const rootNode = new OpenLoopNode(Side.ROMAN);
 
             const child1 = new OpenLoopNode(Side.CARTHAGINIAN, rootNode, 3, 1);
@@ -160,7 +152,7 @@ describe('Open Loop nodes', () => {
             expect(names(result)).toEqual(['child1Command']);
         });
 
-        xit('should stop after the first command that is not deterministic', () => {
+        it('should stop after the first command that is not deterministic', () => {
             const rootNode = new OpenLoopNode(Side.ROMAN);
 
             const child1 = new OpenLoopNode(Side.ROMAN, rootNode, 3, 1);
@@ -173,7 +165,7 @@ describe('Open Loop nodes', () => {
             child1.addChild(grandChildCommand, grandChild);
 
             const result = rootNode.bestCommands(Side.ROMAN);
-            expect(names(result)).toEqual(['rootCommand', 'child1Command']);
+            expect(names(result)).toEqual(['child1Command']);
         });
     });
 

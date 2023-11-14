@@ -72,10 +72,45 @@ export default class OpenLoopNode {
     }
 
     /**
+        This decides which is the best command for the real game
+       @returns {[Command, OpenLoopNode]}
+    */
+    bestAbsoluteChild() {
+        if (this.childrenSize === 0) {
+            throw new Error("No children???");
+        }
+        let best = undefined;
+        let bestValue = -Infinity;
+        for (let [__, [command, child]] of this.#children) {
+            if (child.value() > bestValue) {
+                best = [command, child];
+                bestValue = child.value();
+            }
+        }
+        return best;
+    }
+
+    /**
+     * Returns the best commands sequence for the real game, stopping after the first non-deterministic command,
+     * and before the game changes side
+     * @param {Side?} side
      * @returns {Command[]}
      */
-    bestCommands() {
-        return undefined;
+    bestCommands(side= undefined) {
+        if (side && this.side !== side) {
+            // stop because *after* this command, the side will change
+            return [];
+        }
+        if (this.childrenSize === 0) {
+            return [];
+        }
+        const [bestCommand, bestChild] = this.bestAbsoluteChild();
+        if (!bestCommand.isDeterministic()) {
+            // stop because *after* this command, we don't know what the actual situation will be
+            return [bestCommand];
+        } else {
+            return [bestCommand].concat(bestChild.bestCommands(side));
+        }
     }
 
     /**
@@ -100,5 +135,4 @@ export default class OpenLoopNode {
         }
         return this.#children.get(command.toString())[1];
     }
-    
 }
