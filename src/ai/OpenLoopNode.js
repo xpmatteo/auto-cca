@@ -69,4 +69,8 @@ export default class OpenLoopNode {
             this.parent.backPropagate(score, side);
         }
     }
+
+    bestCommands() {
+        return undefined;
+    }
 }

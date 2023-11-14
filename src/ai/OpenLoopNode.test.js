@@ -1,4 +1,3 @@
-
 import { fixedRandom, resetFixedRandom } from "../lib/random.js";
 import { Command } from "../model/commands/commands.js";
 import { Side } from "../model/side.js";
@@ -102,4 +101,89 @@ describe('Open Loop nodes', () => {
             expect(parent.visits).toBe(2);
         });
     });
+
+    describe('bestCommands', () => {
+        function gameWithSide(side) {
+            return {
+                currentSide: side,
+            };
+        }
+
+        function aDeterministicCommand(name) {
+            return {
+                isDeterministic: () => true,
+                toString: () => name,
+            };
+        }
+
+        function aNonDeterministicCommand(name) {
+            return {
+                isDeterministic: () => false,
+                toString: () => name,
+            };
+        }
+
+        function names(commands) {
+            return commands.map(c => c.toString());
+        }
+
+        let game = gameWithSide('A');
+
+        xit('should return the best commands sequence from root to leaf', () => {
+            const rootNode = new OpenLoopNode(Side.ROMAN, null, 1, 1);
+
+            const child1 = new OpenLoopNode(Side.ROMAN, rootNode, 3, 1);
+            const child1command = aDeterministicCommand('child1Command');
+
+            const child2 = new OpenLoopNode(Side.ROMAN, rootNode, 4, 1);
+            const child2command = aDeterministicCommand('child2Command');
+
+            const grandChild = new OpenLoopNode(Side.ROMAN, child2, 5, 1);
+            const grandChildCommand = aDeterministicCommand('grandChildCommand');
+
+            rootNode.children = new Map([
+                [child1command.toString(), child1],
+                [child2command.toString(), child2],
+            ])
+
+            child2.children = new Map([
+                [grandChildCommand.toString(), grandChild],
+            ])
+            const result = rootNode.bestCommands();
+            expect(names(result)).toEqual(['child2Command', 'grandChildCommand']);
+        });
+
+        xit('should stop at the command that will switch side', () => {
+            const rootNode = new OpenLoopNode(Side.ROMAN);
+
+            const child1 = new OpenLoopNode(Side.CARTHAGINIAN, rootNode, 3, 1);
+            const child1command = aDeterministicCommand('child1Command');
+
+            const grandChild = new OpenLoopNode(Side.ROMAN, child1, 5, 1);
+            const grandChildCommand = aDeterministicCommand('grandChildCommand');
+
+            rootNode.children = new Map([[child1command.toString(), child1]]);
+            child1.children = new Map([[grandChildCommand.toString(), grandChild]]);
+
+            const result = rootNode.bestCommands(Side.ROMAN);
+            expect(names(result)).toEqual(['child1Command']);
+        });
+
+        xit('should stop after the first command that is not deterministic', () => {
+            const rootNode = new OpenLoopNode(Side.ROMAN);
+
+            const child1 = new OpenLoopNode(Side.ROMAN, rootNode, 3, 1);
+            const child1command = aNonDeterministicCommand('child1Command');
+
+            const grandChild = new OpenLoopNode(Side.ROMAN, child1, 5, 1);
+            const grandChildCommand = aDeterministicCommand('grandChildCommand');
+
+            rootNode.children = new Map([[child1command.toString(), child1]]);
+            child1.children = new Map([[grandChildCommand.toString(), grandChild]]);
+
+            const result = rootNode.bestCommands(Side.ROMAN);
+            expect(names(result)).toEqual(['rootCommand', 'child1Command']);
+        });
+    });
+
 });
