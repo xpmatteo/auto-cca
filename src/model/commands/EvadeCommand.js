@@ -29,7 +29,8 @@ export class EvadeCommand extends Command {
         } else {
             game.moveUnit(this.toHex, this.fromHex);
         }
-        game.endPhase();
+        game.shiftPhase();
+        game.markUnitSpent(attackingUnit);
         return events;
     }
 

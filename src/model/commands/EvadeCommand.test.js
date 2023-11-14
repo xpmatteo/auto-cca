@@ -39,6 +39,10 @@ describe('evade command', () => {
         expect(game.unitStrength(evadingUnit)).toBe(3);
     });
 
+    test('it spends the attacking unit', () => {
+        expect(game.isSpent(attackingUnit)).toBeTruthy();
+    });
+
 });
 
 test('It can kill the evading unit', () => {
