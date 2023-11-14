@@ -54,10 +54,6 @@ export default class OpenLoopNode {
         return [bestClone, bestChild];
     }
 
-    addChild(command, child) {
-        this.#children.set(command.toString(), child);
-    }
-
     value() {
         return this.score / this.visits;
     }
@@ -75,15 +71,30 @@ export default class OpenLoopNode {
         }
     }
 
+    /**
+     * @returns {Command[]}
+     */
     bestCommands() {
         return undefined;
+    }
+
+    /**
+     * @param {Command} command
+     * @param {OpenLoopNode} child
+     */
+    addChild(command, child) {
+        this.#children.set(command.toString(), child);
     }
 
     get childrenSize() {
         return this.#children.size;
     }
 
-    getChild(command) {
+    /**
+     * @param {Command} command
+     * @returns {OpenLoopNode}
+     */
+    getChildNode(command) {
         return this.#children.get(command.toString());
     }
 }

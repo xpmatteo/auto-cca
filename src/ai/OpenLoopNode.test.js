@@ -50,7 +50,7 @@ describe('Open Loop nodes', () => {
 
             expect(node.childrenSize).toBe(1);
             expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN, node));
-            expect(node.getChild(commandA)).toStrictEqual(bestUctChild);
+            expect(node.getChildNode(commandA)).toStrictEqual(bestUctChild);
             expect(newGame.currentSide).toBe(Side.CARTHAGINIAN);
         });
 
@@ -80,7 +80,7 @@ describe('Open Loop nodes', () => {
 
             expect(node.childrenSize).toBe(2);
             expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN, node));
-            expect(bestUctChild).toBe(node.getChild(commandB));
+            expect(bestUctChild).toBe(node.getChildNode(commandB));
             expect(game.currentSide).toBe(Side.ROMAN);
             expect(newGame.currentSide).toBe(Side.CARTHAGINIAN);
             expect(bestUctChild.parent).toBe(node);
