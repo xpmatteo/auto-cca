@@ -48,24 +48,23 @@ describe('Open Loop nodes', () => {
 
             const [newGame, bestUctChild] = node.bestUctChild(game);
 
-            expect(node.children.size).toBe(1);
+            expect(node.childrenSize).toBe(1);
             expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN, node));
-            expect(node.children.get(commandA.toString())).toStrictEqual(bestUctChild);
+            expect(node.getChild(commandA)).toStrictEqual(bestUctChild);
             expect(newGame.currentSide).toBe(Side.CARTHAGINIAN);
         });
 
         test('the best of the existing commands is returned', () => {
             const childA = new OpenLoopNode(Side.CARTHAGINIAN, null, -99, 100);
             const childB = new OpenLoopNode(Side.CARTHAGINIAN, null, -100, 100);
-            const node = new OpenLoopNode(Side.ROMAN, null, 1, 1, new Map([
-                [commandA.toString(), childA],
-                [commandB.toString(), childB],
-            ]));
+            const node = new OpenLoopNode(Side.ROMAN, null, 1, 1);
+            node.addChild(commandA, childA);
+            node.addChild(commandB, childB);
             const game = Object.assign({}, gamePrototype);
 
             const [newGame, bestUctChild] = node.bestUctChild(game);
 
-            expect(node.children.size).toBe(2);
+            expect(node.childrenSize).toBe(2);
             expect(bestUctChild).toBe(childB);
             expect(game.currentSide).toBe(Side.ROMAN);
             expect(newGame.currentSide).toBe(Side.CARTHAGINIAN);
@@ -73,16 +72,15 @@ describe('Open Loop nodes', () => {
 
         test('there is one valid command that was never executed', () => {
             const childA = new OpenLoopNode(Side.CARTHAGINIAN, null, -99, 100);
-            const node = new OpenLoopNode(Side.ROMAN, null, 1, 1, new Map([
-                [commandA.toString(), childA],
-            ]));
+            const node = new OpenLoopNode(Side.ROMAN, null, 1, 1);
+            node.addChild(commandA, childA);
             const game = Object.assign({}, gamePrototype);
 
             const [newGame, bestUctChild] = node.bestUctChild(game);
 
-            expect(node.children.size).toBe(2);
+            expect(node.childrenSize).toBe(2);
             expect(bestUctChild).toEqual(new OpenLoopNode(Side.CARTHAGINIAN, node));
-            expect(bestUctChild).toBe(node.children.get(commandB.toString()));
+            expect(bestUctChild).toBe(node.getChild(commandB));
             expect(game.currentSide).toBe(Side.ROMAN);
             expect(newGame.currentSide).toBe(Side.CARTHAGINIAN);
             expect(bestUctChild.parent).toBe(node);
@@ -131,25 +129,18 @@ describe('Open Loop nodes', () => {
 
         xit('should return the best commands sequence from root to leaf', () => {
             const rootNode = new OpenLoopNode(Side.ROMAN, null, 1, 1);
-
             const child1 = new OpenLoopNode(Side.ROMAN, rootNode, 3, 1);
-            const child1command = aDeterministicCommand('child1Command');
-
             const child2 = new OpenLoopNode(Side.ROMAN, rootNode, 4, 1);
-            const child2command = aDeterministicCommand('child2Command');
-
             const grandChild = new OpenLoopNode(Side.ROMAN, child2, 5, 1);
+            const child1command = aDeterministicCommand('child1Command');
+            const child2command = aDeterministicCommand('child2Command');
             const grandChildCommand = aDeterministicCommand('grandChildCommand');
+            rootNode.addChild(child1command, child1);
+            rootNode.addChild(child2command, child2);
+            child2.addChild(grandChildCommand, grandChild);
 
-            rootNode.children = new Map([
-                [child1command.toString(), child1],
-                [child2command.toString(), child2],
-            ])
-
-            child2.children = new Map([
-                [grandChildCommand.toString(), grandChild],
-            ])
             const result = rootNode.bestCommands();
+
             expect(names(result)).toEqual(['child2Command', 'grandChildCommand']);
         });
 
@@ -162,8 +153,8 @@ describe('Open Loop nodes', () => {
             const grandChild = new OpenLoopNode(Side.ROMAN, child1, 5, 1);
             const grandChildCommand = aDeterministicCommand('grandChildCommand');
 
-            rootNode.children = new Map([[child1command.toString(), child1]]);
-            child1.children = new Map([[grandChildCommand.toString(), grandChild]]);
+            rootNode.addChild(child1command, child1);
+            child1.addChild(grandChildCommand, grandChild);
 
             const result = rootNode.bestCommands(Side.ROMAN);
             expect(names(result)).toEqual(['child1Command']);
@@ -178,8 +169,8 @@ describe('Open Loop nodes', () => {
             const grandChild = new OpenLoopNode(Side.ROMAN, child1, 5, 1);
             const grandChildCommand = aDeterministicCommand('grandChildCommand');
 
-            rootNode.children = new Map([[child1command.toString(), child1]]);
-            child1.children = new Map([[grandChildCommand.toString(), grandChild]]);
+            rootNode.addChild(child1command, child1);
+            child1.addChild(grandChildCommand, grandChild);
 
             const result = rootNode.bestCommands(Side.ROMAN);
             expect(names(result)).toEqual(['rootCommand', 'child1Command']);

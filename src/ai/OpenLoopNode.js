@@ -3,20 +3,21 @@ import { randomShuffleArray } from "../lib/random.js";
 import { Side } from "../model/side.js";
 
 export default class OpenLoopNode {
+    #children;
     /**
      * @param {Side} side
      * @param {OpenLoopNode} parent
      * @param {number} score
      * @param {number} visits
-     * @param {Map<string, OpenLoopNode>} children
      */
-    constructor(side, parent = null, score= 0, visits= 0, children = new Map()) {
+    constructor(side, parent = null, score= 0, visits= 0) {
         this.parent = parent;
         this.side = side;
         this.parent = parent;
         this.score = score;
         this.visits = visits;
-        this.children = children;
+        /** @type {Map<string, OpenLoopNode>} */
+        this.#children = new Map();
     }
 
     /**
@@ -35,12 +36,12 @@ export default class OpenLoopNode {
         for (const command of randomShuffleArray(game.validCommands())) {
             const clone = game.clone();
             clone.executeCommand(command);
-            if (!this.children.has(command.toString())) {
+            if (!this.#children.has(command.toString())) {
                 const newChild = new OpenLoopNode(clone.currentSide, this);
-                this.children.set(command.toString(), newChild);
+                this.#children.set(command.toString(), newChild);
                 return [clone, newChild];
             }
-            const child = this.children.get(command.toString());
+            const child = this.#children.get(command.toString());
             const factor = (this.side === clone.currentSide) ? 1 : -1;
             const ucb1 = child.value() + expansionFactor * Math.sqrt(logOfThisVisits / child.visits);
             const currentScore = factor * ucb1;
@@ -51,6 +52,10 @@ export default class OpenLoopNode {
             }
         }
         return [bestClone, bestChild];
+    }
+
+    addChild(command, child) {
+        this.#children.set(command.toString(), child);
     }
 
     value() {
@@ -72,5 +77,13 @@ export default class OpenLoopNode {
 
     bestCommands() {
         return undefined;
+    }
+
+    get childrenSize() {
+        return this.#children.size;
+    }
+
+    getChild(command) {
+        return this.#children.get(command.toString());
     }
 }
