@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OpenLoopMctsPlayer 2 on 2 1`] = `
+"undefined -> 0/0: Side: Roman -> 0
+"
+`;

@@ -38,7 +38,6 @@ describe('MCTS snapshot testing', () => {
         logfunction: () => {},
     });
 
-    // fails bc I don't know
     test('2 on 2', () => {
         const game = makeGame(new TwoOnTwoMeleeScenario());
 

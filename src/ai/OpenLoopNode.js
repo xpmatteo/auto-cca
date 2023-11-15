@@ -1,9 +1,11 @@
-import { ensure } from "../lib/ensure.js";
+import { ensure, ensureDefined } from "../lib/ensure.js";
 import { randomShuffleArray } from "../lib/random.js";
 import { Side } from "../model/side.js";
 
 export default class OpenLoopNode {
+    /** @type {Map<string, [Command,OpenLoopNode]>} */
     #children;
+
     /**
      * @param {Side} side
      * @param {OpenLoopNode} parent
@@ -16,7 +18,6 @@ export default class OpenLoopNode {
         this.parent = parent;
         this.score = score;
         this.visits = visits;
-        /** @type {Map<string, [Command,OpenLoopNode]>} */
         this.#children = new Map();
     }
 
@@ -26,7 +27,7 @@ export default class OpenLoopNode {
      * @returns {[Game, OpenLoopNode]}
      */
     bestUctChild(game, expansionFactor= 2.4142) {
-        ensure(this.side === game.currentSide, "The node's side must be the same as the game's current side");
+        ensure(this.side === game.currentSide, `The node's side ${this.side} must be the same as the game's current side ${game.currentSide}}`);
         ensure(this.visits > 0, "The node must have been visited at least once");
 
         let bestChild = undefined;
@@ -134,5 +135,69 @@ export default class OpenLoopNode {
             return undefined;
         }
         return this.#children.get(command.toString())[1];
+    }
+
+    size() {
+        if (this.childrenSize === 0) {
+            return 1;
+        }
+        return 1 + this.#children.values().reduce((acc, [__, child]) => acc + child.size(), 0);
+    }
+
+    shape() {
+        const result = [];
+
+        function traverse(node, level) {
+            if (!result[level]) {
+                result[level] = 0;
+            }
+            result[level]++;
+            for (const child of node.children) {
+                traverse(child, level + 1);
+            }
+        }
+
+        traverse(this, 0);
+        return result;
+    }
+
+    /**
+     * Writes the tree in plain text
+     * @param {(string)=>void} writeFunc
+     * @param {number} maxLevel
+     * @param {number} minVisits
+     */
+    dumpTree(writeFunc, maxLevel=1000, minVisits = 0) {
+        /**
+         * @param {Command} command
+         * @param {OpenLoopNode} node
+         * @param {number} level
+         */
+        function traverse(command, node, level) {
+            if (level > maxLevel || node.visits < minVisits) {
+                return;
+            }
+            const nodeDescription = " ".repeat(level) + `${command} -> ${node.describeNode()}`;
+            writeFunc(nodeDescription)
+            for (const [__, [command, child]] of node.#children) {
+                traverse(command, child, level + 1);
+            }
+        }
+        traverse(undefined, this, 0);
+    }
+
+    toString(maxLevel = 10000, minVisits = 0) {
+        let result = "";
+
+        /** @param {string} str */
+        function append(str) {
+            result += str + "\n";
+        }
+        this.dumpTree(append, maxLevel, minVisits);
+        return result;
+    }
+
+    describeNode() {
+        return `${this.score.toFixed(0)}/${this.visits}: ${this.side} -> ${this.childrenSize}`;
     }
 }
