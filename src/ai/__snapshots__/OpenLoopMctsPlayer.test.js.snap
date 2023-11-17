@@ -1,6 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OpenLoopMctsPlayer 2 on 2 1`] = `
-"undefined -> 0/0: Side: Roman -> 0
+"undefined -> -1/2: Side: Roman -> 2
+ PlayCard(Order Three Units Left) -> -1/1: Side: Roman -> 0
+ PlayCard(Order Heavy Troops) -> 0/1: Side: Roman -> 1
+  End phase -> 0/1: Side: Roman -> 0
 "
 `;

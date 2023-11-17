@@ -22,7 +22,7 @@ export class OpenLoopMctsPlayer {
     }
 
     /**
-     * @param {InteractiveGame} game
+     * @param {Game} game
      * @returns {Command[]}
      */
     decideMove(game) {
@@ -79,9 +79,9 @@ export class OpenLoopMctsPlayer {
     _select(game, node) {
         while (!game.isTerminal()) {
             if (node.childrenSize === 0) {
-                return node.bestUctChild(this.args.expansionFactor, this.args.samplingExplorationChance);
+                return node.bestUctChild(game, this.args.expansionFactor);
             } else {
-                [game, node] = node.bestUctChild(this.args.expansionFactor, this.args.samplingExplorationChance);
+                [game, node] = node.bestUctChild(game, this.args.expansionFactor);
             }
         }
         // game is terminal

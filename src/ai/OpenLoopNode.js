@@ -28,12 +28,11 @@ export default class OpenLoopNode {
      */
     bestUctChild(game, expansionFactor= 2.4142) {
         ensure(this.side === game.currentSide, `The node's side ${this.side} must be the same as the game's current side ${game.currentSide}}`);
-        ensure(this.visits > 0, "The node must have been visited at least once");
 
         let bestChild = undefined;
         let bestScore = -Infinity;
         let bestClone = undefined;
-        const logOfThisVisits = Math.log(this.visits);
+        const logOfThisVisits = this.visits === 0 ? 0 : Math.log(this.visits);
         for (const command of randomShuffleArray(game.validCommands())) {
             const clone = game.clone();
             clone.executeCommand(command);
@@ -126,6 +125,10 @@ export default class OpenLoopNode {
         return this.#children.size;
     }
 
+    get children() {
+        return this.#children.values();
+    }
+
     /**
      * @param {Command} command
      * @returns {OpenLoopNode}
@@ -147,12 +150,16 @@ export default class OpenLoopNode {
     shape() {
         const result = [];
 
+        /**
+         * @param {OpenLoopNode} node
+         * @param {number} level
+         */
         function traverse(node, level) {
             if (!result[level]) {
                 result[level] = 0;
             }
             result[level]++;
-            for (const child of node.children) {
+            for (const [__, child] of node.children) {
                 traverse(child, level + 1);
             }
         }
