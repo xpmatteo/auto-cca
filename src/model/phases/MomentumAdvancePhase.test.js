@@ -1,7 +1,7 @@
 import { hexOf } from "../../lib/hexlib.js";
 import { MomentumAdvanceCommand } from "../commands/MomentumAdvanceCommand.js";
 import { RetreatCommand } from "../commands/retreatCommand.js";
-import { SkipMomentumAdvanceCommand } from "../commands/SkipMomentumAdvanceCommand.js";
+import { makeSkipMomentumAdvanceCommand } from "../commands/SkipMomentumAdvanceCommand.js";
 import makeGame from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
@@ -23,7 +23,7 @@ describe('valid commands', () => {
 
         expect(phase.validCommands(game).toString()).toEqual([
             new MomentumAdvanceCommand(hexOf(1,1), hexOf(0,0)),
-            new SkipMomentumAdvanceCommand(),
+            makeSkipMomentumAdvanceCommand(hexOf(0,0)),
         ].toString());
     });
 
@@ -36,7 +36,7 @@ describe('valid commands', () => {
         const phase = new MomentumAdvancePhase(hexOf(1,1), hexOf(0,0));
 
         expect(phase.validCommands(game).toString()).toEqual([
-            new SkipMomentumAdvanceCommand(),
+            makeSkipMomentumAdvanceCommand(hexOf(0,0)),
         ].toString());
     });
 });

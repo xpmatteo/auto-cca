@@ -1,9 +1,10 @@
+import { Hex } from "../../lib/hexlib.js";
 import { Command } from "./commands.js";
 
-export class SkipMomentumAdvanceCommand extends Command {
-    constructor(toHex) {
+class SkipMomentumAdvanceCommand extends Command {
+    constructor(inHex) {
         super();
-        this.toHex = toHex;
+        this.inHex = inHex;
     }
 
     play(game) {
@@ -12,6 +13,28 @@ export class SkipMomentumAdvanceCommand extends Command {
     }
 
     toString() {
-        return `Skip Momentum Advance`;
+        return `Skip Momentum Advance in ${this.inHex}`;
     }
+
+    get toHex() {
+        return this.inHex;
+    }
+
+    static make(toHex) {
+        if (!COMMANDS.has(toHex)) {
+            COMMANDS.set(toHex, new SkipMomentumAdvanceCommand(toHex));
+        }
+        return COMMANDS.get(toHex);
+    }
+}
+
+/** @type {Map<Hex, SkipMomentumAdvanceCommand>} */
+const COMMANDS = new Map();
+
+/**
+ * @param {Hex} inHex
+ * @returns {SkipMomentumAdvanceCommand}
+ */
+export function makeSkipMomentumAdvanceCommand(inHex) {
+    return SkipMomentumAdvanceCommand.make(inHex);
 }

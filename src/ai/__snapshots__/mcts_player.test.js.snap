@@ -111,12 +111,12 @@ exports[`MCTS snapshot testing close combat from light to heavy 1`] = `
      -1/2: Close Combat from [3,2] to [2,2] -> Carthaginian retreat -> 2
       1/2: Retreat [2,2] to [2,1] -> Roman advance after combat -> 2
        1/1: Momentum advance [3,2] to [2,2] -> Roman battle -> 0
-       0/0: Skip Momentum Advance -> Roman battle -> 0
+       0/0: Skip Momentum Advance in [3,2] -> Roman battle -> 0
       0/0: Retreat [2,2] to [3,1] -> Roman advance after combat -> 0
      2/4: Close Combat from [3,2] to [2,2] -> Carthaginian retreat -> 2
       -2/4: Retreat [2,2] to [3,1] -> Roman advance after combat -> 2
        -1/1: Momentum advance [3,2] to [2,2] -> Roman battle -> 0
-       0/2: Skip Momentum Advance -> Roman battle -> 1
+       0/2: Skip Momentum Advance in [3,2] -> Roman battle -> 1
       0/0: Retreat [2,2] to [2,1] -> Roman advance after combat -> 0
      -2/2: Close Combat from [3,2] to [2,2] -> Roman attacker retreat -> 3
       -2/2: Retreat [3,2] to [1,4] -> Roman battle -> 1
@@ -132,7 +132,7 @@ exports[`MCTS snapshot testing close combat from light to heavy 1`] = `
      2/2: Close Combat from [3,2] to [2,2] -> Carthaginian retreat -> 2
       -2/2: Retreat [2,2] to [3,1] -> Roman advance after combat -> 2
        -1/1: Momentum advance [3,2] to [2,2] -> Roman battle -> 0
-       0/0: Skip Momentum Advance -> Roman battle -> 0
+       0/0: Skip Momentum Advance in [3,2] -> Roman battle -> 0
       0/0: Retreat [2,2] to [2,1] -> Roman advance after combat -> 0
      -4/4: Close Combat from [3,2] to [2,2] -> Roman attacker retreat -> 3
       -2/2: Retreat [3,2] to [1,4] -> Roman battle -> 1
