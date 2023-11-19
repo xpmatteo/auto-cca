@@ -1,4 +1,4 @@
-import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
+import { MomentumAdvancePhase } from "../phases/MomentumAdvancePhase.js";
 import { Command } from "./commands.js";
 
 export class FirstDefenderRetreatCommand extends Command {

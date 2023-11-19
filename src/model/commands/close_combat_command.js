@@ -1,7 +1,7 @@
 import { Hex } from "../../lib/hexlib.js";
 import { RESULT_LIGHT } from "../dice.js";
 import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "../events.js";
-import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
+import { MomentumAdvancePhase } from "../phases/MomentumAdvancePhase.js";
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";

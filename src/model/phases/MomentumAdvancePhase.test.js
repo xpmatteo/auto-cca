@@ -5,7 +5,7 @@ import { makeSkipMomentumAdvanceCommand } from "../commands/SkipMomentumAdvanceC
 import makeGame from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
-import { MomentumAdvancePhase } from "./advance_after_combat_phase.js";
+import { MomentumAdvancePhase } from "./MomentumAdvancePhase.js";
 
 test('highlight hexes', () => {
     const game = makeGame(new NullScenario());

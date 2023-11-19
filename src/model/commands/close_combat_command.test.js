@@ -3,7 +3,7 @@ import * as dice from "../dice.js";
 import { diceReturning, RESULT_FLAG, RESULT_HEAVY, RESULT_LEADER, RESULT_LIGHT } from "../dice.js";
 import { DamageEvent, UnitKilledEvent } from "../events.js";
 import makeGame from "../game.js";
-import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
+import { MomentumAdvancePhase } from "../phases/MomentumAdvancePhase.js";
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { FirstDefenderEvasionPhase } from "../phases/FirstDefenderEvasionPhase.js";
 import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
