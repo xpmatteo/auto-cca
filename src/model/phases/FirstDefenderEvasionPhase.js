@@ -1,5 +1,5 @@
 import { Hex } from "../../lib/hexlib.js";
-import { EvadeCommand } from "../commands/EvadeCommand.js";
+import { makeEvadeCommand } from "../commands/EvadeCommand.js";
 import { FirstDefenderDoesNotEvadeCommand } from "../commands/FirstDefenderDoesNotEvadeCommand.js";
 import { Side } from "../side.js";
 import { Phase } from "./Phase.js";
@@ -28,7 +28,7 @@ export class FirstDefenderEvasionPhase extends Phase {
         /** @type {Command[]} */
         const seed = [new FirstDefenderDoesNotEvadeCommand(this.fromHex, this.attackerHex)];
         return seed.concat(
-            this.toHexes.map(h => new EvadeCommand(h, this.fromHex, this.attackerHex))
+            this.toHexes.map(h => makeEvadeCommand(h, this.fromHex, this.attackerHex))
         );
     }
 
@@ -50,6 +50,6 @@ export class FirstDefenderEvasionPhase extends Phase {
         }
         return this.toHexes
             .filter(toHex => toHex === hex)
-            .map(toHex => new EvadeCommand(toHex, this.fromHex, this.attackerHex))[0];
+            .map(toHex => makeEvadeCommand(toHex, this.fromHex, this.attackerHex))[0];
     }
 }

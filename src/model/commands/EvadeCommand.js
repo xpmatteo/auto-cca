@@ -2,7 +2,7 @@ import { Hex } from "../../lib/hexlib.js";
 import { DamageEvent, DefenderEvasionEvent, UnitKilledEvent } from "../events.js";
 import { Command } from "./commands.js";
 
-export class EvadeCommand extends Command {
+class EvadeCommand extends Command {
     /**
      * @param {Hex} toHex
      * @param {Hex} fromHex
@@ -37,4 +37,28 @@ export class EvadeCommand extends Command {
     toString() {
         return `Evade from ${this.fromHex} to ${this.toHex} from attacker ${this.attackerHex}`
     }
+}
+
+/** @type {Map<Hex, Map<Hex, Map<Hex, EvadeCommand>>>} */
+const COMMANDS = new Map();
+
+/**
+ * @param {Hex} toHex
+ * @param {Hex} fromHex
+ * @param {Hex} attackerHex
+ * @returns {EvadeCommand}
+ */
+export function makeEvadeCommand(toHex, fromHex, attackerHex) {
+    if (!COMMANDS.has(toHex)) {
+        COMMANDS.set(toHex, new Map());
+    }
+    const toHexCommands = COMMANDS.get(toHex);
+    if (!toHexCommands.has(fromHex)) {
+        toHexCommands.set(fromHex, new Map());
+    }
+    const fromHexCommands = toHexCommands.get(fromHex);
+    if (!fromHexCommands.has(attackerHex)) {
+        fromHexCommands.set(attackerHex, new EvadeCommand(toHex, fromHex, attackerHex));
+    }
+    return fromHexCommands.get(attackerHex);
 }

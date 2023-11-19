@@ -6,7 +6,14 @@ import { FirstDefenderEvasionPhase } from "../phases/FirstDefenderEvasionPhase.j
 import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../units.js";
-import { EvadeCommand } from "./EvadeCommand.js";
+import { makeEvadeCommand } from "./EvadeCommand.js";
+
+test('EvadeCommandCreation', () => {
+    const command1 = makeEvadeCommand(hexOf(0, 6), hexOf(1, 4), hexOf(1, 5));
+    const command2 = makeEvadeCommand(hexOf(0, 6), hexOf(1, 4), hexOf(1, 5));
+
+    expect(Object.is(command1, command2)).toBe(true);
+});
 
 describe('evade command', () => {
     const game = makeGame(new NullScenario(), diceReturning([RESULT_LIGHT, RESULT_SWORDS, RESULT_SWORDS, RESULT_SWORDS, RESULT_SWORDS]));
@@ -16,7 +23,7 @@ describe('evade command', () => {
     game.placeUnit(hexOf(1, 5), attackingUnit);
     game.unshiftPhase(new BattlePhase());
     game.unshiftPhase(new FirstDefenderEvasionPhase(Side.ROMAN, [hexOf(0, 6)], hexOf(1, 4), hexOf(1, 5)));
-    const evadeCommand = new EvadeCommand(hexOf(0, 6), hexOf(1, 4), hexOf(1, 5));
+    const evadeCommand = makeEvadeCommand(hexOf(0, 6), hexOf(1, 4), hexOf(1, 5));
 
     const events = evadeCommand.play(game);
 
@@ -53,7 +60,7 @@ test('It can kill the evading unit', () => {
     game.placeUnit(hexOf(1, 5), attackingUnit);
     game.unshiftPhase(new BattlePhase());
     game.unshiftPhase(new FirstDefenderEvasionPhase(Side.ROMAN, [hexOf(0, 6)], hexOf(1, 4), hexOf(1, 5)));
-    const evadeCommand = new EvadeCommand(hexOf(0, 6), hexOf(1, 4), hexOf(1, 5));
+    const evadeCommand = makeEvadeCommand(hexOf(0, 6), hexOf(1, 4), hexOf(1, 5));
 
     const events = evadeCommand.play(game);
 

@@ -1,5 +1,5 @@
 import { hexOf } from "../../lib/hexlib.js";
-import { EvadeCommand } from "../commands/EvadeCommand.js";
+import { makeEvadeCommand } from "../commands/EvadeCommand.js";
 import { FirstDefenderDoesNotEvadeCommand } from "../commands/FirstDefenderDoesNotEvadeCommand.js";
 import { Side } from "../side.js";
 import { FirstDefenderEvasionPhase } from "./FirstDefenderEvasionPhase.js";
@@ -18,8 +18,8 @@ describe('1st defender evasion phase', () => {
 
         expect(commands.toString()).toEqual([
             new FirstDefenderDoesNotEvadeCommand(defendingHex, attackingHex),
-            new EvadeCommand(evasionHex0, defendingHex, attackingHex),
-            new EvadeCommand(evasionHex1, defendingHex, attackingHex),
+            makeEvadeCommand(evasionHex0, defendingHex, attackingHex),
+            makeEvadeCommand(evasionHex1, defendingHex, attackingHex),
         ].toString());
     });
 
@@ -34,6 +34,6 @@ describe('1st defender evasion phase', () => {
     test('onclick', () => {
         expect(evasionPhase.onClick(hexOf(0, 0))).toBeUndefined();
         expect(evasionPhase.onClick(defendingHex)).toEqual(new FirstDefenderDoesNotEvadeCommand(defendingHex, attackingHex));
-        expect(evasionPhase.onClick(evasionHex0).toString()).toEqual(new EvadeCommand(evasionHex0, defendingHex, attackingHex).toString());
+        expect(evasionPhase.onClick(evasionHex0).toString()).toEqual(makeEvadeCommand(evasionHex0, defendingHex, attackingHex).toString());
     });
 });
