@@ -1,9 +1,192 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OpenLoopMctsPlayer 2 on 2 1`] = `
-"undefined -> -1/2: Side: Roman -> 2
- PlayCard(Order Three Units Left) -> -1/1: Side: Roman -> 0
- PlayCard(Order Heavy Troops) -> 0/1: Side: Roman -> 1
-  End phase -> 0/1: Side: Roman -> 0
+"undefined -> 27/100: Side: Roman -> 2
+ PlayCard(Order Three Units Left) -> 8/40: Side: Roman -> 1
+  End phase -> 9/39: Side: Roman -> 11
+   Move [0,6] to [1,5] -> 1/3: Side: Roman -> 2
+    Move [-1,6] to [-1,7] -> -1/1: Side: Roman -> 0
+    Move [-1,6] to [0,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+   Move [0,6] to [0,7] -> 2/4: Side: Roman -> 4
+    Move [-1,6] to [-1,7] -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-1,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-2,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [0,5] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+   Move [-1,6] to [-2,6] -> -1/3: Side: Roman -> 3
+    Move [0,6] to [-1,7] -> 0/1: Side: Roman -> 0
+    Move [0,6] to [-1,6] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+    End phase -> -1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Carthaginian -> 0
+   End phase -> -1/2: Side: Roman -> 1
+    End phase -> 1/2: Side: Carthaginian -> 1
+     PlayCard(Order Heavy Troops) -> 0/1: Side: Carthaginian -> 0
+   Move [-1,6] to [0,5] -> 3/5: Side: Roman -> 5
+    Move [0,6] to [0,7] -> 1/1: Side: Roman -> 0
+    End phase -> 1/1: Side: Roman -> 1
+     Close Combat from [0,5] to [0,4] -> -1/1: Side: Carthaginian -> 0
+    Move [0,6] to [1,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [-1,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [1,5] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+   Move [0,6] to [0,5] -> -1/2: Side: Roman -> 2
+    Move [-1,6] to [0,6] -> -1/1: Side: Roman -> 0
+    Move [-1,6] to [-1,7] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+   Move [-1,6] to [-1,7] -> 3/5: Side: Roman -> 5
+    Move [0,6] to [0,5] -> 1/1: Side: Roman -> 0
+    Move [0,6] to [0,7] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+    Move [0,6] to [1,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [1,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    End phase -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Carthaginian -> 0
+   Move [0,6] to [1,6] -> 3/5: Side: Roman -> 5
+    Move [-1,6] to [0,6] -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [0,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-1,7] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-2,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-1,5] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+   Move [-1,6] to [-1,5] -> 1/3: Side: Roman -> 3
+    Move [0,6] to [1,5] -> 1/1: Side: Roman -> 0
+    End phase -> 1/1: Side: Roman -> 1
+     Close Combat from [-1,5] to [0,4] -> -1/1: Side: Carthaginian -> 0
+    Move [0,6] to [-1,7] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+   Move [-1,6] to [-2,7] -> 0/3: Side: Roman -> 3
+    Move [0,6] to [-1,7] -> 0/1: Side: Roman -> 0
+    End phase -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Carthaginian -> 0
+    Move [0,6] to [0,5] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+   Move [0,6] to [-1,7] -> 0/3: Side: Roman -> 3
+    End phase -> 0/1: Side: Roman -> 0
+    Move [-1,6] to [-2,7] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+    Move [-1,6] to [-1,5] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+ PlayCard(Order Heavy Troops) -> 19/60: Side: Roman -> 1
+  End phase -> 19/60: Side: Roman -> 11
+   Move [-1,6] to [-2,7] -> 0/5: Side: Roman -> 4
+    Move [0,6] to [1,5] -> 1/1: Side: Roman -> 0
+    Move [0,6] to [0,7] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+    Move [0,6] to [0,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [1,6] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+   Move [0,6] to [1,5] -> -1/3: Side: Roman -> 3
+    Move [-1,6] to [0,5] -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-2,7] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+    Move [-1,6] to [-2,6] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+   Move [-1,6] to [0,5] -> 10/11: Side: Roman -> 6
+    Move [0,6] to [0,7] -> 2/2: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [1,5] -> 2/2: Side: Roman -> 1
+     End phase -> 2/2: Side: Roman -> 1
+      Close Combat from [0,5] to [0,4] -> -1/1: Side: Carthaginian -> 0
+    End phase -> 1/2: Side: Roman -> 2
+     Close Combat from [0,5] to [0,4] -> -1/1: Side: Carthaginian -> 0
+     Close Combat from [0,5] to [1,4] -> 0/1: Side: Roman -> 1
+      Retreat [0,5] to [-1,6] -> 0/1: Side: Roman -> 0
+    Move [0,6] to [1,6] -> 2/2: Side: Roman -> 1
+     End phase -> 2/2: Side: Roman -> 1
+      Close Combat from [0,5] to [1,4] -> -1/1: Side: Carthaginian -> 0
+    Move [0,6] to [-1,6] -> 2/2: Side: Roman -> 1
+     End phase -> 2/2: Side: Roman -> 1
+      Close Combat from [0,5] to [0,4] -> -1/1: Side: Carthaginian -> 0
+    Move [0,6] to [-1,7] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+   Move [0,6] to [0,5] -> 0/4: Side: Roman -> 4
+    Move [-1,6] to [0,6] -> -1/1: Side: Roman -> 0
+    Move [-1,6] to [-1,7] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+    Move [-1,6] to [-1,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-2,7] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+   Move [-1,6] to [-2,6] -> 0/4: Side: Roman -> 4
+    Move [0,6] to [-1,7] -> 0/1: Side: Roman -> 0
+    Move [0,6] to [1,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [-1,6] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+    Move [0,6] to [0,7] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+   End phase -> -2/3: Side: Roman -> 1
+    End phase -> 2/3: Side: Carthaginian -> 1
+     PlayCard(Order Heavy Troops) -> 1/2: Side: Carthaginian -> 1
+      End phase -> 1/1: Side: Carthaginian -> 0
+   Move [-1,6] to [-1,5] -> 4/8: Side: Roman -> 7
+    Move [0,6] to [1,5] -> 1/1: Side: Roman -> 0
+    Move [0,6] to [1,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [0,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [0,7] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    End phase -> 1/1: Side: Roman -> 1
+     Close Combat from [-1,5] to [0,4] -> -1/1: Side: Carthaginian -> 0
+    Move [0,6] to [-1,6] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+    Move [0,6] to [-1,7] -> 0/2: Side: Roman -> 1
+     End phase -> 0/2: Side: Roman -> 1
+      Close Combat from [-1,5] to [0,4] -> -1/1: Side: Roman -> 0
+   Move [-1,6] to [-1,7] -> 1/5: Side: Roman -> 5
+    Move [0,6] to [0,7] -> 0/1: Side: Roman -> 0
+    Move [0,6] to [0,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [0,6] to [-1,6] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+    Move [0,6] to [1,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    End phase -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Carthaginian -> 0
+   Move [0,6] to [-1,7] -> 2/5: Side: Roman -> 5
+    Move [-1,6] to [-2,7] -> 0/1: Side: Roman -> 0
+    Move [-1,6] to [0,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [0,5] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+    End phase -> 1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Carthaginian -> 0
+    Move [-1,6] to [-2,6] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+   Move [0,6] to [1,6] -> 3/6: Side: Roman -> 6
+    End phase -> -1/1: Side: Roman -> 0
+    Move [-1,6] to [0,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [0,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-2,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-1,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-1,7] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
+   Move [0,6] to [0,7] -> 2/5: Side: Roman -> 5
+    Move [-1,6] to [-1,7] -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [0,6] -> -1/1: Side: Roman -> 1
+     End phase -> -1/1: Side: Roman -> 0
+    Move [-1,6] to [-1,5] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-2,6] -> 1/1: Side: Roman -> 1
+     End phase -> 1/1: Side: Roman -> 0
+    Move [-1,6] to [-2,7] -> 0/1: Side: Roman -> 1
+     End phase -> 0/1: Side: Roman -> 0
 "
 `;
