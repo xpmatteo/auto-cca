@@ -1,3 +1,4 @@
+import { Hex } from "../../lib/hexlib.js";
 import { Command } from "./commands.js";
 
 export class RetreatCommand extends Command {
@@ -21,4 +22,21 @@ export class RetreatCommand extends Command {
     isDeterministic() {
         return true;
     }
+
+    static make(toHex, fromHex) {
+        if (!RETREAT_COMMANDS.has(toHex)) {
+            RETREAT_COMMANDS.set(toHex, new Map());
+        }
+        if (!RETREAT_COMMANDS.get(toHex).has(fromHex)) {
+            RETREAT_COMMANDS.get(toHex).set(fromHex, new RetreatCommand(toHex, fromHex));
+        }
+        return RETREAT_COMMANDS.get(toHex).get(fromHex);
+    }
+}
+
+/** @type {Map<Hex, Map<Hex, RetreatCommand>>} */
+const RETREAT_COMMANDS = new Map();
+
+export function makeRetreatCommand(toHex, fromHex) {
+    return RetreatCommand.make(toHex, fromHex);
 }

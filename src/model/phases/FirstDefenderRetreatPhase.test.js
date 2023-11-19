@@ -2,7 +2,7 @@ import { InteractiveGame } from "../../interactive_game.js";
 import { hexOf } from "../../lib/hexlib.js";
 import { FirstDefenderRetreatCommand } from "../commands/FirstDefenderRetreatCommand.js";
 import { IgnoreFlagAndBattleBackCommand } from "../commands/ignore_flag_and_battle_back_command.js";
-import { RetreatCommand } from "../commands/retreatCommand.js";
+import { makeRetreatCommand } from "../commands/retreatCommand.js";
 import makeGame, { MovementTrail } from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
@@ -20,7 +20,7 @@ describe('1st defender Retreat phase', () => {
         game.placeUnit(hexOf(1, 5), retreatingUnit);
         game.phases = [new FirstDefenderRetreatPhase(hexOf(7,7), Side.CARTHAGINIAN, hexOf(1,5), [hexOf(1,4)]), new BattlePhase()]
 
-        game.executeCommand(new RetreatCommand(hexOf(1,4), hexOf(1, 5)));
+        game.executeCommand(makeRetreatCommand(hexOf(1,4), hexOf(1, 5)));
 
         expect(game.currentPhaseName).toEqual("Roman battle");
         expect(game.unitAt(hexOf(1, 5))).toEqual(undefined);
@@ -49,7 +49,7 @@ describe('1st defender Retreat phase', () => {
 
         test('on click', () => {
             expect(retreatPhase.onClick(hexOf(1, 1), game).toString()).toEqual(
-                [new RetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
+                [makeRetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
             );
 
             expect(retreatPhase.onClick(hexOf(0, 0), game).toString()).toEqual(
@@ -63,8 +63,8 @@ describe('1st defender Retreat phase', () => {
 
         test('retreat phase valid commands', () => {
             expect(retreatPhase.validCommands(game).toString()).toEqual([
-                new RetreatCommand(hexOf(0, 0), hexOf(0,0)),
-                new RetreatCommand(hexOf(1,1), hexOf(0,0)),
+                makeRetreatCommand(hexOf(0, 0), hexOf(0,0)),
+                makeRetreatCommand(hexOf(1,1), hexOf(0,0)),
             ].toString());
         });
 
@@ -79,11 +79,11 @@ describe('1st defender Retreat phase', () => {
         // onClick should only return a command to execute
         test('on click', () => {
             expect(retreatPhase.onClick(hexOf(1, 1), game).toString()).toEqual(
-                [new RetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
+                [makeRetreatCommand(hexOf(1,1), hexOf(0,0))].toString()
             );
 
             expect(retreatPhase.onClick(hexOf(0, 0), game).toString()).toEqual(
-                [new RetreatCommand(hexOf(0,0), hexOf(0,0))].toString()
+                [makeRetreatCommand(hexOf(0,0), hexOf(0,0))].toString()
             );
         });
     });

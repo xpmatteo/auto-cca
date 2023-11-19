@@ -1,6 +1,6 @@
 import { hexOf } from "../../lib/hexlib.js";
 import { MomentumAdvanceCommand } from "../commands/MomentumAdvanceCommand.js";
-import { RetreatCommand } from "../commands/retreatCommand.js";
+import { makeRetreatCommand } from "../commands/retreatCommand.js";
 import { makeSkipMomentumAdvanceCommand } from "../commands/SkipMomentumAdvanceCommand.js";
 import makeGame from "../game.js";
 import { NullScenario } from "../scenarios.js";

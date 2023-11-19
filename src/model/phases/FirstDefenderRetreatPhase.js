@@ -1,7 +1,7 @@
 import { FirstDefenderRetreatCommand } from "../commands/FirstDefenderRetreatCommand.js";
 import { IgnoreFlagAndBattleBackCommand } from "../commands/ignore_flag_and_battle_back_command.js";
 import { Phase } from "./Phase.js";
-import { RetreatCommand } from "../commands/retreatCommand.js";
+import { makeRetreatCommand } from "../commands/retreatCommand.js";
 import { Side } from "../side.js";
 import { Hex } from "../../lib/hexlib.js";
 

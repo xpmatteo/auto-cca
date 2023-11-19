@@ -1,5 +1,5 @@
 import { Hex } from "../../lib/hexlib.js";
-import { RetreatCommand } from "../commands/retreatCommand.js";
+import { makeRetreatCommand } from "../commands/retreatCommand.js";
 import { Phase } from "./Phase.js";
 
 
@@ -16,7 +16,7 @@ export class AttackerRetreatPhase extends Phase {
 
     validCommands(game) {
         return this.retreatHexes.map(toHex => {
-            return new RetreatCommand(toHex, this.fromHex);
+            return makeRetreatCommand(toHex, this.fromHex);
         });
     }
 

@@ -14,7 +14,7 @@ import * as units from "../units.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
 import { makeCloseCombatCommand } from "./close_combat_command.js";
 import { makeMoveCommand } from "./move_command.js";
-import { RetreatCommand } from "./retreatCommand.js";
+import { makeRetreatCommand } from "./retreatCommand.js";
 
 function eventNames(events) {
     return events.map(e => e.constructor.name);
@@ -184,8 +184,8 @@ describe('flags and retreats', () => {
 
         // and the possible moves are the two retreat hexes
         const expectedValidCommands = [
-            new RetreatCommand(hexOf(2, 3), hexOf(1, 4)),
-            new RetreatCommand(hexOf(1, 3), hexOf(1, 4)),
+            makeRetreatCommand(hexOf(2, 3), hexOf(1, 4)),
+            makeRetreatCommand(hexOf(1, 3), hexOf(1, 4)),
         ]
         expect(game.validCommands().toString()).toEqual(expectedValidCommands.toString());
 
