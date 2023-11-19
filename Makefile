@@ -18,7 +18,7 @@ tree:
 	@open -a "Google Chrome" "http://localhost:8000/tree.html?scenario=akragas&iterations=3000&playouts=10&depth=6&threshold=0&prune=0"
 
 madge:
-	@npx madge -c --image /tmp/madge.svg src/main.js
+	@npx madge --image /tmp/madge.svg src/main.js
 	@open -a "Google Chrome" /tmp/madge.svg
 
 dot:

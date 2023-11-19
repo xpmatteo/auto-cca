@@ -4,7 +4,8 @@ import { RESULT_HEAVY, RESULT_SWORDS } from "../dice.js";
 import { BattleBackEvent, DamageEvent } from "../events.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../units.js";
-import { IgnoreFlagAndBattleBackCommand } from "./abstract_combat_command.js";
+
+import { IgnoreFlagAndBattleBackCommand } from "./ignore_flag_and_battle_back_command.js";
 
 
 test('execute command', () => {
