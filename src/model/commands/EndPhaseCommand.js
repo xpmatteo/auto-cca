@@ -10,4 +10,6 @@ class EndPhaseCommand extends Command {
     }
 }
 
-export function endPhaseCommand() { return new EndPhaseCommand(); }
+const END_PHASE_COMMAND = new EndPhaseCommand();
+
+export function endPhaseCommand() { return END_PHASE_COMMAND; }
