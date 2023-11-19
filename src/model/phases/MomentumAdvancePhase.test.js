@@ -1,5 +1,5 @@
 import { hexOf } from "../../lib/hexlib.js";
-import { MomentumAdvanceCommand } from "../commands/MomentumAdvanceCommand.js";
+import { makeMomentumAdvanceCommand } from "../commands/MomentumAdvanceCommand.js";
 import { makeRetreatCommand } from "../commands/retreatCommand.js";
 import { makeSkipMomentumAdvanceCommand } from "../commands/SkipMomentumAdvanceCommand.js";
 import makeGame from "../game.js";
@@ -22,7 +22,7 @@ describe('valid commands', () => {
         const phase = new MomentumAdvancePhase(hexOf(1,1), hexOf(0,0));
 
         expect(phase.validCommands(game).toString()).toEqual([
-            new MomentumAdvanceCommand(hexOf(1,1), hexOf(0,0)),
+            makeMomentumAdvanceCommand(hexOf(1,1), hexOf(0,0)),
             makeSkipMomentumAdvanceCommand(hexOf(0,0)),
         ].toString());
     });

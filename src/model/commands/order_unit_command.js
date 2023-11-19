@@ -23,3 +23,13 @@ export class OrderUnitCommand extends Command {
         return true;
     }
 }
+
+/** @type {Map<Hex, OrderUnitCommand>} */
+const ORDER_UNIT_COMMANDS = new Map();
+/**
+ * @param {Hex[]} hexes
+ * @returns {OrderUnitCommand}
+ */
+export function makeOrderUnitCommand(hexes) {
+    return new OrderUnitCommand(hexes);
+}
