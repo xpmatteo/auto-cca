@@ -12,7 +12,8 @@ import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
 import * as units from "../units.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../units.js";
-import { CloseCombatCommand } from "./close_combat_command.js";
+import { makeCloseCombatCommand } from "./close_combat_command.js";
+import { makeMoveCommand } from "./move_command.js";
 import { RetreatCommand } from "./retreatCommand.js";
 
 function eventNames(events) {
@@ -21,22 +22,16 @@ function eventNames(events) {
 
 const attacker = new RomanHeavyInfantry();
 const defender = new CarthaginianHeavyInfantry();
-const closeCombatCommand = new CloseCombatCommand(hexOf(1,4), hexOf(1, 5));
-
-// phase not implemented yet
-xtest('defender can evade', () => {
-    let game = makeGame(new NullScenario());
-    game.placeUnit(hexOf(1, 5), attacker);
-    game.placeUnit(hexOf(1, 4), defender);
-
-    closeCombatCommand.play(game);
-
-    expect(game.currentPhase).toBeInstanceOf(FirstDefenderEvasionPhase);
-    expect(game.phases.length).toEqual(2);
-    expect(game.spentUnits).toEqual([attacker]);
-});
+const closeCombatCommand = makeCloseCombatCommand(hexOf(1,4), hexOf(1, 5));
 
 describe('defender cannot evade', () => {
+
+    test('CloseMoveCommand creation', () => {
+        const command1 = makeCloseCombatCommand(hexOf(1, 2), hexOf(1, 3));
+        const command2 = makeCloseCombatCommand(hexOf(1, 2), hexOf(1, 3));
+
+        expect(command1).toBe(command2);
+    });
 
     describe('defender eliminated', () => {
         let game = makeGame(new NullScenario(), diceReturning(Array(5).fill(RESULT_HEAVY)));
@@ -93,7 +88,7 @@ describe('defender cannot evade', () => {
     });
 
     describe('defender battles back', () => {
-        const closeCombatCommand = new CloseCombatCommand(hexOf(1,4), hexOf(1, 5));
+        const closeCombatCommand = makeCloseCombatCommand(hexOf(1,4), hexOf(1, 5));
 
         describe('attacker killed', () => {
             let game = makeGame(new NullScenario(), diceReturning(Array(5).fill(RESULT_LIGHT).concat(Array(5).fill(RESULT_HEAVY))));
@@ -182,7 +177,7 @@ describe('flags and retreats', () => {
         game.placeUnit(hexOf(0, 5), new units.RomanHeavyInfantry());
         game.placeUnit(hexOf(1, 4), defendingUnit);
 
-        let actualEvents = game.executeCommand(new CloseCombatCommand(hexOf(1, 4), hexOf(0, 5)));
+        let actualEvents = game.executeCommand(makeCloseCombatCommand(hexOf(1, 4), hexOf(0, 5)));
 
         // now the currentside is temporarily carthago
         expect(game.currentSide).toEqual(Side.CARTHAGINIAN);
@@ -209,7 +204,7 @@ describe('flags and retreats', () => {
         const attackingUnit = new units.RomanHeavyInfantry();
         game.placeUnit(hexOf(4, 1), attackingUnit);
 
-        let actualEvents = game.executeCommand(new CloseCombatCommand(hexOf(4, 0), hexOf(4, 1)));
+        let actualEvents = game.executeCommand(makeCloseCombatCommand(hexOf(4, 0), hexOf(4, 1)));
 
         const expectedEvents = [
             "DamageEvent",
@@ -231,7 +226,7 @@ describe('flags and retreats', () => {
         const attackingUnit = new units.RomanHeavyInfantry();
         game.placeUnit(hexOf(4, 1), attackingUnit);
 
-        let actualEvents = game.executeCommand(new CloseCombatCommand(hexOf(4, 0), hexOf(4, 1)));
+        let actualEvents = game.executeCommand(makeCloseCombatCommand(hexOf(4, 0), hexOf(4, 1)));
 
         const expectedEvents = [
             "DamageEvent",

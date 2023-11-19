@@ -1,8 +1,8 @@
 import { CloseCombatWithEvasionCommand } from "../commands/CloseCombatWithEvasionCommand.js";
 import { Phase } from "./Phase.js";
 import {endPhaseCommand} from "../commands/EndPhaseCommand.js";
-import {CloseCombatCommand} from "../commands/close_combat_command.js";
-import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
+import {makeCloseCombatCommand} from "../commands/close_combat_command.js";
+import { makeRangedCombatCommand } from "../commands/ranged_combat_command.js";
 
 
 export class BattlePhase extends Phase {
@@ -24,11 +24,11 @@ export class BattlePhase extends Phase {
                 if (defendingUnit.canEvade(attackingUnit) && game.evasionPaths(defendingHex).length > 0) {
                     commands.push(new CloseCombatWithEvasionCommand(defendingUnit.side, defendingHex, attackingHex));
                 } else {
-                    commands.push(new CloseCombatCommand(defendingHex, attackingHex));
+                    commands.push(makeCloseCombatCommand(defendingHex, attackingHex));
                 }
             });
             attackingUnit.validRangedCombatTargets(attackingHex, game).forEach(to => {
-                commands.push(new RangedCombatCommand(to, attackingHex));
+                commands.push(makeRangedCombatCommand(to, attackingHex));
             });
         });
         if (commands.length === 0) {

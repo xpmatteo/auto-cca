@@ -1,5 +1,5 @@
 import { Phase } from "./Phase.js";
-import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
+import { makeRangedCombatCommand } from "../commands/ranged_combat_command.js";
 import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
 
 export class FirePhase extends Phase {
@@ -17,7 +17,7 @@ export class FirePhase extends Phase {
                 return;
             }
             unit.validRangedCombatTargets(hex, game).forEach(to => {
-                commands.push(new RangedCombatCommand(to, hex));
+                commands.push(makeRangedCombatCommand(to, hex));
             });
         });
         commands.push(endPhaseCommand());

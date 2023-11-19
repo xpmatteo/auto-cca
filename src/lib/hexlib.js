@@ -45,6 +45,7 @@ export class Hex {
     }
 
     distance(other) {
+        return hex_length(hex_subtract(this, other));
         if (!this.distances.get(other)) {
             this.distances.set(other, hex_length(hex_subtract(this, other)));
         }

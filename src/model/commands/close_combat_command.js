@@ -1,12 +1,12 @@
+import { Hex } from "../../lib/hexlib.js";
 import { RESULT_LIGHT } from "../dice.js";
 import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "../events.js";
 import { MomentumAdvancePhase } from "../phases/advance_after_combat_phase.js";
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
-import { FirstDefenderEvasionPhase } from "../phases/FirstDefenderEvasionPhase.js";
 import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
-export class CloseCombatCommand extends AbstractCombatCommand {
+class CloseCombatCommand extends AbstractCombatCommand {
     constructor(toHex, fromHex) {
         super();
         this.toHex = toHex;
@@ -62,4 +62,21 @@ export class CloseCombatCommand extends AbstractCombatCommand {
     doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
         return attackingUnit.weight != RESULT_LIGHT;
     }
+
+    static make(toHex, fromHex) {
+        if (!CLOSE_COMBAT_COMMANDS.has(toHex)) {
+            CLOSE_COMBAT_COMMANDS.set(toHex, new Map());
+        }
+        if (!CLOSE_COMBAT_COMMANDS.get(toHex).has(fromHex)) {
+            CLOSE_COMBAT_COMMANDS.get(toHex).set(fromHex, new CloseCombatCommand(toHex, fromHex));
+        }
+        return CLOSE_COMBAT_COMMANDS.get(toHex).get(fromHex);
+    }
+}
+
+/** @type {Map<Hex, Map<Hex, CloseCombatCommand>>} */
+const CLOSE_COMBAT_COMMANDS = new Map();
+
+export function makeCloseCombatCommand(toHex, fromHex) {
+    return CloseCombatCommand.make(toHex, fromHex);
 }

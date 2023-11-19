@@ -1,5 +1,5 @@
 import { Hex, Point } from "./lib/hexlib.js";
-import { MoveCommand } from "./model/commands/move_command.js";
+import { makeMoveCommand } from "./model/commands/move_command.js";
 import { GameEvent } from "./model/events.js";
 import { Game } from "./model/game.js";
 
@@ -159,7 +159,7 @@ export class InteractiveGame {
     }
 
     moveUnit(hex, fromHex) {
-        this.#game.executeCommand(new MoveCommand(hex, fromHex));
+        this.#game.executeCommand(makeMoveCommand(hex, fromHex));
     }
 
     isTerminal() {

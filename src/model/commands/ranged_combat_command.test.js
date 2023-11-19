@@ -1,10 +1,18 @@
+import { hexOf } from "../../lib/hexlib.js";
+import { makeRangedCombatCommand } from "../commands/ranged_combat_command.js";
+import { diceReturning, RESULT_HEAVY, RESULT_LIGHT, RESULT_SWORDS } from "../dice.js";
 import { eventNames } from "../events.js";
 import makeGame, { MovementTrail } from "../game.js";
-import { hexOf } from "../../lib/hexlib.js";
-import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
-import { diceReturning, RESULT_HEAVY, RESULT_LIGHT, RESULT_SWORDS } from "../dice.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../units.js";
+
+
+test('RangedCombatCommand creation', () => {
+    const command1 = makeRangedCombatCommand(hexOf(1, 2), hexOf(1, 3));
+    const command2 = makeRangedCombatCommand(hexOf(1, 2), hexOf(1, 3));
+
+    expect(Object.is(command1, command2)).toBe(true);
+});
 
 
 test("ranged combat play with 2 dice", () => {
@@ -14,7 +22,7 @@ test("ranged combat play with 2 dice", () => {
     game.placeUnit(hexOf(1, 5), attacker);
     game.placeUnit(hexOf(1, 3), target);
 
-    const events = game.executeCommand(new RangedCombatCommand(hexOf(1, 3), hexOf(1, 5)));
+    const events = game.executeCommand(makeRangedCombatCommand(hexOf(1, 3), hexOf(1, 5)));
 
     expect(game.spentUnits).toEqual([attacker]);
     expect(game.unitStrength(target)).toEqual(3);
@@ -30,7 +38,7 @@ test("ranged combat with 1 die if unit has moved", () => {
     game.placeUnit(hexOf(1, 3), target);
     game.movementTrails.push(new MovementTrail(hexOf(1, 5)))
 
-    game.executeCommand(new RangedCombatCommand(hexOf(1, 3), hexOf(1, 5)));
+    game.executeCommand(makeRangedCombatCommand(hexOf(1, 3), hexOf(1, 5)));
 
     expect(game.spentUnits).toEqual([attacker]);
 });

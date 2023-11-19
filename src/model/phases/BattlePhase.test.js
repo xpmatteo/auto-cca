@@ -7,8 +7,8 @@ import { Side } from "../side.js";
 import * as units from '../units.js';
 import { BattlePhase } from "./BattlePhase.js";
 import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
-import { CloseCombatCommand } from "../commands/close_combat_command.js";
-import { RangedCombatCommand } from "../commands/ranged_combat_command.js";
+import { makeCloseCombatCommand } from "../commands/close_combat_command.js";
+import { makeRangedCombatCommand } from "../commands/ranged_combat_command.js";
 
 const phase = new BattlePhase();
 
@@ -37,7 +37,7 @@ describe('one unit and one target', () => {
         let commands = phase.validCommands(game);
 
         let expected = [
-            new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
+            makeCloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
         ];
         expect(commands.length).toEqual(expected.length);
         expect(new Set(commands)).toEqual(new Set(expected));
@@ -56,8 +56,8 @@ test('generate close combat commands for one unit and two targets', function () 
     let commands = phase.validCommands(game);
 
     let expected = [
-        new CloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
-        new CloseCombatCommand(hexOf(1, 2), hexOf(1, 1)),
+        makeCloseCombatCommand(hexOf(2, 1), hexOf(1, 1)),
+        makeCloseCombatCommand(hexOf(1, 2), hexOf(1, 1)),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -74,8 +74,8 @@ test('generate ranged combat commands for one unit and two targets', function ()
     let commands = phase.validCommands(game);
 
     let expected = [
-        new RangedCombatCommand(hexOf(2, 2), hexOf(0, 4)),
-        new RangedCombatCommand(hexOf(1, 2), hexOf(0, 4)),
+        makeRangedCombatCommand(hexOf(2, 2), hexOf(0, 4)),
+        makeRangedCombatCommand(hexOf(1, 2), hexOf(0, 4)),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));
@@ -92,7 +92,7 @@ test('no ranged combat if enemy adjacent', function () {
     let commands = phase.validCommands(game);
 
     let expected = [
-        new CloseCombatCommand(hexOf(1, 4), hexOf(0, 4)),
+        makeCloseCombatCommand(hexOf(1, 4), hexOf(0, 4)),
     ];
     expect(commands.length).toEqual(expected.length);
     expect(new Set(commands)).toEqual(new Set(expected));

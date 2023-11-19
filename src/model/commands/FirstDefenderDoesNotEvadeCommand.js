@@ -1,4 +1,4 @@
-import { CloseCombatCommand } from "./close_combat_command.js";
+import { makeCloseCombatCommand } from "./close_combat_command.js";
 import { Command } from "./commands.js";
 
 function assertDefined(hex) {
@@ -17,7 +17,7 @@ export class FirstDefenderDoesNotEvadeCommand extends Command {
 
     play(game) {
         game.shiftPhase();
-        return new CloseCombatCommand(this.defenderHex, this.attackerHex).play(game);
+        return makeCloseCombatCommand(this.defenderHex, this.attackerHex).play(game);
     }
 
     toString() {

@@ -3,7 +3,7 @@ import * as units from "../units.js";
 import makeGame from '../game.js'
 import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
-import { MoveCommand } from "../commands/move_command.js";
+import { makeMoveCommand } from "../commands/move_command.js";
 import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
 import { MovementPhase } from "./MovementPhase.js";
 import { OrderLightTroopsCard } from "../cards.js";
@@ -31,12 +31,12 @@ test('generate moves for one unit', function () {
     let moves = game.validCommands();
 
     let expected = [
-        new MoveCommand(hexOf(1, 0), hexOf(1, 1)),
-        new MoveCommand(hexOf(2, 0), hexOf(1, 1)),
-        new MoveCommand(hexOf(0, 1), hexOf(1, 1)),
-        new MoveCommand(hexOf(2, 1), hexOf(1, 1)),
-        new MoveCommand(hexOf(0, 2), hexOf(1, 1)),
-        new MoveCommand(hexOf(1, 2), hexOf(1, 1)),
+        makeMoveCommand(hexOf(1, 0), hexOf(1, 1)),
+        makeMoveCommand(hexOf(2, 0), hexOf(1, 1)),
+        makeMoveCommand(hexOf(0, 1), hexOf(1, 1)),
+        makeMoveCommand(hexOf(2, 1), hexOf(1, 1)),
+        makeMoveCommand(hexOf(0, 2), hexOf(1, 1)),
+        makeMoveCommand(hexOf(1, 2), hexOf(1, 1)),
         endPhaseCommand(),
     ];
     expect(moves.length).toEqual(expected.length);
@@ -74,17 +74,17 @@ test('generate commands for two units, avoiding collisions', function () {
     let commands = g.validCommands();
 
     let expected = [
-        new MoveCommand(hexOf(3, 4), hexOf(2, 5)),
-        new MoveCommand(hexOf(2, 4), hexOf(2, 5)),
-        new MoveCommand(hexOf(1, 5), hexOf(2, 5)),
-        new MoveCommand(hexOf(1, 6), hexOf(2, 5)),
-        new MoveCommand(hexOf(2, 6), hexOf(2, 5)),
+        makeMoveCommand(hexOf(3, 4), hexOf(2, 5)),
+        makeMoveCommand(hexOf(2, 4), hexOf(2, 5)),
+        makeMoveCommand(hexOf(1, 5), hexOf(2, 5)),
+        makeMoveCommand(hexOf(1, 6), hexOf(2, 5)),
+        makeMoveCommand(hexOf(2, 6), hexOf(2, 5)),
 
-        new MoveCommand(hexOf(3, 4), hexOf(3, 5)),
-        new MoveCommand(hexOf(4, 4), hexOf(3, 5)),
-        new MoveCommand(hexOf(4, 5), hexOf(3, 5)),
-        new MoveCommand(hexOf(2, 6), hexOf(3, 5)),
-        new MoveCommand(hexOf(3, 6), hexOf(3, 5)),
+        makeMoveCommand(hexOf(3, 4), hexOf(3, 5)),
+        makeMoveCommand(hexOf(4, 4), hexOf(3, 5)),
+        makeMoveCommand(hexOf(4, 5), hexOf(3, 5)),
+        makeMoveCommand(hexOf(2, 6), hexOf(3, 5)),
+        makeMoveCommand(hexOf(3, 6), hexOf(3, 5)),
 
         endPhaseCommand(),
     ];
@@ -103,10 +103,10 @@ test('generate commands for a light foot unit, can pass through friendlies', fun
     let commands = g.validCommands();
 
     let expected = [
-        new MoveCommand(hexOf(2, 0), hexOf(0, 0)),
-        new MoveCommand(hexOf(1, 1), hexOf(0, 0)),
-        new MoveCommand(hexOf(0, 2), hexOf(0, 0)),
-        new MoveCommand(hexOf(-1, 2), hexOf(0, 0)),
+        makeMoveCommand(hexOf(2, 0), hexOf(0, 0)),
+        makeMoveCommand(hexOf(1, 1), hexOf(0, 0)),
+        makeMoveCommand(hexOf(0, 2), hexOf(0, 0)),
+        makeMoveCommand(hexOf(-1, 2), hexOf(0, 0)),
 
         endPhaseCommand(),
     ];
@@ -123,21 +123,21 @@ test('generate moves for unit of range 2', function () {
     let moves = game.validCommands();
 
     let expected = [
-        new MoveCommand(hexOf(1, 0), hexOf(1, 1)),
-        new MoveCommand(hexOf(2, 0), hexOf(1, 1)),
-        new MoveCommand(hexOf(0, 1), hexOf(1, 1)),
-        new MoveCommand(hexOf(2, 1), hexOf(1, 1)),
-        new MoveCommand(hexOf(0, 2), hexOf(1, 1)),
-        new MoveCommand(hexOf(1, 2), hexOf(1, 1)),
+        makeMoveCommand(hexOf(1, 0), hexOf(1, 1)),
+        makeMoveCommand(hexOf(2, 0), hexOf(1, 1)),
+        makeMoveCommand(hexOf(0, 1), hexOf(1, 1)),
+        makeMoveCommand(hexOf(2, 1), hexOf(1, 1)),
+        makeMoveCommand(hexOf(0, 2), hexOf(1, 1)),
+        makeMoveCommand(hexOf(1, 2), hexOf(1, 1)),
 
-        new MoveCommand(hexOf(0, 0), hexOf(1, 1)),
-        new MoveCommand(hexOf(3, 0), hexOf(1, 1)),
-        new MoveCommand(hexOf(3, 1), hexOf(1, 1)),
-        new MoveCommand(hexOf(2, 2), hexOf(1, 1)),
-        new MoveCommand(hexOf(1, 3), hexOf(1, 1)),
-        new MoveCommand(hexOf(0, 3), hexOf(1, 1)),
-        new MoveCommand(hexOf(-1, 3), hexOf(1, 1)),
-        new MoveCommand(hexOf(-1, 2), hexOf(1, 1)),
+        makeMoveCommand(hexOf(0, 0), hexOf(1, 1)),
+        makeMoveCommand(hexOf(3, 0), hexOf(1, 1)),
+        makeMoveCommand(hexOf(3, 1), hexOf(1, 1)),
+        makeMoveCommand(hexOf(2, 2), hexOf(1, 1)),
+        makeMoveCommand(hexOf(1, 3), hexOf(1, 1)),
+        makeMoveCommand(hexOf(0, 3), hexOf(1, 1)),
+        makeMoveCommand(hexOf(-1, 3), hexOf(1, 1)),
+        makeMoveCommand(hexOf(-1, 2), hexOf(1, 1)),
         endPhaseCommand(),
     ];
     expect(moves.length).toEqual(expected.length);

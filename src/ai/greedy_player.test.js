@@ -1,5 +1,5 @@
 import { hexOf } from "../lib/hexlib.js";
-import { MoveCommand } from "../model/commands/move_command.js";
+import { makeMoveCommand } from "../model/commands/move_command.js";
 import makeGame from "../model/game.js";
 import { MovementPhase } from "../model/phases/MovementPhase.js";
 import { NullScenario } from "../model/scenarios.js";
@@ -24,5 +24,5 @@ test("greedy_player", function() {
 
     // the best move is to move the one separate unit close to its friends, so that
     // we get one additional supported unit
-    expect(result.toString()).toEqual(new MoveCommand(hexOf(1, 1), hexOf(2, 1)).toString());
+    expect(result.toString()).toEqual(makeMoveCommand(hexOf(1, 1), hexOf(2, 1)).toString());
 });

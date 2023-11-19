@@ -1,5 +1,5 @@
 import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
-import { MoveCommand } from "../commands/move_command.js";
+import { makeMoveCommand } from "../commands/move_command.js";
 import { Phase } from "./Phase.js";
 
 
@@ -18,7 +18,7 @@ export class MovementPhase extends Phase {
                 return;
             }
             unit.validDestinations(hex, game).forEach(to => {
-                commands.push(new MoveCommand(to, hex));
+                commands.push(makeMoveCommand(to, hex));
             });
         });
         commands.push(endPhaseCommand());

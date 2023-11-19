@@ -1,9 +1,10 @@
+import { Hex } from "../../lib/hexlib.js";
 import { DamageEvent, UnitKilledEvent } from "../events.js";
 import { FirstDefenderRetreatPhase } from "../phases/FirstDefenderRetreatPhase.js";
 import { RangedCombatRetreatPhase } from "../phases/RangedCombatRetreatPhase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
-export class RangedCombatCommand extends AbstractCombatCommand {
+class RangedCombatCommand extends AbstractCombatCommand {
     constructor(toHex, fromHex) {
         super();
         this.toHex = toHex;
@@ -46,4 +47,21 @@ export class RangedCombatCommand extends AbstractCombatCommand {
     doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
         return false;
     }
+
+    static make(toHex, fromHex) {
+        if (!RANGED_COMBAT_COMMANDS.has(toHex)) {
+            RANGED_COMBAT_COMMANDS.set(toHex, new Map());
+        }
+        if (!RANGED_COMBAT_COMMANDS.get(toHex).has(fromHex)) {
+            RANGED_COMBAT_COMMANDS.get(toHex).set(fromHex, new RangedCombatCommand(toHex, fromHex));
+        }
+        return RANGED_COMBAT_COMMANDS.get(toHex).get(fromHex);
+    }
+}
+
+/** @type {Map<Hex, Map<Hex, RangedCombatCommand>>} */
+const RANGED_COMBAT_COMMANDS = new Map();
+
+export function makeRangedCombatCommand(toHex, fromHex) {
+    return RangedCombatCommand.make(toHex, fromHex);
 }
