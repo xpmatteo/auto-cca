@@ -1,18 +1,18 @@
 import { hexOf } from "../../lib/hexlib.js";
-import * as units from "../units.js";
+import { ORDER_LIGHT_TROOPS_CARD } from "../cards.js";
+import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
+import { makeMoveCommand } from "../commands/move_command.js";
 import makeGame from '../game.js'
 import { NullScenario } from "../scenarios.js";
 import { Side } from "../side.js";
-import { makeMoveCommand } from "../commands/move_command.js";
-import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
+import * as units from "../units.js";
 import { MovementPhase } from "./MovementPhase.js";
-import { makeOrderLightTroopsCard } from "../cards.js";
 
 
 function makeGameInMovementPhase() {
     let game = makeGame(new NullScenario());
     game.phases = [new MovementPhase()];
-    game.currentCard = makeOrderLightTroopsCard();
+    game.currentCard = ORDER_LIGHT_TROOPS_CARD;
     return game;
 }
 

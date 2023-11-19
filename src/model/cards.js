@@ -48,20 +48,14 @@ class OrderHeavyTroopsCard extends Card {
     url = "images/cards/Order Heavy Troops.gif";
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_HEAVY)); }
 }
-const ORDER_HEAVY_TROOPS_CARD = new OrderHeavyTroopsCard();
-export function makeOrderHeavyTroopsCard() {
-    return ORDER_HEAVY_TROOPS_CARD;
-}
+export const ORDER_HEAVY_TROOPS_CARD = new OrderHeavyTroopsCard();
 
 class OrderMediumTroopsCard extends Card {
     name = "Order Medium Troops";
     url = "images/cards/Order Medium Troops.gif";
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_MEDIUM)); }
 }
-const ORDER_MEDIUM_TROOPS_CARD = new OrderMediumTroopsCard();
-export function makeOrderMediumTroopsCard() {
-    return ORDER_MEDIUM_TROOPS_CARD;
-}
+export const ORDER_MEDIUM_TROOPS_CARD = new OrderMediumTroopsCard();
 
 class OrderLightTroopsCard extends Card {
     name = "Order Light Troops";
@@ -69,10 +63,7 @@ class OrderLightTroopsCard extends Card {
     allowsLightFootMovementThroughFriendlies = true;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_LIGHT)); }
 }
-const ORDER_LIGHT_TROOPS_CARD = new OrderLightTroopsCard();
-export function makeOrderLightTroopsCard() {
-    return ORDER_LIGHT_TROOPS_CARD;
-}
+export const ORDER_LIGHT_TROOPS_CARD = new OrderLightTroopsCard();
 
 /**
  * @param {Unit} unit
@@ -90,11 +81,7 @@ class Order3LeftCard extends Card {
     url = "images/cards/Order 3 Left.gif";
     orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfLeft); }
 }
-
-const ORDER_3_LEFT_CARD = new Order3LeftCard();
-export function makeOrder3LeftCard() {
-    return ORDER_3_LEFT_CARD;
-}
+export const ORDER_3_LEFT_CARD = new Order3LeftCard();
 
 class MoveFireMoveCard extends Card {
     name = "Move Fire Move";
@@ -109,8 +96,4 @@ class MoveFireMoveCard extends Card {
         ];
     }
 }
-
-const MOVE_FIRE_MOVE_CARD = new MoveFireMoveCard();
-export function makeMoveFireMoveCard() {
-    return MOVE_FIRE_MOVE_CARD;
-}
+export const MOVE_FIRE_MOVE_CARD = new MoveFireMoveCard();

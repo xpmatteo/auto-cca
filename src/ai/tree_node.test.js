@@ -1,12 +1,12 @@
-import { ChanceNode, DecisionNode } from "./mcts_player.js";
-import { makeOrderHeavyTroopsCard } from "../model/cards.js";
+import { hexOf } from "../lib/hexlib.js";
+import { ORDER_HEAVY_TROOPS_CARD } from "../model/cards.js";
 import { PlayCardCommand } from "../model/commands/play_card_command.js";
 import { diceReturningAlways, RESULT_HEAVY } from "../model/dice.js";
 import makeGame from "../model/game.js";
 import { NullScenario } from "../model/scenarios.js";
 import { Side } from "../model/side.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../model/units.js";
-import { hexOf } from "../lib/hexlib.js";
+import { ChanceNode, DecisionNode } from "./mcts_player.js";
 
 function gameWithSide(side) {
     return {
@@ -103,14 +103,14 @@ describe('Decision node', () => {
         it('should expand the node with the valid commands', () => {
             const game = makeGame(new NullScenario());
             game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
-            game.handSouth = [makeOrderHeavyTroopsCard()];
+            game.handSouth = [ORDER_HEAVY_TROOPS_CARD];
             const node = new DecisionNode(game);
 
             node.expand();
 
             expect(node.children.length).toBe(1);
             const child = node.children[0];
-            expect(child.command).toEqual(new PlayCardCommand(makeOrderHeavyTroopsCard()));
+            expect(child.command).toEqual(new PlayCardCommand(ORDER_HEAVY_TROOPS_CARD));
             expect(child.visits).toBe(0);
             expect(child.score).toBe(0);
         });
@@ -119,7 +119,7 @@ describe('Decision node', () => {
             const game = makeGame(new NullScenario());
             game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
             game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
-            game.handSouth = [makeOrderHeavyTroopsCard()];
+            game.handSouth = [ORDER_HEAVY_TROOPS_CARD];
             game.executeCommand(game.validCommands()[0]); // play card
             game.executeCommand(game.validCommands()[0]); // end phase
             game.executeCommand(game.validCommands()[0]); // move from 0,0 to 0,1
@@ -233,7 +233,7 @@ describe('Chance node', () => {
     function evolveGameToCloseCombat(game) {
         game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
         game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
-        game.handSouth = [makeOrderHeavyTroopsCard()];
+        game.handSouth = [ORDER_HEAVY_TROOPS_CARD];
         game.executeCommand(game.validCommands()[0]); // play card
         game.executeCommand(game.validCommands()[0]); // end phase
         game.executeCommand(game.validCommands()[0]); // move from 0,0 to 0,1
