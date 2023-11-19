@@ -1,6 +1,6 @@
 import { Hex } from "../../lib/hexlib.js";
 import { FirstDefenderRetreatCommand } from "../commands/FirstDefenderRetreatCommand.js";
-import { IgnoreFlagAndBattleBackCommand } from "../commands/ignore_flag_and_battle_back_command.js";
+import { makeIgnoreFlagAndBattleBackCommand } from "../commands/ignore_flag_and_battle_back_command.js";
 import { Side } from "../side.js";
 import { Phase } from "./Phase.js";
 
@@ -23,7 +23,7 @@ export class FirstDefenderRetreatPhase extends Phase {
     validCommands(game) {
         return this.retreatHexes.map(toHex => {
             if (toHex === this.fromHex && this.attackingHex) {
-                return new IgnoreFlagAndBattleBackCommand(this.fromHex, this.attackingHex);
+                return makeIgnoreFlagAndBattleBackCommand(this.fromHex, this.attackingHex);
             }
             return new FirstDefenderRetreatCommand(toHex, this.fromHex, this.attackingHex);
         });

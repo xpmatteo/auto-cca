@@ -4,7 +4,7 @@ import { BattleBackEvent, DamageEvent, UnitKilledEvent } from "../events.js";
 import { AttackerRetreatPhase } from "../phases/attacker_retreat_phase.js";
 import { AbstractCombatCommand } from "./abstract_combat_command.js";
 
-export class IgnoreFlagAndBattleBackCommand extends AbstractCombatCommand {
+class IgnoreFlagAndBattleBackCommand extends AbstractCombatCommand {
     /**
      * @param {Hex} battleBackHex
      * @param {Hex} originalAttackerHex
@@ -61,4 +61,17 @@ export class IgnoreFlagAndBattleBackCommand extends AbstractCombatCommand {
     doesSwordsResultInflictDamage(attackingUnit, defendingUnit) {
         return attackingUnit.weight !== RESULT_LIGHT;
     }
+}
+
+/** @type {Map<Hex, Map<Hex, IgnoreFlagAndBattleBackCommand>>} */
+const IGNORE_FLAG_AND_BATTLE_BACK_COMMANDS = new Map();
+
+export function makeIgnoreFlagAndBattleBackCommand(battleBackHex, originalAttackerHex) {
+    if (!IGNORE_FLAG_AND_BATTLE_BACK_COMMANDS.has(battleBackHex)) {
+        IGNORE_FLAG_AND_BATTLE_BACK_COMMANDS.set(battleBackHex, new Map());
+    }
+    if (!IGNORE_FLAG_AND_BATTLE_BACK_COMMANDS.get(battleBackHex).has(originalAttackerHex)) {
+        IGNORE_FLAG_AND_BATTLE_BACK_COMMANDS.get(battleBackHex).set(originalAttackerHex, new IgnoreFlagAndBattleBackCommand(battleBackHex, originalAttackerHex));
+    }
+    return IGNORE_FLAG_AND_BATTLE_BACK_COMMANDS.get(battleBackHex).get(originalAttackerHex);
 }

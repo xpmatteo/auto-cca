@@ -5,7 +5,7 @@ import { BattleBackEvent, DamageEvent } from "../events.js";
 import { NullScenario } from "../scenarios.js";
 import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../units.js";
 
-import { IgnoreFlagAndBattleBackCommand } from "./ignore_flag_and_battle_back_command.js";
+import { makeIgnoreFlagAndBattleBackCommand } from "./ignore_flag_and_battle_back_command.js";
 
 
 test('execute command', () => {
@@ -14,7 +14,7 @@ test('execute command', () => {
     const originalAttacker = new CarthaginianHeavyInfantry();
     game.placeUnit(hexOf(0, 0), battlingBackUnit);
     game.placeUnit(hexOf(1, 1), originalAttacker);
-    const command = new IgnoreFlagAndBattleBackCommand(hexOf(0, 0), hexOf(1,1));
+    const command = makeIgnoreFlagAndBattleBackCommand(hexOf(0, 0), hexOf(1,1));
 
     const gameEvents = command.play(game);
 

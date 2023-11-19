@@ -1,7 +1,7 @@
 import { InteractiveGame } from "../../interactive_game.js";
 import { hexOf } from "../../lib/hexlib.js";
 import { FirstDefenderRetreatCommand } from "../commands/FirstDefenderRetreatCommand.js";
-import { IgnoreFlagAndBattleBackCommand } from "../commands/ignore_flag_and_battle_back_command.js";
+import { makeIgnoreFlagAndBattleBackCommand } from "../commands/ignore_flag_and_battle_back_command.js";
 import { makeRetreatCommand } from "../commands/retreatCommand.js";
 import makeGame, { MovementTrail } from "../game.js";
 import { NullScenario } from "../scenarios.js";
@@ -35,7 +35,7 @@ describe('1st defender Retreat phase', () => {
 
         test('retreat phase valid commands', () => {
             expect(retreatPhase.validCommands(game).toString()).toEqual([
-                new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2)),
+                makeIgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2)),
                 new FirstDefenderRetreatCommand(hexOf(1,1), hexOf(0,0), hexOf(2, 2)),
             ].toString());
         });
@@ -53,7 +53,7 @@ describe('1st defender Retreat phase', () => {
             );
 
             expect(retreatPhase.onClick(hexOf(0, 0), game).toString()).toEqual(
-                [new IgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2))].toString()
+                [makeIgnoreFlagAndBattleBackCommand(hexOf(0,0), hexOf(2,2))].toString()
             );
         });
     });
