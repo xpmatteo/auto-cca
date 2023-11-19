@@ -39,7 +39,7 @@ describe('OpenLoopMctsPlayer', () => {
     test('2 on 2', () => {
         const game = makeGame(new TwoOnTwoMeleeScenario());
 
-        const root = player.search(game, 2);
+        const root = player.search(game, 100);
 
         const rootAsString = root.toString();
         console.log(rootAsString);

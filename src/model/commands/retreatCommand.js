@@ -1,7 +1,7 @@
 import { Hex } from "../../lib/hexlib.js";
 import { Command } from "./commands.js";
 
-export class RetreatCommand extends Command {
+class RetreatCommand extends Command {
     constructor(toHex, fromHex) {
         super();
         this.toHex = toHex;
