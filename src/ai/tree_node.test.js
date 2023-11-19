@@ -1,6 +1,6 @@
 import { hexOf } from "../lib/hexlib.js";
 import { ORDER_HEAVY_TROOPS_CARD } from "../model/cards.js";
-import { PlayCardCommand } from "../model/commands/play_card_command.js";
+import { makePlayCardCommand } from "../model/commands/play_card_command.js";
 import { diceReturningAlways, RESULT_HEAVY } from "../model/dice.js";
 import makeGame from "../model/game.js";
 import { NullScenario } from "../model/scenarios.js";
@@ -110,7 +110,7 @@ describe('Decision node', () => {
 
             expect(node.children.length).toBe(1);
             const child = node.children[0];
-            expect(child.command).toEqual(new PlayCardCommand(ORDER_HEAVY_TROOPS_CARD));
+            expect(child.command).toEqual(makePlayCardCommand(ORDER_HEAVY_TROOPS_CARD));
             expect(child.visits).toBe(0);
             expect(child.score).toBe(0);
         });

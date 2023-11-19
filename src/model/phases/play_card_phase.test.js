@@ -1,6 +1,6 @@
 import { hexOf } from "../../lib/hexlib.js";
 import { ORDER_HEAVY_TROOPS_CARD, ORDER_LIGHT_TROOPS_CARD } from "../cards.js";
-import { PlayCardCommand } from "../commands/play_card_command.js";
+import { makePlayCardCommand } from "../commands/play_card_command.js";
 import makeGame from "../game.js";
 import { NullScenario } from "../scenarios.js";
 import { RomanHeavyInfantry, RomanLightInfantry } from "../units.js";
