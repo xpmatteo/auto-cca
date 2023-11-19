@@ -28,7 +28,7 @@ export class InteractiveGame {
      * @param {Point} pixel
      * @returns {GameEvent[]}
      */
-    onClick(hex, pixel) {
+    onClick(hex, pixel= undefined) {
         if (this.#game.isTerminal())
             return [];
         const command = this.#game.currentPhase.onClick(hex, this, pixel);

@@ -1,5 +1,5 @@
 import { ChanceNode, DecisionNode } from "./mcts_player.js";
-import { OrderHeavyTroopsCard } from "../model/cards.js";
+import { makeOrderHeavyTroopsCard } from "../model/cards.js";
 import { PlayCardCommand } from "../model/commands/play_card_command.js";
 import { diceReturningAlways, RESULT_HEAVY } from "../model/dice.js";
 import makeGame from "../model/game.js";
@@ -103,14 +103,14 @@ describe('Decision node', () => {
         it('should expand the node with the valid commands', () => {
             const game = makeGame(new NullScenario());
             game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
-            game.handSouth = [new OrderHeavyTroopsCard()];
+            game.handSouth = [makeOrderHeavyTroopsCard()];
             const node = new DecisionNode(game);
 
             node.expand();
 
             expect(node.children.length).toBe(1);
             const child = node.children[0];
-            expect(child.command).toEqual(new PlayCardCommand(new OrderHeavyTroopsCard()));
+            expect(child.command).toEqual(new PlayCardCommand(makeOrderHeavyTroopsCard()));
             expect(child.visits).toBe(0);
             expect(child.score).toBe(0);
         });
@@ -119,7 +119,7 @@ describe('Decision node', () => {
             const game = makeGame(new NullScenario());
             game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
             game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
-            game.handSouth = [new OrderHeavyTroopsCard()];
+            game.handSouth = [makeOrderHeavyTroopsCard()];
             game.executeCommand(game.validCommands()[0]); // play card
             game.executeCommand(game.validCommands()[0]); // end phase
             game.executeCommand(game.validCommands()[0]); // move from 0,0 to 0,1
@@ -233,7 +233,7 @@ describe('Chance node', () => {
     function evolveGameToCloseCombat(game) {
         game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
         game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
-        game.handSouth = [new OrderHeavyTroopsCard()];
+        game.handSouth = [makeOrderHeavyTroopsCard()];
         game.executeCommand(game.validCommands()[0]); // play card
         game.executeCommand(game.validCommands()[0]); // end phase
         game.executeCommand(game.validCommands()[0]); // move from 0,0 to 0,1

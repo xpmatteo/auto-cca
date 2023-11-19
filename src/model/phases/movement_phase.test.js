@@ -6,13 +6,13 @@ import { Side } from "../side.js";
 import { makeMoveCommand } from "../commands/move_command.js";
 import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
 import { MovementPhase } from "./MovementPhase.js";
-import { OrderLightTroopsCard } from "../cards.js";
+import { makeOrderLightTroopsCard } from "../cards.js";
 
 
 function makeGameInMovementPhase() {
     let game = makeGame(new NullScenario());
     game.phases = [new MovementPhase()];
-    game.currentCard = new OrderLightTroopsCard();
+    game.currentCard = makeOrderLightTroopsCard();
     return game;
 }
 

@@ -1,7 +1,10 @@
 import { Hex } from "../lib/hexlib.js";
 import { mapToString, stringify } from "../lib/to_string.js";
 import { Board } from "./board.js";
-import { Order3LeftCard, OrderHeavyTroopsCard, OrderLightTroopsCard, OrderMediumTroopsCard } from "./cards.js";
+import {
+    makeOrder3LeftCard, makeOrderHeavyTroopsCard, makeOrderLightTroopsCard,
+    makeOrderMediumTroopsCard,
+} from "./cards.js";
 import { Dice, DiceResult } from "./dice.js";
 import { SideSwitchedTo } from "./events.js";
 import GameStatus from "./game_status.js";
@@ -21,7 +24,7 @@ export default function makeGame(scenario, dice = new Dice()) {
 }
 
 const DEFAULT_PHASES = [new PlayCardPhase()];
-const DEFAULT_HAND = [new Order3LeftCard(), new OrderHeavyTroopsCard(), new OrderMediumTroopsCard(), new OrderLightTroopsCard()];
+const DEFAULT_HAND = [makeOrder3LeftCard(), makeOrderHeavyTroopsCard(), makeOrderMediumTroopsCard(), makeOrderLightTroopsCard()];
 
 export class Game {
     board = new Board();

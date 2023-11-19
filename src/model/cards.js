@@ -43,23 +43,35 @@ function eligibleByWeight(weight) {
     return (unit, game) => unit.weight === weight;
 }
 
-export class OrderHeavyTroopsCard extends Card {
+class OrderHeavyTroopsCard extends Card {
     name = "Order Heavy Troops";
     url = "images/cards/Order Heavy Troops.gif";
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_HEAVY)); }
 }
+const ORDER_HEAVY_TROOPS_CARD = new OrderHeavyTroopsCard();
+export function makeOrderHeavyTroopsCard() {
+    return ORDER_HEAVY_TROOPS_CARD;
+}
 
-export class OrderMediumTroopsCard extends Card {
+class OrderMediumTroopsCard extends Card {
     name = "Order Medium Troops";
     url = "images/cards/Order Medium Troops.gif";
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_MEDIUM)); }
 }
+const ORDER_MEDIUM_TROOPS_CARD = new OrderMediumTroopsCard();
+export function makeOrderMediumTroopsCard() {
+    return ORDER_MEDIUM_TROOPS_CARD;
+}
 
-export class OrderLightTroopsCard extends Card {
+class OrderLightTroopsCard extends Card {
     name = "Order Light Troops";
     url = "images/cards/Order Light Troops.gif";
     allowsLightFootMovementThroughFriendlies = true;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_LIGHT)); }
+}
+const ORDER_LIGHT_TROOPS_CARD = new OrderLightTroopsCard();
+export function makeOrderLightTroopsCard() {
+    return ORDER_LIGHT_TROOPS_CARD;
 }
 
 /**
@@ -73,13 +85,18 @@ function eligibleIfLeft(unit, game) {
     return MAP_WEST.has(game.hexOfUnit(unit));
 }
 
-export class Order3LeftCard extends Card {
+class Order3LeftCard extends Card {
     name = "Order Three Units Left";
     url = "images/cards/Order 3 Left.gif";
     orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfLeft); }
 }
 
-export class MoveFireMoveCard extends Card {
+const ORDER_3_LEFT_CARD = new Order3LeftCard();
+export function makeOrder3LeftCard() {
+    return ORDER_3_LEFT_CARD;
+}
+
+class MoveFireMoveCard extends Card {
     name = "Move Fire Move";
     url = "images/cards/Move-Fire-Move.gif";
     allowsLightFootMovementThroughFriendlies = true;
@@ -91,4 +108,9 @@ export class MoveFireMoveCard extends Card {
             new MovementPhase("2nd movement"),
         ];
     }
+}
+
+const MOVE_FIRE_MOVE_CARD = new MoveFireMoveCard();
+export function makeMoveFireMoveCard() {
+    return MOVE_FIRE_MOVE_CARD;
 }
