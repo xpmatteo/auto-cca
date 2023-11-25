@@ -7,6 +7,28 @@ This work is intended exclusively for education and learning about game-playing 
 
 I presented this work in progress at Codemotion Milano 2023; [here are the slides](https://speakerdeck.com/xpmatteo/an-ai-for-a-complex-boardgame-based-on-monte-carlo-tree-search).
 
+# The story of this repo so far
+
+When I presented at Codemotion, the MCTS-based AI was weak due to two factors:
+
+ - choosing one unit at a time, ie simple moves were not grouped in macromoves
+ - using closed loop instead of OpenLoop
+
+Then I implemented Macromoves.  This has substantially improved the MCTS AI, but 
+I then realized that closed loop only works when the card distribution is fixed and
+unchanging, as it is now.  This is a simplification over the real game that I initially
+implemented to get the AI implementation going.  I now see that when we implement
+randomized hands, the closed loop implementation cannot work anymore.
+
+I then implemented OpenLoopMctsPlayer; it works, but 
+
+1. it does not have macromoves
+2. it is much slower than the original closed loop implementation
+
+One way to address 2 is to implement the Flyweight pattern for all commands, which is a 
+large refactoring that I have started but not completed.
+
+
 # How to
 
 Serve locally with `make server` or `python -m http.server`
