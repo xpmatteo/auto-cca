@@ -1,16 +1,23 @@
-import { InteractiveGame } from "../interactive_game.js";
 import { randomShuffleArray } from "../lib/random.js";
 import { AbstractCombatCommand } from "../model/commands/abstract_combat_command.js";
 import { Command } from "../model/commands/commands.js";
+import { PlayCardPhase } from "../model/phases/play_card_phase.js";
 import { scoreGreedy } from "./score.js";
 
 export class GreedyPlayer {
+    constructor(cardEvaluation) {
+        this.cardEvaluation = cardEvaluation;
+    }
+
     /**
-     * @param {InteractiveGame} interactiveGame
+     * @param {Game} interactiveGame
      * @returns {[Command]}
      */
     decideMove(interactiveGame) {
-        const game = interactiveGame.toGame()
+        const game = interactiveGame.toGame();
+        if (game.currentPhase instanceof PlayCardPhase) {
+            return this.decideCard(game);
+        }
         const commands = game.validCommands();
         randomShuffleArray(commands);
         if (commands.length === 0) {
@@ -41,5 +48,25 @@ export class GreedyPlayer {
 
     toString() {
         return `GreedyPlayer`;
+    }
+
+    /**
+     * @param {Game} game
+     * @returns {[PlayCardCommand]}
+     */
+    decideCard(game) {
+        let bestCommand = undefined;
+        let bestScore = -Infinity;
+        for (let command of game.validCommands()) {
+            const score = this.cardEvaluation(game, command.card);
+            if (score > bestScore) {
+                bestScore = score;
+                bestCommand = command;
+            }
+        }
+        if (!bestCommand) {
+            throw new Error("No valid card commands");
+        }
+        return [bestCommand];
     }
 }
