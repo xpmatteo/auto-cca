@@ -4,8 +4,12 @@ import { Command } from "../model/commands/commands.js";
 import { PlayCardPhase } from "../model/phases/play_card_phase.js";
 import { scoreGreedy } from "./score.js";
 
+function cardEvaluationAllSame(game, card) {
+    return 0;
+}
+
 export class GreedyPlayer {
-    constructor(cardEvaluation) {
+    constructor(cardEvaluation = cardEvaluationAllSame) {
         this.cardEvaluation = cardEvaluation;
     }
 
