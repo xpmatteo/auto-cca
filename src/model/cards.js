@@ -14,7 +14,7 @@ import { OrderUnitsPhase } from "./phases/order_units_phase.js";
     Cards are stateless and immutable.
 */
 
-class Card {
+export class Card {
     /**
      * @type {string}
      */
@@ -76,12 +76,58 @@ function eligibleIfLeft(unit, game) {
     return MAP_WEST.has(game.hexOfUnit(unit));
 }
 
-class Order3LeftCard extends Card {
-    name = "Order Three Units Left";
-    url = "images/cards/Order 3 Left.gif";
-    orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfLeft); }
+/**
+ * @param {Unit} unit
+ * @param {Game} game
+ */
+function eligibleIfRight(unit, game) {
+    if (unit.side === game.sideNorth) {
+        return MAP_WEST.has(game.hexOfUnit(unit));
+    }
+    return MAP_EAST.has(game.hexOfUnit(unit));
 }
-export const ORDER_3_LEFT_CARD = new Order3LeftCard();
+
+export const ORDER_4_LEFT_CARD = {
+    name: "Order Four Units Left",
+    url: "images/cards/Order 4 Left.gif",
+    orderPhase(game) { return new OrderUnitsPhase(4, eligibleIfLeft); },
+    __proto__: Card.prototype,
+};
+
+export const ORDER_3_LEFT_CARD = {
+    name: "Order Three Units Left",
+    url: "images/cards/Order 3 Left.gif",
+    orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfLeft); },
+    __proto__: Card.prototype,
+};
+
+export const ORDER_2_LEFT_CARD = {
+    name: "Order Two Units Left",
+    url: "images/cards/Order 2 Left.gif",
+    orderPhase(game) { return new OrderUnitsPhase(2, eligibleIfLeft); },
+    __proto__: Card.prototype,
+};
+
+export const ORDER_4_RIGHT_CARD = {
+    name: "Order Four Units Right",
+    url: "images/cards/Order 4 Right.gif",
+    orderPhase(game) { return new OrderUnitsPhase(4, eligibleIfRight); },
+    __proto__: Card.prototype,
+};
+
+export const ORDER_3_RIGHT_CARD = {
+    name: "Order Three Units Right",
+    url: "images/cards/Order 3 Right.gif",
+    orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfRight); },
+    __proto__: Card.prototype,
+};
+
+export const ORDER_2_RIGHT_CARD = {
+    name: "Order Two Units Right",
+    url: "images/cards/Order 2 Right.gif",
+    orderPhase(game) { return new OrderUnitsPhase(2, eligibleIfRight); },
+    __proto__: Card.prototype,
+};
 
 class MoveFireMoveCard extends Card {
     name = "Move Fire Move";
