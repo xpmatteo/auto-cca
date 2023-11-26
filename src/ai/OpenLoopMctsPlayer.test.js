@@ -42,7 +42,6 @@ describe('OpenLoopMctsPlayer', () => {
         const root = player.search(game, 100);
 
         const rootAsString = root.toString();
-        console.log(rootAsString);
         expect(rootAsString).toMatchSnapshot();
     });
 
