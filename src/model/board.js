@@ -8,8 +8,23 @@ const MAP = new Set();
 export const MAP_WEST = new Set();
 /** @type {Set<Hex>} */
 export const MAP_EAST = new Set();
-/** @type {Set<Hex>} */
-export const MAP_CENTER = new Set();
+/**
+ * @type {Set<Hex>}
+ * Initialized with the hexes that are common to CENTER and either LEFT or RIGHT
+ * that are not found by the algorithm that follows.
+ */
+export const MAP_CENTER = new Set([
+    hexOf(4, 0),
+    hexOf(8, 0),
+    hexOf(3, 2),
+    hexOf(7, 2),
+    hexOf(2, 4),
+    hexOf(6, 4),
+    hexOf(1, 6),
+    hexOf(5, 6),
+    hexOf(0, 8),
+    hexOf(4, 8),
+]);
 
 function isWest(r, q) {
     return  r == 0 && q <= 4 ||
@@ -48,9 +63,10 @@ function makeMap() {
             MAP.add(hex);
             if (isWest(r, q)) {
                 MAP_WEST.add(hex);
-            }
-            if (isEast(r, q)) {
+            } else if (isEast(r, q)) {
                 MAP_EAST.add(hex);
+            } else {
+                MAP_CENTER.add(hex);
             }
         }
     }

@@ -1,4 +1,4 @@
-import { MAP_EAST, MAP_WEST } from "./board.js";
+import { MAP_CENTER, MAP_EAST, MAP_WEST } from "./board.js";
 import { RESULT_HEAVY, RESULT_LIGHT, RESULT_MEDIUM } from "./dice.js";
 import { BattlePhase } from "./phases/BattlePhase.js";
 import { FirePhase } from "./phases/fire_phase.js";
@@ -87,6 +87,14 @@ function eligibleIfRight(unit, game) {
     return MAP_EAST.has(game.hexOfUnit(unit));
 }
 
+/**
+ * @param {Unit} unit
+ * @param {Game} game
+ */
+function eligibleIfCenter(unit, game) {
+    return MAP_CENTER.has(game.hexOfUnit(unit));
+}
+
 export const ORDER_4_LEFT_CARD = {
     name: "Order Four Units Left",
     url: "images/cards/Order 4 Left.gif",
@@ -126,6 +134,27 @@ export const ORDER_2_RIGHT_CARD = {
     name: "Order Two Units Right",
     url: "images/cards/Order 2 Right.gif",
     orderPhase(game) { return new OrderUnitsPhase(2, eligibleIfRight); },
+    __proto__: Card.prototype,
+};
+
+export const ORDER_4_CENTER_CARD = {
+    name: "Order Four Units Center",
+    url: "images/cards/Order 4 Center.gif",
+    orderPhase(game) { return new OrderUnitsPhase(4, eligibleIfCenter); },
+    __proto__: Card.prototype,
+};
+
+export const ORDER_3_CENTER_CARD = {
+    name: "Order Three Units Center",
+    url: "images/cards/Order 3 Center.gif",
+    orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfCenter); },
+    __proto__: Card.prototype,
+};
+
+export const ORDER_2_CENTER_CARD = {
+    name: "Order Two Units Center",
+    url: "images/cards/Order 2 Center.gif",
+    orderPhase(game) { return new OrderUnitsPhase(2, eligibleIfCenter); },
     __proto__: Card.prototype,
 };
 
