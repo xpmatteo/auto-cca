@@ -100,7 +100,7 @@ function eligibleIfCenter(unit, game) {
  * @param {Game} game
  */
 function eligibleIfRanged(unit, game) {
-    return unit.canRangedCombat();
+    return unit.isRanged();
 }
 
 export const ORDER_4_LEFT_CARD = {

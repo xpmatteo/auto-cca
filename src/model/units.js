@@ -4,10 +4,15 @@ import { DiceResult, RESULT_LIGHT } from "./dice.js";
 import { Side } from './side.js';
 
 export class Unit {
+    /** @type {DiceResult} */
     weight;
+    /** @type {number} */
     range;
+    /** @type {Side} */
     side;
+    /** @type {number} */
     movement = 1;
+    /** @type {number} */
     diceCount;
 
     get retreatHexes() {
@@ -74,7 +79,7 @@ export class Unit {
     }
 
     validRangedCombatTargets(fromHex, board) {
-        if (!this.canRangedCombat() || this.hasAdjacentEnemies(fromHex, board)) {
+        if (!this.isRanged() || this.hasAdjacentEnemies(fromHex, board)) {
             return [];
         }
         let targets = [];
@@ -94,7 +99,7 @@ export class Unit {
         return this.validCloseCombatTargets(fromHex, board).length > 0;
     }
 
-    canRangedCombat() {
+    isRanged() {
         return this.weight === dice.RESULT_LIGHT;
     }
 
