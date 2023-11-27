@@ -9,6 +9,18 @@ I presented this work in progress at Codemotion Milano 2023; [here are the slide
 
 # The story of this repo so far
 
+
+## 2023-11-27
+
+Implemented the deck.  Now we randomize the players' hands.
+
+The MCTS AI has been set aside for the moment; AI is played by the Greedy player.
+
+BUG: it does not reshuffle the deck when the talon is empty!!!
+
+
+## 2023-11-25
+
 When I presented at Codemotion, the MCTS-based AI was weak due to two factors:
 
  - choosing one unit at a time, ie simple moves were not grouped in macromoves

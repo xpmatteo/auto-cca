@@ -44,8 +44,7 @@ export class Autoplay {
         const game = this.game.toGame();
         const sideNorth = game.scenario.sideNorth;
         const northPlayer = new GreedyPlayer();
-        const southPlayer = this.aiPlayer;
-        // const southPlayer = new MinimaxPlayer(8);
+        const southPlayer = new GreedyPlayer();
         while (!this.game.isTerminal() && !paused()) {
             const player = this.game.currentSide === sideNorth ? northPlayer : southPlayer;
             const commands = player.decideMove(game);

@@ -86,6 +86,7 @@ export class Deck {
         this.#discards.push(card);
     }
 
+    /** @returns {Deck} */
     clone() {
         return new Deck(this.#talon.slice(), this.#discards.slice());
     }

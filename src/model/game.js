@@ -7,6 +7,7 @@ import {
     ORDER_LIGHT_TROOPS_CARD,
     ORDER_MEDIUM_TROOPS_CARD,
 } from "./cards.js";
+import { Deck, THE_DECK } from "./deck.js";
 import { Dice, DiceResult } from "./dice.js";
 import { SideSwitchedTo } from "./events.js";
 import GameStatus from "./game_status.js";
@@ -41,6 +42,7 @@ export class Game {
     handSouth = DEFAULT_HAND.slice();
     currentCard = null;
     turnCount = 0;
+    deck = THE_DECK.clone();
 
     /**
      * @param {Scenario} scenario
@@ -54,6 +56,9 @@ export class Game {
     initialize() {
         this.currentSideRaw = this.scenario.firstSide;
         this.scenario.placeUnitsOn(this);
+        this.deck.shuffle();
+        this.handSouth = this.deck.deal(this.scenario.commandSouth);
+        this.handNorth = this.deck.deal(this.scenario.commandNorth);
     }
 
     toString() {
@@ -202,6 +207,7 @@ export class Game {
         game.graveyard = this.graveyard.clone();
         game.orderedUnits = this.orderedUnits.slice();
         game.currentCard = this.currentCard;
+        game.deck = this.deck.clone();
         return game;
     }
 
@@ -474,6 +480,7 @@ export class Game {
         } else {
             this.handSouth = this.handSouth.filter(c => c !== card);
         }
+        this.deck.discard(card);
     }
 
     drawCard(side) {
@@ -481,10 +488,12 @@ export class Game {
             side = this.currentSide;
         }
         if (side === this.scenario.sideNorth) {
-            this.handNorth = DEFAULT_HAND.slice();
+            this.handNorth.push(this.deck.deal(1)[0]);
         } else {
-            this.handSouth = DEFAULT_HAND.slice();
+            this.handSouth.push(this.deck.deal(1)[0]);
         }
+        console.log(`Hand N: ${this.handNorth.map(c => c.name)}`);
+        console.log(`Hand S: ${this.handSouth.map(c => c.name)}`);
     }
 
     neighbors(hex) {
