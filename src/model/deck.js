@@ -33,13 +33,23 @@ export class Deck {
     /** @type {Card[]} */
     #discards = [];
 
-    constructor(cards) {
+    /**
+     * @param {Card[]} cards
+     * @param {Card[]} discards
+     */
+    constructor(cards, discards = []) {
         this.#talon = cards;
+        this.#discards = discards;
     }
 
     /** @returns {Card[]} */
-    toArray() {
+    talon() {
         return this.#talon.slice();
+    }
+
+    /** @returns {Card[]} */
+    discards() {
+        return this.#discards.slice();
     }
 
     /** @returns {number} */
@@ -52,9 +62,10 @@ export class Deck {
         return this.#discards.length;
     }
 
-    /** @returns {Deck} */
+    /** @returns {void} */
     shuffle() {
-        return new Deck(randomShuffleArray(this.#talon.slice()));
+        this.#talon = randomShuffleArray(this.#talon.concat(this.#discards));
+        this.#discards = [];
     }
 
     /**
@@ -65,6 +76,18 @@ export class Deck {
         const cards = this.#talon.slice(0, number);
         this.#talon = this.#talon.slice(number);
         return cards;
+    }
+
+    /**
+     * @param {Card} card
+     * @returns {void}
+     */
+    discard(card) {
+        this.#discards.push(card);
+    }
+
+    clone() {
+        return new Deck(this.#talon.slice(), this.#discards.slice());
     }
 }
 
