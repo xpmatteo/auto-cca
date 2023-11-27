@@ -95,6 +95,14 @@ function eligibleIfCenter(unit, game) {
     return MAP_CENTER.has(game.hexOfUnit(unit));
 }
 
+/**
+ * @param {Unit} unit
+ * @param {Game} game
+ */
+function eligibleIfRanged(unit, game) {
+    return unit.canRangedCombat();
+}
+
 export const ORDER_4_LEFT_CARD = {
     name: "Order Four Units Left",
     url: "images/cards/Order 4 Left.gif",
@@ -166,9 +174,16 @@ class MoveFireMoveCard extends Card {
     phases(game) {
         return [
             new MovementPhase("1st movement"),
-            new FirePhase(),
+            new FirePhase("fire"),
             new MovementPhase("2nd movement"),
         ];
     }
 }
 export const MOVE_FIRE_MOVE_CARD = new MoveFireMoveCard();
+
+export const DARKEN_THE_SKY_CARD = {
+    name: "Darken the Sky",
+    url: "images/cards/Darken the Sky.gif",
+    orderPhase(game) { return new OrderUnitsPhase(100, eligibleIfRanged); },
+    __proto__: Card.prototype,
+};

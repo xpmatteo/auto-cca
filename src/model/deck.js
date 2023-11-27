@@ -1,7 +1,7 @@
 
 import { randomShuffleArray } from "../lib/random.js";
 import {
-    Card, MOVE_FIRE_MOVE_CARD,
+    Card, DARKEN_THE_SKY_CARD, MOVE_FIRE_MOVE_CARD,
     ORDER_2_CENTER_CARD,
     ORDER_2_LEFT_CARD,
     ORDER_2_RIGHT_CARD,
@@ -103,9 +103,12 @@ const DECK_SPEC = [
     [1, ORDER_4_LEFT_CARD],
     [1, ORDER_4_CENTER_CARD],
     [1, ORDER_4_RIGHT_CARD],
+
     [4, ORDER_LIGHT_TROOPS_CARD],
     [3, ORDER_MEDIUM_TROOPS_CARD],
     [2, ORDER_HEAVY_TROOPS_CARD],
+
+    [1, DARKEN_THE_SKY_CARD],
     [2, MOVE_FIRE_MOVE_CARD],
 ];
 

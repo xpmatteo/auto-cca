@@ -3,8 +3,11 @@ import { makeRangedCombatCommand } from "../commands/ranged_combat_command.js";
 import { endPhaseCommand } from "../commands/EndPhaseCommand.js";
 
 export class FirePhase extends Phase {
-    constructor() {
-        super("fire");
+    /**
+     * @param {string} name
+     */
+    constructor(name = "fire") {
+        super(name);
     }
 
     validCommands(game) {
