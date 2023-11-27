@@ -1,4 +1,5 @@
 
+import { randomShuffleArray } from "../lib/random.js";
 import {
     Card, MOVE_FIRE_MOVE_CARD,
     ORDER_2_CENTER_CARD,
@@ -19,14 +20,11 @@ function repeat(number, item) {
 }
 
 export class Deck {
-
     constructor(deckSpec) {
-        this.deckSpec = deckSpec;
+        this.deckSpec = deckSpec.slice();
     }
 
-    /**
-     * @returns {Card[]}
-     */
+    /** @returns {Card[]} */
     toArray() {
         const result = [];
         for (const [number, card] of this.deckSpec) {
@@ -35,8 +33,14 @@ export class Deck {
         return result;
     }
 
+    /** @returns {number} */
     get size() {
         return this.toArray().length;
+    }
+
+    /** @returns {Card[]} */
+    shuffle() {
+        return randomShuffleArray(this.toArray());
     }
 }
 
