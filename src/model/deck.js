@@ -19,28 +19,52 @@ function repeat(number, item) {
     return Array(number).fill(item);
 }
 
+export function deckSpecToCards(deckSpec) {
+    const result = [];
+    for (const [number, card] of deckSpec) {
+        result.push(...repeat(number, card));
+    }
+    return result;
+}
+
 export class Deck {
-    constructor(deckSpec) {
-        this.deckSpec = deckSpec.slice();
+    /** @type {Card[]} */
+    #talon;
+    /** @type {Card[]} */
+    #discards = [];
+
+    constructor(cards) {
+        this.#talon = cards;
     }
 
     /** @returns {Card[]} */
     toArray() {
-        const result = [];
-        for (const [number, card] of this.deckSpec) {
-            result.push(...repeat(number, card));
-        }
-        return result;
+        return this.#talon.slice();
     }
 
     /** @returns {number} */
-    get size() {
-        return this.toArray().length;
+    get talonSize() {
+        return this.#talon.length;
     }
 
-    /** @returns {Card[]} */
+    /** @returns {number} */
+    get discardsSize() {
+        return this.#discards.length;
+    }
+
+    /** @returns {Deck} */
     shuffle() {
-        return randomShuffleArray(this.toArray());
+        return new Deck(randomShuffleArray(this.#talon.slice()));
+    }
+
+    /**
+     * @param {number} number
+     * @returns {Card[]}
+     */
+    deal(number) {
+        const cards = this.#talon.slice(0, number);
+        this.#talon = this.#talon.slice(number);
+        return cards;
     }
 }
 
@@ -61,5 +85,5 @@ const DECK_SPEC = [
     [2, MOVE_FIRE_MOVE_CARD],
 ];
 
-export const THE_DECK = new Deck(DECK_SPEC);
+export const THE_DECK = new Deck(deckSpecToCards(DECK_SPEC));
 
