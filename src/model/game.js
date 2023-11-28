@@ -7,7 +7,7 @@ import {
     ORDER_LIGHT_TROOPS_CARD,
     ORDER_MEDIUM_TROOPS_CARD,
 } from "./cards.js";
-import { Deck, THE_DECK } from "./deck.js";
+import { THE_DECK } from "./deck.js";
 import { Dice, DiceResult } from "./dice.js";
 import { SideSwitchedTo } from "./events.js";
 import GameStatus from "./game_status.js";
@@ -27,7 +27,6 @@ export default function makeGame(scenario, dice = new Dice()) {
 }
 
 const DEFAULT_PHASES = [new PlayCardPhase()];
-const DEFAULT_HAND = [ORDER_3_LEFT_CARD, ORDER_HEAVY_TROOPS_CARD, ORDER_MEDIUM_TROOPS_CARD, ORDER_LIGHT_TROOPS_CARD];
 
 export class Game {
     board = new Board();
@@ -38,8 +37,8 @@ export class Game {
     unitStrengths = new Map();
     graveyard = new Graveyard();
     orderedUnits = [];
-    handNorth = DEFAULT_HAND.slice();
-    handSouth = DEFAULT_HAND.slice();
+    handNorth;
+    handSouth;
     currentCard = null;
     turnCount = 0;
     deck = THE_DECK.clone();
@@ -208,6 +207,8 @@ export class Game {
         game.orderedUnits = this.orderedUnits.slice();
         game.currentCard = this.currentCard;
         game.deck = this.deck.clone();
+        game.handNorth = this.handNorth.slice();
+        game.handSouth = this.handSouth.slice();
         return game;
     }
 

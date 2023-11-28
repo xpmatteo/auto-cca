@@ -28,7 +28,7 @@ describe('The deck!', () => {
     });
 
     test('full deck cards', () => {
-        expect(THE_DECK.talonSize).toBe(34);
+        expect(THE_DECK.talonSize).toBe(35);
         expect(THE_DECK.discardsSize).toBe(0);
         expect(THE_DECK.talon().toString()).toMatchSnapshot();
     });
@@ -100,5 +100,6 @@ describe('The deck!', () => {
         expect(clone.talon()).toEqual(deck.talon());
         expect(clone.discards()).toEqual([ORDER_2_CENTER_CARD]);
         expect(clone).not.toBe(deck);
+        expect(clone.toString()).toEqual(deck.toString());
     });
 });

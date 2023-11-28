@@ -90,6 +90,10 @@ export class Deck {
     clone() {
         return new Deck(this.#talon.slice(), this.#discards.slice());
     }
+
+    toString() {
+        return `Deck(${this.#talon}, ${this.#discards})`;
+    }
 }
 
 /** @type {[number,Card][]} */
