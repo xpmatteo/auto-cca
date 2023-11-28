@@ -15,10 +15,19 @@ import { OrderUnitsPhase } from "./phases/order_units_phase.js";
 */
 
 export class Card {
-    /**
-     * @type {string}
-     */
+    /** @type {string} */
     name;
+
+    /**
+     * 100 - 199: left cards
+     * 200 - 299: center cards
+     * 300 - 399: right cards
+     * 400 - 499: troop cards
+     * 500 - 599: tactic cards
+     * @type {number}
+     */
+    order= 0;
+
     phases(game) {
         return [
             new MovementPhase(),
@@ -46,6 +55,7 @@ function eligibleByWeight(weight) {
 class OrderHeavyTroopsCard extends Card {
     name = "Order Heavy Troops";
     url = "images/cards/Order Heavy Troops.gif";
+    order = 500;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_HEAVY)); }
 }
 export const ORDER_HEAVY_TROOPS_CARD = new OrderHeavyTroopsCard();
@@ -53,6 +63,7 @@ export const ORDER_HEAVY_TROOPS_CARD = new OrderHeavyTroopsCard();
 class OrderMediumTroopsCard extends Card {
     name = "Order Medium Troops";
     url = "images/cards/Order Medium Troops.gif";
+    order = 501;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_MEDIUM)); }
 }
 export const ORDER_MEDIUM_TROOPS_CARD = new OrderMediumTroopsCard();
@@ -61,6 +72,7 @@ class OrderLightTroopsCard extends Card {
     name = "Order Light Troops";
     url = "images/cards/Order Light Troops.gif";
     allowsLightFootMovementThroughFriendlies = true;
+    order = 502;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_LIGHT)); }
 }
 export const ORDER_LIGHT_TROOPS_CARD = new OrderLightTroopsCard();
@@ -106,6 +118,7 @@ function eligibleIfRanged(unit, game) {
 export const ORDER_4_LEFT_CARD = {
     name: "Order Four Units Left",
     url: "images/cards/Order 4 Left.gif",
+    order: 100,
     orderPhase(game) { return new OrderUnitsPhase(4, eligibleIfLeft); },
     __proto__: Card.prototype,
 };
@@ -113,6 +126,7 @@ export const ORDER_4_LEFT_CARD = {
 export const ORDER_3_LEFT_CARD = {
     name: "Order Three Units Left",
     url: "images/cards/Order 3 Left.gif",
+    order: 101,
     orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfLeft); },
     __proto__: Card.prototype,
 };
@@ -120,6 +134,7 @@ export const ORDER_3_LEFT_CARD = {
 export const ORDER_2_LEFT_CARD = {
     name: "Order Two Units Left",
     url: "images/cards/Order 2 Left.gif",
+    order: 102,
     orderPhase(game) { return new OrderUnitsPhase(2, eligibleIfLeft); },
     __proto__: Card.prototype,
 };
@@ -127,6 +142,7 @@ export const ORDER_2_LEFT_CARD = {
 export const ORDER_4_RIGHT_CARD = {
     name: "Order Four Units Right",
     url: "images/cards/Order 4 Right.gif",
+    order: 300,
     orderPhase(game) { return new OrderUnitsPhase(4, eligibleIfRight); },
     __proto__: Card.prototype,
 };
@@ -134,6 +150,7 @@ export const ORDER_4_RIGHT_CARD = {
 export const ORDER_3_RIGHT_CARD = {
     name: "Order Three Units Right",
     url: "images/cards/Order 3 Right.gif",
+    order: 301,
     orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfRight); },
     __proto__: Card.prototype,
 };
@@ -141,6 +158,7 @@ export const ORDER_3_RIGHT_CARD = {
 export const ORDER_2_RIGHT_CARD = {
     name: "Order Two Units Right",
     url: "images/cards/Order 2 Right.gif",
+    order: 302,
     orderPhase(game) { return new OrderUnitsPhase(2, eligibleIfRight); },
     __proto__: Card.prototype,
 };
@@ -148,6 +166,7 @@ export const ORDER_2_RIGHT_CARD = {
 export const ORDER_4_CENTER_CARD = {
     name: "Order Four Units Center",
     url: "images/cards/Order 4 Center.gif",
+    order: 200,
     orderPhase(game) { return new OrderUnitsPhase(4, eligibleIfCenter); },
     __proto__: Card.prototype,
 };
@@ -155,6 +174,7 @@ export const ORDER_4_CENTER_CARD = {
 export const ORDER_3_CENTER_CARD = {
     name: "Order Three Units Center",
     url: "images/cards/Order 3 Center.gif",
+    order: 201,
     orderPhase(game) { return new OrderUnitsPhase(3, eligibleIfCenter); },
     __proto__: Card.prototype,
 };
@@ -162,6 +182,7 @@ export const ORDER_3_CENTER_CARD = {
 export const ORDER_2_CENTER_CARD = {
     name: "Order Two Units Center",
     url: "images/cards/Order 2 Center.gif",
+    order: 202,
     orderPhase(game) { return new OrderUnitsPhase(2, eligibleIfCenter); },
     __proto__: Card.prototype,
 };
@@ -170,6 +191,7 @@ class MoveFireMoveCard extends Card {
     name = "Move Fire Move";
     url = "images/cards/Move-Fire-Move.gif";
     allowsLightFootMovementThroughFriendlies = true;
+    order = 510;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_LIGHT)); }
     phases(game) {
         return [
@@ -184,6 +206,7 @@ export const MOVE_FIRE_MOVE_CARD = new MoveFireMoveCard();
 export const DARKEN_THE_SKY_CARD = {
     name: "Darken the Sky",
     url: "images/cards/Darken the Sky.gif",
+    order: 510,
     orderPhase(game) { return new OrderUnitsPhase(100, eligibleIfRanged); },
     phases(game) {
         return [
