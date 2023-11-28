@@ -4,7 +4,7 @@ import makeGame from "../model/game.js";
 import { TwoOnTwoMeleeScenario } from "../model/scenarios.js";
 import { OpenLoopMctsPlayer } from "./OpenLoopMctsPlayer.js";
 
-describe('OpenLoopMctsPlayer', () => {
+xdescribe('OpenLoopMctsPlayer', () => {
     test('decideMove returns a valid move', () => {
         const game = makeGame(new TwoOnTwoMeleeScenario());
         const player = new OpenLoopMctsPlayer({

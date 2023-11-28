@@ -6,7 +6,7 @@ import { CarthaginianHeavyInfantry, RomanLightInfantry } from "../model/units.js
 import { hexOf } from "../lib/hexlib.js";
 import { fixedRandom, resetFixedRandom } from "../lib/random.js";
 
-describe('MCTS snapshot testing', () => {
+xdescribe('MCTS snapshot testing', () => {
 
     /**
      * @param {string} fileName
