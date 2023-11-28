@@ -30,4 +30,16 @@ export class Hand {
     _sortCards() {
         this.cards.sort((a, b) => a.order - b.order);
     }
+
+    clone() {
+        return new Hand(this.cards);
+    }
+
+    get length() {
+        return this.cards.length;
+    }
+
+    at(index) {
+        return this.cards[index];
+    }
 }

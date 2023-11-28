@@ -3,6 +3,7 @@ import { ORDER_HEAVY_TROOPS_CARD } from "../model/cards.js";
 import { makePlayCardCommand } from "../model/commands/play_card_command.js";
 import { diceReturningAlways, RESULT_HEAVY } from "../model/dice.js";
 import makeGame from "../model/game.js";
+import { Hand } from "../model/Hand.js";
 import { NullScenario } from "../model/scenarios.js";
 import { Side } from "../model/side.js";
 import { CarthaginianHeavyInfantry, RomanHeavyInfantry } from "../model/units.js";
@@ -103,7 +104,7 @@ describe('Decision node', () => {
         it('should expand the node with the valid commands', () => {
             const game = makeGame(new NullScenario());
             game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
-            game.handSouth = [ORDER_HEAVY_TROOPS_CARD];
+            game.handSouth = new Hand([ORDER_HEAVY_TROOPS_CARD]);
             const node = new DecisionNode(game);
 
             node.expand();
@@ -119,7 +120,7 @@ describe('Decision node', () => {
             const game = makeGame(new NullScenario());
             game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
             game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
-            game.handSouth = [ORDER_HEAVY_TROOPS_CARD];
+            game.handSouth = new Hand([ORDER_HEAVY_TROOPS_CARD]);
             game.executeCommand(game.validCommands()[0]); // play card
             game.executeCommand(game.validCommands()[0]); // end phase
             game.executeCommand(game.validCommands()[0]); // move from 0,0 to 0,1
@@ -233,7 +234,7 @@ describe('Chance node', () => {
     function evolveGameToCloseCombat(game) {
         game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
         game.placeUnit(hexOf(1, 0), new CarthaginianHeavyInfantry());
-        game.handSouth = [ORDER_HEAVY_TROOPS_CARD];
+        game.handSouth = new Hand([ORDER_HEAVY_TROOPS_CARD]);
         game.executeCommand(game.validCommands()[0]); // play card
         game.executeCommand(game.validCommands()[0]); // end phase
         game.executeCommand(game.validCommands()[0]); // move from 0,0 to 0,1

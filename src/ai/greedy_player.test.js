@@ -2,6 +2,7 @@ import { hexOf } from "../lib/hexlib.js";
 import { ORDER_3_LEFT_CARD, ORDER_HEAVY_TROOPS_CARD, ORDER_LIGHT_TROOPS_CARD } from "../model/cards.js";
 import { makeMoveCommand } from "../model/commands/move_command.js";
 import makeGame from "../model/game.js";
+import { Hand } from "../model/Hand.js";
 import { MovementPhase } from "../model/phases/MovementPhase.js";
 import { NullScenario } from "../model/scenarios.js";
 import { Side } from "../model/side.js";
@@ -30,7 +31,7 @@ function cardEvaluation(game, card) {
 test('Greedy player chooses a card', () => {
     const player = new GreedyPlayer(cardEvaluation);
     const game = makeGame(new NullScenario());
-    game.handSouth = [ORDER_3_LEFT_CARD, ORDER_HEAVY_TROOPS_CARD, ORDER_LIGHT_TROOPS_CARD];
+    game.handSouth = new Hand([ORDER_3_LEFT_CARD, ORDER_HEAVY_TROOPS_CARD, ORDER_LIGHT_TROOPS_CARD]);
     game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
     game.placeUnit(hexOf(1, 0), new RomanLightInfantry());
 

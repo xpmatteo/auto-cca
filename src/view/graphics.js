@@ -116,7 +116,7 @@ function erasePlayedCard(graphics, position) {
 
 function drawPlayerHand(graphics, game) {
     for (let i = 0; i < game.handSouth.length; i++) {
-        drawCardInHand(graphics, i, game.handSouth[i]);
+        drawCardInHand(graphics, i, game.handSouth.at(i));
     }
     erasePlayedCard(graphics, game.handSouth.length);
 }

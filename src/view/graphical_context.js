@@ -1,5 +1,3 @@
-"use strict";
-
 import { IMAGES } from "./load_all_images.js";
 import { Point } from "../lib/hexlib.js";
 
@@ -37,7 +35,7 @@ export class GraphicalContext {
         this.ctx.moveTo(pixelFrom.x, pixelFrom.y);
         this.ctx.lineTo(pixelTo.x, pixelTo.y);
         this.ctx.stroke();
-        this.ctx.closePath();    
+        this.ctx.closePath();
         this.ctx.restore();
     }
 
@@ -65,7 +63,7 @@ export class GraphicalContext {
         this.ctx.save();
         this.ctx.font = font;
         this.ctx.fillStyle = color;
-        this.ctx.fillText(text, pixelCoordinate.x, pixelCoordinate.y);        
+        this.ctx.fillText(text, pixelCoordinate.x, pixelCoordinate.y);
         this.ctx.restore();
     }
 
@@ -76,7 +74,7 @@ export class GraphicalContext {
         }
         this.ctx.drawImage(img, pixelCoordinate.x, pixelCoordinate.y, img.width, img.height);
         return new Point(img.width, img.height);
-    }    
+    }
 
     drawImageCentered(url, pixelCoordinate) {
         let img = IMAGES[url];
@@ -85,7 +83,7 @@ export class GraphicalContext {
         }
         this.ctx.drawImage(img, pixelCoordinate.x - img.width / 2, pixelCoordinate.y - img.height / 2, img.width, img.height);
         return new Point(img.width, img.height);
-    }    
+    }
 
     drawRect(pixelCoordinate, width, height, lineWidth, color) {
         this.ctx.save();

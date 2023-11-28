@@ -1,17 +1,12 @@
 import { Hex } from "../lib/hexlib.js";
 import { mapToString, stringify } from "../lib/to_string.js";
 import { Board } from "./board.js";
-import {
-    ORDER_3_LEFT_CARD,
-    ORDER_HEAVY_TROOPS_CARD,
-    ORDER_LIGHT_TROOPS_CARD,
-    ORDER_MEDIUM_TROOPS_CARD,
-} from "./cards.js";
 import { THE_DECK } from "./deck.js";
 import { Dice, DiceResult } from "./dice.js";
 import { SideSwitchedTo } from "./events.js";
 import GameStatus from "./game_status.js";
 import { Graveyard } from "./graveyard.js";
+import { Hand } from "./Hand.js";
 import { PlayCardPhase } from "./phases/play_card_phase.js";
 import { Unit } from "./units.js";
 
@@ -37,7 +32,9 @@ export class Game {
     unitStrengths = new Map();
     graveyard = new Graveyard();
     orderedUnits = [];
+    /** @type {Hand} */
     handNorth;
+    /** @type {Hand} */
     handSouth;
     currentCard = null;
     turnCount = 0;
@@ -56,8 +53,8 @@ export class Game {
         this.currentSideRaw = this.scenario.firstSide;
         this.scenario.placeUnitsOn(this);
         this.deck.shuffle();
-        this.handSouth = this.deck.deal(this.scenario.commandSouth);
-        this.handNorth = this.deck.deal(this.scenario.commandNorth);
+        this.handSouth = new Hand(this.deck.deal(this.scenario.commandSouth));
+        this.handNorth = new Hand(this.deck.deal(this.scenario.commandNorth));
     }
 
     toString() {
@@ -207,8 +204,8 @@ export class Game {
         game.orderedUnits = this.orderedUnits.slice();
         game.currentCard = this.currentCard;
         game.deck = this.deck.clone();
-        game.handNorth = this.handNorth.slice();
-        game.handSouth = this.handSouth.slice();
+        game.handNorth = this.handNorth.clone();
+        game.handSouth = this.handSouth.clone();
         return game;
     }
 
@@ -434,6 +431,10 @@ export class Game {
         }
     }
 
+    /**
+     * @param {Side} side
+     * @returns {Hand}
+     */
     hand(side) {
         if (!side) {
             side = this.currentSide;
@@ -466,9 +467,9 @@ export class Game {
             side = this.currentSide;
         }
         if (side === this.scenario.sideNorth) {
-            this.handNorth.push(card);
+            this.handNorth.add(card);
         } else {
-            this.handSouth.push(card);
+            this.handSouth.add(card);
         }
     }
 
@@ -477,24 +478,15 @@ export class Game {
             side = this.currentSide;
         }
         if (side === this.scenario.sideNorth) {
-            this.handNorth = this.handNorth.filter(c => c !== card);
+            this.handNorth.play(card);
         } else {
-            this.handSouth = this.handSouth.filter(c => c !== card);
+            this.handSouth.play(card);
         }
         this.deck.discard(card);
     }
 
     drawCard(side) {
-        if (!side) {
-            side = this.currentSide;
-        }
-        if (side === this.scenario.sideNorth) {
-            this.handNorth.push(this.deck.deal(1)[0]);
-        } else {
-            this.handSouth.push(this.deck.deal(1)[0]);
-        }
-        console.log(`Hand N: ${this.handNorth.map(c => c.name)}`);
-        console.log(`Hand S: ${this.handSouth.map(c => c.name)}`);
+        this.__addCardToHand(this.deck.deal(1)[0], side);
     }
 
     neighbors(hex) {

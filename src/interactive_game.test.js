@@ -107,6 +107,7 @@ test('click and move one unit', () => {
 test('hilighted hexes when no unit is selected', () => {
     const game = makeGame(new NullScenario());
     const interactiveGame = new InteractiveGame(game);
+    game.handSouth.add(ORDER_HEAVY_TROOPS_CARD);
     game.playCard(ORDER_HEAVY_TROOPS_CARD);
     game.placeUnit(hexOf(0, 0), new RomanHeavyInfantry());
     game.placeUnit(hexOf(0, 1), new RomanHeavyInfantry());

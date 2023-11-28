@@ -1,7 +1,7 @@
 import { CARD_IMAGE_SIZE } from "../../config.js";
-import { Phase } from "./Phase.js";
-import { makePlayCardCommand } from "../commands/play_card_command.js";
 import { MAP_HEIGHT } from "../../view/map.js";
+import { makePlayCardCommand } from "../commands/play_card_command.js";
+import { Phase } from "./Phase.js";
 
 const EMPTY_SET = new Set();
 
@@ -11,7 +11,7 @@ export class PlayCardPhase extends Phase {
     }
 
     validCommands(game) {
-        return game.hand().
+        return [...game.hand()].
             filter(card => card.eligibleUnits(game).length > 0).
             map(card => makePlayCardCommand(card));
     }
@@ -20,16 +20,19 @@ export class PlayCardPhase extends Phase {
         return EMPTY_SET;
     }
 
+    logCommands(game) {
+        game.validCommands().forEach((c, i) => console.log(i, c.toString()));
+    }
+
     onClick(hex, game, pixel) {
         if (pixel.y < MAP_HEIGHT || pixel.y > MAP_HEIGHT + CARD_IMAGE_SIZE.y) {
-            return [];
-        }
-        const index = Math.trunc(pixel.x / CARD_IMAGE_SIZE.x);
-        const commands = game.validCommands();
-        if (index >= commands.length) {
             return undefined;
         }
-        return commands[index];
+        const index = Math.trunc(pixel.x / CARD_IMAGE_SIZE.x);
+        if (index >= game.handSouth.length) {
+            return undefined;
+        }
+        return makePlayCardCommand(game.handSouth.at(index));
     }
 
     requiresDeepThought() {
