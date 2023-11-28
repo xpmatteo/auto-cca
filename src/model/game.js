@@ -17,7 +17,7 @@ import { Unit } from "./units.js";
 
 /**
  * @param {Scenario} scenario
- * @param {{roll(number):DiceResult[]}} dice
+ * @param {{roll(a: number):DiceResult[]}} dice
  * @returns {Game}
  */
 export default function makeGame(scenario, dice = new Dice()) {
