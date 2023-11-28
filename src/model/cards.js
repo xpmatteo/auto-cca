@@ -3,7 +3,7 @@ import { RESULT_HEAVY, RESULT_LIGHT, RESULT_MEDIUM } from "./dice.js";
 import { BattlePhase } from "./phases/BattlePhase.js";
 import { FirePhase } from "./phases/fire_phase.js";
 import { MovementPhase } from "./phases/MovementPhase.js";
-import { OrderUnitsPhase } from "./phases/order_units_phase.js";
+import { DoubleOrderUnitsPhase, OrderUnitsPhase } from "./phases/order_units_phase.js";
 
 /*
     Cards are used to order units during the order phase.
@@ -200,6 +200,19 @@ export const ORDER_2_CENTER_CARD = {
     url: "images/cards/Order 2 Center.gif",
     order: 202,
     orderPhase(game) { return new OrderUnitsPhase(2, eligibleIfCenter); },
+    __proto__: Card.prototype,
+};
+
+export const OUT_FLANKED_CARD = {
+    name: "Out Flanked",
+    url: "images/cards/Out Flanked.gif",
+    order: 350,
+    orderPhase(game) {
+        return new DoubleOrderUnitsPhase(
+            new OrderUnitsPhase(2, eligibleIfLeft),
+            new OrderUnitsPhase(2, eligibleIfRight)
+        );
+    },
     __proto__: Card.prototype,
 };
 
