@@ -28,7 +28,7 @@ describe('The deck!', () => {
     });
 
     test('full deck cards', () => {
-        expect(THE_DECK.talonSize).toBe(35);
+        expect(THE_DECK.talonSize).toBe(36);
         expect(THE_DECK.discardsSize).toBe(0);
         expect(THE_DECK.talon().toString()).toMatchSnapshot();
     });

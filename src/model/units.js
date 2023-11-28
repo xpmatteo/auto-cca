@@ -123,11 +123,14 @@ export class Unit {
         return this.weight === RESULT_LIGHT;
     }
 
-    /**
-     * @returns {boolean}
-     */
+    /** @returns {boolean} */
     isFootUnit() {
         throw new Error("Abstract method");
+    }
+
+    /** @returns {boolean} */
+    isMountedUnit() {
+        return !this.isFootUnit();
     }
 }
 

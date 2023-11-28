@@ -55,7 +55,7 @@ function eligibleByWeight(weight) {
 class OrderHeavyTroopsCard extends Card {
     name = "Order Heavy Troops";
     url = "images/cards/Order Heavy Troops.gif";
-    order = 500;
+    order = 400;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_HEAVY)); }
 }
 export const ORDER_HEAVY_TROOPS_CARD = new OrderHeavyTroopsCard();
@@ -63,7 +63,7 @@ export const ORDER_HEAVY_TROOPS_CARD = new OrderHeavyTroopsCard();
 class OrderMediumTroopsCard extends Card {
     name = "Order Medium Troops";
     url = "images/cards/Order Medium Troops.gif";
-    order = 501;
+    order = 401;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_MEDIUM)); }
 }
 export const ORDER_MEDIUM_TROOPS_CARD = new OrderMediumTroopsCard();
@@ -72,10 +72,18 @@ class OrderLightTroopsCard extends Card {
     name = "Order Light Troops";
     url = "images/cards/Order Light Troops.gif";
     allowsLightFootMovementThroughFriendlies = true;
-    order = 502;
+    order = 402;
     orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleByWeight(RESULT_LIGHT)); }
 }
 export const ORDER_LIGHT_TROOPS_CARD = new OrderLightTroopsCard();
+
+export const ORDER_MOUNTED_CARD = {
+    name: "Order Mounted",
+    url: "images/cards/Order Mounted.gif",
+    order: 403,
+    orderPhase(game) { return new OrderUnitsPhase(game.commandSize(), eligibleIfMounted); },
+    __proto__: Card.prototype,
+}
 
 /**
  * @param {Unit} unit
@@ -113,6 +121,14 @@ function eligibleIfCenter(unit, game) {
  */
 function eligibleIfRanged(unit, game) {
     return unit.isRanged();
+}
+
+/**
+ * @param {Unit} unit
+ * @param {Game} game
+ */
+function eligibleIfMounted(unit, game) {
+    return unit.isMountedUnit();
 }
 
 export const ORDER_4_LEFT_CARD = {
