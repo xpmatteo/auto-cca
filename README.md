@@ -5,7 +5,7 @@ Graphics are Copyright GMT Games, copied from the Vassal CC:A module
 
 This work is intended exclusively for education and learning about game-playing AI.
 
-I presented this work in progress at Codemotion Milano 2023; [here are the slides](https://speakerdeck.com/xpmatteo/an-ai-for-a-complex-boardgame-based-on-monte-carlo-tree-search).
+I presented this work in progress at Codemotion Milano 2023; [here are the slides](https://speakerdeck.com/xpmatteo/an-ai-for-a-complex-boardgame-based-on-monte-carlo-tree-search) and here's [the video](https://talks.codemotion.com/an-ai-for-a-complex-boardgame-based-on-monte-carlo-tree-search).
 
 # The story of this repo so far
 
